@@ -27,5 +27,15 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
         primaryStage.setTitle("Clue!");
+
+        // Temporary Scene Created
+        // Will be managed by Game?
+        // Depends if managing menu flow in main or in game, I think here makes more sense
+        StackPane layout = new StackPane();
+        Scene scene = new Scene(layout, 600, 500);
+
+        // Set and show the scene
+        primaryStage.setScene(scene);
+        primaryStage.show()
     }
 }

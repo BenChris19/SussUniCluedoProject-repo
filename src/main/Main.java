@@ -3,6 +3,9 @@
  *
  *      Initiates the game
  *      Any user settings etc
+ *
+ *      Controls Menu Flow
+ *      Finite State Machine between Menus?
 */
 
 package main;

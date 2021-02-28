@@ -20,7 +20,7 @@ import javafx.stage.Stage;
 
 public class Main extends Application {
 
-    public static voic main(String[] args) {
+    public static void main(String[] args) {
         // Initialise as JavaFX project
         launch(args);
     }

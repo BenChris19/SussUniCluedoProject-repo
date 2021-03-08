@@ -4,7 +4,7 @@
  *      A Card can be a player, room, or weapon
  *
  */
-package java.com.seteam23.clue.entities;
+package com.seteam23.clue.entities;
 
 import javafx.application.Application;
 import javafx.event.ActionEvent;

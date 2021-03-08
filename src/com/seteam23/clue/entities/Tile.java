@@ -3,9 +3,8 @@
  *
  *      A place where the player can move to
  *      Can be a start or tunnel?
-*/
-
-package java.com.seteam23.clue.entities;
+ */
+package com.seteam23.clue.entities;
 
 import javafx.application.Application;
 import javafx.event.ActionEvent;

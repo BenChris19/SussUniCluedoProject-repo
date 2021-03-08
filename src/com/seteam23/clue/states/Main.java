@@ -7,7 +7,7 @@
  *      Controls Menu Flow
  *      Finite State Machine between Menus?
  */
-package java.com.seteam23.clue.states;
+package com.seteam23.clue.states;
 
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;

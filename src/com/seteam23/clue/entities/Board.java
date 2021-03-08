@@ -3,8 +3,7 @@
  *
  *      Constructs Rooms and Tiles
  *      Players exist within the Board
-*/
-
+ */
 package java.com.seteam23.clue.entities;
 
 import javafx.application.Application;

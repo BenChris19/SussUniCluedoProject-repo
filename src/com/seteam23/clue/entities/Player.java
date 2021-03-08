@@ -4,7 +4,7 @@
  *      Generic Blank Player Class
  *      Needs to interact with any possible AI
  */
-package java.com.seteam23.clue.entities;
+package com.seteam23.clue.entities;
 
 import javafx.application.Application;
 import javafx.event.ActionEvent;

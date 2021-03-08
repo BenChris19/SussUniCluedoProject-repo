@@ -2,7 +2,7 @@
     font-family: 'Oswald';
     src: url('Oswald-Bold.ttf');
     font-style: normal;
-  }
+}
 
 #pane{
     -fx-background-image: url("https://geekandsundry.com/wp-content/uploads/2016/08/Clue-Box-19921.jpg");

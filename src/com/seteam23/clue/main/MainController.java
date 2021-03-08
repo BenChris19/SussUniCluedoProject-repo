@@ -23,23 +23,31 @@ import javafx.stage.Stage;
  * @author InfernoKay
  */
 public class MainController implements Initializable {
-
+    
     @FXML
-    private Label label;
-    @FXML
+    // Reference to the button with id start_game
     private Button start_game;
-
-    @FXML
-    private void startGame(ActionEvent event) throws Exception{
-        Parent root = FXMLLoader.load(GameController.class.getResource("game.fxml"));
-        
-        Stage window = (Stage)start_game.getScene().getWindow();
-        window.setScene(new Scene(root));
-    }
-
+    
+    /**
+     * Initializes the controller class.
+     */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
+    }
+    
+    /**
+     * Changes to the Game's Scene
+     */
+    @FXML
+    private void startGame(ActionEvent event) throws Exception{
+        // Load the game fxml resource associated with the GameController
+        Parent root = FXMLLoader.load(GameController.class.getResource("game.fxml"));
+        
+        // Get the window (window = stage) that the button is located in
+        Stage window = (Stage)start_game.getScene().getWindow();
+        // Set the scene to the new one
+        window.setScene(new Scene(root));
     }
 
 }

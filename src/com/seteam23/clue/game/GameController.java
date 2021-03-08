@@ -35,6 +35,9 @@ public class GameController implements Initializable {
         // TODO
     }
     
+    /**
+     * Changes to the Main Menu's Scene
+     */
     @FXML
     private void mainMenu(ActionEvent event) throws Exception{
         Parent root = FXMLLoader.load(MainController.class.getResource("main.fxml"));

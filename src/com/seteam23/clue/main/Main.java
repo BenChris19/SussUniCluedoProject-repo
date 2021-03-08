@@ -35,7 +35,7 @@ public class Main extends Application {
     public void start(Stage primaryStage) throws Exception {
         primaryStage.setTitle("Clue!");
 
-        Parent root = FXMLLoader.load(getClass().getResource("main.fxml"));
+        Parent root = FXMLLoader.load(MainController.class.getResource("main.fxml"));
 
         // Temporary Scene Created
         // Will be managed by Game?

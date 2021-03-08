@@ -5,7 +5,7 @@
  *      Exist within the Board
 */
 
-package java.java.com.seteam23.entities;
+package java.com.seteam23.clue.entities;
 
 import javafx.application.Application;
 import javafx.event.ActionEvent;

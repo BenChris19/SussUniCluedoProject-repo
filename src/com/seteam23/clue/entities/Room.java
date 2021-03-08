@@ -1,10 +1,9 @@
 /*
- *      The Players
+ *      The Rooms
  *
- *      Generic Blank Player Class
- *      Needs to interact with any possible AI
-*/
-
+ *      Blank room Entity
+ *      Exist within the Board
+ */
 package java.com.seteam23.clue.entities;
 
 import javafx.application.Application;

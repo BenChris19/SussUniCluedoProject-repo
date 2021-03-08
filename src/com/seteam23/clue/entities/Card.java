@@ -1,10 +1,9 @@
 /*
- *      The Rooms
+ *      The Cards
  *
- *      Blank room Entity
- *      Exist within the Board
-*/
-
+ *      A Card can be a player, room, or weapon
+ *
+ */
 package java.com.seteam23.clue.entities;
 
 import javafx.application.Application;

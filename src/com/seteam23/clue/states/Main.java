@@ -6,8 +6,7 @@
  *
  *      Controls Menu Flow
  *      Finite State Machine between Menus?
-*/
-
+ */
 package java.com.seteam23.clue.states;
 
 import javafx.event.ActionEvent;
@@ -21,7 +20,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 
 public class Main extends Application {
-    
+
     /**
      * @param args the command line arguments
      */
@@ -35,7 +34,7 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
         primaryStage.setTitle("Clue!");
-        
+
         Parent root = FXMLLoader.load(getClass().getResource("FXMLDocument.fxml"));
 
         // Temporary Scene Created

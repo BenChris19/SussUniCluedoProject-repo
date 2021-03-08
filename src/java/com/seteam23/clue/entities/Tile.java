@@ -1,13 +1,11 @@
 /*
- *      Game
+ *      The Tile
  *
- *      Main loops and game logic
- *      Most of code will be here (probably)
- *      User input detected here
- *      Constructs Players and Board
+ *      A place where the player can move to
+ *      Can be a start or tunnel?
 */
 
-package main;
+package java.java.com.seteam23.entities;
 
 import javafx.application.Application;
 import javafx.event.ActionEvent;

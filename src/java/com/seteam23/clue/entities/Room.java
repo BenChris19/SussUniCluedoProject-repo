@@ -1,11 +1,11 @@
 /*
- *      The Players
+ *      The Rooms
  *
- *      Generic Blank Player Class
- *      Needs to interact with any possible AI
+ *      Blank room Entity
+ *      Exist within the Board
 */
 
-package main;
+package java.java.com.seteam23.entities;
 
 import javafx.application.Application;
 import javafx.event.ActionEvent;

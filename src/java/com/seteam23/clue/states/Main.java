@@ -8,7 +8,7 @@
  *      Finite State Machine between Menus?
 */
 
-package main;
+package java.java.com.seteam23.states;
 
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;

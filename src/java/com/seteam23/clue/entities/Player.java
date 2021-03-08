@@ -1,11 +1,11 @@
 /*
- *      The Tile
+ *      The Players
  *
- *      A place where the player can move to
- *      Can be a start or tunnel?
+ *      Generic Blank Player Class
+ *      Needs to interact with any possible AI
 */
 
-package main;
+package java.java.com.seteam23.entities;
 
 import javafx.application.Application;
 import javafx.event.ActionEvent;

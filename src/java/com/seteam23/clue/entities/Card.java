@@ -1,11 +1,11 @@
 /*
- *      The Rooms
+ *      The Cards
  *
- *      Blank room Entity
- *      Exist within the Board
+ *      A Card can be a player, room, or weapon
+ *
 */
 
-package main;
+package java.java.com.seteam23.entities;
 
 import javafx.application.Application;
 import javafx.event.ActionEvent;

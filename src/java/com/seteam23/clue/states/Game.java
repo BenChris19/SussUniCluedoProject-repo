@@ -1,11 +1,13 @@
 /*
- *      The Cards
+ *      Game
  *
- *      A Card can be a player, room, or weapon
- *
+ *      Main loops and game logic
+ *      Most of code will be here (probably)
+ *      User input detected here
+ *      Constructs Players and Board
 */
 
-package main;
+package java.com.seteam23.clue.states;
 
 import javafx.application.Application;
 import javafx.event.ActionEvent;

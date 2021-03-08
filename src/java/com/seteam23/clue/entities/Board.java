@@ -5,7 +5,7 @@
  *      Players exist within the Board
 */
 
-package main;
+package java.com.seteam23.clue.entities;
 
 import javafx.application.Application;
 import javafx.event.ActionEvent;

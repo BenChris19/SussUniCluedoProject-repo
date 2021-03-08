@@ -1,10 +1,10 @@
 /*
- *      The Tile
+ *      The Rooms
  *
- *      A place where the player can move to
- *      Can be a start or tunnel?
+ *      Blank room Entity
+ *      Exist within the Board
  */
-package com.seteam23.clue.entities;
+package com.seteam23.clue.game;
 
 import javafx.application.Application;
 import javafx.event.ActionEvent;

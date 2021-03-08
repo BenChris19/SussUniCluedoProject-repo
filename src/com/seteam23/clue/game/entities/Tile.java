@@ -1,10 +1,10 @@
 /*
- *      The Board / Map
+ *      The Tile
  *
- *      Constructs Rooms and Tiles
- *      Players exist within the Board
+ *      A place where the player can move to
+ *      Can be a start or tunnel?
  */
-package java.com.seteam23.clue.entities;
+package com.seteam23.clue.game;
 
 import javafx.application.Application;
 import javafx.event.ActionEvent;

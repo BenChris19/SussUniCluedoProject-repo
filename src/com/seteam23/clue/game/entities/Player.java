@@ -1,10 +1,10 @@
 /*
- *      The Cards
+ *      The Players
  *
- *      A Card can be a player, room, or weapon
- *
+ *      Generic Blank Player Class
+ *      Needs to interact with any possible AI
  */
-package com.seteam23.clue.entities;
+package com.seteam23.clue.game.entities;
 
 import javafx.application.Application;
 import javafx.event.ActionEvent;

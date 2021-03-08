@@ -1,10 +1,10 @@
 /*
- *      The Rooms
+ *      The Board / Map
  *
- *      Blank room Entity
- *      Exist within the Board
+ *      Constructs Rooms and Tiles
+ *      Players exist within the Board
  */
-package com.seteam23.clue.entities;
+package com.seteam23.clue.game.entities;
 
 import javafx.application.Application;
 import javafx.event.ActionEvent;

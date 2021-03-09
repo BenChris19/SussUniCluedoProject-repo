@@ -17,7 +17,7 @@
                   <Image url="@../../../../../resources/main/Clue-Box-19921.jpg" />
                </image>
             </ImageView>
-            <Button id="button-quit" layoutX="420.0" layoutY="334.0" mnemonicParsing="false" text="Quit" />
+            <Button id="button-quit" fx:id="button_quit" layoutX="420.0" layoutY="334.0" mnemonicParsing="false" text="Quit" />
               <Button id="button-start" fx:id="button_start" contentDisplay="CENTER" layoutX="360.0" layoutY="217.0" onAction="#startGame" text="Start Game" textAlignment="CENTER" />
          </children>
       </Pane>

@@ -26,7 +26,11 @@ public class MainController implements Initializable {
     
     @FXML
     // Reference to the button with id start_game
-    private Button start_game;
+    private Button button_start;
+    
+    @FXML
+    // Reference to the button with id start_game
+    private Button button_quit;
     
     /**
      * Initializes the controller class.
@@ -45,9 +49,12 @@ public class MainController implements Initializable {
         Parent root = FXMLLoader.load(GameController.class.getResource("game.fxml"));
         
         // Get the window (window = stage) that the button is located in
-        Stage window = (Stage)start_game.getScene().getWindow();
+        Stage window = (Stage)button_start.getScene().getWindow();
         // Set the scene to the new one
         window.setScene(new Scene(root));
     }
-
+    
+    private void quitGame(ActionEvent event) throws Exception{
+        System.exit(0);
+    }
 }

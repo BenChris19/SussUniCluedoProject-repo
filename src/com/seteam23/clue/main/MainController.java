@@ -44,7 +44,7 @@ public class MainController implements Initializable {
      * Changes to the Game's Scene
      */
     @FXML
-    private void startGame(ActionEvent event) throws Exception{
+    private void startGame(ActionEvent event) throws Exception {
         // Load the game fxml resource associated with the GameController
         Parent root = FXMLLoader.load(GameController.class.getResource("game.fxml"));
         
@@ -54,7 +54,8 @@ public class MainController implements Initializable {
         window.setScene(new Scene(root));
     }
     
-    private void quitGame(ActionEvent event) throws Exception{
+    @FXML
+    private void quitGame(ActionEvent event) throws Exception {
         System.exit(0);
     }
 }

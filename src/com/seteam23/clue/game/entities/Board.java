@@ -25,6 +25,11 @@ public class Board{
     
     
     public Board() {
+        this.img_path = "..\\..\\..\\..\\resources\\game\\clue-board.jpg";
+    }
+    
+    public Board(String img_path) {
+        this.img_path = img_path;
     }
     
     public void createGrid() {
@@ -35,4 +40,7 @@ public class Board{
         return new Tile();
     }
     
+    protected String imgPath() {
+        return "";
+    }
 }

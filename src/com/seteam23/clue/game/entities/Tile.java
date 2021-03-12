@@ -17,6 +17,6 @@ import javafx.stage.Stage;
 public class Tile extends Place{
     
     public Tile() {
-        super();
+        super(1);
     }
 }

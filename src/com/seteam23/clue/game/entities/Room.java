@@ -17,6 +17,6 @@ import javafx.stage.Stage;
 public class Room extends Place{
     
     public Room() {
-        super();
+        super(6);
     }
 }

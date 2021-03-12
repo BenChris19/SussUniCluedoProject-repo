@@ -14,9 +14,9 @@ import javafx.scene.control.Button;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
-public class Board{
-    private boolean[][] is_in_room;
-    private Tile[][] tile_location;
+public class Board{  
+    // Reference to the Current used Board Controller
+    private BoardController controller;
     
     // Objects
     private Place[] places; //All
@@ -24,9 +24,8 @@ public class Board{
     private Tile[] tiles; //Tiles
     private String default_img_path = "..\\..\\..\\..\\resources\\game\\clue-board.jpg";
     
-    // Reference to the Current used Board Controller
-    private BoardController controller;
-    
+    private Player[] players;
+    private static Player currentPlayer;
     
     public Board(BoardController controller) {
         this.controller = controller;

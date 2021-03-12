@@ -18,18 +18,24 @@ public class Board{
     private boolean[][] is_in_room;
     private Tile[][] tile_location;
     
-    private Place[] places;
-    private Room[] rooms;
-    private Tile[] tiles;
-    private String img_path;
+    // Objects
+    private Place[] places; //All
+    private Room[] rooms; //Room Doors
+    private Tile[] tiles; //Tiles
+    private String default_img_path = "..\\..\\..\\..\\resources\\game\\clue-board.jpg";
+    
+    // Reference to the Current used Board Controller
+    private BoardController controller;
     
     
-    public Board() {
-        this.img_path = "..\\..\\..\\..\\resources\\game\\clue-board.jpg";
+    public Board(BoardController controller) {
+        this.controller = controller;
+        setBackgroundImage(default_img_path);
     }
     
-    public Board(String img_path) {
-        this.img_path = img_path;
+    public Board(BoardController controller, String img_path) {
+        this.controller = controller;
+        setBackgroundImage(img_path);
     }
     
     public void createGrid() {
@@ -40,7 +46,7 @@ public class Board{
         return new Tile();
     }
     
-    protected String imgPath() {
-        return "";
+    public void setBackgroundImage(String img_path) {
+        controller.changeBackground(img_path);
     }
 }

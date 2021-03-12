@@ -69,7 +69,7 @@ public class Place {
     
     /**
      * Creates the Tile's JavaFX Button
-     * @return 
+     * @return button
      */
     private Button createButton() {
         Button button = new Button();
@@ -87,6 +87,7 @@ public class Place {
      */
     private void movePlayer() {
         // Move Board.currentPlayer to this tile location
+        // If can addPlayer
     }
     
     /**

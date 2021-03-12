@@ -46,7 +46,9 @@ public class MainController implements Initializable {
     @FXML
     private void startGame(ActionEvent event) throws Exception {
         // Load the game fxml resource associated with the GameController
-        Parent root = FXMLLoader.load(GameController.class.getResource("game.fxml"));
+        FXMLLoader loader = new FXMLLoader(GameController.class.getResource("game.fxml"));
+        Parent root = loader.load();
+        GameController game_controller = loader.getController();
         
         // Get the window (window = stage) that the button is located in
         Stage window = (Stage)button_start.getScene().getWindow();

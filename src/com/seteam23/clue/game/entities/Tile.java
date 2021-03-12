@@ -14,9 +14,9 @@ import javafx.scene.control.Button;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
-public class Tile {
+public class Tile extends Place{
     
     public Tile() {
-        
+        super();
     }
 }

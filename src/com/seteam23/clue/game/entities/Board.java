@@ -14,13 +14,25 @@ import javafx.scene.control.Button;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
-public class Board {
-    boolean[][] isInRoom;
-    Tile[][] tileLocation;
+public class Board{
+    private boolean[][] is_in_room;
+    private Tile[][] tile_location;
+    
+    private Place[] places;
+    private Room[] rooms;
+    private Tile[] tiles;
+    private String img_path;
+    
     
     public Board() {
+    }
+    
+    public void createGrid() {
         
     }
     
+    public Tile getTile(int x, int y) {
+        return new Tile();
+    }
     
 }

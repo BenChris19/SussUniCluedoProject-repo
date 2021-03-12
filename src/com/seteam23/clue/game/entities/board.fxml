@@ -7,8 +7,8 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" styleClass="mainFxmlClass" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.seteam23.clue.game.entities.BoardController">
+<AnchorPane id="AnchorPane" fx:id="anchor_pane" prefHeight="400.0" prefWidth="600.0" styleClass="mainFxmlClass" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8" fx:controller="com.seteam23.clue.game.entities.BoardController">
     <stylesheets>
-        <URL value="@board.css"/>
+        <URL value="@board.css" />
     </stylesheets>
 </AnchorPane>

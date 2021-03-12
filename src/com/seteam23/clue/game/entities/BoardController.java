@@ -7,7 +7,9 @@ package com.seteam23.clue.game.entities;
 
 import java.net.URL;
 import java.util.ResourceBundle;
+import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.layout.AnchorPane;
 
 /**
  * FXML Controller class
@@ -15,13 +17,18 @@ import javafx.fxml.Initializable;
  * @author InfernoKay
  */
 public class BoardController implements Initializable {
-
+    
+    @FXML private AnchorPane anchor_pane;
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
-    }    
+    }
+    
+    public void changeBackground(String image_path){
+        anchor_pane.setStyle("-fx-background-image: " + image_path + ";");
+    }
     
 }

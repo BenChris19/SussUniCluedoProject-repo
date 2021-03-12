@@ -7,6 +7,7 @@ package com.seteam23.clue.game.entities;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import javafx.scene.control.Button;
 
 /**
  *
@@ -57,8 +58,42 @@ public class Place {
         return this.occupiers.remove(p);
     }
     
+    
+    /**
+     * 
+     * @return List of Players Occupying the place
+     */
     public ArrayList<Player> occupiedBy() {
         return this.occupiers;
+    }
+    
+    /**
+     * Creates the Tile's JavaFX Button
+     * @return 
+     */
+    private Button createButton() {
+        Button button = new Button();
+        
+        button.setOnAction(e -> {
+                              this.movePlayer();
+                              this.activate();
+                            });
+        
+        return button;
+    }
+    
+    /**
+     * 
+     */
+    private void movePlayer() {
+        // Move Board.currentPlayer to this tile location
+    }
+    
+    /**
+     * 
+     */
+    private void activate() {
+        
     }
     
 }

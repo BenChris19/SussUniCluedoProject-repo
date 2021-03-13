@@ -6,33 +6,18 @@
  */
 package com.seteam23.clue.game.entities;
 
-import javafx.application.Application;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
-import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.layout.StackPane;
-import javafx.stage.Stage;
-
 public class Card{
     private String name;
     private String imgPath;
     //private ImageView img;
-    private CardType cardType;
-    
-    public enum CardType{
-        SUSPECT,
-        WEAPON,
-        DESTINATION
-    }        
-    
+    private String cardType;
     /**
      *
      * @param name
      * @param imgPath
      * @param cardType
      */
-    public void Card(String name, String imgPath, CardType cardType){
+    public Card(String name, String imgPath, String cardType){
         this.name = name;
         this.imgPath = imgPath;
         this.cardType = cardType;

@@ -1,3 +1,7 @@
+
+/*
+ *      The Board / Map
+
 /*
  *      The Board / Map
  *
@@ -14,6 +18,38 @@ import javafx.scene.control.Button;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
-public class Board{
+public class Board{  
+    // Reference to the Current used Board Controller
+    private BoardController controller;
     
+    // Objects
+    private Place[] places; //All
+    private Room[] rooms; //Room Doors
+    private Tile[] tiles; //Tiles
+    private String default_img_path = "..\\..\\..\\..\\resources\\game\\clue-board.jpg";
+    
+    private Player[] players;
+    private static Player currentPlayer;
+    
+    public Board(BoardController controller) {
+        this.controller = controller;
+        setBackgroundImage(default_img_path);
+    }
+    
+    public Board(BoardController controller, String img_path) {
+        this.controller = controller;
+        setBackgroundImage(img_path);
+    }
+    
+    public void createGrid() {
+        
+    }
+    
+    public Tile getTile(int x, int y) {
+        return new Tile();
+    }
+    
+    public void setBackgroundImage(String img_path) {
+        controller.changeBackground(img_path);
+    }
 }

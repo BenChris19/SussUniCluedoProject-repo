@@ -5,6 +5,8 @@
  */
 package com.seteam23.clue.game;
 
+import com.seteam23.clue.game.entities.Board;
+import com.seteam23.clue.game.entities.BoardController;
 import com.seteam23.clue.main.MainController;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -24,8 +26,8 @@ import javafx.stage.Stage;
  */
 public class GameController implements Initializable {
 
-    @FXML
-    private Button main_menu;
+    @FXML private Button main_menu;
+    @FXML private Button board;
 
     /**
      * Initializes the controller class.
@@ -43,6 +45,19 @@ public class GameController implements Initializable {
         Parent root = FXMLLoader.load(MainController.class.getResource("main.fxml"));
         
         Stage window = (Stage)main_menu.getScene().getWindow();
+        window.setScene(new Scene(root));
+    }
+    
+    /**
+     * Changes to the Main Menu's Scene
+     */
+    @FXML
+    private void playBoard(ActionEvent event) throws Exception{
+        FXMLLoader loader = new FXMLLoader(BoardController.class.getResource("board.fxml"));
+        Parent root = loader.load();
+        BoardController board_controller = loader.getController();
+        
+        Stage window = (Stage)board.getScene().getWindow();
         window.setScene(new Scene(root));
     }
 

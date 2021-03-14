@@ -9,6 +9,8 @@ import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 
 /**
@@ -19,16 +21,18 @@ import javafx.scene.layout.AnchorPane;
 public class BoardController implements Initializable {
     
     @FXML private AnchorPane anchor_pane;
+    @FXML private ImageView background_img;
+    
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO
+        new Board(this);
     }
     
     public void changeBackground(String image_path){
-        anchor_pane.setStyle("-fx-background-image: " + image_path + ";");
+        background_img.setImage(new Image(getClass().getResource(image_path).toExternalForm()));
     }
     
 }

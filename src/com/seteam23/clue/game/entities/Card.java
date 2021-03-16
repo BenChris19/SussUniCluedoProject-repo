@@ -22,4 +22,13 @@ public class Card{
         this.imgPath = imgPath;
         this.cardType = cardType;
     }
+
+    public String getName(){
+
+        return name;
+    }
+
+    public String getImg(){
+        return imgPath;
+    }
 }

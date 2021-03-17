@@ -13,12 +13,12 @@
         <URL value="@board.css" />
     </stylesheets>
    <children>
-      <ImageView fitHeight="900.0" fitWidth="900.0" layoutX="358.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fx:id="background_img" fitHeight="900.0" fitWidth="900.0" layoutX="358.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../../../../../resources/game/clue-board.jpg" />
          </image>
       </ImageView>
-      <GridPane layoutX="371.0" layoutY="14.0" prefHeight="868.0" prefWidth="834.0">
+      <GridPane fx:id="grid" layoutX="371.0" layoutY="14.0" prefHeight="868.0" prefWidth="834.0">
         <columnConstraints>
           <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="4.16" prefWidth="100.0" />
           <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="4.16" prefWidth="100.0" />

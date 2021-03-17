@@ -39,10 +39,6 @@ public class Board{
         setBackgroundImage(img_path);
     }
     
-    public void createGrid() {
-        
-    }
-    
     public Tile getTile(int x, int y) {
         return new Tile();
     }

@@ -12,6 +12,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.GridPane;
 
 /**
  * FXML Controller class
@@ -22,6 +23,7 @@ public class BoardController implements Initializable {
     
     @FXML private AnchorPane anchor_pane;
     @FXML private ImageView background_img;
+    @FXML private GridPane grid;
     
     /**
      * Initializes the controller class.
@@ -35,4 +37,7 @@ public class BoardController implements Initializable {
         background_img.setImage(new Image(getClass().getResource(image_path).toExternalForm()));
     }
     
+    public void createGrid() {
+        
+    }
 }

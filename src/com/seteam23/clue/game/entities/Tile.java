@@ -6,6 +6,7 @@
  */
 package com.seteam23.clue.game.entities;
 
+import java.util.HashMap;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -16,7 +17,32 @@ import javafx.stage.Stage;
 
 public class Tile extends Place{
     
+    private HashMap<String, Tile> adjacent;
+    
     public Tile() {
         super(1);
+        
+        adjacent = new HashMap<>();
+        adjacent.put("N", null);
+        adjacent.put("S", null);
+        adjacent.put("E", null);
+        adjacent.put("W", null);
+    }
+    
+    /**
+     * Map of which items are in each compass direction
+     * @return Map of which Places are directly adjacent
+     */
+    public HashMap<String, Tile> getAdjacent() {
+        return adjacent;
+    }
+    
+    /**
+     * 
+     * @param direction
+     * @param tile 
+     */
+    public void setAdjacent(String direction, Tile tile) {
+        adjacent.put(direction, tile);
     }
 }

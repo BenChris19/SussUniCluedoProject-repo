@@ -14,27 +14,12 @@ import javafx.scene.control.Button;
  * @author InfernoKay
  */
 public class Place {
-    private HashMap<String, Place> adjacent;
     private int max_players;
     private ArrayList<Player> occupiers;
     
-    public Place(int max_players) {
-        adjacent = new HashMap<>();
-        adjacent.put("N", null);
-        adjacent.put("S", null);
-        adjacent.put("E", null);
-        adjacent.put("W", null);
-        
+    public Place(int max_players) {        
         this.max_players = max_players;
         this.occupiers = new ArrayList<>();
-    }
-    
-    /**
-     * Map of which items are in each compass direction
-     * @return Map of which Places are directly adjacent
-     */
-    public HashMap<String, Place> getAdjacent() {
-        return adjacent;
     }
     
     /**
@@ -85,7 +70,7 @@ public class Place {
     /**
      * 
      */
-    private void movePlayer() {
+    protected void movePlayer() {
         // Move Board.currentPlayer to this tile location
         // If can addPlayer
     }
@@ -93,7 +78,7 @@ public class Place {
     /**
      * 
      */
-    private void activate() {
+    protected void activate() {
         
     }
     

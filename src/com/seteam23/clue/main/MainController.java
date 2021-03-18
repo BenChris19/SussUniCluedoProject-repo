@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.seteam23.clue.main;
 
 import com.seteam23.clue.game.GameController;
@@ -19,21 +14,27 @@ import javafx.scene.control.Label;
 import javafx.stage.Stage;
 
 /**
- *
- * @author InfernoKay
+ * FXML MainController class
+ * The controller class, allows the FXML file to be initialised, and
+ * allows the user to interact with the GUI
+ * 
+ * @author team23
  */
 public class MainController implements Initializable {
     
     @FXML
-    // Reference to the button with id start_game
     private Button button_start;
     
     @FXML
-    // Reference to the button with id start_game
     private Button button_quit;
     
     /**
-     * Initializes the controller class.
+     * Initialises the controller class.
+     * Sets up the main menu scene
+     * @param url The location used to resolve relative paths for the root object, or
+     * <tt>null</tt> if the location is not known.
+     * @param rb The resources used to localise the root object, or <tt>null</tt> if
+     * the root object was not localised.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -41,21 +42,25 @@ public class MainController implements Initializable {
     }
     
     /**
-     * Changes to the Game's Scene
+     * Changes to the Character selection Scene.
+     * 
+     * @param event executes an event, in this case, the event is to
+     * go to the next scene, which is the character selection menu.
      */
     @FXML
     private void startGame(ActionEvent event) throws Exception {
-        // Load the game fxml resource associated with the GameController
-        FXMLLoader loader = new FXMLLoader(GameController.class.getResource("game.fxml"));
-        Parent root = loader.load();
-        GameController game_controller = loader.getController();
+        Parent root = FXMLLoader.load(GameController.class.getResource("game.fxml"));
         
-        // Get the window (window = stage) that the button is located in
         Stage window = (Stage)button_start.getScene().getWindow();
-        // Set the scene to the new one
+
         window.setScene(new Scene(root));
     }
-    
+        /**
+     * Quits game.
+     * 
+     * @param event executes an event, in this case, it exits the game 
+     * and code is terminated.
+     */
     @FXML
     private void quitGame(ActionEvent event) throws Exception {
         System.exit(0);

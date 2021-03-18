@@ -1,0 +1,8 @@
+#Stores information about data to initialise the game
+#
+#Player Cards, only first 6 will be considered
+CARD, SUSPECT, Miss Scarlett, miss_scarlett.jpg,
+#Weapon Cards
+CARD, WEAPON, Hammer, hammer.jpg,
+#Location Cards
+CARD, LOCATION, Dining Room, dining_room.jpg

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.image.*?>
+<?import java.lang.*?>
+<?import java.net.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane id="AnchorPane" fx:id="anchor_pane" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="900.0" prefWidth="1600.0" styleClass="mainFxmlClass" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.seteam23.clue.game.entities.BoardController">
+    <stylesheets>
+        <URL value="@board.css" />
+    </stylesheets>
+   <children>
+      <ImageView fitHeight="900.0" fitWidth="900.0" layoutX="358.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../../../../../resources/game/clue-board.jpg" />
+         </image>
+      </ImageView>
+   </children>
+</AnchorPane>

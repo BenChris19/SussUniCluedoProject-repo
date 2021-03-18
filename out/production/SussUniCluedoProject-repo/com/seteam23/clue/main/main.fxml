@@ -1,15 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.text.*?>
-<?import javafx.geometry.*?>
-<?import javafx.scene.image.*?>
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
 
-<AnchorPane id="AnchorPane" prefHeight="545.0" prefWidth="970.0" stylesheets="@../../../../resources/main/style.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.seteam23.clue.main.MainController">
+<AnchorPane id="AnchorPane" stylesheets="@../../../../resources/main/style.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.seteam23.clue.main.MainController">
     <children>
       <Pane id="pane" prefHeight="545.0" prefWidth="970.0">
          <children>
@@ -19,7 +16,7 @@
                </image>
             </ImageView>
             <Button id="button-quit" fx:id="button_quit" layoutX="420.0" layoutY="334.0" mnemonicParsing="false" onAction="#quitGame" text="Quit" />
-              <Button id="button-start" fx:id="button_start" contentDisplay="CENTER" layoutX="360.0" layoutY="217.0" onAction="#startGame" text="Start Game" textAlignment="CENTER" />
+              <Button id="button-start" fx:id="button_start" contentDisplay="CENTER" layoutX="360.0" layoutY="217.0" onAction="#startGame" text="Single Player" textAlignment="CENTER" />
          </children>
       </Pane>
     </children>

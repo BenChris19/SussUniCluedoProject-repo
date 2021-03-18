@@ -26,23 +26,17 @@ public class Board{
     private Place[] places; //All
     private Room[] rooms; //Room Doors
     private Tile[] tiles; //Tiles
-    private String default_img_path = "..\\..\\..\\..\\resources\\game\\clue-board.jpg";
     
     private Player[] players;
     private static Player currentPlayer;
     
     public Board(BoardController controller) {
         this.controller = controller;
-        setBackgroundImage(default_img_path);
     }
     
     public Board(BoardController controller, String img_path) {
         this.controller = controller;
         setBackgroundImage(img_path);
-    }
-    
-    public void createGrid() {
-        
     }
     
     public Tile getTile(int x, int y) {

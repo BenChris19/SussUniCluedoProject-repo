@@ -37,7 +37,7 @@ public class BoardController implements Initializable {
         background_img.setImage(new Image(getClass().getResource(image_path).toExternalForm()));
     }
     
-    public void createGrid() {
+    public void createButtons() {
         
     }
 }

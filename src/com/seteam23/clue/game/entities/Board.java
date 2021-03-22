@@ -31,14 +31,22 @@ public class Board{
     
     public Board(BoardController controller) {
         this.controller = controller;
+        
+        createGrid();
     }
     
     public Board(BoardController controller, String img_path) {
         this.controller = controller;
         setBackgroundImage(img_path);
+        
+        createGrid();
     }
     
     public void createGrid() {
+        places = new Place[25][24];
+        rooms = new Room[25][24];
+        tiles = new Tile[25][24];
+        
         // Rooms
         Room study = createRoom(0,0,7,4);
         Room library = createRoom(1,6,5,5);
@@ -181,10 +189,10 @@ public class Board{
             for (int x = 0; x<24; x++) {
                 Tile tile = tiles[y][x];
                 
-                if (y - 1 > 0) tile.setAdjacent("N", tiles[y-1][x]);
-                if (y + 1 > 0) tile.setAdjacent("S", tiles[y+1][x]);
-                if (x - 1 > 0) tile.setAdjacent("E", tiles[y][x-1]);
-                if (x + 1 > 0) tile.setAdjacent("W", tiles[y][x+1]);
+                if (y - 1 > 0 && tiles[y-1][x] != null) tile.setAdjacent("N", tiles[y-1][x]);
+                if (y + 1 < 25 && tiles[y+1][x] != null) tile.setAdjacent("S", tiles[y+1][x]);
+                if (x - 1 > 0 && tiles[y][x-1] != null) tile.setAdjacent("W", tiles[y][x-1]);
+                if (x + 1 < 24 && tiles[y][x+1] != null) tile.setAdjacent("E", tiles[y][x+1]);
             }
         }
         

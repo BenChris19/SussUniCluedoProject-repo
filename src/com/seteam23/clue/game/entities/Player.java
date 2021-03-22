@@ -39,11 +39,15 @@ public class Player {
     public void finishTurn(){
 
         turn = false;
+        //Game.nextPlayerTurn()
     }
 
     public void startTurn(){
 
         turn = true;
+        //rollDice();
+        //
+
     }
 
     public Card[] viewCards(){
@@ -73,6 +77,7 @@ public class Player {
     }
 
     public void movePlayer(int x, int y, int diceTotal){
+
         /**
          * Can't really write this until board is created
          */

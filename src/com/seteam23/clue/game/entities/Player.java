@@ -6,6 +6,7 @@
  */
 package com.seteam23.clue.game.entities;
 
+import com.seteam23.clue.game.ui.CheckTile;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;

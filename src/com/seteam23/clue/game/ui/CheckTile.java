@@ -1,4 +1,4 @@
-package com.seteam23.clue.game.entities;
+package com.seteam23.clue.game.ui;
 
 public class CheckTile {
     private int state;
@@ -14,7 +14,4 @@ public class CheckTile {
             state++;
         }
     }
-
-
-
 }

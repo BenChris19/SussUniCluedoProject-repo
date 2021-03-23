@@ -7,6 +7,7 @@
 package com.seteam23.clue.game.entities;
 
 import java.util.ArrayList;
+import java.util.Random;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -18,7 +19,7 @@ import javafx.stage.Stage;
 public class Room extends Place{
     private int x, y;
     private int width, height;
-    
+    private Card weapon;
     private ArrayList<Tile> doors;
     
     public Room(int x, int y, int width, int height) {
@@ -31,7 +32,19 @@ public class Room extends Place{
         
         doors = new ArrayList<>();
     }
+
+    public void addWeapon(Card weaponToAdd) {
+        weapon = weaponToAdd;
+    }
     
+    public void removeWeapon() {
+        weapon = null;
+    }
+    
+    public Card getWeapon() {
+        return weapon;
+    }
+        
     protected Door addDoor(String entry_from) {
         Door door = new Door(this, entry_from);
         doors.add(door);

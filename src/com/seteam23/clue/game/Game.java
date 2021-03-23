@@ -19,6 +19,7 @@ import java.util.List;
 public class Game{
     Board board;
     List<Card> cards;
+    ArrayList<Card> weapons;
     public Game() throws IOException{
         cards = new ArrayList<>();
         initialise();
@@ -48,6 +49,9 @@ public class Game{
                             String tempType = info[1];
                             Card temp = new Card(tempName, tempPath, tempType);
                             //Adds card to game
+                            if (temp.getCardType().equals("weapon")) {
+                                weapons.add(temp);
+                            }
                             cards.add(temp);
                             break;
                     }

@@ -21,7 +21,17 @@ public class Room extends Place{
     
     private ArrayList<Tile> doors;
     
+    private Card[] weapons;
+    
+    /**
+     * Constructor
+     * @param x
+     * @param y
+     * @param width
+     * @param height 
+     */
     public Room(int x, int y, int width, int height) {
+        // Can hold 6 people (SET TO MAX PLAYERS FOR GAME)
         super(6);
         
         this.x = x;
@@ -32,6 +42,11 @@ public class Room extends Place{
         doors = new ArrayList<>();
     }
     
+    /**
+     * Create a new Door for the room that can entered only from a given direction
+     * @param entry_from
+     * @return 
+     */
     protected Door addDoor(String entry_from) {
         Door door = new Door(this, entry_from);
         doors.add(door);

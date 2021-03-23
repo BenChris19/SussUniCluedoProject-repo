@@ -14,6 +14,11 @@ public class Door extends Tile {
     private Room room;
     private String entry;
     
+    /**
+     * Constructor
+     * @param room
+     * @param entry_from 
+     */
     public Door(Room room, String entry_from) {
         super();
         
@@ -21,13 +26,28 @@ public class Door extends Tile {
         this.entry = entry_from;
     }
     
+    /**
+     * Overrides the button activate function
+     */
     @Override    
     protected void activate() {
-        
+        System.out.println("DING DONG");
     }
     
+    /**
+     * Get the room the door is associated with
+     * @return room connected to
+     */
     public Room getRoom() {
         return this.room;
+    }
+    
+    /**
+     * Get which direction the door is entered from
+     * @return entry compass direction
+     */
+    public String entryFrom() {
+        return this.entry;
     }
     
 }

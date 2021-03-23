@@ -16,10 +16,13 @@ import javafx.scene.control.Button;
 public class Place {
     private int max_players;
     private ArrayList<Player> occupiers;
+    private Button button;
     
     public Place(int max_players) {        
         this.max_players = max_players;
         this.occupiers = new ArrayList<>();
+        
+        this.button = createButton();
     }
     
     /**
@@ -53,6 +56,14 @@ public class Place {
     }
     
     /**
+     * 
+     * @return true if fully occupied
+     */
+    public boolean isFull() {
+        return this.occupiers.size() == this.max_players;
+    }
+    
+    /**
      * Creates the Tile's JavaFX Button
      * @return button
      */
@@ -60,26 +71,24 @@ public class Place {
         Button button = new Button();
         
         button.setOnAction(e -> {
-                              this.movePlayer();
                               this.activate();
-                            });
-        
+                            }); 
+        button.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
         return button;
     }
     
     /**
-     * 
+     * Gets the associated button
      */
-    protected void movePlayer() {
-        // Move Board.currentPlayer to this tile location
-        // If can addPlayer
+    protected Button getButton() {
+        return this.button;
     }
     
     /**
-     * 
+     * Activated effect when button clicked
      */
     protected void activate() {
-        
+        System.out.println("CLICK");
     }
     
 }

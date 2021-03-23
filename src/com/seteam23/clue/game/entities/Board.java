@@ -29,12 +29,21 @@ public class Board{
     private Player[] players;
     private static Player currentPlayer;
     
+    /**
+     * Constructor
+     * @param controller get the instance of the BoardController
+     */
     public Board(BoardController controller) {
         this.controller = controller;
         
         createGrid();
     }
     
+    /**
+     * Overloaded Constructor to create with custom background image
+     * @param controller get the instance of the BoardController
+     * @param img_path path to the image file (check if absolute or relative)
+     */
     public Board(BoardController controller, String img_path) {
         this.controller = controller;
         setBackgroundImage(img_path);
@@ -42,6 +51,16 @@ public class Board{
         createGrid();
     }
     
+    /**
+     * Creates and Fills the Arrays of the Places, Rooms and Tiles
+     * 
+     * Places: All Places a player can be - Rooms and Tiles
+     * Rooms: All Rooms - Only the top-left most tile currently
+     * Tiles: All Tiles - Including doors and secret passages
+     * 
+     * For each Tile, set which tiles are adjacent to it in each compass direction if any.
+     *     This includes doors
+     */
     public void createGrid() {
         places = new Place[25][24];
         rooms = new Room[25][24];
@@ -189,15 +208,35 @@ public class Board{
             for (int x = 0; x<24; x++) {
                 Tile tile = tiles[y][x];
                 
-                if (y - 1 > 0 && tiles[y-1][x] != null) tile.setAdjacent("N", tiles[y-1][x]);
-                if (y + 1 < 25 && tiles[y+1][x] != null) tile.setAdjacent("S", tiles[y+1][x]);
-                if (x - 1 > 0 && tiles[y][x-1] != null) tile.setAdjacent("W", tiles[y][x-1]);
-                if (x + 1 < 24 && tiles[y][x+1] != null) tile.setAdjacent("E", tiles[y][x+1]);
+                if (tile != null) {       
+                    // Possible Refactor?
+                    // Door only adjacent
+                    if (tile.getClass() == Door.class) {
+                        Door door = (Door)tile;
+                        if (y - 1 >= 0 && door.entryFrom() == "N") door.setAdjacent("N", tiles[y-1][x]);
+                        if (y + 1 < 25 && door.entryFrom() == "S") door.setAdjacent("S", tiles[y+1][x]);
+                        if (x - 1 >= 0 && door.entryFrom() == "W") door.setAdjacent("W", tiles[y][x-1]);
+                        if (x + 1 < 24 && door.entryFrom() == "E") door.setAdjacent("E", tiles[y][x+1]);
+                    }
+                    // NEED TO CHECK IF ADJACENT IS DOOR THEN ONLY ADD IF IN ENTRY FROM SIDE
+                    else {
+                        if (y - 1 >= 0) tile.setAdjacent("N", tiles[y-1][x]);
+                        if (y + 1 < 25) tile.setAdjacent("S", tiles[y+1][x]);
+                        if (x - 1 >= 0) tile.setAdjacent("W", tiles[y][x-1]);
+                        if (x + 1 < 24) tile.setAdjacent("E", tiles[y][x+1]);
+                    }
+                }
             }
         }
         
     }
     
+    /**
+     * Create a new Tile Entity and add to arrays
+     * @param x
+     * @param y
+     * @return tile
+     */
     private Tile createTile(int x, int y) {
         Tile tile = new Tile();
         places[y][x] = tile;
@@ -206,11 +245,28 @@ public class Board{
         return tile;
     }
     
+    /**
+     * Add an existing tile entity to the arrays
+     * 
+     * Currently only used for Doors
+     * 
+     * @param tile
+     * @param x
+     * @param y 
+     */
     private void addTile(Tile tile, int x, int y) {
         places[y][x] = tile;
         tiles[y][x] = tile;
     }
     
+    /**
+     * Create Room and add to arrays
+     * @param x
+     * @param y
+     * @param width
+     * @param height
+     * @return room
+     */
     private Room createRoom(int x, int y, int width, int height) {
         Room room = new Room(x,y,width,height);
         places[y][x] = room;
@@ -219,10 +275,20 @@ public class Board{
         return room;
     }
     
+    /**
+     * Get the tile at the specific coordinates
+     * @param x
+     * @param y
+     * @return 
+     */
     public Tile getTile(int x, int y) {
         return this.tiles[y][x];
     }
     
+    /**
+     * Set the board image to the new image
+     * @param img_path 
+     */
     public void setBackgroundImage(String img_path) {
         controller.changeBackground(img_path);
     }

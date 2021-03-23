@@ -5,3 +5,21 @@
 .mainFxmlClass {
 
 }
+
+.button{
+    -fx-border-color: transparent;
+    -fx-border-width: 0;
+    -fx-background-radius: 0;
+    -fx-background-color: transparent;
+    -fx-fill-width: true;
+    -fx-fill-height: true;
+}
+
+.button:hover {
+    -fx-border-color: transparent;
+    -fx-background-color: red;
+}
+
+.button:pressed {
+    -fx-background-color: black;
+}

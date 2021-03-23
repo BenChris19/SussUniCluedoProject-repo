@@ -19,7 +19,11 @@ public class Tile extends Place{
     
     private HashMap<String, Tile> adjacent;
     
+    /**
+     * Constructor
+     */
     public Tile() {
+        // Can hold one Player at a time
         super(1);
         
         adjacent = new HashMap<>();
@@ -38,7 +42,7 @@ public class Tile extends Place{
     }
     
     /**
-     * 
+     * Specify which tile instance is in which compass direction
      * @param direction
      * @param tile 
      */

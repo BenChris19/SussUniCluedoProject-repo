@@ -36,7 +36,6 @@ public class Player {
         //imgPath = player.getImg();
         //place = starting coordinates could be in  Game.java or in the Card for specific player.
     }
-
     public void finishTurn(){
 
         turn = false;

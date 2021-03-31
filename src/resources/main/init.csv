@@ -1,7 +1,12 @@
 #Stores information about data to initialise the game
 #
 #Player Cards, only first 6 will be considered
-CARD, SUSPECT, Miss Scarlett, miss_scarlett.jpg,
+CARD, SUSPECT, Miss Scarlett, Miss Scarlett.jpg,
+CARD, SUSPECT, Col Mustard, Col Mustard.jpg,
+CARD, SUSPECT, Mrs Peacock, Mrs Peacock.jpg,
+CARD, SUSPECT, Mrs White, Mrs White.jpg,
+CARD, SUSPECT, Prof Plum, Prof Plum.jpg,
+CARD, SUSPECT, Miss Scarlett, Miss Scarlett.jpg,
 #Weapon Cards
 CARD, WEAPON, Hammer, hammer.jpg,
 #Location Cards

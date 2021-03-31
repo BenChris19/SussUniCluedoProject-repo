@@ -49,6 +49,7 @@ public class MainController implements Initializable {
      */
     @FXML
     private void startGame(ActionEvent event) throws Exception {
+        
         Parent root = FXMLLoader.load(GameController.class.getResource("game.fxml"));
         
         Stage window = (Stage)button_start.getScene().getWindow();

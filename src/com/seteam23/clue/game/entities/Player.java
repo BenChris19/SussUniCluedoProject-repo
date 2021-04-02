@@ -7,6 +7,8 @@
 package com.seteam23.clue.game.entities;
 
 import com.seteam23.clue.game.ui.CheckTile;
+import com.seteam23.clue.game.Game;
+import com.seteam23.clue.game.entities.Tile;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -16,26 +18,49 @@ import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
 import java.util.Random;
+import javafx.scene.image.ImageView;
 
 public class Player {
     private CheckTile[][] CheckBoard;
-    private int noOfPlayers = 6;
+    private int noOfPlayers;
     private int row = 21, column;
-    private int diceTotal;
+    private int diceTotal = 0;
     private boolean turn;
     private String name;
-    private String imgPath;
+    private ImageView imgPath;
     private Card[] cards;
     private Card player; //Card assigned to each player in Game initialisation, when each player chooses their character.
-    private Place place;
+    private Place[][] place;
 
-    public Player() {
-        column = noOfPlayers;
-        CheckBoard = new CheckTile[row][column];
-        //name = player.getName();  //Once cards have been assigned otherwise nullpointerexcepton
-        //imgPath = player.getImg();
-        //place = starting coordinates could be in  Game.java or in the Card for specific player.
+    public Player(String name, int noOfPlayers,boolean turn,ImageView imgPath) {
+        this.turn = turn;
+        this.imgPath = imgPath;
+        this.noOfPlayers = noOfPlayers;
+        this.CheckBoard = new CheckTile[row][noOfPlayers];
+        this.name = name;  
+        switch (this.name) {
+            case "Scarlett":
+                this.place = new Tile[16][0];
+                break;
+            case "Plum":
+                this.place = new Tile[0][5];
+                break;
+            case "Peacock":
+                this.place = new Tile[0][18];
+                break;
+            case "Mustard":
+                this.place = new Tile[23][7];
+                break;
+            case "Green":
+                this.place = new Tile[15][23];
+            case "White":
+                this.place = new Tile[16][23];
+            default:
+                break;
+        }
+        
     }
+
     public void finishTurn(){
 
         turn = false;
@@ -77,6 +102,7 @@ public class Player {
     }
 
     public void movePlayer(int x, int y, int diceTotal){
+        
 
         /**
          * Can't really write this until board is created

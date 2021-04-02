@@ -3,6 +3,11 @@ package com.seteam23.clue.game;
 import com.seteam23.clue.game.entities.BoardController;
 import com.seteam23.clue.main.MainController;
 import com.seteam23.clue.game.entities.Player;
+import com.seteam23.clue.game.entities.Card;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
 import com.seteam23.clue.game.entities.NPC;
 import static com.seteam23.clue.main.Main.makeFullscreen;
 import java.net.URL;
@@ -24,6 +29,12 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.control.Tab;
+import javafx.scene.control.TabPane;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.Pane;
+import javafx.scene.layout.TilePane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
@@ -49,11 +60,18 @@ public class GameController implements Initializable {
     private ComboBox numOpponents;
  
     private String character = "Scarlett";  //Use Scarlett as default character
+    private Game game;
     private Button prevCharacter;
     private ImageView imageCharacter;
     private ArrayList<String> others = new ArrayList<>(
         Arrays.asList("Scarlett","Mustard","Plum","Green","Peacock","White"));
     private Player user;
+    private TabPane tabPane = new TabPane();
+    private final String[] tabNames = {"Board", "Cards"};
+
+    public GameController() throws IOException{
+        game = new Game();
+    }
 
     
 
@@ -126,54 +144,44 @@ public class GameController implements Initializable {
     @FXML
     private void continueBoard(ActionEvent event) throws Exception{
         Parent board = FXMLLoader.load(BoardController.class.getResource("board.fxml"));
-        
-        if (getOpponents() == 0 || getDifficulty() == null){
-            Stage window = new Stage();
-            window.initModality(Modality.APPLICATION_MODAL);
-            window.setTitle("Error");
-            window.setWidth(500);
-            window.setHeight(150);
-            
-            BorderPane paneError = new BorderPane();
-            Label labelError = new Label("You must choose a difficulty level and the number of opponents");
-            BorderPane.setAlignment(labelError, Pos.TOP_CENTER);
-            paneError.setTop(labelError);
-            
-            Button buttonOK = new Button("Ok");  //closes current window and opens a new one, reseting the game
-            buttonOK.setOnAction(e->{
-                window.close();
-            });
-            BorderPane.setAlignment(buttonOK,Pos.CENTER);
-            paneError.setBottom(buttonOK);
-        
-            Scene scene = new Scene(paneError);
-            window.setScene(scene);
-            window.showAndWait();
-        }
-        else{
-            user = new Player(getCharacterName(),getOpponents(),true,getImageCharacter());
-            ArrayList<NPC> players= new ArrayList<>();
-            int remain = getOpponents();
-            int i = 0;
-            while (remain > 0){
-                String check = getOtherCharacterNames();
-                if(players.contains(check)){
-                    this.others.remove(check);
-                }
-                else{
-                    players.add(new NPC(getOtherCharacterNames(),getOpponents(),false,getDifficulty(),getImageCharacter()));
-                    remain-=1;
-                }
+        for (String s : tabNames) {
+            Tab t = new Tab(s);
+            t.setClosable(false);
+            tabPane.getTabs().add(t);
+            switch (s) {
+                case "Board":
+                    t.setContent(FXMLLoader.load(BoardController.class.getResource("board.fxml")));
+                    break;
+                case "Card":
+                    //t.setContent(createCardPane());
+                    break;
             }
-            makeFullscreen(board,1.4,1.2);
-            Stage window_game = (Stage)board_game.getScene().getWindow();
-            window_game.setScene(new Scene(board));
-            window_game.setFullScreen(true);
+
         }
-        
+        Parent board = tabPane;
 
-
+        Stage window_game = (Stage)board_game.getScene().getWindow();
+        window_game.setScene(new Scene(board));
+@@ -85,6 +115,22 @@ private void continueBoard(ActionEvent event) throws Exception{
+     * the player icon is on, changes to yellow to indicate that the user has chosen
+     * that character.
+     */
+    /**
+     * Currently need to find a way to fetch the current player 
+    private Pane createCardPane() throws FileNotFoundException{
+        TilePane cardPane = new TilePane();
+        Player cur = game.getBoard().getCurrentPlayer();
+        for (Card c : cur.viewCards()){
+            InputStream stream = new FileInputStream(c.getImgPath());
+            Image image = new Image(stream);
+            ImageView imageView = new ImageView();
+            //Setting image to the image view
+            imageView.setImage(image);
+            cardPane.getChildren().add(imageView);
+        }
+        return null;
     }
+    */
         /**
      * Let's the user choose a character.
      * @param event executes and event, in this case, the border of the button

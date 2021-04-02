@@ -22,7 +22,7 @@
          <graphic>
             <ImageView fitHeight="200.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@../../../../resources/main/Miss%20scarlett.jpg" />
+                  <Image url="@../../../../resources/main/Miss%20Scarlett.jpg" />
                </image>
             </ImageView>
          </graphic>
@@ -58,7 +58,7 @@
          <graphic>
             <ImageView fitHeight="200.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@../../../../resources/main/Rev%20green.jpg" />
+                  <Image url="@../../../../resources/main/Rev%20Green.jpg" />
                </image>
             </ImageView>
          </graphic>
@@ -82,7 +82,7 @@
          <graphic>
             <ImageView fitHeight="200.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@../../../../resources/main/Mrs%20white.jpg" />
+                  <Image url="@../../../../resources/main/Mrs%20White.jpg" />
                </image>
             </ImageView>
          </graphic>

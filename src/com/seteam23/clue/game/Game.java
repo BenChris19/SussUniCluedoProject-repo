@@ -33,17 +33,18 @@ public class Game{
      */
     public void initialise() throws IOException{
         //Creates file reader
-        try (BufferedReader br = new BufferedReader(new FileReader("init.txt"))) {
         try (BufferedReader br = new BufferedReader(new FileReader("src/resources/main/init.csv"))) {
             String line;
             //Reads through each line in the document
             while ((line = br.readLine()) != null) {
-@@ -57,5 +59,8 @@ public void initialise() throws IOException{
-        } catch (IOException e) {
+//public void initialise() throws IOException{
+        } }catch (IOException e) {
             System.out.println("init.txt missing from directory");
         }
+        
         //for (Card c : cards){
             //System.out.println(c.getName());
         //}
+    
+        }
     }
-}

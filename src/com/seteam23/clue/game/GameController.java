@@ -143,7 +143,31 @@ public class GameController implements Initializable {
      */
     @FXML
     private void continueBoard(ActionEvent event) throws Exception{
-        Parent board = FXMLLoader.load(BoardController.class.getResource("board.fxml"));
+        if (getOpponents() == 0 || getDifficulty() == null){
+            Stage window = new Stage();
+            window.initModality(Modality.APPLICATION_MODAL);
+            window.setTitle("Error");
+            window.setWidth(500);
+            window.setHeight(150);
+            
+            BorderPane paneError = new BorderPane();
+            Label labelError = new Label("You must choose a difficulty level and the number of opponents");
+            BorderPane.setAlignment(labelError, Pos.TOP_CENTER);
+            paneError.setTop(labelError);
+            
+            Button buttonOK = new Button("Ok");  //closes current window and opens a new one, reseting the game
+            buttonOK.setOnAction(e->{
+                window.close();
+            });
+            BorderPane.setAlignment(buttonOK,Pos.CENTER);
+            paneError.setBottom(buttonOK);
+        
+            Scene scene = new Scene(paneError);
+            window.setScene(scene);
+            window.showAndWait();
+        }
+        else{
+
         for (String s : tabNames) {
             Tab t = new Tab(s);
             t.setClosable(false);
@@ -160,12 +184,16 @@ public class GameController implements Initializable {
         }
         Parent board = tabPane;
 
-        Stage window_game = (Stage)board_game.getScene().getWindow();
-        window_game.setScene(new Scene(board));
-@@ -85,6 +115,22 @@ private void continueBoard(ActionEvent event) throws Exception{
-     * the player icon is on, changes to yellow to indicate that the user has chosen
-     * that character.
-     */
+            makeFullscreen(board,1.4,1.18);
+            Stage window_game = (Stage)board_game.getScene().getWindow();
+            window_game.setScene(new Scene(board));
+            window_game.setFullScreen(true);
+    }
+    }
+//@@ -85,6 +115,22 @@ private void continueBoard(ActionEvent event) throws Exception{
+    // * the player icon is on, changes to yellow to indicate that the user has chosen
+    // * that character.
+    // */
     /**
      * Currently need to find a way to fetch the current player 
     private Pane createCardPane() throws FileNotFoundException{

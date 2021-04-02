@@ -1,5 +1,7 @@
 package com.seteam23.clue.main;
 
+import java.awt.Dimension;
+import java.awt.Toolkit;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
@@ -9,6 +11,7 @@ import javafx.stage.Stage;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
+import javafx.scene.transform.Scale;
 
 /**
  *Main class, executes the Clue! board game.
@@ -26,6 +29,11 @@ public class Main extends Application {
         launch(args);
     }
 
+    public static void makeFullscreen(Parent root,double w,double h){
+        Scale scale = new Scale(w, h, 0, 0);
+        root.getTransforms().add(scale);
+    }
+
     /**
      * Overrides the JFX Start function
      * 
@@ -36,11 +44,13 @@ public class Main extends Application {
         primaryStage.setTitle("Clue!");
 
         Parent root = FXMLLoader.load(MainController.class.getResource("main.fxml"));
-
+        makeFullscreen(root,2,2);
         Scene scene = new Scene(root);
 
         // Set and show the scene
         primaryStage.setScene(scene);
+        primaryStage.setFullScreen(true);
         primaryStage.show();
+        
     }
 }

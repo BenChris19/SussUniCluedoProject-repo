@@ -41,6 +41,7 @@ public class MainController implements Initializable {
         // TODO
     }
     
+    
     /**
      * Changes to the Character selection Scene.
      * 
@@ -49,12 +50,12 @@ public class MainController implements Initializable {
      */
     @FXML
     private void startGame(ActionEvent event) throws Exception {
-        
         Parent root = FXMLLoader.load(GameController.class.getResource("game.fxml"));
-        
+        Main.makeFullscreen(root,2.21,2.05);
         Stage window = (Stage)button_start.getScene().getWindow();
 
         window.setScene(new Scene(root));
+        window.setFullScreen(true);
     }
         /**
      * Quits game.

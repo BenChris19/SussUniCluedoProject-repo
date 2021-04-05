@@ -5,21 +5,28 @@
  */
 package com.seteam23.clue.game.entities;
 
+import static com.seteam23.clue.game.GameController.getImageview;
+import java.io.File;
+import java.io.InputStream;
 import java.net.URL;
 import java.util.Random;
 import java.util.ResourceBundle;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.Pane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
@@ -35,10 +42,17 @@ public class BoardController implements Initializable {
     @FXML private AnchorPane anchor_pane;
     @FXML private ImageView background_img;
     @FXML private GridPane grid;
-    @FXML private ImageView player_img;
-    
+    @FXML private ImageView player_img = new ImageView();
     @FXML private Button dices;
     @FXML private Button suggAcc;
+    @FXML private Pane paneView;
+    
+    @FXML private ComboBox person;
+    @FXML private ComboBox weapon;
+    @FXML private ComboBox room;
+    
+    private Image imageCharacter;
+    private ImageView imageview;
     
     /**
      * Initializes the controller class.
@@ -47,7 +61,20 @@ public class BoardController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         board = new Board(this);
         createButtons();
+        this.paneView.getChildren().add(getImageview());
+        
+        ObservableList<String> listPer = FXCollections.observableArrayList("Miss Scarlett","Colonel Mustard","Proffesor Plum","Reverend Green","Mrs Peacock","Mrs White");
+        this.person.setItems(listPer);
+        ObservableList<String> listWea = FXCollections.observableArrayList("Dagger","CandleStick","Revolver","Rope","Lead pipe","Spanner");
+        this.weapon.setItems(listWea);
+        ObservableList<String> listRoo = FXCollections.observableArrayList("Study","Hall","Lounge","Library","Billiard Room","Dining Room","Conservatory","Ballroom","Kitchen");
+        this.room.setItems(listRoo);
+
     }
+
+
+
+    
     @FXML
     private void change(ActionEvent event) throws Exception{ 
         Button b = (Button)event.getSource();

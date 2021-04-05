@@ -10,6 +10,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import com.seteam23.clue.game.entities.NPC;
 import static com.seteam23.clue.main.Main.makeFullscreen;
+import java.io.File;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -54,6 +55,7 @@ public class GameController implements Initializable {
     @FXML
     private Button board_game;
     
+    
     @FXML
     private ComboBox difLevel;
     @FXML 
@@ -62,7 +64,8 @@ public class GameController implements Initializable {
     private String character = "Scarlett";  //Use Scarlett as default character
     private Game game;
     private Button prevCharacter;
-    private ImageView imageCharacter;
+    private Image imageCharacter;
+    private static ImageView imageview;
     private ArrayList<String> others = new ArrayList<>(
         Arrays.asList("Scarlett","Mustard","Plum","Green","Peacock","White"));
     private Player user;
@@ -71,6 +74,14 @@ public class GameController implements Initializable {
 
     public GameController() throws IOException{
         game = new Game();
+        GameController.imageview = new ImageView(new Image(getClass().getResourceAsStream("/resources/main/Miss Scarlett.jpg")));
+        GameController.imageview.setFitHeight(370);
+        GameController.imageview.setFitWidth(245);
+
+    }
+
+    public static ImageView getImageview() {
+        return imageview;
     }
 
     
@@ -116,7 +127,7 @@ public class GameController implements Initializable {
         return others.get(new Random().nextInt(others.size())); 
     }
 
-    public ImageView getImageCharacter() {
+    public Image getImageCharacter() {
         return imageCharacter;
     }
     
@@ -130,11 +141,12 @@ public class GameController implements Initializable {
     @FXML
     private void mainMenu(ActionEvent event) throws Exception{
         Parent root = FXMLLoader.load(MainController.class.getResource("main.fxml"));
-        makeFullscreen(root,2,2);
+        
         
         Stage window_menu = (Stage)main_menu.getScene().getWindow();
         window_menu.setScene(new Scene(root));
         window_menu.setFullScreen(true);
+        makeFullscreen(root,970,545);
     }
     /**
      * Changes to the Board's Scene.
@@ -175,6 +187,7 @@ public class GameController implements Initializable {
             switch (s) {
                 case "Board":
                     t.setContent(FXMLLoader.load(BoardController.class.getResource("board.fxml")));
+                    
                     break;
                 case "Card":
                     //t.setContent(createCardPane());
@@ -184,10 +197,11 @@ public class GameController implements Initializable {
         }
         Parent board = tabPane;
 
-            makeFullscreen(board,1.4,1.18);
+
             Stage window_game = (Stage)board_game.getScene().getWindow();
             window_game.setScene(new Scene(board));
             window_game.setFullScreen(true);
+            makeFullscreen(board,1600,910);
     }
     }
 //@@ -85,6 +115,22 @@ private void continueBoard(ActionEvent event) throws Exception{
@@ -221,9 +235,13 @@ public class GameController implements Initializable {
         Button b = (Button)event.getSource();
         b.setStyle("-fx-background-color: yellow");
         character = b.getText();    
-        imageCharacter = (ImageView) b.getGraphic();
+        Image image = new Image(getClass().getResourceAsStream("/resources/main/"+this.character+".jpg"));
+        this.imageview = new ImageView(image);
+        this.imageview.setFitHeight(370);
+        this.imageview.setFitWidth(245);
+
         
-        if(!character.equals("Scarlett")){
+        if(!character.equals("Miss Scarlett")){
             this.buttonScarlett.setStyle("-fx-background-color: transparent");
         }
         else{

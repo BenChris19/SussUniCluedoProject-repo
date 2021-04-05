@@ -29,9 +29,13 @@ public class Main extends Application {
         launch(args);
     }
 
-    public static void makeFullscreen(Parent root,double w,double h){
-        Scale scale = new Scale(w, h, 0, 0);
-        root.getTransforms().add(scale);
+    public static void makeFullscreen(Parent root,double width,double height){
+        
+    Dimension resolution = Toolkit.getDefaultToolkit().getScreenSize();
+    double w = resolution.getWidth()/width;  // your window width
+    double h = resolution.getHeight()/height;  // your window height
+    Scale scale = new Scale(w, h, 0, 0);
+    root.getTransforms().add(scale);
     }
 
     /**
@@ -44,12 +48,12 @@ public class Main extends Application {
         primaryStage.setTitle("Clue!");
 
         Parent root = FXMLLoader.load(MainController.class.getResource("main.fxml"));
-        makeFullscreen(root,2,2);
         Scene scene = new Scene(root);
 
         // Set and show the scene
         primaryStage.setScene(scene);
         primaryStage.setFullScreen(true);
+        makeFullscreen(root,970,545);
         primaryStage.show();
         
     }

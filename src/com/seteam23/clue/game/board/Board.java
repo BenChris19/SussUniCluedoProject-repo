@@ -31,7 +31,6 @@ public final class Board{
     private Tile[][] tiles; //Tiles
     
     private Player[] players;
-    private static Player currentPlayer;
 
 public Board(BoardController controller) {
         this.controller = controller;
@@ -335,22 +334,6 @@ public Board(BoardController controller, String img_path) {
     public void setPlayers(Player[] players) {
         this.players = players;
     }
-
-    /**
-     *
-     * @return
-     */
-    public static Player getCurrentPlayer() {
-      return currentPlayer;
-    }
-
-    /**
-     *
-     * @param currentPlayer
-     */
-    public static void setCurrentPlayer(Player currentPlayer) {
-       Board.currentPlayer = currentPlayer;
-   }
 }
 
 

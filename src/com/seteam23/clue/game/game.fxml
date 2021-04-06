@@ -7,8 +7,11 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" styleClass="mainFxmlClass" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.seteam23.clue.game.GameController">
+<AnchorPane id="AnchorPane" prefHeight="900.0" prefWidth="1600.0" styleClass="mainFxmlClass" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8" fx:controller="com.seteam23.clue.game.GameController">
     <stylesheets>
-        <URL value="@game.css"/>
+        <URL value="@game.css" />
     </stylesheets>
+   <children>
+      <BorderPane fx:id="viewport" layoutX="383.0" layoutY="16.0" prefHeight="868.0" prefWidth="834.0" style="-fx-background-color: #EEEEEE;" stylesheets="@game.css" />
+   </children>
 </AnchorPane>

@@ -1,5 +1,6 @@
 package com.seteam23.clue.singleplayer;
 
+import com.seteam23.clue.game.GameController;
 import com.seteam23.clue.game.board.BoardController;
 import com.seteam23.clue.main.MainController;
 import com.seteam23.clue.game.entities.Player;
@@ -186,7 +187,8 @@ public class SingleplayerMenuController implements Initializable {
             tabPane.getTabs().add(t);
             switch (s) {
                 case "Board":
-                    t.setContent(FXMLLoader.load(BoardController.class.getResource("board.fxml")));
+                    //t.setContent(FXMLLoader.load(BoardController.class.getResource("board.fxml")));
+                    t.setContent(FXMLLoader.load(GameController.class.getResource("game.fxml")));
                     
                     break;
                 case "Card":

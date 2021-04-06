@@ -4,7 +4,7 @@
  *      A place where the player can move to
  *      Can be a start or tunnel?
  */
-package com.seteam23.clue.game.entities;
+package com.seteam23.clue.game.board;
 
 import java.util.HashMap;
 import javafx.application.Application;

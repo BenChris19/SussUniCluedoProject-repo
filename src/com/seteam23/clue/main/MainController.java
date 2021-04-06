@@ -1,6 +1,6 @@
 package com.seteam23.clue.main;
 
-import com.seteam23.clue.game.GameController;
+import com.seteam23.clue.singleplayer.SingleplayerMenuController;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
@@ -50,7 +50,7 @@ public class MainController implements Initializable {
      */
     @FXML
     private void startGame(ActionEvent event) throws Exception {
-        Parent root = FXMLLoader.load(GameController.class.getResource("game.fxml"));
+        Parent root = FXMLLoader.load(SingleplayerMenuController.class.getResource("singleplayerMenu.fxml"));
         
         Stage window = (Stage)button_start.getScene().getWindow();
 

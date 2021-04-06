@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.seteam23.clue.game.entities;
+package com.seteam23.clue.game.board;
 
 /**
  *

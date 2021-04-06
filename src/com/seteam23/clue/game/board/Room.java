@@ -4,8 +4,9 @@
  *      Blank room Entity
  *      Exist within the Board
  */
-package com.seteam23.clue.game.entities;
+package com.seteam23.clue.game.board;
 
+import com.seteam23.clue.game.entities.Card;
 import java.util.ArrayList;
 import javafx.application.Application;
 import javafx.event.ActionEvent;

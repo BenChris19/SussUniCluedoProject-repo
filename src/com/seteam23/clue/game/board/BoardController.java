@@ -3,9 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.seteam23.clue.game.entities;
+package com.seteam23.clue.game.board;
 
-import static com.seteam23.clue.game.GameController.getImageview;
+import static com.seteam23.clue.singleplayer.SingleplayerMenuController.getImageview;
 import java.io.File;
 import java.io.InputStream;
 import java.net.URL;

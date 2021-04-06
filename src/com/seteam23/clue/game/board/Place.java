@@ -3,8 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.seteam23.clue.game.entities;
+package com.seteam23.clue.game.board;
 
+import com.seteam23.clue.game.entities.Player;
 import java.util.ArrayList;
 import java.util.HashMap;
 import javafx.scene.control.Button;

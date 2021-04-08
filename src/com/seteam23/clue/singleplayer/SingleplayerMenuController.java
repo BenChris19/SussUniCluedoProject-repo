@@ -1,17 +1,10 @@
 package com.seteam23.clue.singleplayer;
 
 import com.seteam23.clue.game.GameController;
-import com.seteam23.clue.game.board.BoardController;
 import com.seteam23.clue.main.MainController;
 import com.seteam23.clue.game.entities.Player;
-import com.seteam23.clue.game.entities.Card;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.InputStream;
-import com.seteam23.clue.game.entities.NPC;
 import static com.seteam23.clue.main.Main.makeFullscreen;
-import java.io.File;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -29,17 +22,13 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.Pane;
-import javafx.scene.layout.TilePane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import javafx.stage.StageStyle;
 
 /**
  * FXML GameController class

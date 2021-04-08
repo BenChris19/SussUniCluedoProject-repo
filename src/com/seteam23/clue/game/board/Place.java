@@ -14,7 +14,7 @@ import javafx.scene.control.Button;
  *
  * @author InfernoKay
  */
-public class Place {
+public abstract class Place {
     private int max_players;
     private ArrayList<Player> occupiers;
     private Button button;

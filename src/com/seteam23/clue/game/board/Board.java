@@ -276,10 +276,7 @@ public Board(BoardController controller, String img_path) {
     public void setCharacterImage(String img_path) {
         controller.changeChar(img_path);
     }
-//private void addTile(Tile tile, int x, int y) {
-   //     places[y][x] = tile;
-    //    tiles[y][x] = tile;
-   // }
+
     //Performs a breadth first search to find all places on the board that can be reached
     //from a particular Place for a given number of steps
     private ArrayList reachableTiles(Tile start, int diceRoll){
@@ -311,12 +308,20 @@ public Board(BoardController controller, String img_path) {
         }
         return tiles;
     }
-
-    /**
-     * Create Room and add to arrays
-@@ -292,4 +325,36 @@ public Tile getTile(int x, int y) {
-    public void setBackgroundImage(String img_path) {
-        controller.changeBackground(img_path);
+    
+    // Tried to do a recursive version of ^^^ but idk if it will perform better (havent tested)
+    public ArrayList reachableFrom(Tile start, int movesRemaining) {
+        ArrayList<Tile> reach = new ArrayList<>();
+        
+        if (movesRemaining > 0) {
+            for (Tile a : start.getAdjacent().values()) {
+                if (a != null) {
+                    reach.addAll(reachableFrom(a, movesRemaining-1));
+                }
+            }
+        }
+        
+        return reach;
     }
 
     /**

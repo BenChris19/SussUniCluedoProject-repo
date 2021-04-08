@@ -30,7 +30,7 @@ public class Door extends Tile {
      * Overrides the button activate function
      */
     @Override    
-    protected void activate() {
+    public void activate() {
         System.out.println("DING DONG");
     }
     

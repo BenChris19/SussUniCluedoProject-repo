@@ -81,14 +81,14 @@ public abstract class Place {
     /**
      * Gets the associated button
      */
-    protected Button getButton() {
+    public Button getButton() {
         return this.button;
     }
     
     /**
      * Activated effect when button clicked
      */
-    protected void activate() {
+    public void activate() {
         System.out.println("CLICK");
     }
     

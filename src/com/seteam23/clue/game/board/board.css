@@ -16,10 +16,13 @@
 }
 
 .button:hover {
-    -fx-border-color: transparent;
     -fx-background-color: red;
 }
 
 .button:pressed {
     -fx-background-color: black;
+}
+
+.button:flash-highlight {
+    -fx-background-color: #00cc00;
 }

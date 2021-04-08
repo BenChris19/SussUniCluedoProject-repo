@@ -2,11 +2,7 @@ package com.seteam23.clue.main;
 
 import java.awt.Dimension;
 import java.awt.Toolkit;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;

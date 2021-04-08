@@ -6,8 +6,6 @@
 package com.seteam23.clue.game.board;
 
 import static com.seteam23.clue.singleplayer.SingleplayerMenuController.getImageview;
-import java.io.File;
-import java.io.InputStream;
 import java.net.URL;
 import java.util.Random;
 import java.util.ResourceBundle;

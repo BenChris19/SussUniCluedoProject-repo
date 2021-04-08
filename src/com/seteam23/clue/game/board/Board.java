@@ -9,33 +9,28 @@
  */
 package com.seteam23.clue.game.board;
 import com.seteam23.clue.game.entities.Player;
-import javafx.application.Application;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
-import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.layout.StackPane;
-import javafx.stage.Stage;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
-import java.util.List;
 
 
 
 public final class Board{  
     // Reference to the Current used Board Controller
     private BoardController controller;
+    
     private Place[][] places; //All
     private Room[][] rooms; //Room Doors
     private Tile[][] tiles; //Tiles
     
     private Player[] players;
-
+    
 public Board(BoardController controller) {
         this.controller = controller;
 
         createGrid();
+        
+        highlightAllTiles();
     }
 public Board(BoardController controller, String img_path) {
         this.controller = controller;
@@ -255,31 +250,10 @@ public Board(BoardController controller, String img_path) {
         
         return room;
     }
-    
-    /**
-     * Get the tile at the specific coordinates
-     * @param x
-     * @param y
-     * @return 
-     */
-    public Tile getTile(int x, int y) {
-        return this.tiles[y][x];
-    }
-    
-    /**
-     * Set the board image to the new image
-     * @param img_path 
-     */
-    public void setBackgroundImage(String img_path) {
-        controller.changeBackground(img_path);
-    }
-    public void setCharacterImage(String img_path) {
-        controller.changeChar(img_path);
-    }
 
     //Performs a breadth first search to find all places on the board that can be reached
     //from a particular Place for a given number of steps
-    private ArrayList reachableTiles(Tile start, int diceRoll){
+    private static ArrayList reachableTiles(Tile start, int diceRoll){
         ArrayList<LinkedList<Tile>> tileQueueArray = new ArrayList<LinkedList<Tile>>();
         HashMap<Tile, Boolean> visited = new HashMap();
         int i = 0;
@@ -310,7 +284,7 @@ public Board(BoardController controller, String img_path) {
     }
     
     // Tried to do a recursive version of ^^^ but idk if it will perform better (havent tested)
-    public ArrayList reachableFrom(Tile start, int movesRemaining) {
+    public static ArrayList reachableFrom(Tile start, int movesRemaining) {
         ArrayList<Tile> reach = new ArrayList<>();
         
         if (movesRemaining > 0) {
@@ -322,6 +296,53 @@ public Board(BoardController controller, String img_path) {
         }
         
         return reach;
+    }
+    
+    public void highlightTiles(ArrayList<Tile> ts) {
+        for (Tile t : ts) {
+            t.startFlashing();
+        }
+    }
+    
+    public void unlightTiles(ArrayList<Tile> ts) {
+        for (Tile t : ts) {
+            t.stopFlashing();
+        }
+    }
+    
+    public void unlightAllTiles() {
+        for (Tile[] tr : tiles) {
+            for (Tile t : tr) 
+                if (t != null) t.stopFlashing();
+        }
+    }
+    
+    public void highlightAllTiles() {
+        for (Tile[] tr : tiles) {
+            for (Tile t : tr) 
+                if (t != null) t.startFlashing();
+        }
+    }
+    
+    /**
+     * Get the tile at the specific coordinates
+     * @param x
+     * @param y
+     * @return 
+     */
+    public Tile getTile(int x, int y) {
+        return this.tiles[y][x];
+    }
+    
+    /**
+     * Set the board image to the new image
+     * @param img_path 
+     */
+    public void setBackgroundImage(String img_path) {
+        controller.changeBackground(img_path);
+    }
+    public void setCharacterImage(String img_path) {
+        controller.changeChar(img_path);
     }
 
     /**

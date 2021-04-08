@@ -253,7 +253,7 @@ public Board(BoardController controller, String img_path) {
 
     //Performs a breadth first search to find all places on the board that can be reached
     //from a particular Place for a given number of steps
-    private static ArrayList reachableTiles(Tile start, int diceRoll){
+    private ArrayList reachableTiles(Tile start, int diceRoll){
         ArrayList<LinkedList<Tile>> tileQueueArray = new ArrayList<LinkedList<Tile>>();
         HashMap<Tile, Boolean> visited = new HashMap();
         int i = 0;
@@ -284,7 +284,7 @@ public Board(BoardController controller, String img_path) {
     }
     
     // Tried to do a recursive version of ^^^ but idk if it will perform better (havent tested)
-    public static ArrayList reachableFrom(Tile start, int movesRemaining) {
+    public ArrayList reachableFrom(Tile start, int movesRemaining) {
         ArrayList<Tile> reach = new ArrayList<>();
         
         if (movesRemaining > 0) {

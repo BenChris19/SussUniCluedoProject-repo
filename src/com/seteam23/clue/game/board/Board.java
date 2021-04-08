@@ -309,7 +309,7 @@ public final class Board {
 
         if (movesRemaining > 0) {
             for (Tile a : start.getAdjacent().values()) {
-                if (a != null) {
+                if (a != null && !a.isFull()) {
                     reach.addAll(reachableFrom(a, movesRemaining - 1));
                 }
             }

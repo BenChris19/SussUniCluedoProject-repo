@@ -8,15 +8,17 @@ package com.seteam23.clue.game.board;
 
 import java.util.HashMap;
 import javafx.animation.Animation;
+import javafx.animation.FadeTransition;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.css.PseudoClass;
+import javafx.util.Duration;
 
 public class Tile extends Place {
 
     private HashMap<String, Tile> adjacent;
 
-    private Timeline flasher;
+    private FadeTransition flasher;
     private PseudoClass flashHighlight;
     private boolean flashing;
 
@@ -34,21 +36,18 @@ public class Tile extends Place {
         adjacent.put("W", null);
 
         flashHighlight = PseudoClass.getPseudoClass("flash-highlight");
-        flasher = new Timeline(
-            new KeyFrame(javafx.util.Duration.seconds(1.0), e -> {
-                this.getButton().pseudoClassStateChanged(flashHighlight, true);
-            }),
-            new KeyFrame(javafx.util.Duration.seconds(1.0), e -> {
-                this.getButton().pseudoClassStateChanged(flashHighlight, false);
-            })
-        );
+        flasher = new FadeTransition(Duration.millis(1200), this.getButton());
+        flasher.setFromValue(0.0);
+        flasher.setToValue(0.3);
         flasher.setCycleCount(Animation.INDEFINITE);
+        flasher.setAutoReverse(true);
     }
     
     public void startFlashing() {
         if(!flashing){
             flashing = true;
             flasher.play();
+            this.getButton().pseudoClassStateChanged(flashHighlight, true);
         }
     }
     

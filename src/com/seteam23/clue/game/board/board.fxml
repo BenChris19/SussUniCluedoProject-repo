@@ -17,15 +17,13 @@
         <URL value="@board.css" />
     </stylesheets>
    <children>
-      <ComboBox fx:id="person" layoutX="242.0" layoutY="636.0" prefHeight="25.0" prefWidth="116.0" promptText="Person" />
-      <ComboBox fx:id="weapon" layoutX="1.0" layoutY="636.0" prefHeight="25.0" prefWidth="103.0" promptText="Weapon" />
-      <ComboBox fx:id="room" layoutX="117.0" layoutY="636.0" prefHeight="25.0" prefWidth="116.0" promptText="Room" />
-      <ImageView fx:id="background_img" fitHeight="900.0" fitWidth="900.0" layoutX="358.0" pickOnBounds="true" preserveRatio="true">
+      
+      <ImageView fx:id="background_img" fitHeight="900.0" fitWidth="900.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../../../../../resources/game/clue-board.jpg" />
          </image>
       </ImageView>
-      <GridPane fx:id="grid" layoutX="371.0" layoutY="14.0" prefHeight="868.0" prefWidth="834.0">
+      <GridPane fx:id="grid" layoutX="14.0" layoutY="14.0" prefHeight="868.0" prefWidth="834.0">
         <columnConstraints>
           <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="4.16" prefWidth="100.0" />
           <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="4.16" prefWidth="100.0" />
@@ -79,13 +77,7 @@
           <RowConstraints minHeight="10.0" percentHeight="4.0" prefHeight="30.0" vgrow="SOMETIMES" />
           <RowConstraints minHeight="10.0" percentHeight="4.0" prefHeight="30.0" vgrow="SOMETIMES" />
         </rowConstraints>
-      </GridPane>
-      <Button fx:id="dices" layoutX="12.0" layoutY="408.0" mnemonicParsing="false" onAction="#rollDices" text="Roll dices" />
-      <Button fx:id="suggAcc" layoutX="70.0" layoutY="510.0" mnemonicParsing="false" onAction="#change" prefHeight="65.0" prefWidth="212.0" style="-fx-background-color: green;" text="Make Suggestion">
-         <font>
-            <Font size="22.0" />
-         </font>
-      </Button>
+      </GridPane>      
       <Pane fx:id="paneView" prefHeight="276.0" prefWidth="199.0" />
    </children>
 </AnchorPane>

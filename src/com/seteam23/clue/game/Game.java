@@ -5,7 +5,7 @@
  */
 package com.seteam23.clue.game;
 
-import com.seteam23.clue.game.entities.Board;
+import com.seteam23.clue.game.board.Board;
 import com.seteam23.clue.game.entities.Card;
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -17,6 +17,7 @@ public class Game{
     Board board;
     List<Card> cards;
     ArrayList<Card> weapons;
+    GameController controller;
     public Game() throws IOException{
         cards = new ArrayList<>();
         initialise();
@@ -59,12 +60,18 @@ public class Game{
             System.out.println("init.txt missing from directory");
         }
     }
+
+    public void setCharacterImage(String img_path) {
+        controller.changeChar(img_path);
+    }
+    
 }
+
 /**
  *
  * @author InfernoKay
  */
-public class Game {
+//public class Game {
     
-}
+//}
 

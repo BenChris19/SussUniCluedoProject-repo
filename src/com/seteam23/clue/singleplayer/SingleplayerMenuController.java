@@ -67,7 +67,6 @@ public class SingleplayerMenuController implements Initializable {
         SingleplayerMenuController.imageview = new ImageView(new Image(getClass().getResourceAsStream("/resources/main/Miss Scarlett.jpg")));
         SingleplayerMenuController.imageview.setFitHeight(370);
         SingleplayerMenuController.imageview.setFitWidth(245);
-
     }
 
     public static ImageView getImageview() {

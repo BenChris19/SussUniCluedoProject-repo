@@ -370,10 +370,6 @@ public final class Board {
         controller.changeBackground(img_path);
     }
 
-    public void setCharacterImage(String img_path) {
-        controller.changeChar(img_path);
-    }
-
     /**
      *
      * @return

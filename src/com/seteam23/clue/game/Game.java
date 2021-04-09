@@ -1,10 +1,7 @@
 /*
- *      Game
- *
- *      Main loops and game logic
- *      Most of code will be here (probably)
- *      User input detected here
- *      Constructs Players and Board
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
  */
 package com.seteam23.clue.game;
 
@@ -63,3 +60,11 @@ public class Game{
         }
     }
 }
+/**
+ *
+ * @author InfernoKay
+ */
+public class Game {
+    
+}
+

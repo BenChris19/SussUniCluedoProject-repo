@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane id="AnchorPane" stylesheets="@../../../../resources/main/style.css" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.seteam23.clue.singleplayer.SingleplayerMenuController">
+   <children>
+      <ImageView fitHeight="545.0" fitWidth="970.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../../../../resources/main/Boddy_Mansion_Character_menu.png" />
+         </image>
+      </ImageView>
+      <ComboBox id="difLevel" fx:id="difLevel" prefWidth="120.0" promptText="AI Difficulty" visibleRowCount="3" />
+      <Button fx:id="board_game" layoutX="602.0" layoutY="494.0" mnemonicParsing="false" onAction="#continueBoard" prefHeight="30.0" prefWidth="124.0" text="Start Game" />
+      <Button fx:id="main_menu" layoutX="169.0" layoutY="494.0" mnemonicParsing="false" onAction="#mainMenu" prefHeight="30.0" prefWidth="124.0" text="Back to Main Menu" />
+      <ComboBox id="numOpponents" fx:id="numOpponents" layoutX="748.0" prefHeight="25.0" prefWidth="124.0" promptText="No. players" visibleRowCount="5" />
+      <Button fx:id="buttonScarlett" layoutX="158.0" layoutY="14.0" mnemonicParsing="false" onAction="#onMouseClicked" prefHeight="171.0" prefWidth="131.0" style="-fx-border-color: transparent; -fx-background-color: yellow;" text="Miss Scarlett">
+         <graphic>
+            <ImageView fitHeight="200.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../../../resources/main/Miss%20Scarlett.jpg" />
+               </image>
+            </ImageView>
+         </graphic>
+         <font>
+            <Font size="1.0" />
+         </font>
+      </Button>
+      <Button layoutX="373.0" layoutY="14.0" mnemonicParsing="false" onAction="#onMouseClicked" prefHeight="177.0" prefWidth="131.0" style="-fx-border-color: transparent; -fx-background-color: transparent;" text="Col Mustard">
+         <graphic>
+            <ImageView fitHeight="200.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../../../resources/main/Col%20Mustard.jpg" />
+               </image>
+            </ImageView>
+         </graphic>
+         <font>
+            <Font size="1.0" />
+         </font>
+      </Button>
+      <Button layoutX="591.0" layoutY="14.0" mnemonicParsing="false" onAction="#onMouseClicked" style="-fx-border-color: transparent; -fx-background-color: transparent;" text="Prof Plum">
+         <graphic>
+            <ImageView fitHeight="200.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../../../resources/main/Prof%20Plum.jpg" />
+               </image>
+            </ImageView>
+         </graphic>
+         <font>
+            <Font size="1.0" />
+         </font>
+      </Button>
+      <Button layoutX="159.0" layoutY="244.0" mnemonicParsing="false" onAction="#onMouseClicked" style="-fx-border-color: transparent; -fx-background-color: transparent;" text="Rev Green">
+         <graphic>
+            <ImageView fitHeight="200.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../../../resources/main/Rev%20Green.jpg" />
+               </image>
+            </ImageView>
+         </graphic>
+         <font>
+            <Font size="1.0" />
+         </font>
+      </Button>
+      <Button layoutX="373.0" layoutY="244.0" mnemonicParsing="false" onAction="#onMouseClicked" style="-fx-border-color: transparent; -fx-background-color: transparent;" text="Mrs Peacock">
+         <graphic>
+            <ImageView fitHeight="200.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../../../resources/main/Mrs%20Peacock.jpg" />
+               </image>
+            </ImageView>
+         </graphic>
+         <font>
+            <Font size="1.0" />
+         </font>
+      </Button>
+      <Button layoutX="593.0" layoutY="244.0" mnemonicParsing="false" onAction="#onMouseClicked" style="-fx-border-color: transparent; -fx-background-color: transparent;" text="Mrs White">
+         <graphic>
+            <ImageView fitHeight="200.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../../../resources/main/Mrs%20White.jpg" />
+               </image>
+            </ImageView>
+         </graphic>
+         <font>
+            <Font size="1.0" />
+         </font>
+      </Button>
+   </children>
+</AnchorPane>

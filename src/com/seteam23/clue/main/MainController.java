@@ -1,6 +1,6 @@
 package com.seteam23.clue.main;
 
-import com.seteam23.clue.game.GameController;
+import com.seteam23.clue.singleplayer.SingleplayerMenuController;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
@@ -10,7 +10,6 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
 import javafx.stage.Stage;
 
 /**
@@ -41,6 +40,7 @@ public class MainController implements Initializable {
         // TODO
     }
     
+    
     /**
      * Changes to the Character selection Scene.
      * 
@@ -49,11 +49,13 @@ public class MainController implements Initializable {
      */
     @FXML
     private void startGame(ActionEvent event) throws Exception {
-        Parent root = FXMLLoader.load(GameController.class.getResource("game.fxml"));
+        Parent root = FXMLLoader.load(SingleplayerMenuController.class.getResource("singleplayerMenu.fxml"));
         
         Stage window = (Stage)button_start.getScene().getWindow();
 
         window.setScene(new Scene(root));
+        window.setFullScreen(true);
+        Main.makeFullscreen(root,871.9,545);
     }
         /**
      * Quits game.

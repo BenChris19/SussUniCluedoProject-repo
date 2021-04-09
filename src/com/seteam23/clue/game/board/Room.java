@@ -4,8 +4,9 @@
  *      Blank room Entity
  *      Exist within the Board
  */
-package com.seteam23.clue.game.entities;
+package com.seteam23.clue.game.board;
 
+import com.seteam23.clue.game.entities.Card;
 import java.util.ArrayList;
 import java.util.Random;
 import javafx.application.Application;
@@ -22,7 +23,17 @@ public class Room extends Place{
     private Card weapon;
     private ArrayList<Tile> doors;
     
+    private Card[] weapons;
+    
+    /**
+     * Constructor
+     * @param x
+     * @param y
+     * @param width
+     * @param height 
+     */
     public Room(int x, int y, int width, int height) {
+        // Can hold 6 people (SET TO MAX PLAYERS FOR GAME)
         super(6);
         
         this.x = x;
@@ -36,7 +47,7 @@ public class Room extends Place{
     public void addWeapon(Card weaponToAdd) {
         weapon = weaponToAdd;
     }
-    
+
     public void removeWeapon() {
         weapon = null;
     }
@@ -45,6 +56,12 @@ public class Room extends Place{
         return weapon;
     }
         
+    /**
+     * Create a new Door for the room that can entered only from a given direction
+     * @param entry_from
+     * @return 
+     */
+
     protected Door addDoor(String entry_from) {
         Door door = new Door(this, entry_from);
         doors.add(door);

@@ -1,0 +1,28 @@
+/*
+ * Empty Stylesheet file.
+ */
+
+.mainFxmlClass {
+
+}
+
+.button{
+    -fx-border-color: transparent;
+    -fx-border-width: 0;
+    -fx-background-radius: 0;
+    -fx-background-color: transparent;
+    -fx-fill-width: true;
+    -fx-fill-height: true;
+}
+
+.button:hover {
+    -fx-background-color: red;
+}
+
+.button:pressed {
+    -fx-background-color: black;
+}
+
+.button:flash-highlight {
+    -fx-background-color: #00cc00;
+}

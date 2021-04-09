@@ -32,7 +32,7 @@ public class Card{
     }
 
     public String getImgPath() {
-        return imgPath;
+        return "src/resources/main/" + imgPath;
     }
 
     public void setImgPath(String imgPath) {

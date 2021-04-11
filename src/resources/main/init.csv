@@ -8,14 +8,19 @@ CARD,SUSPECT,Mrs White,Mrs White.jpg,
 CARD,SUSPECT,Prof Plum,Prof Plum.jpg,
 CARD,SUSPECT,Rev Green,Rev Green.jpg,
 #Weapon Cards
-CARD,WEAPON,Hammer,hammer.jpg,
-#Location Cards
-CARD,LOCATION,Dining Room,Dining Room.png
-CARD,LOCATION,Ballroom,Ballroom.png
-CARD,LOCATION,Billard Room,Billard Room.png
-CARD,LOCATION,Hall,Hall.png
-CARD,LOCATION,Kitchen,Kitchen.png
-CARD,LOCATION,Library,Library.png
-CARD,LOCATION,Lounge,Lounge.png
-CARD,LOCATION,Study,Study.png
-CARD,LOCATION,Conservatory,Conservatory.png
+CARD,WEAPON,Lead Pipe,hammer.jpg,
+CARD,WEAPON,Dagger,hammer.jpg,
+CARD,WEAPON,Candlestick,hammer.jpg,
+CARD,WEAPON,Revolver,hammer.jpg,
+CARD,WEAPON,Rope,hammer.jpg,
+CARD,WEAPON,Spanner,hammer.jpg,
+#Room Cards
+CARD,ROOM,Dining Room,Dining Room.png
+CARD,ROOM,Ballroom,Ballroom.png
+CARD,ROOM,Billard Room,Billard Room.png
+CARD,ROOM,Hall,Hall.png
+CARD,ROOM,Kitchen,Kitchen.png
+CARD,ROOM,Library,Library.png
+CARD,ROOM,Lounge,Lounge.png
+CARD,ROOM,Study,Study.png
+CARD,ROOM,Conservatory,Conservatory.png

@@ -6,6 +6,7 @@
 package com.seteam23.clue.game;
 
 import com.seteam23.clue.game.board.BoardController;
+import com.seteam23.clue.game.entities.Card;
 import static com.seteam23.clue.singleplayer.SingleplayerMenuController.getImageview;
 import java.io.IOException;
 import java.net.URL;
@@ -48,6 +49,8 @@ public class GameController implements Initializable {
     
     /**
      * Initializes the controller class.
+     * @param url
+     * @param rb
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -61,11 +64,11 @@ public class GameController implements Initializable {
         }
         player_img = getImageview();
         anchorPane.getChildren().addAll(player_img);
-        ObservableList<String> listPer = FXCollections.observableArrayList("Miss Scarlett","Colonel Mustard","Proffesor Plum","Reverend Green","Mrs Peacock","Mrs White");
+        ObservableList<String> listPer = FXCollections.observableArrayList(game.getSuspectNames());
         this.person.setItems(listPer);
-        ObservableList<String> listWea = FXCollections.observableArrayList("Dagger","CandleStick","Revolver","Rope","Lead pipe","Spanner");
+        ObservableList<String> listWea = FXCollections.observableArrayList(game.getWeaponNames());
         this.weapon.setItems(listWea);
-        ObservableList<String> listRoo = FXCollections.observableArrayList("Study","Hall","Lounge","Library","Billiard Room","Dining Room","Conservatory","Ballroom","Kitchen");
+        ObservableList<String> listRoo = FXCollections.observableArrayList(game.getRoomNames());
         this.room.setItems(listRoo);
         
     }

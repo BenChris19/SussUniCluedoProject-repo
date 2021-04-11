@@ -38,7 +38,7 @@
                   </ImageView>
                   <Pane prefHeight="200.0" prefWidth="200.0">
                      <children>
-                        <Label fx:id="moves_label" alignment="CENTER" contentDisplay="CENTER" layoutX="324.0" layoutY="289.0" prefHeight="141.0" prefWidth="175.0" text="MOVES REMAINING&#10;__" textAlignment="CENTER" wrapText="true" />
+                        <Label fx:id="moves_label" alignment="CENTER" contentDisplay="CENTER" layoutX="324.0" layoutY="289.0" prefHeight="141.0" prefWidth="175.0" text="MOVES REMAINING&#10;__" textAlignment="CENTER" />
                      </children>
                   </Pane>
                </children>

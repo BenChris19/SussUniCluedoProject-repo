@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.image.*?>
+<?import javafx.scene.text.*?>
 <?import java.lang.*?>
 <?import java.net.*?>
 <?import java.util.*?>
@@ -11,12 +13,11 @@
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 
-<AnchorPane id="AnchorPane" fx:id="anchorPane" prefHeight="900.0" prefWidth="1600.0" styleClass="mainFxmlClass" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8" fx:controller="com.seteam23.clue.game.GameController">
+<AnchorPane id="AnchorPane" fx:id="anchorPane" prefHeight="900.0" prefWidth="1600.0" styleClass="mainFxmlClass" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.seteam23.clue.game.GameController">
     <stylesheets>
         <URL value="@game.css" />
     </stylesheets>
     <children>
-        <BorderPane fx:id="viewport" layoutX="383.0" layoutY="16.0" prefHeight="868.0" prefWidth="834.0" style="-fx-background-color: #EEEEEE;" stylesheets="@game.css" />
         <ComboBox fx:id="person" layoutX="242.0" layoutY="636.0" prefHeight="25.0" prefWidth="116.0" promptText="Person" />
         <ComboBox fx:id="weapon" layoutX="1.0" layoutY="636.0" prefHeight="25.0" prefWidth="103.0" promptText="Weapon" />
         <ComboBox fx:id="room" layoutX="117.0" layoutY="636.0" prefHeight="25.0" prefWidth="116.0" promptText="Room" />
@@ -26,5 +27,24 @@
                 <Font size="22.0" />
             </font>
         </Button>
+        <BorderPane fx:id="viewport" layoutX="370.0" prefHeight="0.0" prefWidth="0.0" style="-fx-background-color: #EEEEEE;" stylesheets="@game.css">
+         <center>
+            <StackPane prefHeight="150.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+               <children>
+                  <ImageView fitHeight="900.0" fitWidth="900.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../../../resources/game/clue-board.jpg" />
+                     </image>
+                  </ImageView>
+                  <Pane prefHeight="200.0" prefWidth="200.0">
+                     <children>
+                        <Label fx:id="moves_label" alignment="CENTER" contentDisplay="CENTER" layoutX="324.0" layoutY="289.0" prefHeight="141.0" prefWidth="175.0" text="MOVES REMAINING&#10;__" textAlignment="CENTER" wrapText="true" />
+                     </children>
+                  </Pane>
+               </children>
+            </StackPane>
+         </center>
+      </BorderPane>
+      <ImageView fx:id="player_img" fitHeight="374.0" fitWidth="292.0" layoutX="4.0" pickOnBounds="true" preserveRatio="true" />
     </children>
 </AnchorPane>

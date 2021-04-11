@@ -44,6 +44,7 @@ public class GameController implements Initializable {
     @FXML private ComboBox room;
     @FXML private ImageView player_img;
     @FXML private AnchorPane anchorPane;
+    private Game game;
     
     /**
      * Initializes the controller class.
@@ -53,6 +54,7 @@ public class GameController implements Initializable {
         try {
             FXMLLoader loader = new FXMLLoader(BoardController.class.getResource("board.fxml"));
             viewport.setCenter(loader.load());
+            game = new Game(this);
         }
         catch (IOException e) {
             e.printStackTrace();

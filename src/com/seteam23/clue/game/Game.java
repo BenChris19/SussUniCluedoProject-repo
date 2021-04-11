@@ -15,14 +15,19 @@ import java.util.List;
 
 public class Game{
     Board board;
-    List<Card> cards;
-    ArrayList<Card> weapons;
+    ArrayList<Card> weapon_cards;
+    ArrayList<Card> suspect_cards;
+    ArrayList<Card> room_cards;
     GameController controller;
     public Game() throws IOException{
-        cards = new ArrayList<>();
+        weapon_cards = new ArrayList<>();
+        room_cards = new ArrayList<>();
+        suspect_cards = new ArrayList<>();
         initialise();
     }
-
+    public Game(GameController controller){
+        this.controller = controller;
+    }
     /**
      * Loads data from the init.txt file in the directory in to the game object
      * 
@@ -47,10 +52,15 @@ public class Game{
                             String tempType = info[1];
                             Card temp = new Card(tempName, tempPath, tempType);
                             //Adds card to game
-                            if (temp.getCardType().equals("weapon")) {
-                                weapons.add(temp);
+                            if (temp.getCardType().equals("WEAPON")) {
+                                weapon_cards.add(temp);
                             }
-                            cards.add(temp);
+                            else if (temp.getCardType().equals("SUSPECT")) {
+                                suspect_cards.add(temp);
+                            }
+                            else{
+                                room_cards.add(temp);
+                            }
                             break;
                     }
                 }

@@ -1,10 +1,14 @@
 package com.seteam23.clue.singleplayer;
 
 import com.seteam23.clue.game.GameController;
+import com.seteam23.clue.game.entities.Card;
 import com.seteam23.clue.main.MainController;
 import com.seteam23.clue.game.entities.Player;
 import java.io.IOException;
 import static com.seteam23.clue.main.Main.makeFullscreen;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.InputStream;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -27,6 +31,8 @@ import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.Pane;
+import javafx.scene.layout.TilePane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
@@ -180,7 +186,7 @@ public class SingleplayerMenuController implements Initializable {
                     
                     break;
                 case "Card":
-                    //t.setContent(createCardPane());
+                    t.setContent(createCardPane());
                     break;
             }
 
@@ -198,12 +204,9 @@ public class SingleplayerMenuController implements Initializable {
     // * the player icon is on, changes to yellow to indicate that the user has chosen
     // * that character.
     // */
-    /**
-     * Currently need to find a way to fetch the current player 
     private Pane createCardPane() throws FileNotFoundException{
         TilePane cardPane = new TilePane();
-        Player cur = game.getBoard().getCurrentPlayer();
-        for (Card c : cur.viewCards()){
+        for (Card c : user.viewCards()){
             InputStream stream = new FileInputStream(c.getImgPath());
             Image image = new Image(stream);
             ImageView imageView = new ImageView();
@@ -211,9 +214,8 @@ public class SingleplayerMenuController implements Initializable {
             imageView.setImage(image);
             cardPane.getChildren().add(imageView);
         }
-        return null;
+        return cardPane;
     }
-    */
         /**
      * Let's the user choose a character.
      * @param event executes and event, in this case, the border of the button

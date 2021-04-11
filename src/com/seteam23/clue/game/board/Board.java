@@ -12,7 +12,9 @@ package com.seteam23.clue.game.board;
 import com.seteam23.clue.game.entities.Player;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.LinkedList;
+import java.util.Set;
 
 public final class Board {
 
@@ -30,7 +32,8 @@ public final class Board {
 
         createGrid();
 
-        highlightAllTiles();
+        ArrayList<Tile> r = reachableFrom(getTile(8,13), 5);
+        highlightTiles(r);
     }
 
     public Board(BoardController controller, String img_path) {
@@ -304,18 +307,26 @@ public final class Board {
     }
 
     // Tried to do a recursive version of ^^^ but idk if it will perform better (havent tested)
-    public ArrayList reachableFrom(Tile start, int movesRemaining) {
-        ArrayList<Tile> reach = new ArrayList<>();
+    private Set<Tile> reachableRecursive(Tile start, int movesRemaining) {
+        Set<Tile> reach = new HashSet<>();
 
         if (movesRemaining > 0) {
             for (Tile a : start.getAdjacent().values()) {
                 if (a != null && !a.isFull()) {
-                    reach.addAll(reachableFrom(a, movesRemaining - 1));
+                    Set<Tile> r = reachableRecursive(a, movesRemaining - 1);
+                    reach.addAll(r);
+                    reach.add(a);
                 }
             }
         }
 
         return reach;
+    }
+    
+    public ArrayList<Tile> reachableFrom(Tile start, int movesRemaining) {
+        Set<Tile> reach = reachableRecursive(start, movesRemaining);
+        reach.remove(start);
+        return new ArrayList<Tile>(reach);
     }
 
     public void highlightTiles(ArrayList<Tile> ts) {

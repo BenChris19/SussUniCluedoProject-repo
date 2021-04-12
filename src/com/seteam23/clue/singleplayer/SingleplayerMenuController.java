@@ -103,9 +103,10 @@ public class SingleplayerMenuController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         ObservableList<String> listDif = FXCollections.observableArrayList("EASY","MEDIUM","HARD");
         difLevel.setItems(listDif);
+        difLevel.getSelectionModel().select("MEDIUM");
         ObservableList<Integer> listOpo = FXCollections.observableArrayList(2,3,4,5,6);
         numPlayers.setItems(listOpo);
-        
+        numPlayers.getSelectionModel().select(2);    // Index position in observableArray    
     }
     
     /**

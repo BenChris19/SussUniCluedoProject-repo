@@ -31,9 +31,6 @@ public final class Board {
         this.controller = controller;
 
         createGrid();
-
-        ArrayList<Tile> r = reachableFrom(getTile(8,13), 5);
-        highlightTiles(r);
     }
 
     public Board(BoardController controller, String img_path) {
@@ -276,16 +273,16 @@ public final class Board {
 
     //Performs a breadth first search to find all places on the board that can be reached
     //from a particular Place for a given number of steps
-    private ArrayList reachableTiles(Tile start, int diceRoll) {
-        ArrayList<LinkedList<Tile>> tileQueueArray = new ArrayList<LinkedList<Tile>>();
+    private ArrayList<Tile> reachableTiles(Tile start, int diceRoll) {
+        ArrayList<LinkedList<Tile>> tileQueueArray = new ArrayList<>();
         HashMap<Tile, Boolean> visited = new HashMap();
         int i = 0;
-        tileQueueArray.add(i, new LinkedList<Tile>());
+        tileQueueArray.add(i, new LinkedList<>());
         LinkedList<Tile> list = tileQueueArray.get(i);
         list.add(start);
         visited.put(start, true);
         while (!list.isEmpty() && i < diceRoll) {
-            tileQueueArray.add(i + 1, new LinkedList<Tile>());
+            tileQueueArray.add(i + 1, new LinkedList<>());
             for (Tile t : list) {
                 for (Tile u : t.getAdjacent().values()) {
                     if (!visited.get(u)) {
@@ -297,9 +294,9 @@ public final class Board {
             i++;
             list = tileQueueArray.get(i);
         }
-        ArrayList tiles = new ArrayList();
+        ArrayList<Tile> tiles = new ArrayList();
         for (LinkedList<Tile> l : tileQueueArray) {
-            for (Place p : l) {
+            for (Tile p : l) {
                 tiles.add(p);
             }
         }
@@ -307,13 +304,13 @@ public final class Board {
     }
 
     // Tried to do a recursive version of ^^^ but idk if it will perform better (havent tested)
-    private Set<Tile> reachableRecursive(Tile start, int movesRemaining) {
+    private Set<Tile> reachableRecursive(Tile start, int moves_remaining) {
         Set<Tile> reach = new HashSet<>();
 
-        if (movesRemaining > 0) {
+        if (moves_remaining > 0) {
             for (Tile a : start.getAdjacent().values()) {
                 if (a != null && !a.isFull()) {
-                    Set<Tile> r = reachableRecursive(a, movesRemaining - 1);
+                    Set<Tile> r = reachableRecursive(a, moves_remaining - 1);
                     reach.addAll(r);
                     reach.add(a);
                 }
@@ -323,10 +320,10 @@ public final class Board {
         return reach;
     }
     
-    public ArrayList<Tile> reachableFrom(Tile start, int movesRemaining) {
-        Set<Tile> reach = reachableRecursive(start, movesRemaining);
+    public ArrayList<Tile> reachableFrom(Tile start, int moves_remaining) {
+        Set<Tile> reach = reachableRecursive(start, moves_remaining);
         reach.remove(start);
-        return new ArrayList<Tile>(reach);
+        return new ArrayList<>(reach);
     }
 
     public void highlightTiles(ArrayList<Tile> ts) {
@@ -351,6 +348,7 @@ public final class Board {
         }
     }
 
+    /*
     public void highlightAllTiles() {
         for (Tile[] tr : tiles) {
             for (Tile t : tr) {
@@ -359,6 +357,18 @@ public final class Board {
                 }
             }
         }
+    }*/
+    
+    /**
+     * 
+     * @param start
+     * @param dice_roll
+     * @return List of tiles lit
+     */
+    public ArrayList<Tile> showAvailableMoves(Tile start, int dice_roll) {
+        ArrayList<Tile> r = reachableFrom(start, dice_roll);
+        highlightTiles(r);
+        return r;
     }
 
     /**

@@ -10,6 +10,8 @@ import com.seteam23.clue.game.board.Place;
 import com.seteam23.clue.game.ui.CheckTile;
 import com.seteam23.clue.singleplayer.SingleplayerMenu;
 import com.seteam23.clue.game.board.Tile;
+import java.util.ArrayList;
+import java.util.HashMap;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -29,9 +31,10 @@ public class Player {
     private boolean turn;
     private String name;
     private ImageView imgPath;
-    private Card[] cards;
+    private ArrayList<Card> cards;
     private Card player; //Card assigned to each player in Game initialisation, when each player chooses their character.
     private Place[][] place;
+    private HashMap<Card, Boolean> checklist;
 
     public Player(String name, int noOfPlayers,boolean turn,ImageView imgPath) {
         this.turn = turn;
@@ -39,6 +42,7 @@ public class Player {
         this.noOfPlayers = noOfPlayers;
         this.CheckBoard = new CheckTile[row][noOfPlayers];
         this.name = name;  
+        cards = new ArrayList<>();
         switch (this.name) {
             case "Scarlett":
                 this.place = new Tile[16][0];
@@ -76,9 +80,13 @@ public class Player {
 
     }
 
-    public Card[] viewCards(){
+    public ArrayList<Card> viewCards(){
 
         return cards;
+    }
+    
+    public void addCard(Card c){
+        cards.add(c);
     }
 
     public int[] rollDice(){

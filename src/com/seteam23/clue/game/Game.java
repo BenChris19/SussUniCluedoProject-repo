@@ -7,10 +7,13 @@ package com.seteam23.clue.game;
 
 import com.seteam23.clue.game.board.Board;
 import com.seteam23.clue.game.entities.Card;
+import com.seteam23.clue.game.entities.Player;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Random;
 
 public final class Game{
     Board board;
@@ -18,11 +21,48 @@ public final class Game{
     ArrayList<Card> suspect_cards;
     ArrayList<Card> room_cards;
     GameController controller;
+    Card[] killCards;
+    ArrayList<Player> players; //Indiscriminant of human or AI
     public Game(GameController controller) throws IOException{
         weapon_cards = new ArrayList<>();
         room_cards = new ArrayList<>();
         suspect_cards = new ArrayList<>();
+        //Needs changing so GUI sets players
+        setPlayers(new ArrayList<>());
         initialise();
+        startGame();
+    }
+    //Separates Killer cards from deck and distributes remaining cards
+    public void startGame(){
+        //Pick killer cards at random
+        Random r = new Random();
+        int suspectInd = r.nextInt(suspect_cards.size());
+        int weaponInd = r.nextInt(weapon_cards.size());
+        int roomInd = r.nextInt(room_cards.size());
+        killCards = new Card[]{suspect_cards.get(suspectInd), weapon_cards.get(weaponInd), room_cards.get(roomInd)};
+        //Combine all cards and distribute between players
+        suspect_cards.remove(suspectInd);
+        weapon_cards.remove(weaponInd);
+        room_cards.remove(roomInd);
+        //Mix all cards together
+        ArrayList<Card> cards = new ArrayList<>();
+        cards.addAll(suspect_cards);
+        cards.addAll(weapon_cards);
+        cards.addAll(room_cards);
+        Collections.shuffle(cards);
+        int i = 0;
+        while(!cards.isEmpty() && !players.isEmpty()){
+            players.get(i%players.size()).addCard(cards.remove(0));
+            i++;
+        }
+    }
+    //Returns separate dice rolls also for a potential visualisation of the dice in the GUI
+    public int[] rollDice(){
+        Random r = new Random();
+        int die1 = r.nextInt(6)+1;
+        int die2 = r.nextInt(6)+1;
+        int[] rolls = new int[]{die1, die2, die1 + die2};
+        return rolls;
     }
 
     public Board getBoard() {
@@ -77,6 +117,14 @@ public final class Game{
         return room_cards;
     }
 
+    public ArrayList<Player> getPlayers() {
+        return players;
+    }
+
+    public void setPlayers(ArrayList<Player> players) {
+        this.players = players;
+    }
+
     public void setRoom_cards(ArrayList<Card> room_cards) {
         this.room_cards = room_cards;
     }
@@ -116,15 +164,15 @@ public final class Game{
                             //Adds card to game
                             switch (temp.getCardType()) {
                                 case "WEAPON":
-                                    System.out.println("Recognised Weapon");
+                                    //System.out.println("Recognised Weapon");
                                     weapon_cards.add(temp);
                                     break;
                                 case "SUSPECT":
-                                    System.out.println("Recognised Suspect");
+                                    //System.out.println("Recognised Suspect");
                                     suspect_cards.add(temp);
                                     break;
                                 case "ROOM":
-                                    System.out.println("Recognised Room");
+                                    //System.out.println("Recognised Room");
                                     room_cards.add(temp);
                                     break;
                             }

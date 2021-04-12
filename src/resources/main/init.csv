@@ -8,12 +8,12 @@ CARD,SUSPECT,Mrs White,Mrs White.jpg,
 CARD,SUSPECT,Prof Plum,Prof Plum.jpg,
 CARD,SUSPECT,Rev Green,Rev Green.jpg,
 #Weapon Cards
-CARD,WEAPON,Lead Pipe,hammer.jpg,
-CARD,WEAPON,Dagger,hammer.jpg,
-CARD,WEAPON,Candlestick,hammer.jpg,
-CARD,WEAPON,Revolver,hammer.jpg,
-CARD,WEAPON,Rope,hammer.jpg,
-CARD,WEAPON,Spanner,hammer.jpg,
+CARD,WEAPON,Lead Pipe,Lead Pipe.JPG,
+CARD,WEAPON,Knife,Knife.JPG,
+CARD,WEAPON,Candlestick,Candlestick.JPG,
+CARD,WEAPON,Revolver,Revolver.JPG,
+CARD,WEAPON,Rope,Rope.JPG,
+CARD,WEAPON,Wrench,Wrench.JPG,
 #Room Cards
 CARD,ROOM,Dining Room,Dining Room.png
 CARD,ROOM,Ballroom,Ballroom.png

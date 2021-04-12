@@ -92,6 +92,9 @@ public class GameController implements Initializable {
     
     @FXML
     private void rollDices(ActionEvent event) throws Exception{
+        
+        //This needs to be incorporated to rollDice() in Game
+        //I didn't want to remove and fuck up the FXML
         Random r = new Random();
         int die1 = r.nextInt(6)+1;
         int die2 = r.nextInt(6)+1;

@@ -57,7 +57,7 @@ public class SingleplayerMenuController implements Initializable {
     @FXML 
     private ComboBox numOpponents;
  
-    private String character = "Scarlett";  //Use Scarlett as default character
+    private static String character = "Scarlett";  //Use Scarlett as default character
     private SingleplayerMenu spMenu;
     private Button prevCharacter;
     private Image imageCharacter;
@@ -78,7 +78,11 @@ public class SingleplayerMenuController implements Initializable {
     public static ImageView getImageview() {
         return imageview;
     }
-
+    
+    public static int getNumOpponents(){
+        //return (int) numOpponents.getValue();
+        return 5;
+    }
     
 
     /**

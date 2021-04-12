@@ -23,7 +23,7 @@ public final class Game{
     GameController controller;
     Card[] killCards;
     ArrayList<Player> players; //Indiscriminant of human or AI
-    public Game(GameController controller) throws IOException{
+    public Game(GameController controller, int numOpponents) throws IOException{
         weapon_cards = new ArrayList<>();
         room_cards = new ArrayList<>();
         suspect_cards = new ArrayList<>();
@@ -41,14 +41,14 @@ public final class Game{
         int roomInd = r.nextInt(room_cards.size());
         killCards = new Card[]{suspect_cards.get(suspectInd), weapon_cards.get(weaponInd), room_cards.get(roomInd)};
         //Combine all cards and distribute between players
-        suspect_cards.remove(suspectInd);
-        weapon_cards.remove(weaponInd);
-        room_cards.remove(roomInd);
         //Mix all cards together
         ArrayList<Card> cards = new ArrayList<>();
         cards.addAll(suspect_cards);
         cards.addAll(weapon_cards);
         cards.addAll(room_cards);
+        for (Card c : killCards){
+            cards.remove(c);
+        }
         Collections.shuffle(cards);
         int i = 0;
         while(!cards.isEmpty() && !players.isEmpty()){
@@ -64,8 +64,12 @@ public final class Game{
         int[] rolls = new int[]{die1, die2, die1 + die2};
         return rolls;
     }
-
-    public Board getBoard() {
+    
+    /**
+     *
+     * @return
+     */
+    public Board getBoard(){
         return board;
     }
 

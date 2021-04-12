@@ -8,6 +8,7 @@ package com.seteam23.clue.game;
 import com.seteam23.clue.game.board.BoardController;
 import com.seteam23.clue.game.entities.Card;
 import static com.seteam23.clue.singleplayer.SingleplayerMenuController.getImageview;
+import static com.seteam23.clue.singleplayer.SingleplayerMenuController.getNumOpponents;
 import java.io.IOException;
 import java.net.URL;
 import java.util.Random;
@@ -57,7 +58,7 @@ public class GameController implements Initializable {
         try {
             FXMLLoader loader = new FXMLLoader(BoardController.class.getResource("board.fxml"));
             viewport.setCenter(loader.load());
-            game = new Game(this);
+            game = new Game(this, getNumOpponents());
         }
         catch (IOException e) {
             e.printStackTrace();

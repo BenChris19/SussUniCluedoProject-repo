@@ -273,6 +273,7 @@ public final class Board {
 
     //Performs a breadth first search to find all places on the board that can be reached
     //from a particular Place for a given number of steps
+    //Might need return type to be changed to hashmap<Tile, Bool> if works better
     private ArrayList<Tile> reachableTiles(Tile start, int diceRoll) {
         ArrayList<LinkedList<Tile>> tileQueueArray = new ArrayList<>();
         HashMap<Tile, Boolean> visited = new HashMap();
@@ -294,13 +295,13 @@ public final class Board {
             i++;
             list = tileQueueArray.get(i);
         }
-        ArrayList<Tile> tiles = new ArrayList();
-        for (LinkedList<Tile> l : tileQueueArray) {
-            for (Tile p : l) {
-                tiles.add(p);
-            }
-        }
-        return tiles;
+        ArrayList<Tile> tempTiles = new ArrayList();
+        tileQueueArray.forEach((l) -> {
+            l.forEach((p) -> {
+                tempTiles.add(p);
+            });
+        });
+        return tempTiles;
     }
 
     // Tried to do a recursive version of ^^^ but idk if it will perform better (havent tested)

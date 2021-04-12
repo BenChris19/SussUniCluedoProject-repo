@@ -46,6 +46,9 @@ public class Tile extends Place {
         
     }
     
+    /**
+     * 
+     */
     public void startFlashing() {
         if(!flashing){
             flashing = true;
@@ -53,10 +56,18 @@ public class Tile extends Place {
             flasher.play();
         }
     }
+    
+    /**
+     * 
+     * @return 
+     */
     public boolean isFlashing(){
         return this.flashing;
     }
     
+    /**
+     * 
+     */
     public void stopFlashing() {
         if (flashing) {
             flashing = false;

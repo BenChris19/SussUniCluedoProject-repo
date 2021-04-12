@@ -20,6 +20,10 @@ public abstract class Place {
     private ArrayList<Player> occupiers;
     private Button button;
     
+    /**
+     * 
+     * @param max_players 
+     */
     public Place(int max_players) {        
         this.max_players = max_players;
         this.occupiers = new ArrayList<>();

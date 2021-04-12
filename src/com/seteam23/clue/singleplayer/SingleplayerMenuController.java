@@ -49,7 +49,7 @@ public class SingleplayerMenuController implements Initializable {
     @FXML
     private ComboBox difLevel;
     @FXML 
-    private ComboBox numOpponents;
+    private ComboBox numPlayers;
  
     private String character = "Scarlett";  //Use Scarlett as default character
     private SingleplayerMenu spMenu;
@@ -58,7 +58,7 @@ public class SingleplayerMenuController implements Initializable {
     private static ImageView imageview;
     private ArrayList<String> others = new ArrayList<>(
         Arrays.asList("Scarlett","Mustard","Plum","Green","Peacock","White"));
-    private Player user;
+    private static Player user;
     private TabPane tabPane = new TabPane();
     private final String[] tabNames = {"Board", "Cards"};
 
@@ -90,7 +90,7 @@ public class SingleplayerMenuController implements Initializable {
         ObservableList<String> listDif = FXCollections.observableArrayList("EASY","MEDIUM","HARD");
         difLevel.setItems(listDif);
         ObservableList<Integer> listOpo = FXCollections.observableArrayList(2,3,4,5,6);
-        numOpponents.setItems(listOpo);
+        numPlayers.setItems(listOpo);
         
     }
     public String getCharacterName(){
@@ -105,11 +105,11 @@ public class SingleplayerMenuController implements Initializable {
         }
     }
     public int getOpponents(){
-        if (this.numOpponents.getSelectionModel().getSelectedItem() == null){
+        if (this.numPlayers.getSelectionModel().getSelectedItem() == null){
             return 0;
         }
         else{
-            return (int) this.numOpponents.getSelectionModel().getSelectedItem();
+            return (int) this.numPlayers.getSelectionModel().getSelectedItem();
         }
     }
     public String getOtherCharacterNames(){
@@ -168,6 +168,7 @@ public class SingleplayerMenuController implements Initializable {
             window.showAndWait();
         }
         else{
+            this.user = new Player(this.character,getOpponents(),true);
 
         for (String s : tabNames) {
             Tab t = new Tab(s);
@@ -186,13 +187,16 @@ public class SingleplayerMenuController implements Initializable {
 
         }
         Parent board = tabPane;
-
+        
 
             Stage window_game = (Stage)board_game.getScene().getWindow();
             window_game.setScene(new Scene(board));
             window_game.setFullScreen(true);
-            makeFullscreen(board,1600,910);
+            makeFullscreen(board,1600,940);
     }
+    }
+    public static Player getPlayer(){
+        return SingleplayerMenuController.user;
     }
 //@@ -85,6 +115,22 @@ private void continueBoard(ActionEvent event) throws Exception{
     // * the player icon is on, changes to yellow to indicate that the user has chosen

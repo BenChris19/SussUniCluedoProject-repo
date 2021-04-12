@@ -41,6 +41,7 @@ public class Tile extends Place {
         flasher.setToValue(0.3);
         flasher.setCycleCount(Animation.INDEFINITE);
         flasher.setAutoReverse(true);
+        
     }
     
     public void startFlashing() {
@@ -49,6 +50,9 @@ public class Tile extends Place {
             flasher.play();
             this.getButton().pseudoClassStateChanged(flashHighlight, true);
         }
+    }
+    public boolean isFlashing(){
+        return this.flashing;
     }
     
     public void stopFlashing() {

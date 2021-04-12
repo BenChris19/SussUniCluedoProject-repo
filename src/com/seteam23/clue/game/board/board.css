@@ -15,14 +15,43 @@
     -fx-fill-height: true;
 }
 
-.button:hover {
-    -fx-background-color: red;
-}
-
-.button:pressed {
-    -fx-background-color: black;
-}
 
 .button:flash-highlight {
     -fx-background-color: #00cc00;
+}
+.toggle-Scarlett {
+    -fx-background-image: url('/resources/game/Miss-Scarlett-game-piece.png');
+    -fx-background-size: 32px 32px;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center;
+}
+.toggle-Plum {
+    -fx-background-image: url('/resources/game/Prof-Plum-game-piece.png');
+    -fx-background-size: 32px 32px;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center;
+}
+.toggle-White {
+    -fx-background-image: url('/resources/game/Mrs-White-game-piece.png');
+    -fx-background-size: 32px 32px;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center;
+}
+.toggle-Peacock {
+    -fx-background-image: url('/resources/game/Mrs-Peacock-game-piece.png');
+    -fx-background-size: 32px 32px;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center;
+}
+.toggle-Mustard {
+    -fx-background-image: url('/resources/game/Col-Mustard-game-piece.png');
+    -fx-background-size: 32px 32px;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center;
+}
+.toggle-Green {
+    -fx-background-image: url('/resources/game/Rev-Green-game-piece.png');
+    -fx-background-size: 32px 32px;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center;
 }

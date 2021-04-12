@@ -6,9 +6,13 @@
 package com.seteam23.clue.game;
 
 import com.seteam23.clue.game.board.BoardController;
+import static com.seteam23.clue.game.board.BoardController.getBoard;
+import com.seteam23.clue.game.board.Tile;
 import static com.seteam23.clue.singleplayer.SingleplayerMenuController.getImageview;
+import static com.seteam23.clue.singleplayer.SingleplayerMenuController.getPlayer;
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.Random;
 import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
@@ -44,6 +48,8 @@ public class GameController implements Initializable {
     @FXML private ComboBox room;
     @FXML private ImageView player_img;
     @FXML private AnchorPane anchorPane;
+    
+
     
     /**
      * Initializes the controller class.
@@ -84,13 +90,18 @@ public class GameController implements Initializable {
     public void changeChar(String image_path){
         player_img.setImage(new Image(getClass().getResource(image_path).toExternalForm()));
     }
+
+
+    
+    
     
     @FXML
     private void rollDices(ActionEvent event) throws Exception{
         Random r = new Random();
         int die1 = r.nextInt(6)+1;
         int die2 = r.nextInt(6)+1;
-        
+        int total = die1 + die2;
+
         Stage window = new Stage();
             window.initModality(Modality.APPLICATION_MODAL);
             window.setWidth(250);
@@ -113,7 +124,12 @@ public class GameController implements Initializable {
         
             Scene scene = new Scene(paneRoll);
             window.setScene(scene);
-            window.showAndWait();        
+            window.showAndWait();  
+            
+            getBoard().startTile(getBoard().getStartPos(getPlayer()));
+            ArrayList<Tile> reach = getBoard().showAvailableMoves(getBoard().getStartPos(getPlayer()), total);
+            System.out.print(reach);
+            getBoard().highlightTiles(reach);
     }
     
 }

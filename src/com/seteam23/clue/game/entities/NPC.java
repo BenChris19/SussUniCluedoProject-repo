@@ -10,7 +10,7 @@ public class NPC extends Player{
     private String difficulty;
 
     public NPC(String name, int noOfPlayers, boolean turn,String difficulty,ImageView imgPath) {
-        super(name, noOfPlayers, turn, imgPath);
+        super(name, noOfPlayers, turn);
         
         this.difficulty = difficulty;
     }

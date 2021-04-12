@@ -23,7 +23,7 @@ import javafx.scene.image.ImageView;
 
 public class Player {
     private CheckTile[][] CheckBoard;
-    private int noOfPlayers;
+    private static int noOfPlayers;
     private int row = 21, column;
     private int diceTotal = 0;
     private boolean turn;
@@ -33,9 +33,8 @@ public class Player {
     private Card player; //Card assigned to each player in Game initialisation, when each player chooses their character.
     private Place[][] place;
 
-    public Player(String name, int noOfPlayers,boolean turn,ImageView imgPath) {
+    public Player(String name, int noOfPlayers,boolean turn) {
         this.turn = turn;
-        this.imgPath = imgPath;
         this.noOfPlayers = noOfPlayers;
         this.CheckBoard = new CheckTile[row][noOfPlayers];
         this.name = name;  
@@ -62,6 +61,16 @@ public class Player {
         
     }
 
+    public String getName() {
+        return name;
+    }
+
+    public static int getNoOfPlayers() {
+        return noOfPlayers;
+    }
+    
+    
+
     public void finishTurn(){
 
         turn = false;
@@ -73,7 +82,6 @@ public class Player {
         turn = true;
         //rollDice();
         //
-
     }
 
     public Card[] viewCards(){

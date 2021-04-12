@@ -6,6 +6,7 @@
 package com.seteam23.clue.game.board;
 
 import com.seteam23.clue.game.entities.Player;
+import static com.seteam23.clue.singleplayer.SingleplayerMenuController.getPlayer;
 import java.util.ArrayList;
 import java.util.HashMap;
 import javafx.scene.control.Button;
@@ -90,6 +91,24 @@ public abstract class Place {
      */
     public void activate() {
         System.out.println("CLICK");
+        if(getPlayer().getName().equals("Miss Scarlett")){
+            button.getStyleClass().add("toggle-Scarlett");
+        }
+        else if (getPlayer().getName().equals("Prof Plum")){
+            button.getStyleClass().add("toggle-Plum"); 
+        }
+        else if (getPlayer().getName().equals("Col Mustard")){
+            button.getStyleClass().add("toggle-Mustard"); 
+        }
+        else if (getPlayer().getName().equals("Mrs White")){
+            button.getStyleClass().add("toggle-White"); 
+        }
+        else if (getPlayer().getName().equals("Rev Green")){
+            button.getStyleClass().add("toggle-Green"); 
+        }
+        else{
+            button.getStyleClass().add("toggle-Peacock");
+        }
     }
     
 }

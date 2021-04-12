@@ -17,8 +17,8 @@
       <ComboBox id="difLevel" fx:id="difLevel" prefWidth="120.0" promptText="AI Difficulty" visibleRowCount="3" />
       <Button fx:id="board_game" layoutX="602.0" layoutY="494.0" mnemonicParsing="false" onAction="#continueBoard" prefHeight="30.0" prefWidth="124.0" text="Start Game" />
       <Button fx:id="main_menu" layoutX="169.0" layoutY="494.0" mnemonicParsing="false" onAction="#mainMenu" prefHeight="30.0" prefWidth="124.0" text="Back to Main Menu" />
-      <ComboBox id="numOpponents" fx:id="numOpponents" layoutX="748.0" prefHeight="25.0" prefWidth="124.0" promptText="No. players" visibleRowCount="5" />
-      <Button fx:id="buttonScarlett" layoutX="158.0" layoutY="14.0" mnemonicParsing="false" onAction="#onMouseClicked" prefHeight="171.0" prefWidth="131.0" style="-fx-border-color: transparent; -fx-background-color: yellow;" text="Miss Scarlett">
+      <ComboBox id="numOpponents" fx:id="numPlayers" layoutX="748.0" prefHeight="25.0" prefWidth="124.0" promptText="No. players" visibleRowCount="5" />
+      <Button fx:id="buttonScarlett" layoutX="158.0" layoutY="14.0" mnemonicParsing="false" onAction="#onMouseClicked" prefHeight="171.0" prefWidth="131.0" style="-fx-border-color: transparent; -fx-background-color: yellow;" text="Miss Scarlett" textFill="TRANSPARENT">
          <graphic>
             <ImageView fitHeight="200.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
                <image>
@@ -30,7 +30,7 @@
             <Font size="1.0" />
          </font>
       </Button>
-      <Button layoutX="373.0" layoutY="14.0" mnemonicParsing="false" onAction="#onMouseClicked" prefHeight="177.0" prefWidth="131.0" style="-fx-border-color: transparent; -fx-background-color: transparent;" text="Col Mustard">
+      <Button layoutX="373.0" layoutY="14.0" mnemonicParsing="false" onAction="#onMouseClicked" prefHeight="177.0" prefWidth="131.0" style="-fx-border-color: transparent; -fx-background-color: transparent;" text="Col Mustard" textFill="TRANSPARENT">
          <graphic>
             <ImageView fitHeight="200.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
                <image>
@@ -42,7 +42,7 @@
             <Font size="1.0" />
          </font>
       </Button>
-      <Button layoutX="591.0" layoutY="14.0" mnemonicParsing="false" onAction="#onMouseClicked" style="-fx-border-color: transparent; -fx-background-color: transparent;" text="Prof Plum">
+      <Button layoutX="591.0" layoutY="14.0" mnemonicParsing="false" onAction="#onMouseClicked" style="-fx-border-color: transparent; -fx-background-color: transparent;" text="Prof Plum" textFill="TRANSPARENT">
          <graphic>
             <ImageView fitHeight="200.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
                <image>
@@ -54,7 +54,7 @@
             <Font size="1.0" />
          </font>
       </Button>
-      <Button layoutX="159.0" layoutY="244.0" mnemonicParsing="false" onAction="#onMouseClicked" style="-fx-border-color: transparent; -fx-background-color: transparent;" text="Rev Green">
+      <Button layoutX="159.0" layoutY="244.0" mnemonicParsing="false" onAction="#onMouseClicked" style="-fx-border-color: transparent; -fx-background-color: transparent;" text="Rev Green" textFill="TRANSPARENT">
          <graphic>
             <ImageView fitHeight="200.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
                <image>
@@ -66,7 +66,7 @@
             <Font size="1.0" />
          </font>
       </Button>
-      <Button layoutX="373.0" layoutY="244.0" mnemonicParsing="false" onAction="#onMouseClicked" style="-fx-border-color: transparent; -fx-background-color: transparent;" text="Mrs Peacock">
+      <Button layoutX="373.0" layoutY="244.0" mnemonicParsing="false" onAction="#onMouseClicked" style="-fx-border-color: transparent; -fx-background-color: transparent;" text="Mrs Peacock" textFill="TRANSPARENT">
          <graphic>
             <ImageView fitHeight="200.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
                <image>
@@ -78,7 +78,7 @@
             <Font size="1.0" />
          </font>
       </Button>
-      <Button layoutX="593.0" layoutY="244.0" mnemonicParsing="false" onAction="#onMouseClicked" style="-fx-border-color: transparent; -fx-background-color: transparent;" text="Mrs White">
+      <Button layoutX="593.0" layoutY="244.0" mnemonicParsing="false" onAction="#onMouseClicked" style="-fx-border-color: transparent; -fx-background-color: transparent;" text="Mrs White" textFill="TRANSPARENT">
          <graphic>
             <ImageView fitHeight="200.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
                <image>

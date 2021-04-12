@@ -6,6 +6,7 @@
 package com.seteam23.clue.game.board;
 
 import static com.seteam23.clue.singleplayer.SingleplayerMenuController.getImageview;
+import static com.seteam23.clue.singleplayer.SingleplayerMenuController.getPlayer;
 import java.net.URL;
 import java.util.Random;
 import java.util.ResourceBundle;
@@ -35,7 +36,7 @@ import javafx.stage.Stage;
  */
 public class BoardController implements Initializable {
     
-    Board board;
+    static Board board;
     
     @FXML private AnchorPane anchor_pane;
     @FXML private ImageView background_img;
@@ -53,8 +54,16 @@ public class BoardController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         board = new Board(this);
+        board.addPlayers(getPlayer());
+        board.startTile(board.getStartPos(getPlayer()));
         createButtons();
     }
+
+    public static Board getBoard() {
+        return board;
+    }
+    
+    
     
     /**
      * Change the background image to the designated new image

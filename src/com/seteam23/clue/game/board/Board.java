@@ -10,9 +10,14 @@
 package com.seteam23.clue.game.board;
 
 import com.seteam23.clue.game.entities.Player;
+import static com.seteam23.clue.game.entities.Player.getNoOfPlayers;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.LinkedList;
+import java.util.Random;
+import java.util.Set;
 
 public final class Board {
 
@@ -23,14 +28,14 @@ public final class Board {
     private Room[][] rooms; //Room Doors
     private Tile[][] tiles; //Tiles
 
-    private Player[] players;
+    private ArrayList<Player> players = new ArrayList<>();
 
     public Board(BoardController controller) {
         this.controller = controller;
 
         createGrid();
 
-        highlightAllTiles();
+        //highlightAllTiles();
     }
 
     public Board(BoardController controller, String img_path) {
@@ -39,6 +44,26 @@ public final class Board {
 
         createGrid();
     }
+    public void addPlayers(Player player){
+        Random rand = new Random();
+        int rand_pos;
+        ArrayList<String> oppponents =  new ArrayList<>(Arrays.asList("Miss Scarlett","Prof Plum","Col Mustard","Rev Green","Mrs White","Mrs Peacock") );
+        this.players.add(player);
+        int players_left =getNoOfPlayers();
+        for(int i=0;i<getNoOfPlayers();i++){
+            rand_pos = rand.nextInt(players_left);
+            if(!this.players.contains(new Player(oppponents.get(rand_pos),getNoOfPlayers(),false))){
+                this.players.add(new Player(oppponents.remove(rand_pos),getNoOfPlayers(),false));
+                players_left-=1;
+            }
+            else{
+                oppponents.remove(rand_pos);
+                i-=1;
+            }
+            
+        }
+    
+}
 
     public void createGrid() {
         places = new Place[25][24];
@@ -273,16 +298,16 @@ public final class Board {
 
     //Performs a breadth first search to find all places on the board that can be reached
     //from a particular Place for a given number of steps
-    private ArrayList reachableTiles(Tile start, int diceRoll) {
-        ArrayList<LinkedList<Tile>> tileQueueArray = new ArrayList<LinkedList<Tile>>();
+        private ArrayList<Tile> reachableTiles(Tile start, int diceRoll) {
+        ArrayList<LinkedList<Tile>> tileQueueArray = new ArrayList<>();
         HashMap<Tile, Boolean> visited = new HashMap();
         int i = 0;
-        tileQueueArray.add(i, new LinkedList<Tile>());
+        tileQueueArray.add(i, new LinkedList<>());
         LinkedList<Tile> list = tileQueueArray.get(i);
         list.add(start);
         visited.put(start, true);
         while (!list.isEmpty() && i < diceRoll) {
-            tileQueueArray.add(i + 1, new LinkedList<Tile>());
+            tileQueueArray.add(i + 1, new LinkedList<>());
             for (Tile t : list) {
                 for (Tile u : t.getAdjacent().values()) {
                     if (!visited.get(u)) {
@@ -294,28 +319,36 @@ public final class Board {
             i++;
             list = tileQueueArray.get(i);
         }
-        ArrayList tiles = new ArrayList();
+        ArrayList<Tile> tiles = new ArrayList();
         for (LinkedList<Tile> l : tileQueueArray) {
-            for (Place p : l) {
+            for (Tile p : l) {
                 tiles.add(p);
             }
         }
         return tiles;
     }
+    
+    private Set<Tile> reachableRecursive(Tile start, int moves_remaining) {
+        Set<Tile> reach = new HashSet<>();
 
-    // Tried to do a recursive version of ^^^ but idk if it will perform better (havent tested)
-    public ArrayList reachableFrom(Tile start, int movesRemaining) {
-        ArrayList<Tile> reach = new ArrayList<>();
-
-        if (movesRemaining > 0) {
+        if (moves_remaining > 0) {
             for (Tile a : start.getAdjacent().values()) {
                 if (a != null && !a.isFull()) {
-                    reach.addAll(reachableFrom(a, movesRemaining - 1));
+                    Set<Tile> r = reachableRecursive(a, moves_remaining - 1);
+                    reach.addAll(r);
+                    reach.add(a);
                 }
             }
         }
 
         return reach;
+    }
+
+    // Tried to do a recursive version of ^^^ but idk if it will perform better (havent tested)
+    public ArrayList<Tile> reachableFrom(Tile start, int moves_remaining) {
+        Set<Tile> reach = reachableRecursive(start, moves_remaining);
+        reach.remove(start);
+        return new ArrayList<>(reach);
     }
 
     public void highlightTiles(ArrayList<Tile> ts) {
@@ -360,6 +393,17 @@ public final class Board {
     public Tile getTile(int x, int y) {
         return this.tiles[y][x];
     }
+    
+         /** 
+     * @param start
+     * @param dice_roll
+     * @return List of tiles lit
+     */
+    public ArrayList<Tile> showAvailableMoves(Tile start, int dice_roll) {
+        ArrayList<Tile> r = reachableFrom(start, dice_roll);
+        highlightTiles(r);
+        return r;
+    }
 
     /**
      * Set the board image to the new image
@@ -370,11 +414,16 @@ public final class Board {
         controller.changeBackground(img_path);
     }
 
-    /**
-     *
-     * @return
-     */
-    public Player[] getPlayers() {
+    public void startTile(Tile tile){
+        if(tile.isFlashing() == true){
+            tile.stopFlashing();
+        }
+        else{
+            tile.startFlashing();
+        }
+    }
+    
+    public ArrayList<Player> getPlayers() {
         return players;
     }
 
@@ -382,7 +431,26 @@ public final class Board {
      *
      * @param players
      */
-    public void setPlayers(Player[] players) {
+    public void setPlayers(ArrayList<Player> players) {
         this.players = players;
     }
+    
+    public Tile getStartPos(Player player){
+        switch (player.getName()) {
+            case "Prof Plum":
+                return getTile(0,5);
+            case "Col Mustard":
+                return getTile(23,7);
+            case "Rev Green":
+                return getTile(9,24);
+            case "Mrs Peacock":
+                return getTile(0,18);
+            case "Mrs White":
+                return getTile(14,24);
+            default:
+                return getTile(16,0);
+        }
+        
+    }
+        
 }

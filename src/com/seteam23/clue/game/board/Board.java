@@ -16,7 +16,10 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
+
 import java.util.Random;
+
+
 import java.util.Set;
 
 public final class Board {
@@ -35,7 +38,9 @@ public final class Board {
 
         createGrid();
 
+
         //highlightAllTiles();
+
     }
 
     public Board(BoardController controller, String img_path) {
@@ -298,7 +303,11 @@ public final class Board {
 
     //Performs a breadth first search to find all places on the board that can be reached
     //from a particular Place for a given number of steps
-        private ArrayList<Tile> reachableTiles(Tile start, int diceRoll) {
+
+
+
+    private ArrayList<Tile> reachableTiles(Tile start, int diceRoll) {
+
         ArrayList<LinkedList<Tile>> tileQueueArray = new ArrayList<>();
         HashMap<Tile, Boolean> visited = new HashMap();
         int i = 0;
@@ -328,8 +337,11 @@ public final class Board {
         return tiles;
     }
     
+
+    // Tried to do a recursive version of ^^^ but idk if it will perform better (havent tested)
     private Set<Tile> reachableRecursive(Tile start, int moves_remaining) {
         Set<Tile> reach = new HashSet<>();
+
 
         if (moves_remaining > 0) {
             for (Tile a : start.getAdjacent().values()) {
@@ -344,7 +356,6 @@ public final class Board {
         return reach;
     }
 
-    // Tried to do a recursive version of ^^^ but idk if it will perform better (havent tested)
     public ArrayList<Tile> reachableFrom(Tile start, int moves_remaining) {
         Set<Tile> reach = reachableRecursive(start, moves_remaining);
         reach.remove(start);
@@ -373,6 +384,7 @@ public final class Board {
         }
     }
 
+    /*
     public void highlightAllTiles() {
         for (Tile[] tr : tiles) {
             for (Tile t : tr) {
@@ -381,6 +393,18 @@ public final class Board {
                 }
             }
         }
+    }*/
+    
+    /**
+     * 
+     * @param start
+     * @param dice_roll
+     * @return List of tiles lit
+     */
+    public ArrayList<Tile> showAvailableMoves(Tile start, int dice_roll) {
+        ArrayList<Tile> r = reachableFrom(start, dice_roll);
+        highlightTiles(r);
+        return r;
     }
 
     /**
@@ -394,16 +418,6 @@ public final class Board {
         return this.tiles[y][x];
     }
     
-         /** 
-     * @param start
-     * @param dice_roll
-     * @return List of tiles lit
-     */
-    public ArrayList<Tile> showAvailableMoves(Tile start, int dice_roll) {
-        ArrayList<Tile> r = reachableFrom(start, dice_roll);
-        highlightTiles(r);
-        return r;
-    }
 
     /**
      * Set the board image to the new image

@@ -91,23 +91,25 @@ public abstract class Place {
      */
     public void activate() {
         System.out.println("CLICK");
-        if(getPlayer().getName().equals("Miss Scarlett")){
-            button.getStyleClass().add("toggle-Scarlett");
-        }
-        else if (getPlayer().getName().equals("Prof Plum")){
-            button.getStyleClass().add("toggle-Plum"); 
-        }
-        else if (getPlayer().getName().equals("Col Mustard")){
-            button.getStyleClass().add("toggle-Mustard"); 
-        }
-        else if (getPlayer().getName().equals("Mrs White")){
-            button.getStyleClass().add("toggle-White"); 
-        }
-        else if (getPlayer().getName().equals("Rev Green")){
-            button.getStyleClass().add("toggle-Green"); 
-        }
-        else{
-            button.getStyleClass().add("toggle-Peacock");
+        switch (getPlayer().getName()) {
+            case "Miss Scarlett":
+                button.getStyleClass().add("toggle-Scarlett");
+                break;
+            case "Prof Plum":
+                button.getStyleClass().add("toggle-Plum");
+                break;
+            case "Col Mustard":
+                button.getStyleClass().add("toggle-Mustard");
+                break;
+            case "Mrs White":
+                button.getStyleClass().add("toggle-White");
+                break;
+            case "Rev Green":
+                button.getStyleClass().add("toggle-Green");
+                break;
+            default:
+                button.getStyleClass().add("toggle-Peacock");
+                break;
         }
     }
     

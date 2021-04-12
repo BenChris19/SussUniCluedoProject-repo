@@ -6,8 +6,12 @@
 package com.seteam23.clue.game;
 
 import com.seteam23.clue.game.board.BoardController;
+
 import static com.seteam23.clue.game.board.BoardController.getBoard;
 import com.seteam23.clue.game.board.Tile;
+
+import com.seteam23.clue.game.entities.Card;
+
 import static com.seteam23.clue.singleplayer.SingleplayerMenuController.getImageview;
 import static com.seteam23.clue.singleplayer.SingleplayerMenuController.getPlayer;
 import java.io.IOException;
@@ -48,28 +52,35 @@ public class GameController implements Initializable {
     @FXML private ComboBox room;
     @FXML private ImageView player_img;
     @FXML private AnchorPane anchorPane;
+
     
+
+
+    private Game game;
 
     
     /**
      * Initializes the controller class.
+     * @param url
+     * @param rb
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         try {
             FXMLLoader loader = new FXMLLoader(BoardController.class.getResource("board.fxml"));
             viewport.setCenter(loader.load());
+            game = new Game(this);
         }
         catch (IOException e) {
             e.printStackTrace();
         }
         player_img = getImageview();
         anchorPane.getChildren().addAll(player_img);
-        ObservableList<String> listPer = FXCollections.observableArrayList("Miss Scarlett","Colonel Mustard","Proffesor Plum","Reverend Green","Mrs Peacock","Mrs White");
+        ObservableList<String> listPer = FXCollections.observableArrayList(game.getSuspectNames());
         this.person.setItems(listPer);
-        ObservableList<String> listWea = FXCollections.observableArrayList("Dagger","CandleStick","Revolver","Rope","Lead pipe","Spanner");
+        ObservableList<String> listWea = FXCollections.observableArrayList(game.getWeaponNames());
         this.weapon.setItems(listWea);
-        ObservableList<String> listRoo = FXCollections.observableArrayList("Study","Hall","Lounge","Library","Billiard Room","Dining Room","Conservatory","Ballroom","Kitchen");
+        ObservableList<String> listRoo = FXCollections.observableArrayList(game.getRoomNames());
         this.room.setItems(listRoo);
         
     }
@@ -97,6 +108,9 @@ public class GameController implements Initializable {
     
     @FXML
     private void rollDices(ActionEvent event) throws Exception{
+        
+        //This needs to be incorporated to rollDice() in Game
+        //I didn't want to remove and fuck up the FXML
         Random r = new Random();
         int die1 = r.nextInt(6)+1;
         int die2 = r.nextInt(6)+1;

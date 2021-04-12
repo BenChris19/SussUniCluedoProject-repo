@@ -19,7 +19,7 @@ public class Tile extends Place {
     private HashMap<String, Tile> adjacent;
 
     private FadeTransition flasher;
-    private PseudoClass flashHighlight;
+    private static PseudoClass FLASH_HIGHLIGHT;
     private boolean flashing;
 
     /**
@@ -28,6 +28,8 @@ public class Tile extends Place {
     public Tile() {
         // Can hold one Player at a time
         super(1);
+        
+        // 
 
         adjacent = new HashMap<>();
         adjacent.put("N", null);
@@ -35,7 +37,7 @@ public class Tile extends Place {
         adjacent.put("E", null);
         adjacent.put("W", null);
 
-        flashHighlight = PseudoClass.getPseudoClass("flash-highlight");
+        FLASH_HIGHLIGHT = PseudoClass.getPseudoClass("flash-highlight");
         flasher = new FadeTransition(Duration.millis(1200), this.getButton());
         flasher.setFromValue(0.0);
         flasher.setToValue(0.3);
@@ -47,8 +49,8 @@ public class Tile extends Place {
     public void startFlashing() {
         if(!flashing){
             flashing = true;
+            this.getButton().pseudoClassStateChanged(FLASH_HIGHLIGHT, true);
             flasher.play();
-            this.getButton().pseudoClassStateChanged(flashHighlight, true);
         }
     }
     public boolean isFlashing(){
@@ -58,8 +60,8 @@ public class Tile extends Place {
     public void stopFlashing() {
         if (flashing) {
             flashing = false;
+            this.getButton().pseudoClassStateChanged(FLASH_HIGHLIGHT, false);
             flasher.stop();
-            this.getButton().pseudoClassStateChanged(flashHighlight, false);
         }
     }
 

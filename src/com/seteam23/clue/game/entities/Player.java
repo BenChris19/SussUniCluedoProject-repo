@@ -36,6 +36,12 @@ public class Player {
     private Place[][] place;
     private HashMap<Card, Boolean> checklist;
 
+    /**
+     * 
+     * @param name
+     * @param noOfPlayers
+     * @param turn 
+     */
     public Player(String name, int noOfPlayers,boolean turn) {
         this.turn = turn;
         this.noOfPlayers = noOfPlayers;
@@ -65,22 +71,35 @@ public class Player {
         
     }
 
+    /**
+     * 
+     * @return 
+     */
     public String getName() {
         return name;
     }
 
+    /**
+     * 
+     * @return 
+     */
     public static int getNoOfPlayers() {
         return noOfPlayers;
     }
     
     
-
+    /**
+     * 
+     */
     public void finishTurn(){
 
         turn = false;
         //Game.nextPlayerTurn()
     }
-
+    
+    /**
+     * 
+     */
     public void startTurn(){
 
         turn = true;
@@ -88,15 +107,27 @@ public class Player {
         //
     }
 
+    /**
+     * 
+     * @return 
+     */
     public ArrayList<Card> viewCards(){
 
         return cards;
     }
     
+    /**
+     * 
+     * @param c 
+     */
     public void addCard(Card c){
         cards.add(c);
     }
-
+    
+    /**
+     * 
+     * @return 
+     */
     public int[] rollDice(){
         Random r = new Random();
         int die1 = r.nextInt(6)+1;
@@ -106,18 +137,37 @@ public class Player {
         diceTotal = die1+die2;
         return dice;
     }
-
+    
+    /**
+     * 
+     * @param person
+     * @param weapon
+     * @param room
+     * @return 
+     */
     public String makeAccusation(Card person,Card weapon,Card room){
         String s = "Person: "+person+" Weapon: "+weapon+" Room: "+room;
         return s;
     }
-
+    
+    /**
+     * 
+     * @param person
+     * @param weapon
+     * @return 
+     */
     public String makeSuggestion(Card person, Card weapon){  //No Room as it has to be in the same room as the player is in
         String s = "Person: "+person+" Weapon: "+weapon+ " Room: "+place;
         return s;
 
     }
-
+    
+    /**
+     * 
+     * @param x
+     * @param y
+     * @param diceTotal 
+     */
     public void movePlayer(int x, int y, int diceTotal){
         
 

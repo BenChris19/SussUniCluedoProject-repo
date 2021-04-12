@@ -25,7 +25,7 @@ import javafx.scene.image.ImageView;
 
 public class Player {
     private CheckTile[][] CheckBoard;
-    private int noOfPlayers;
+    private static int noOfPlayers;
     private int row = 21, column;
     private int diceTotal = 0;
     private boolean turn;
@@ -36,9 +36,14 @@ public class Player {
     private Place[][] place;
     private HashMap<Card, Boolean> checklist;
 
-    public Player(String name, int noOfPlayers,boolean turn,ImageView imgPath) {
+    /**
+     * 
+     * @param name
+     * @param noOfPlayers
+     * @param turn 
+     */
+    public Player(String name, int noOfPlayers,boolean turn) {
         this.turn = turn;
-        this.imgPath = imgPath;
         this.noOfPlayers = noOfPlayers;
         this.CheckBoard = new CheckTile[row][noOfPlayers];
         this.name = name;  
@@ -66,29 +71,63 @@ public class Player {
         
     }
 
+    /**
+     * 
+     * @return 
+     */
+    public String getName() {
+        return name;
+    }
+
+    /**
+     * 
+     * @return 
+     */
+    public static int getNoOfPlayers() {
+        return noOfPlayers;
+    }
+    
+    
+    /**
+     * 
+     */
     public void finishTurn(){
 
         turn = false;
         //Game.nextPlayerTurn()
     }
-
+    
+    /**
+     * 
+     */
     public void startTurn(){
 
         turn = true;
         //rollDice();
         //
-
     }
 
+    /**
+     * 
+     * @return 
+     */
     public ArrayList<Card> viewCards(){
 
         return cards;
     }
     
+    /**
+     * 
+     * @param c 
+     */
     public void addCard(Card c){
         cards.add(c);
     }
-
+    
+    /**
+     * 
+     * @return 
+     */
     public int[] rollDice(){
         Random r = new Random();
         int die1 = r.nextInt(6)+1;
@@ -98,18 +137,37 @@ public class Player {
         diceTotal = die1+die2;
         return dice;
     }
-
+    
+    /**
+     * 
+     * @param person
+     * @param weapon
+     * @param room
+     * @return 
+     */
     public String makeAccusation(Card person,Card weapon,Card room){
         String s = "Person: "+person+" Weapon: "+weapon+" Room: "+room;
         return s;
     }
-
+    
+    /**
+     * 
+     * @param person
+     * @param weapon
+     * @return 
+     */
     public String makeSuggestion(Card person, Card weapon){  //No Room as it has to be in the same room as the player is in
         String s = "Person: "+person+" Weapon: "+weapon+ " Room: "+place;
         return s;
 
     }
-
+    
+    /**
+     * 
+     * @param x
+     * @param y
+     * @param diceTotal 
+     */
     public void movePlayer(int x, int y, int diceTotal){
         
 

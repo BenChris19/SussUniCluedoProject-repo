@@ -10,10 +10,16 @@
 package com.seteam23.clue.game.board;
 
 import com.seteam23.clue.game.entities.Player;
+import static com.seteam23.clue.game.entities.Player.getNoOfPlayers;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
+
+import java.util.Random;
+
+
 import java.util.Set;
 
 public final class Board {
@@ -25,21 +31,62 @@ public final class Board {
     private Room[][] rooms; //Room Doors
     private Tile[][] tiles; //Tiles
 
-    private Player[] players;
+    private ArrayList<Player> players = new ArrayList<>();
 
+    /**
+     * 
+     * @param controller 
+     */
     public Board(BoardController controller) {
         this.controller = controller;
 
         createGrid();
-    }
 
+
+        //highlightAllTiles();
+
+    }
+    
+    /**
+     * 
+     * @param controller
+     * @param img_path 
+     */
     public Board(BoardController controller, String img_path) {
         this.controller = controller;
         setBackgroundImage(img_path);
 
         createGrid();
     }
-
+    
+    /**
+     * 
+     * @param player 
+     */
+    public void addPlayers(Player player){
+        Random rand = new Random();
+        int rand_pos;
+        ArrayList<String> oppponents =  new ArrayList<>(Arrays.asList("Miss Scarlett","Prof Plum","Col Mustard","Rev Green","Mrs White","Mrs Peacock") );
+        this.players.add(player);
+        int players_left =getNoOfPlayers();
+        for(int i=0;i<getNoOfPlayers();i++){
+            rand_pos = rand.nextInt(players_left);
+            if(!this.players.contains(new Player(oppponents.get(rand_pos),getNoOfPlayers(),false))){
+                this.players.add(new Player(oppponents.remove(rand_pos),getNoOfPlayers(),false));
+                players_left-=1;
+            }
+            else{
+                oppponents.remove(rand_pos);
+                i-=1;
+            }
+            
+        }
+    
+}
+    
+    /**
+     * 
+     */
     public void createGrid() {
         places = new Place[25][24];
         rooms = new Room[25][24];
@@ -274,7 +321,9 @@ public final class Board {
     //Performs a breadth first search to find all places on the board that can be reached
     //from a particular Place for a given number of steps
     //Might need return type to be changed to hashmap<Tile, Bool> if works better
+
     private ArrayList<Tile> reachableTiles(Tile start, int diceRoll) {
+
         ArrayList<LinkedList<Tile>> tileQueueArray = new ArrayList<>();
         HashMap<Tile, Boolean> visited = new HashMap();
         int i = 0;
@@ -303,10 +352,17 @@ public final class Board {
         });
         return tempTiles;
     }
+    
 
-    // Tried to do a recursive version of ^^^ but idk if it will perform better (havent tested)
+    /**
+     * 
+     * @param start
+     * @param moves_remaining
+     * @return 
+     */
     private Set<Tile> reachableRecursive(Tile start, int moves_remaining) {
         Set<Tile> reach = new HashSet<>();
+
 
         if (moves_remaining > 0) {
             for (Tile a : start.getAdjacent().values()) {
@@ -320,25 +376,42 @@ public final class Board {
 
         return reach;
     }
-    
+
+    /**
+     * 
+     * @param start
+     * @param moves_remaining
+     * @return 
+     */
     public ArrayList<Tile> reachableFrom(Tile start, int moves_remaining) {
         Set<Tile> reach = reachableRecursive(start, moves_remaining);
         reach.remove(start);
         return new ArrayList<>(reach);
     }
 
+    /**
+     * 
+     * @param ts 
+     */
     public void highlightTiles(ArrayList<Tile> ts) {
         for (Tile t : ts) {
             t.startFlashing();
         }
     }
 
+    /**
+     * 
+     * @param ts 
+     */
     public void unlightTiles(ArrayList<Tile> ts) {
         for (Tile t : ts) {
             t.stopFlashing();
         }
     }
 
+    /**
+     * 
+     */
     public void unlightAllTiles() {
         for (Tile[] tr : tiles) {
             for (Tile t : tr) {
@@ -382,6 +455,7 @@ public final class Board {
     public Tile getTile(int x, int y) {
         return this.tiles[y][x];
     }
+    
 
     /**
      * Set the board image to the new image
@@ -393,10 +467,23 @@ public final class Board {
     }
 
     /**
-     *
-     * @return
+     * 
+     * @param tile 
      */
-    public Player[] getPlayers() {
+    public void startTile(Tile tile){
+        if(tile.isFlashing() == true){
+            tile.stopFlashing();
+        }
+        else{
+            tile.startFlashing();
+        }
+    }
+    
+    /**
+     * 
+     * @return 
+     */
+    public ArrayList<Player> getPlayers() {
         return players;
     }
 
@@ -404,7 +491,31 @@ public final class Board {
      *
      * @param players
      */
-    public void setPlayers(Player[] players) {
+    public void setPlayers(ArrayList<Player> players) {
         this.players = players;
     }
+    
+    /**
+     * 
+     * @param player
+     * @return 
+     */
+    public Tile getStartPos(Player player){
+        switch (player.getName()) {
+            case "Prof Plum":
+                return getTile(0,5);
+            case "Col Mustard":
+                return getTile(23,7);
+            case "Rev Green":
+                return getTile(9,24);
+            case "Mrs Peacock":
+                return getTile(0,18);
+            case "Mrs White":
+                return getTile(14,24);
+            default:
+                return getTile(16,0);
+        }
+        
+    }
+        
 }

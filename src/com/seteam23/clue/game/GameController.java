@@ -6,11 +6,16 @@
 package com.seteam23.clue.game;
 
 import com.seteam23.clue.game.board.BoardController;
+
+import static com.seteam23.clue.game.board.BoardController.getBoard;
+import com.seteam23.clue.game.board.Tile;
+
 import com.seteam23.clue.game.entities.Card;
+
 import static com.seteam23.clue.singleplayer.SingleplayerMenuController.getImageview;
-import static com.seteam23.clue.singleplayer.SingleplayerMenuController.getNumOpponents;
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.Random;
 import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
@@ -46,7 +51,9 @@ public class GameController implements Initializable {
     @FXML private ComboBox room;
     @FXML private ImageView player_img;
     @FXML private AnchorPane anchorPane;
+
     private Game game;
+
     
     /**
      * Initializes the controller class.
@@ -74,6 +81,11 @@ public class GameController implements Initializable {
         
     }
     
+    /**
+     * 
+     * @param event
+     * @throws Exception 
+     */
     @FXML
     private void change(ActionEvent event) throws Exception{ 
         Button b = (Button)event.getSource();
@@ -87,10 +99,19 @@ public class GameController implements Initializable {
         }
     }
     
+    /**
+     * 
+     * @param image_path 
+     */
     public void changeChar(String image_path){
         player_img.setImage(new Image(getClass().getResource(image_path).toExternalForm()));
     }
     
+    /**
+     * 
+     * @param event
+     * @throws Exception 
+     */
     @FXML
     private void rollDices(ActionEvent event) throws Exception{
         
@@ -99,7 +120,8 @@ public class GameController implements Initializable {
         Random r = new Random();
         int die1 = r.nextInt(6)+1;
         int die2 = r.nextInt(6)+1;
-        
+        int total = die1 + die2;
+
         Stage window = new Stage();
             window.initModality(Modality.APPLICATION_MODAL);
             window.setWidth(250);
@@ -122,7 +144,12 @@ public class GameController implements Initializable {
         
             Scene scene = new Scene(paneRoll);
             window.setScene(scene);
-            window.showAndWait();        
+            window.showAndWait();  
+            
+            getBoard().startTile(getBoard().getStartPos(getPlayer()));
+            ArrayList<Tile> reach = getBoard().showAvailableMoves(getBoard().getStartPos(getPlayer()), total);
+            System.out.print(reach);
+            getBoard().highlightTiles(reach);
     }
     
 }

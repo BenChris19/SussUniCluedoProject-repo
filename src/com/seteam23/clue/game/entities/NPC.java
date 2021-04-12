@@ -9,11 +9,23 @@ import javafx.scene.image.ImageView;
 public class NPC extends Player{
     private String difficulty;
 
+    /**
+     * 
+     * @param name
+     * @param noOfPlayers
+     * @param turn
+     * @param difficulty
+     * @param imgPath 
+     */
     public NPC(String name, int noOfPlayers, boolean turn,String difficulty,ImageView imgPath) {
-        super(name, noOfPlayers, turn, imgPath);
+        super(name, noOfPlayers, turn);
         
         this.difficulty = difficulty;
     }
+    
+    /**
+     * 
+     */
     public void addToCheckList(){
         if (this.difficulty.equals("EASY")){
             

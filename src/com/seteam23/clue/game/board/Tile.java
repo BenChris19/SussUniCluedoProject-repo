@@ -43,8 +43,12 @@ public class Tile extends Place {
         flasher.setToValue(0.3);
         flasher.setCycleCount(Animation.INDEFINITE);
         flasher.setAutoReverse(true);
+        
     }
     
+    /**
+     * 
+     */
     public void startFlashing() {
         if(!flashing){
             flashing = true;
@@ -53,6 +57,17 @@ public class Tile extends Place {
         }
     }
     
+    /**
+     * 
+     * @return 
+     */
+    public boolean isFlashing(){
+        return this.flashing;
+    }
+    
+    /**
+     * 
+     */
     public void stopFlashing() {
         if (flashing) {
             flashing = false;

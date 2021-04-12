@@ -20,6 +20,10 @@ public class SingleplayerMenu{
     Board board;
     List<Card> cards;
     
+    /**
+     * 
+     * @throws IOException 
+     */
     public SingleplayerMenu() throws IOException{
         cards = new ArrayList<>();
         initialise();

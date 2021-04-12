@@ -23,26 +23,50 @@ public class Card{
         this.cardType = cardType;
     }
 
+    /**
+     * 
+     * @return 
+     */
     public String getName() {
         return name;
     }
 
+    /**
+     * 
+     * @param name 
+     */
     public void setName(String name) {
         this.name = name;
     }
 
+    /**
+     * 
+     * @return 
+     */
     public String getImgPath() {
         return "src/resources/main/" + imgPath;
     }
 
+    /**
+     * 
+     * @param imgPath 
+     */
     public void setImgPath(String imgPath) {
         this.imgPath = imgPath;
     }
 
+    /**
+     * 
+     * @return 
+     */
     public String getCardType() {
         return cardType;
     }
 
+    /**
+     * 
+     * @param cardType 
+     */
     public void setCardType(String cardType) {
         this.cardType = cardType;
     }

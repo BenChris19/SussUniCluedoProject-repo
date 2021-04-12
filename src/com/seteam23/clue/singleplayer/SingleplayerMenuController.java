@@ -55,19 +55,24 @@ public class SingleplayerMenuController implements Initializable {
     @FXML
     private ComboBox difLevel;
     @FXML 
-    private ComboBox numOpponents;
- 
+    private ComboBox numPlayers;
+
     private static String character = "Scarlett";  //Use Scarlett as default character
+    private String character = "Miss Scarlett";  //Use Scarlett as default character
     private SingleplayerMenu spMenu;
     private Button prevCharacter;
     private Image imageCharacter;
     private static ImageView imageview;
     private ArrayList<String> others = new ArrayList<>(
         Arrays.asList("Scarlett","Mustard","Plum","Green","Peacock","White"));
-    private Player user;
+    private static Player user;
     private TabPane tabPane = new TabPane();
     private final String[] tabNames = {"Board", "Cards"};
 
+    /**
+     * 
+     * @throws IOException 
+     */
     public SingleplayerMenuController() throws IOException{
         spMenu = new SingleplayerMenu();
         SingleplayerMenuController.imageview = new ImageView(new Image(getClass().getResourceAsStream("/resources/main/Miss Scarlett.jpg")));
@@ -75,6 +80,10 @@ public class SingleplayerMenuController implements Initializable {
         SingleplayerMenuController.imageview.setFitWidth(245);
     }
 
+    /**
+     * 
+     * @return 
+     */
     public static ImageView getImageview() {
         return imageview;
     }
@@ -99,13 +108,24 @@ public class SingleplayerMenuController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         ObservableList<String> listDif = FXCollections.observableArrayList("EASY","MEDIUM","HARD");
         difLevel.setItems(listDif);
+        difLevel.getSelectionModel().select("MEDIUM");
         ObservableList<Integer> listOpo = FXCollections.observableArrayList(2,3,4,5,6);
-        numOpponents.setItems(listOpo);
-        
+        numPlayers.setItems(listOpo);
+        numPlayers.getSelectionModel().select(2);    // Index position in observableArray    
     }
+    
+    /**
+     * 
+     * @return 
+     */
     public String getCharacterName(){
         return this.character;
     }
+    
+    /**
+     * 
+     * @return 
+     */
     public String getDifficulty(){
         if (this.difLevel.getSelectionModel().getSelectedItem() == null){
             return null;
@@ -114,18 +134,32 @@ public class SingleplayerMenuController implements Initializable {
             return (String) this.difLevel.getSelectionModel().getSelectedItem();
         }
     }
+    
+    /**
+     * 
+     * @return 
+     */
     public int getOpponents(){
-        if (this.numOpponents.getSelectionModel().getSelectedItem() == null){
+        if (this.numPlayers.getSelectionModel().getSelectedItem() == null){
             return 0;
         }
         else{
-            return (int) this.numOpponents.getSelectionModel().getSelectedItem();
+            return (int) this.numPlayers.getSelectionModel().getSelectedItem();
         }
     }
+    
+    /**
+     * 
+     * @return 
+     */
     public String getOtherCharacterNames(){
         return others.get(new Random().nextInt(others.size())); 
     }
-
+    
+    /**
+     * 
+     * @return 
+     */
     public Image getImageCharacter() {
         return imageCharacter;
     }
@@ -178,6 +212,7 @@ public class SingleplayerMenuController implements Initializable {
             window.showAndWait();
         }
         else{
+            this.user = new Player(this.character,getOpponents(),true);
 
         for (String s : tabNames) {
             Tab t = new Tab(s);
@@ -196,18 +231,34 @@ public class SingleplayerMenuController implements Initializable {
 
         }
         Parent board = tabPane;
-
+        
 
             Stage window_game = (Stage)board_game.getScene().getWindow();
             window_game.setScene(new Scene(board));
             window_game.setFullScreen(true);
-            makeFullscreen(board,1600,910);
+            makeFullscreen(board,1600,940);
     }
     }
+    
+    /**
+     * 
+     * @return
+     */
+    public static Player getPlayer(){
+        return SingleplayerMenuController.user;
+    }
+    
+    
 //@@ -85,6 +115,22 @@ private void continueBoard(ActionEvent event) throws Exception{
     // * the player icon is on, changes to yellow to indicate that the user has chosen
     // * that character.
     // */
+    
+    /**
+     * 
+     * @return
+     * @throws FileNotFoundException 
+     */
     private Pane createCardPane() throws FileNotFoundException{
         TilePane cardPane = new TilePane();
         for (Card c : user.viewCards()){

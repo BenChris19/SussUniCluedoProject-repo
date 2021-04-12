@@ -44,14 +44,25 @@ public class Room extends Place{
         doors = new ArrayList<>();
     }
 
+    /**
+     * 
+     * @param weaponToAdd 
+     */
     public void addWeapon(Card weaponToAdd) {
         weapon = weaponToAdd;
     }
 
+    /**
+     * 
+     */
     public void removeWeapon() {
         weapon = null;
     }
     
+    /**
+     * 
+     * @return 
+     */
     public Card getWeapon() {
         return weapon;
     }
@@ -61,7 +72,6 @@ public class Room extends Place{
      * @param entry_from
      * @return 
      */
-
     protected Door addDoor(String entry_from) {
         Door door = new Door(this, entry_from);
         doors.add(door);

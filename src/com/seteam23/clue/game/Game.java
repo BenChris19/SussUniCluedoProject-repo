@@ -15,6 +15,10 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Random;
 
+/**
+ * 
+ * @author InfernoKay
+ */
 public final class Game{
     Board board;
     ArrayList<Card> weapon_cards;
@@ -23,7 +27,13 @@ public final class Game{
     GameController controller;
     Card[] killCards;
     ArrayList<Player> players; //Indiscriminant of human or AI
-    public Game(GameController controller, int numOpponents) throws IOException{
+    
+    /**
+     * 
+     * @param controller
+     * @throws IOException 
+     */
+    public Game(GameController controller) throws IOException{
         weapon_cards = new ArrayList<>();
         room_cards = new ArrayList<>();
         suspect_cards = new ArrayList<>();
@@ -32,7 +42,11 @@ public final class Game{
         initialise();
         startGame();
     }
+    
     //Separates Killer cards from deck and distributes remaining cards
+    /**
+     * 
+     */
     public void startGame(){
         //Pick killer cards at random
         Random r = new Random();
@@ -57,6 +71,10 @@ public final class Game{
         }
     }
     //Returns separate dice rolls also for a potential visualisation of the dice in the GUI
+    /**
+     * 
+     * @return 
+     */
     public int[] rollDice(){
         Random r = new Random();
         int die1 = r.nextInt(6)+1;
@@ -64,31 +82,51 @@ public final class Game{
         int[] rolls = new int[]{die1, die2, die1 + die2};
         return rolls;
     }
-    
+
     /**
-     *
-     * @return
+     * 
+     * @return 
      */
-    public Board getBoard(){
+    public Board getBoard() {
         return board;
     }
 
+    /**
+     * 
+     * @param board 
+     */
     public void setBoard(Board board) {
         this.board = board;
     }
 
+    /**
+     * 
+     * @return 
+     */
     public ArrayList<Card> getWeaponCards() {
         return weapon_cards;
     }
 
+    /**
+     * 
+     * @param weapon_cards 
+     */
     public void setWeapon_cards(ArrayList<Card> weapon_cards) {
         this.weapon_cards = weapon_cards;
     }
 
+    /**
+     * 
+     * @return 
+     */
     public ArrayList<Card> getSuspectCards() {
         return suspect_cards;
     }
     
+    /**
+     * 
+     * @return 
+     */
     public ArrayList<String> getSuspectNames(){
         ArrayList<String> a = new ArrayList<>();
         suspect_cards.forEach((c) -> {
@@ -97,6 +135,10 @@ public final class Game{
         return a;
     }
     
+    /**
+     * 
+     * @return 
+     */
     public ArrayList<String> getWeaponNames(){
         ArrayList<String> a = new ArrayList<>();
         weapon_cards.forEach((c) -> {
@@ -105,6 +147,10 @@ public final class Game{
         return a;
     }
     
+    /**
+     * 
+     * @return 
+     */
     public ArrayList<String> getRoomNames(){
         ArrayList<String> a = new ArrayList<>();
         room_cards.forEach((c) -> {
@@ -113,33 +159,62 @@ public final class Game{
         return a;
     }
     
+    /**
+     * 
+     * @param suspect_cards 
+     */
     public void setSuspect_cards(ArrayList<Card> suspect_cards) {
         this.suspect_cards = suspect_cards;
     }
 
+    /**
+     * 
+     * @return 
+     */
     public ArrayList<Card> getRoomCards() {
         return room_cards;
     }
 
+    /**
+     * 
+     * @return 
+     */
     public ArrayList<Player> getPlayers() {
         return players;
     }
 
+    /**
+     * 
+     * @param players 
+     */
     public void setPlayers(ArrayList<Player> players) {
         this.players = players;
     }
 
+    /**
+     * 
+     * @param room_cards 
+     */
     public void setRoom_cards(ArrayList<Card> room_cards) {
         this.room_cards = room_cards;
     }
 
+    /**
+     * 
+     * @return 
+     */
     public GameController getController() {
         return controller;
     }
 
+    /**
+     * 
+     * @param controller 
+     */
     public void setController(GameController controller) {
         this.controller = controller;
     }
+    
     /**
      * Loads data from the init.txt file in the directory in to the game object
      * 
@@ -190,6 +265,10 @@ public final class Game{
         }
     }
 
+    /**
+     * 
+     * @param img_path 
+     */
     public void setCharacterImage(String img_path) {
         controller.changeChar(img_path);
     }

@@ -53,9 +53,6 @@ public class GameController implements Initializable {
     @FXML private ImageView player_img;
     @FXML private AnchorPane anchorPane;
 
-    
-
-
     private Game game;
 
     
@@ -85,6 +82,11 @@ public class GameController implements Initializable {
         
     }
     
+    /**
+     * 
+     * @param event
+     * @throws Exception 
+     */
     @FXML
     private void change(ActionEvent event) throws Exception{ 
         Button b = (Button)event.getSource();
@@ -98,14 +100,19 @@ public class GameController implements Initializable {
         }
     }
     
+    /**
+     * 
+     * @param image_path 
+     */
     public void changeChar(String image_path){
         player_img.setImage(new Image(getClass().getResource(image_path).toExternalForm()));
     }
-
-
     
-    
-    
+    /**
+     * 
+     * @param event
+     * @throws Exception 
+     */
     @FXML
     private void rollDices(ActionEvent event) throws Exception{
         

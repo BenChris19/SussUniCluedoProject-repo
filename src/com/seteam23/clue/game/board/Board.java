@@ -33,6 +33,10 @@ public final class Board {
 
     private ArrayList<Player> players = new ArrayList<>();
 
+    /**
+     * 
+     * @param controller 
+     */
     public Board(BoardController controller) {
         this.controller = controller;
 
@@ -42,13 +46,23 @@ public final class Board {
         //highlightAllTiles();
 
     }
-
+    
+    /**
+     * 
+     * @param controller
+     * @param img_path 
+     */
     public Board(BoardController controller, String img_path) {
         this.controller = controller;
         setBackgroundImage(img_path);
 
         createGrid();
     }
+    
+    /**
+     * 
+     * @param player 
+     */
     public void addPlayers(Player player){
         Random rand = new Random();
         int rand_pos;
@@ -69,7 +83,10 @@ public final class Board {
         }
     
 }
-
+    
+    /**
+     * 
+     */
     public void createGrid() {
         places = new Place[25][24];
         rooms = new Room[25][24];
@@ -305,7 +322,12 @@ public final class Board {
     //from a particular Place for a given number of steps
 
 
-
+    /**
+     * 
+     * @param start
+     * @param diceRoll
+     * @return 
+     */
     private ArrayList<Tile> reachableTiles(Tile start, int diceRoll) {
 
         ArrayList<LinkedList<Tile>> tileQueueArray = new ArrayList<>();
@@ -338,7 +360,12 @@ public final class Board {
     }
     
 
-    // Tried to do a recursive version of ^^^ but idk if it will perform better (havent tested)
+    /**
+     * 
+     * @param start
+     * @param moves_remaining
+     * @return 
+     */
     private Set<Tile> reachableRecursive(Tile start, int moves_remaining) {
         Set<Tile> reach = new HashSet<>();
 
@@ -356,24 +383,41 @@ public final class Board {
         return reach;
     }
 
+    /**
+     * 
+     * @param start
+     * @param moves_remaining
+     * @return 
+     */
     public ArrayList<Tile> reachableFrom(Tile start, int moves_remaining) {
         Set<Tile> reach = reachableRecursive(start, moves_remaining);
         reach.remove(start);
         return new ArrayList<>(reach);
     }
 
+    /**
+     * 
+     * @param ts 
+     */
     public void highlightTiles(ArrayList<Tile> ts) {
         for (Tile t : ts) {
             t.startFlashing();
         }
     }
 
+    /**
+     * 
+     * @param ts 
+     */
     public void unlightTiles(ArrayList<Tile> ts) {
         for (Tile t : ts) {
             t.stopFlashing();
         }
     }
 
+    /**
+     * 
+     */
     public void unlightAllTiles() {
         for (Tile[] tr : tiles) {
             for (Tile t : tr) {
@@ -428,6 +472,10 @@ public final class Board {
         controller.changeBackground(img_path);
     }
 
+    /**
+     * 
+     * @param tile 
+     */
     public void startTile(Tile tile){
         if(tile.isFlashing() == true){
             tile.stopFlashing();
@@ -437,6 +485,10 @@ public final class Board {
         }
     }
     
+    /**
+     * 
+     * @return 
+     */
     public ArrayList<Player> getPlayers() {
         return players;
     }
@@ -449,6 +501,11 @@ public final class Board {
         this.players = players;
     }
     
+    /**
+     * 
+     * @param player
+     * @return 
+     */
     public Tile getStartPos(Player player){
         switch (player.getName()) {
             case "Prof Plum":

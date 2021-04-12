@@ -59,6 +59,10 @@ public class BoardController implements Initializable {
         createButtons();
     }
 
+    /**
+     * 
+     * @return 
+     */
     public static Board getBoard() {
         return board;
     }
@@ -69,7 +73,6 @@ public class BoardController implements Initializable {
      * Change the background image to the designated new image
      * @param image_path 
      */
-    
     public void changeBackground(String image_path){
         background_img.setImage(new Image(getClass().getResource(image_path).toExternalForm()));
     }

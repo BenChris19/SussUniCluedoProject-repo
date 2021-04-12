@@ -58,7 +58,7 @@ public class SingleplayerMenuController implements Initializable {
     private ComboBox numPlayers;
 
     private static String character = "Scarlett";  //Use Scarlett as default character
-    private String character = "Miss Scarlett";  //Use Scarlett as default character
+    //private String character = "Miss Scarlett";  //Use Scarlett as default character
     private SingleplayerMenu spMenu;
     private Button prevCharacter;
     private Image imageCharacter;

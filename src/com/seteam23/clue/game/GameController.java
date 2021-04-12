@@ -65,7 +65,7 @@ public class GameController implements Initializable {
         try {
             FXMLLoader loader = new FXMLLoader(BoardController.class.getResource("board.fxml"));
             viewport.setCenter(loader.load());
-            game = new Game(this, getNumOpponents());
+            game = new Game(this);
         }
         catch (IOException e) {
             e.printStackTrace();
@@ -146,10 +146,10 @@ public class GameController implements Initializable {
             window.setScene(scene);
             window.showAndWait();  
             
-            getBoard().startTile(getBoard().getStartPos(getPlayer()));
-            ArrayList<Tile> reach = getBoard().showAvailableMoves(getBoard().getStartPos(getPlayer()), total);
-            System.out.print(reach);
-            getBoard().highlightTiles(reach);
+            //getBoard().startTile(getBoard().getStartPos(getPlayer()));
+            //ArrayList<Tile> reach = getBoard().showAvailableMoves(getBoard().getStartPos(getPlayer()), total);
+            //System.out.print(reach);
+            //getBoard().highlightTiles(reach);
     }
     
 }

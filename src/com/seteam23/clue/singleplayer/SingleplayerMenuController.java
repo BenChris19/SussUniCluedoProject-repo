@@ -68,6 +68,10 @@ public class SingleplayerMenuController implements Initializable {
     private TabPane tabPane = new TabPane();
     private final String[] tabNames = {"Board", "Cards"};
 
+    /**
+     * 
+     * @throws IOException 
+     */
     public SingleplayerMenuController() throws IOException{
         spMenu = new SingleplayerMenu();
         SingleplayerMenuController.imageview = new ImageView(new Image(getClass().getResourceAsStream("/resources/main/Miss Scarlett.jpg")));
@@ -75,6 +79,10 @@ public class SingleplayerMenuController implements Initializable {
         SingleplayerMenuController.imageview.setFitWidth(245);
     }
 
+    /**
+     * 
+     * @return 
+     */
     public static ImageView getImageview() {
         return imageview;
     }
@@ -99,9 +107,19 @@ public class SingleplayerMenuController implements Initializable {
         numPlayers.setItems(listOpo);
         
     }
+    
+    /**
+     * 
+     * @return 
+     */
     public String getCharacterName(){
         return this.character;
     }
+    
+    /**
+     * 
+     * @return 
+     */
     public String getDifficulty(){
         if (this.difLevel.getSelectionModel().getSelectedItem() == null){
             return null;
@@ -110,6 +128,11 @@ public class SingleplayerMenuController implements Initializable {
             return (String) this.difLevel.getSelectionModel().getSelectedItem();
         }
     }
+    
+    /**
+     * 
+     * @return 
+     */
     public int getOpponents(){
         if (this.numPlayers.getSelectionModel().getSelectedItem() == null){
             return 0;
@@ -118,10 +141,19 @@ public class SingleplayerMenuController implements Initializable {
             return (int) this.numPlayers.getSelectionModel().getSelectedItem();
         }
     }
+    
+    /**
+     * 
+     * @return 
+     */
     public String getOtherCharacterNames(){
         return others.get(new Random().nextInt(others.size())); 
     }
-
+    
+    /**
+     * 
+     * @return 
+     */
     public Image getImageCharacter() {
         return imageCharacter;
     }
@@ -201,13 +233,26 @@ public class SingleplayerMenuController implements Initializable {
             makeFullscreen(board,1600,940);
     }
     }
+    
+    /**
+     * 
+     * @return
+     */
     public static Player getPlayer(){
         return SingleplayerMenuController.user;
     }
+    
+    
 //@@ -85,6 +115,22 @@ private void continueBoard(ActionEvent event) throws Exception{
     // * the player icon is on, changes to yellow to indicate that the user has chosen
     // * that character.
     // */
+    
+    /**
+     * 
+     * @return
+     * @throws FileNotFoundException 
+     */
     private Pane createCardPane() throws FileNotFoundException{
         TilePane cardPane = new TilePane();
         for (Card c : user.viewCards()){

@@ -27,6 +27,7 @@ public final class Game{
     GameController controller;
     Card[] killCards;
     ArrayList<Player> players; //Indiscriminant of human or AI
+    Player currentPlayer;
     
     /**
      * 
@@ -34,6 +35,8 @@ public final class Game{
      * @throws IOException 
      */
     public Game(GameController controller, ArrayList<Player> players) throws IOException{
+        this.controller = controller;
+        board = controller.board;
         weapon_cards = new ArrayList<>();
         room_cards = new ArrayList<>();
         suspect_cards = new ArrayList<>();
@@ -41,6 +44,55 @@ public final class Game{
         this.players = players;
         initialise();
         startGame();
+    }
+    
+    /**
+     * Loads data from the init.txt file in the directory in to the game object
+     * 
+     * @throws IOException
+     */
+    public void initialise() throws IOException{
+        //Creates file reader
+        try (BufferedReader br = new BufferedReader(new FileReader("src/resources/main/init.csv"))) {
+            String line;
+            //Reads through each line in the document
+            while ((line = br.readLine()) != null) {
+                //Filters out comments in the file starting with character #
+                System.out.println(line);
+                if (!(line.charAt(0) == '#')){
+                    //Splits a line in to strings separated by commas
+                    String[] info = line.split(",");
+                    switch (info[0]){
+                        case "CARD":
+                            System.out.println("Recognised Card");
+                            //Creates a card object with specified data
+                            String tempName = info[2];
+                            String tempPath = info[3];
+                            String tempType = info[1];
+                            Card temp = new Card(tempName, tempPath, tempType);
+                            //Adds card to game
+                            switch (temp.getCardType()) {
+                                case "WEAPON":
+                                    //System.out.println("Recognised Weapon");
+                                    weapon_cards.add(temp);
+                                    break;
+                                case "SUSPECT":
+                                    //System.out.println("Recognised Suspect");
+                                    suspect_cards.add(temp);
+                                    break;
+                                case "ROOM":
+                                    //System.out.println("Recognised Room");
+                                    room_cards.add(temp);
+                                    break;
+                            }
+                        break;
+                    }
+                }
+            }
+        //Thrown if file not found
+        } catch (IOException e) {
+            System.out.println("init.txt missing from directory");
+        }
     }
     
     //Separates Killer cards from deck and distributes remaining cards
@@ -69,6 +121,8 @@ public final class Game{
             players.get(i%players.size()).addCard(cards.remove(0));
             i++;
         }
+        
+        //currentPlayer = players.get(0);
     }
     //Returns separate dice rolls also for a potential visualisation of the dice in the GUI
     /**
@@ -81,6 +135,10 @@ public final class Game{
         int die2 = r.nextInt(6)+1;
         int[] rolls = new int[]{die1, die2, die1 + die2};
         return rolls;
+    }
+    
+    public void endTurn() {
+        
     }
 
     /**
@@ -213,56 +271,6 @@ public final class Game{
      */
     public void setController(GameController controller) {
         this.controller = controller;
-    }
-    
-    /**
-     * Loads data from the init.txt file in the directory in to the game object
-     * 
-     * @throws IOException
-     * 
-     */
-    public void initialise() throws IOException{
-        //Creates file reader
-        try (BufferedReader br = new BufferedReader(new FileReader("src/resources/main/init.csv"))) {
-            String line;
-            //Reads through each line in the document
-            while ((line = br.readLine()) != null) {
-                //Filters out comments in the file starting with character #
-                System.out.println(line);
-                if (!(line.charAt(0) == '#')){
-                    //Splits a line in to strings separated by commas
-                    String[] info = line.split(",");
-                    switch (info[0]){
-                        case "CARD":
-                            System.out.println("Recognised Card");
-                            //Creates a card object with specified data
-                            String tempName = info[2];
-                            String tempPath = info[3];
-                            String tempType = info[1];
-                            Card temp = new Card(tempName, tempPath, tempType);
-                            //Adds card to game
-                            switch (temp.getCardType()) {
-                                case "WEAPON":
-                                    //System.out.println("Recognised Weapon");
-                                    weapon_cards.add(temp);
-                                    break;
-                                case "SUSPECT":
-                                    //System.out.println("Recognised Suspect");
-                                    suspect_cards.add(temp);
-                                    break;
-                                case "ROOM":
-                                    //System.out.println("Recognised Room");
-                                    room_cards.add(temp);
-                                    break;
-                            }
-                        break;
-                    }
-                }
-            }
-        //Thrown if file not found
-        } catch (IOException e) {
-            System.out.println("init.txt missing from directory");
-        }
     }
 
     /**

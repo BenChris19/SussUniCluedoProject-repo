@@ -36,7 +36,7 @@ import javafx.stage.Stage;
  */
 public class BoardController implements Initializable {
     
-    static Board board;
+    private static Board board;
     
     @FXML private AnchorPane anchor_pane;
     @FXML private ImageView background_img;
@@ -55,7 +55,7 @@ public class BoardController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         board = new Board(this);
         board.addPlayers(getPlayer());
-        board.startTile(board.getStartPos(getPlayer()));
+        //board.startTile(board.getStartPos(getPlayer()));
         createButtons();
     }
 

@@ -18,33 +18,50 @@
         <URL value="@game.css" />
     </stylesheets>
     <children>
-        <ComboBox fx:id="person" layoutX="242.0" layoutY="636.0" prefHeight="25.0" prefWidth="116.0" promptText="Person" />
-        <ComboBox fx:id="weapon" layoutX="1.0" layoutY="636.0" prefHeight="25.0" prefWidth="103.0" promptText="Weapon" />
-        <ComboBox fx:id="room" layoutX="117.0" layoutY="636.0" prefHeight="25.0" prefWidth="116.0" promptText="Room" />
-        <Button fx:id="dices" layoutX="12.0" layoutY="408.0" mnemonicParsing="false" onAction="#rollDices" text="Roll dices" />
-        <Button fx:id="suggAcc" layoutX="70.0" layoutY="510.0" mnemonicParsing="false" onAction="#change" prefHeight="65.0" prefWidth="212.0" style="-fx-background-color: green;" text="Make Suggestion">
-            <font>
-                <Font size="22.0" />
-            </font>
-        </Button>
-        <BorderPane fx:id="viewport" layoutX="370.0" prefHeight="0.0" prefWidth="0.0" style="-fx-background-color: #EEEEEE;" stylesheets="@game.css">
-         <center>
-            <StackPane prefHeight="150.0" prefWidth="200.0" BorderPane.alignment="CENTER">
-               <children>
-                  <ImageView fitHeight="900.0" fitWidth="900.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../../../../resources/game/clue-board.jpg" />
-                     </image>
-                  </ImageView>
-                  <Pane prefHeight="200.0" prefWidth="200.0">
+      <TabPane layoutX="4.0" prefHeight="900.0" prefWidth="1600.0" tabClosingPolicy="UNAVAILABLE">
+        <tabs>
+          <Tab text="Board">
+            <content>
+              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="900.0" prefWidth="1600.0">
                      <children>
-                        <Label fx:id="moves_label" alignment="CENTER" contentDisplay="CENTER" layoutX="324.0" layoutY="289.0" prefHeight="141.0" prefWidth="175.0" text="MOVES REMAINING&#10;__" textAlignment="CENTER" />
+                          <ComboBox fx:id="person" layoutX="27.0" layoutY="593.0" prefHeight="25.0" prefWidth="116.0" promptText="Person" />
+                          <ComboBox fx:id="weapon" layoutX="164.0" layoutY="593.0" prefHeight="25.0" prefWidth="103.0" promptText="Weapon" />
+                          <ComboBox fx:id="room" layoutX="288.0" layoutY="593.0" prefHeight="25.0" prefWidth="116.0" promptText="Room" />
+                          <Button fx:id="dices" layoutX="27.0" layoutY="514.0" mnemonicParsing="false" onAction="#rollDices" text="Roll dices" />
+                          <Button fx:id="suggAcc" layoutX="110.0" layoutY="635.0" mnemonicParsing="false" onAction="#change" prefHeight="65.0" prefWidth="212.0" style="-fx-background-color: green;" text="Make Suggestion">
+                              <font>
+                                  <Font size="22.0" />
+                              </font>
+                          </Button>
+                        <StackPane layoutX="430.0" layoutY="-8.0" prefHeight="900.0" prefWidth="900.0">
+                           <children>
+                                <BorderPane fx:id="viewport" prefHeight="900.0" prefWidth="900.0" style="-fx-background-color: #EEEEEE;" stylesheets="@game.css">
+                                 <center>
+                                    <ImageView fitHeight="900.0" fitWidth="900.0" pickOnBounds="true" preserveRatio="true" BorderPane.alignment="CENTER">
+                                       <image>
+                                          <Image url="@../../../../resources/game/clue-board.jpg" />
+                                       </image>
+                                    </ImageView>
+                                 </center>
+                              </BorderPane>
+                              <Pane prefHeight="400.0" prefWidth="400.0">
+                                 <children>
+                                    <Label fx:id="moves_label" alignment="CENTER" contentDisplay="CENTER" layoutX="346.0" layoutY="290.0" prefHeight="141.0" prefWidth="175.0" text="MOVES REMAINING&#10;__" textAlignment="CENTER" />
+                                 </children>
+                              </Pane>
+                           </children>
+                        </StackPane>
+                        <ImageView fx:id="player_img" fitHeight="374.0" fitWidth="292.0" layoutX="10.0" layoutY="8.0" pickOnBounds="true" preserveRatio="true" />
                      </children>
-                  </Pane>
-               </children>
-            </StackPane>
-         </center>
-      </BorderPane>
-      <ImageView fx:id="player_img" fitHeight="374.0" fitWidth="292.0" layoutX="4.0" pickOnBounds="true" preserveRatio="true" />
+                  </AnchorPane>
+            </content>
+          </Tab>
+          <Tab text="Cards">
+            <content>
+              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+            </content>
+          </Tab>
+        </tabs>
+      </TabPane>
     </children>
 </AnchorPane>

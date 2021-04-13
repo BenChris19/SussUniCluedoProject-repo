@@ -44,7 +44,7 @@ public class Card{
      * @return 
      */
     public String getImgPath() {
-        return "src/resources/main/" + imgPath;
+        return "src/resources/cards/" + imgPath;
     }
 
     /**

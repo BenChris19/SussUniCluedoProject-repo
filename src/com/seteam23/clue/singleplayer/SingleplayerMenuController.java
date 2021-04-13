@@ -12,6 +12,7 @@ import java.io.InputStream;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.Random;
 import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
@@ -56,6 +57,7 @@ public class SingleplayerMenuController implements Initializable {
     private ComboBox difLevel;
     @FXML 
     private ComboBox numPlayers;
+    private static int numPlayersAsInt;
 
     private static String character = "Scarlett";  //Use Scarlett as default character
     //private String character = "Miss Scarlett";  //Use Scarlett as default character
@@ -63,11 +65,12 @@ public class SingleplayerMenuController implements Initializable {
     private Button prevCharacter;
     private Image imageCharacter;
     private static ImageView imageview;
-    private ArrayList<String> others = new ArrayList<>(
+    private static ArrayList<String> others = new ArrayList<>(
         Arrays.asList("Scarlett","Mustard","Plum","Green","Peacock","White"));
     private static Player user;
     private TabPane tabPane = new TabPane();
     private final String[] tabNames = {"Board", "Cards"};
+    private static ArrayList<Player> players;
 
     /**
      * 
@@ -89,8 +92,7 @@ public class SingleplayerMenuController implements Initializable {
     }
     
     public static int getNumOpponents(){
-        //return (int) numOpponents.getValue();
-        return 5;
+        return numPlayersAsInt;
     }
     
 
@@ -134,6 +136,10 @@ public class SingleplayerMenuController implements Initializable {
             return (String) this.difLevel.getSelectionModel().getSelectedItem();
         }
     }
+
+    public static ArrayList<Player> getPlayers() {
+        return players;
+    }
     
     /**
      * 
@@ -164,7 +170,22 @@ public class SingleplayerMenuController implements Initializable {
         return imageCharacter;
     }
     
-
+    public static ArrayList<Player> generatePlayers(){
+        ArrayList<Player> players = new ArrayList<>();
+        players.add(user);
+        ArrayList<String> charNames = new ArrayList<>();
+        for (String s:others){
+            if (!s.equals(user.getName())){
+                charNames.add(s);
+            }
+        }
+        Collections.shuffle(charNames);
+        for (int i=0; i < numPlayersAsInt; i++){
+            Player temp = new Player(charNames.get(i));
+            players.add(temp);
+        }
+        return players;
+    }
     
     /**
      * Changes to the Main Menu's Scene.
@@ -212,7 +233,9 @@ public class SingleplayerMenuController implements Initializable {
             window.showAndWait();
         }
         else{
-            this.user = new Player(this.character,getOpponents(),true);
+            numPlayersAsInt = getOpponents();
+            this.user = new Player(this.character);
+            players = generatePlayers();
 
         for (String s : tabNames) {
             Tab t = new Tab(s);
@@ -264,10 +287,10 @@ public class SingleplayerMenuController implements Initializable {
         for (Card c : user.viewCards()){
             InputStream stream = new FileInputStream(c.getImgPath());
             Image image = new Image(stream);
-            ImageView imageView = new ImageView();
+            ImageView tempImageView = new ImageView();
             //Setting image to the image view
-            imageView.setImage(image);
-            cardPane.getChildren().add(imageView);
+            tempImageView.setImage(image);
+            cardPane.getChildren().add(tempImageView);
         }
         return cardPane;
     }

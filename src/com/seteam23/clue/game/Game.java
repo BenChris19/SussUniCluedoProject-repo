@@ -33,12 +33,12 @@ public final class Game{
      * @param controller
      * @throws IOException 
      */
-    public Game(GameController controller) throws IOException{
+    public Game(GameController controller, ArrayList<Player> players) throws IOException{
         weapon_cards = new ArrayList<>();
         room_cards = new ArrayList<>();
         suspect_cards = new ArrayList<>();
         //Needs changing so GUI sets players
-        setPlayers(new ArrayList<>());
+        this.players = players;
         initialise();
         startGame();
     }

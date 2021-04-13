@@ -11,8 +11,12 @@ import static com.seteam23.clue.game.board.BoardController.getBoard;
 import com.seteam23.clue.game.board.Tile;
 
 import com.seteam23.clue.game.entities.Card;
+import com.seteam23.clue.game.entities.Player;
+import static com.seteam23.clue.singleplayer.SingleplayerMenuController.generatePlayers;
 
 import static com.seteam23.clue.singleplayer.SingleplayerMenuController.getImageview;
+import static com.seteam23.clue.singleplayer.SingleplayerMenuController.getPlayer;
+import static com.seteam23.clue.singleplayer.SingleplayerMenuController.getPlayers;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -65,7 +69,7 @@ public class GameController implements Initializable {
         try {
             FXMLLoader loader = new FXMLLoader(BoardController.class.getResource("board.fxml"));
             viewport.setCenter(loader.load());
-            game = new Game(this);
+            game = new Game(this, getPlayers());
         }
         catch (IOException e) {
             e.printStackTrace();
@@ -78,7 +82,6 @@ public class GameController implements Initializable {
         this.weapon.setItems(listWea);
         ObservableList<String> listRoo = FXCollections.observableArrayList(game.getRoomNames());
         this.room.setItems(listRoo);
-        
     }
     
     /**
@@ -106,6 +109,7 @@ public class GameController implements Initializable {
     public void changeChar(String image_path){
         player_img.setImage(new Image(getClass().getResource(image_path).toExternalForm()));
     }
+    
     
     /**
      * 

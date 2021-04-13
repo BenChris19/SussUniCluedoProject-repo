@@ -42,7 +42,7 @@ public class Player {
      * @param noOfPlayers
      * @param turn 
      */
-    public Player(String name, int noOfPlayers,boolean turn) {
+    public Player(String name) {
         this.turn = turn;
         this.noOfPlayers = noOfPlayers;
         this.CheckBoard = new CheckTile[row][noOfPlayers];
@@ -71,6 +71,10 @@ public class Player {
         
     }
 
+    public ArrayList<Card> getCards() {
+        return cards;
+    }
+    
     /**
      * 
      * @return 

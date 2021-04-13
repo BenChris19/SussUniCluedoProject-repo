@@ -17,8 +17,8 @@ public class NPC extends Player{
      * @param difficulty
      * @param imgPath 
      */
-    public NPC(String name, int noOfPlayers, boolean turn,String difficulty,ImageView imgPath) {
-        super(name, noOfPlayers, turn);
+    public NPC(String name, String difficulty,ImageView imgPath) {
+        super(name);
         
         this.difficulty = difficulty;
     }

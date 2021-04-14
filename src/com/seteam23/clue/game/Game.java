@@ -6,6 +6,7 @@
 package com.seteam23.clue.game;
 
 import com.seteam23.clue.game.board.Board;
+import static com.seteam23.clue.game.board.BoardController.getBoard;
 import com.seteam23.clue.game.entities.Card;
 import com.seteam23.clue.game.entities.Player;
 import java.io.BufferedReader;
@@ -32,16 +33,18 @@ public final class Game{
     /**
      * 
      * @param controller
+     * @param players
      * @throws IOException 
      */
     public Game(GameController controller, ArrayList<Player> players) throws IOException{
         this.controller = controller;
-        board = controller.board;
+        board = getBoard();
         weapon_cards = new ArrayList<>();
         room_cards = new ArrayList<>();
         suspect_cards = new ArrayList<>();
-        //Needs changing so GUI sets players
         this.players = players;
+        System.out.println(board);
+        board.setPlayers(players);
         initialise();
         startGame();
     }
@@ -139,22 +142,6 @@ public final class Game{
     
     public void endTurn() {
         
-    }
-
-    /**
-     * 
-     * @return 
-     */
-    public Board getBoard() {
-        return board;
-    }
-
-    /**
-     * 
-     * @param board 
-     */
-    public void setBoard(Board board) {
-        this.board = board;
     }
 
     /**

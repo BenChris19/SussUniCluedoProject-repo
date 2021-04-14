@@ -171,8 +171,8 @@ public class SingleplayerMenuController implements Initializable {
     }
     
     public static ArrayList<Player> generatePlayers(){
-        ArrayList<Player> players = new ArrayList<>();
-        players.add(user);
+        ArrayList<Player> tempPlayers = new ArrayList<>();
+        tempPlayers.add(user);
         ArrayList<String> charNames = new ArrayList<>();
         for (String s:others){
             if (!s.equals(user.getName())){
@@ -182,9 +182,9 @@ public class SingleplayerMenuController implements Initializable {
         Collections.shuffle(charNames);
         for (int i=0; i < numPlayersAsInt; i++){
             Player temp = new Player(charNames.get(i));
-            players.add(temp);
+            tempPlayers.add(temp);
         }
-        return players;
+        return tempPlayers;
     }
     
     /**

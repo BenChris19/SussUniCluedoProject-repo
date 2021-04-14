@@ -54,7 +54,8 @@ public class BoardController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         board = new Board(this);
-        board.addPlayers(getPlayer());
+        //Players are already initialised in the SingleplayerMenuCont 
+        //board.addPlayers(getPlayer());
         //board.startTile(board.getStartPos(getPlayer()));
         createButtons();
     }

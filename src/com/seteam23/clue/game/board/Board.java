@@ -31,7 +31,7 @@ public final class Board {
     private Room[][] rooms; //Room Doors
     private Tile[][] tiles; //Tiles
 
-    private ArrayList<Player> players = new ArrayList<>();
+    private ArrayList<Player> players;
 
     /**
      * 
@@ -63,6 +63,7 @@ public final class Board {
      * 
      * @param player 
      */
+    /*
     public void addPlayers(Player player){
         Random rand = new Random();
         int rand_pos;
@@ -71,8 +72,8 @@ public final class Board {
         int players_left =getNoOfPlayers();
         for(int i=0;i<getNoOfPlayers();i++){
             rand_pos = rand.nextInt(players_left);
-            if(!this.players.contains(new Player(oppponents.get(rand_pos),getNoOfPlayers(),false))){
-                this.players.add(new Player(oppponents.remove(rand_pos),getNoOfPlayers(),false));
+            if(!this.players.contains(new Player(oppponents.get(rand_pos)))){
+                this.players.add(new Player(oppponents.remove(rand_pos)));
                 players_left-=1;
             }
             else{
@@ -82,7 +83,8 @@ public final class Board {
             
         }
     
-}
+    }
+    */
     
     /**
      * 
@@ -422,17 +424,24 @@ public final class Board {
         }
     }
 
+    public ArrayList<Player> getPlayers() {
+        return players;
+    }
+
     /*
     public void highlightAllTiles() {
-        for (Tile[] tr : tiles) {
-            for (Tile t : tr) {
-                if (t != null) {
-                    t.startFlashing();
-                }
-            }
-        }
+    for (Tile[] tr : tiles) {
+    for (Tile t : tr) {
+    if (t != null) {
+    t.startFlashing();
+    }
+    }
+    }
     }*/
-    
+    public void setPlayers(ArrayList<Player> players) {    
+        this.players = players;
+    }
+
     /**
      * 
      * @param start
@@ -477,22 +486,6 @@ public final class Board {
         else{
             tile.startFlashing();
         }
-    }
-    
-    /**
-     * 
-     * @return 
-     */
-    public ArrayList<Player> getPlayers() {
-        return players;
-    }
-
-    /**
-     *
-     * @param players
-     */
-    public void setPlayers(ArrayList<Player> players) {
-        this.players = players;
     }
     
     /**

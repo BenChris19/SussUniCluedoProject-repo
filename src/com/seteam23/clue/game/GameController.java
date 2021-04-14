@@ -17,7 +17,10 @@ import static com.seteam23.clue.singleplayer.SingleplayerMenuController.getPlaye
 import static com.seteam23.clue.singleplayer.SingleplayerMenuController.getPlayers;
 import static com.seteam23.clue.singleplayer.SingleplayerMenuController.getImageview;
 import static com.seteam23.clue.singleplayer.SingleplayerMenuController.getPlayer;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
@@ -30,10 +33,14 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.Tab;
+import javafx.scene.control.TabPane;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.Pane;
+import javafx.scene.layout.TilePane;
 
 /**
  * FXML Controller class
@@ -49,6 +56,8 @@ public class GameController implements Initializable {
     @FXML private ImageView player_img;
     @FXML private AnchorPane anchorPane;
     @FXML private Label moves_label;
+    private TabPane tabPane;
+    private final String[] tabNames = {"Board", "Cards"};
 
     private Game game;
     static Board board;
@@ -63,8 +72,9 @@ public class GameController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         try {
-            FXMLLoader loader = new FXMLLoader(BoardController.class.getResource("board.fxml"));
-            viewport.setCenter(loader.load());
+            tabPane = new TabPane();
+            generateTabs();
+            viewport.setCenter(tabPane);
             game = new Game(this, getPlayers());
             board = BoardController.getBoard();
             highlighted = new ArrayList<>();
@@ -108,6 +118,37 @@ public class GameController implements Initializable {
         player_img.setImage(new Image(getClass().getResource(image_path).toExternalForm()));
     }
     
+    public void generateTabs() throws FileNotFoundException, IOException{
+        for (String s : tabNames) {
+            Tab t = new Tab(s);
+            t.setClosable(false);
+            tabPane.getTabs().add(t);
+            switch (s) {
+                case "Board":
+                    FXMLLoader loader = new FXMLLoader(BoardController.class.getResource("board.fxml"));
+                    t.setContent(loader.load());
+                    
+                    break;
+                case "Card":
+                    t.setContent(createCardPane());
+                    break;
+            }
+
+        }
+    }
+    
+    private Pane createCardPane() throws FileNotFoundException{
+        TilePane cardPane = new TilePane();
+        for (Card c : game.getCurrentPlayer().viewCards()){
+            InputStream stream = new FileInputStream(c.getImgPath());
+            Image image = new Image(stream);
+            ImageView tempImageView = new ImageView();
+            //Setting image to the image view
+            tempImageView.setImage(image);
+            cardPane.getChildren().add(tempImageView);
+        }
+        return cardPane;
+    }
     
     /**
      * 

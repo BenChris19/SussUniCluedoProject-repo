@@ -68,8 +68,6 @@ public class SingleplayerMenuController implements Initializable {
     private static ArrayList<String> others = new ArrayList<>(
         Arrays.asList("Scarlett","Mustard","Plum","Green","Peacock","White"));
     private static Player user;
-    private TabPane tabPane = new TabPane();
-    private final String[] tabNames = {"Board", "Cards"};
     private static ArrayList<Player> players;
 
     /**
@@ -237,23 +235,8 @@ public class SingleplayerMenuController implements Initializable {
             this.user = new Player(this.character);
             players = generatePlayers();
 
-        for (String s : tabNames) {
-            Tab t = new Tab(s);
-            t.setClosable(false);
-            tabPane.getTabs().add(t);
-            switch (s) {
-                case "Board":
-                    //t.setContent(FXMLLoader.load(BoardController.class.getResource("board.fxml")));
-                    t.setContent(FXMLLoader.load(GameController.class.getResource("game.fxml")));
-                    
-                    break;
-                case "Card":
-                    t.setContent(createCardPane());
-                    break;
-            }
-
-        }
-        Parent board = tabPane;
+        
+        Parent board = FXMLLoader.load(GameController.class.getResource("game.fxml"));
         
 
             Stage window_game = (Stage)board_game.getScene().getWindow();
@@ -282,18 +265,6 @@ public class SingleplayerMenuController implements Initializable {
      * @return
      * @throws FileNotFoundException 
      */
-    private Pane createCardPane() throws FileNotFoundException{
-        TilePane cardPane = new TilePane();
-        for (Card c : user.viewCards()){
-            InputStream stream = new FileInputStream(c.getImgPath());
-            Image image = new Image(stream);
-            ImageView tempImageView = new ImageView();
-            //Setting image to the image view
-            tempImageView.setImage(image);
-            cardPane.getChildren().add(tempImageView);
-        }
-        return cardPane;
-    }
         /**
      * Let's the user choose a character.
      * @param event executes and event, in this case, the border of the button

@@ -47,6 +47,7 @@ public final class Game{
         board.setPlayers(players);
         initialise();
         startGame();
+        currentPlayer = players.get(0);
     }
     
     /**
@@ -143,7 +144,9 @@ public final class Game{
     public void endTurn() {
         
     }
-
+    
+    
+    
     /**
      * 
      * @return 
@@ -160,6 +163,14 @@ public final class Game{
         this.weapon_cards = weapon_cards;
     }
 
+    public Player getCurrentPlayer() {
+        return currentPlayer;
+    }
+
+    public void setCurrentPlayer(Player currentPlayer) {
+        this.currentPlayer = currentPlayer;
+    }
+    
     /**
      * 
      * @return 

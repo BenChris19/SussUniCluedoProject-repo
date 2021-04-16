@@ -5,11 +5,26 @@
  */
 package com.seteam23.clue.game.board;
 
+import com.seteam23.clue.game.Game;
+import com.seteam23.clue.game.GameController;
+import static com.seteam23.clue.game.GameController.board;
+import static com.seteam23.clue.game.GameController.dieRolls;
+import static com.seteam23.clue.game.GameController.getBoard;
+import static com.seteam23.clue.game.GameController.getDieRolls;
+
 import com.seteam23.clue.game.entities.Player;
+import com.seteam23.clue.singleplayer.SingleplayerMenuController;
 import static com.seteam23.clue.singleplayer.SingleplayerMenuController.getPlayer;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.scene.control.Button;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.GridPane;
 
 /**
  *
@@ -19,6 +34,8 @@ public abstract class Place {
     private int max_players;
     private ArrayList<Player> occupiers;
     private Button button;
+    public static int turn = 0;
+
     
     /**
      * 
@@ -29,7 +46,10 @@ public abstract class Place {
         this.occupiers = new ArrayList<>();
         
         this.button = createButton();
+        
     }
+
+    
     
     /**
      * Adds the Player to the Place if there is space for them
@@ -76,9 +96,12 @@ public abstract class Place {
     private Button createButton() {
         Button button = new Button();
         
-        button.setOnAction(e -> {
-                              this.activate();
-                            }); 
+        button.setOnAction((ActionEvent e) -> {
+            if (!getBoard().reachableFrom(board.getTile(Board.startCols[turn],Board.startRows[turn]),dieRolls[2]).isEmpty() && getBoard().getReachableButtons(getBoard().reachableFrom(board.getTile(Board.startCols[turn],Board.startRows[turn]),dieRolls[2])).contains((Button)e.getSource())) {
+                Place.this.activate();
+            }
+            
+        }); 
         button.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
         return button;
     }
@@ -94,6 +117,7 @@ public abstract class Place {
      * Activated effect when button clicked
      */
     public void activate() {
+        List<String> order = Arrays.asList("Miss Scarlett", "Col Mustard","Mrs White", "Rev Green","Mrs Peacock","Prof Plum");
         System.out.println("CLICK");
         switch (getPlayer().getName()) {
             case "Miss Scarlett":
@@ -115,6 +139,26 @@ public abstract class Place {
                 button.getStyleClass().add("toggle-Peacock");
                 break;
         }
+        getBoard().unlightAllTiles();
+
+        Place.turn+=1;
+        
+                
+        int prevY = Board.startCols[turn-1];
+        int prevX = Board.startRows[turn-1];
+        Board.startCols[turn-1] = GridPane.getColumnIndex(button);
+        Board.startRows[turn-1]  = GridPane.getRowIndex(button);
+        
+
+        GameController.dieRolls[2] = 0;
+        
+                        if(Place.turn != 0 && Place.turn%6==0){
+            Place.turn = 0;
+        }
+                                Player nextPlayer  = new Player(order.get(turn));
+        getBoard().getTile(prevY,prevX).getButton().getStyleClass().remove("toggle-"+getPlayer().getName().split(" ",-1)[1]);
+        getBoard().getStartPos(nextPlayer).startFlashing();
+                SingleplayerMenuController.setPlayer(nextPlayer);
     }
-    
+ 
 }

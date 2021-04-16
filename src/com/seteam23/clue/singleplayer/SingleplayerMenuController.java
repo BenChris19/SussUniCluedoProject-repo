@@ -13,6 +13,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.List;
 import java.util.Random;
 import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
@@ -59,15 +60,17 @@ public class SingleplayerMenuController implements Initializable {
     private ComboBox numPlayers;
     private static int numPlayersAsInt;
 
-    private static String character = "Scarlett";  //Use Scarlett as default character
-    //private String character = "Miss Scarlett";  //Use Scarlett as default character
+    private static String character = "Miss Scarlett";  //Use Scarlett as default character
+    private static int order = 1;
     private SingleplayerMenu spMenu;
     private Button prevCharacter;
     private Image imageCharacter;
-    private static ImageView imageview;
+    public static ImageView imageview;
     private static ArrayList<String> others = new ArrayList<>(
         Arrays.asList("Scarlett","Mustard","Plum","Green","Peacock","White"));
     private static Player user;
+    private TabPane tabPane = new TabPane();
+    private final String[] tabNames = {"Board", "Cards"};
     private static ArrayList<Player> players;
 
     /**
@@ -169,8 +172,8 @@ public class SingleplayerMenuController implements Initializable {
     }
     
     public static ArrayList<Player> generatePlayers(){
-        ArrayList<Player> tempPlayers = new ArrayList<>();
-        tempPlayers.add(user);
+        ArrayList<Player> players = new ArrayList<>();
+        players.add(user);
         ArrayList<String> charNames = new ArrayList<>();
         for (String s:others){
             if (!s.equals(user.getName())){
@@ -180,9 +183,9 @@ public class SingleplayerMenuController implements Initializable {
         Collections.shuffle(charNames);
         for (int i=0; i < numPlayersAsInt; i++){
             Player temp = new Player(charNames.get(i));
-            tempPlayers.add(temp);
+            players.add(temp);
         }
-        return tempPlayers;
+        return players;
     }
     
     /**
@@ -235,8 +238,23 @@ public class SingleplayerMenuController implements Initializable {
             this.user = new Player(this.character);
             players = generatePlayers();
 
-        
-        Parent board = FXMLLoader.load(GameController.class.getResource("game.fxml"));
+        for (String s : tabNames) {
+            Tab t = new Tab(s);
+            t.setClosable(false);
+            tabPane.getTabs().add(t);
+            switch (s) {
+                case "Board":
+                    //t.setContent(FXMLLoader.load(BoardController.class.getResource("board.fxml")));
+                    t.setContent(FXMLLoader.load(GameController.class.getResource("game.fxml")));
+                    
+                    break;
+                case "Card":
+                    t.setContent(createCardPane());
+                    break;
+            }
+
+        }
+        Parent board = tabPane;
         
 
             Stage window_game = (Stage)board_game.getScene().getWindow();
@@ -253,6 +271,11 @@ public class SingleplayerMenuController implements Initializable {
     public static Player getPlayer(){
         return SingleplayerMenuController.user;
     }
+
+    public static void setPlayer(Player user) {
+        SingleplayerMenuController.user = user;
+    }
+    
     
     
 //@@ -85,6 +115,22 @@ private void continueBoard(ActionEvent event) throws Exception{
@@ -265,6 +288,18 @@ public class SingleplayerMenuController implements Initializable {
      * @return
      * @throws FileNotFoundException 
      */
+    private Pane createCardPane() throws FileNotFoundException{
+        TilePane cardPane = new TilePane();
+        for (Card c : user.viewCards()){
+            InputStream stream = new FileInputStream(c.getImgPath());
+            Image image = new Image(stream);
+            ImageView tempImageView = new ImageView();
+            //Setting image to the image view
+            tempImageView.setImage(image);
+            cardPane.getChildren().add(tempImageView);
+        }
+        return cardPane;
+    }
         /**
      * Let's the user choose a character.
      * @param event executes and event, in this case, the border of the button
@@ -273,9 +308,11 @@ public class SingleplayerMenuController implements Initializable {
      */
     @FXML
     private void onMouseClicked(ActionEvent event) throws Exception{
+        List<String> people = Arrays.asList("Miss Scarlett", "Col Mustard", "Rev Green","Prof Plum","Mrs Peacock","Mrs White");
         Button b = (Button)event.getSource();
         b.setStyle("-fx-background-color: yellow");
-        character = b.getText();    
+        character = b.getText();   
+        order = people.indexOf(b.getText());
         Image image = new Image(getClass().getResourceAsStream("/resources/main/"+this.character+".jpg"));
         this.imageview = new ImageView(image);
         this.imageview.setFitHeight(370);

@@ -7,9 +7,11 @@ package com.seteam23.clue.game;
 
 import com.seteam23.clue.game.board.Board;
 import com.seteam23.clue.game.board.BoardController;
+import com.seteam23.clue.game.board.Place;
 import com.seteam23.clue.game.board.Tile;
 import com.seteam23.clue.game.entities.Card;
 import com.seteam23.clue.game.entities.Player;
+import com.seteam23.clue.singleplayer.SingleplayerMenuController;
 import static com.seteam23.clue.singleplayer.SingleplayerMenuController.generatePlayers;
 
 import static com.seteam23.clue.singleplayer.SingleplayerMenuController.getImageview;
@@ -17,10 +19,8 @@ import static com.seteam23.clue.singleplayer.SingleplayerMenuController.getPlaye
 import static com.seteam23.clue.singleplayer.SingleplayerMenuController.getPlayers;
 import static com.seteam23.clue.singleplayer.SingleplayerMenuController.getImageview;
 import static com.seteam23.clue.singleplayer.SingleplayerMenuController.getPlayer;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
+import java.awt.event.MouseEvent;
 import java.io.IOException;
-import java.io.InputStream;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
@@ -30,17 +30,19 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
-import javafx.scene.control.Tab;
-import javafx.scene.control.TabPane;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
-import javafx.scene.layout.TilePane;
+import javafx.stage.Stage;
 
 /**
  * FXML Controller class
@@ -56,12 +58,13 @@ public class GameController implements Initializable {
     @FXML private ImageView player_img;
     @FXML private AnchorPane anchorPane;
     @FXML private Label moves_label;
-    private TabPane tabPane;
-    private final String[] tabNames = {"Board", "Cards"};
+    @FXML private GridPane grid;
 
     private Game game;
-    static Board board;
-    private ArrayList<Tile> highlighted;
+    public static Board board;
+    public static int[] dieRolls = new int[3];
+    public int turn = 0;
+
 
     
     /**
@@ -72,17 +75,16 @@ public class GameController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         try {
-            tabPane = new TabPane();
-            generateTabs();
-            viewport.setCenter(tabPane);
-            game = new Game(this, getPlayers());
-            board = BoardController.getBoard();
-            highlighted = new ArrayList<>();
+            game = new Game(this);
+            board = new Board();
+            createButtons();
+            //board.getStartPos(getPlayer()).startFlashing();
         }
         catch (IOException e) {
             e.printStackTrace();
         }
         player_img = getImageview();
+        anchorPane.getChildren().remove(player_img);
         anchorPane.getChildren().addAll(player_img);
         ObservableList<String> listPer = FXCollections.observableArrayList(game.getSuspectNames());
         this.person.setItems(listPer);
@@ -91,6 +93,18 @@ public class GameController implements Initializable {
         ObservableList<String> listRoo = FXCollections.observableArrayList(game.getRoomNames());
         this.room.setItems(listRoo);
     }
+    
+    
+    public void createButtons() {
+        for (int y = 0; y<25; y++) {
+            for (int x = 0; x<24; x++) {
+                Tile tile = board.getTile(x, y);
+                if (tile != null) 
+                    grid.add(tile.getButton(), x, y);
+            }
+        }
+    }
+
     
     /**
      * 
@@ -117,38 +131,24 @@ public class GameController implements Initializable {
     public void changeChar(String image_path){
         player_img.setImage(new Image(getClass().getResource(image_path).toExternalForm()));
     }
-    
-    public void generateTabs() throws FileNotFoundException, IOException{
-        for (String s : tabNames) {
-            Tab t = new Tab(s);
-            t.setClosable(false);
-            tabPane.getTabs().add(t);
-            switch (s) {
-                case "Board":
-                    FXMLLoader loader = new FXMLLoader(BoardController.class.getResource("board.fxml"));
-                    t.setContent(loader.load());
-                    
-                    break;
-                case "Card":
-                    t.setContent(createCardPane());
-                    break;
-            }
 
-        }
+    public static Board getBoard() {
+        return board;
+    }
+
+    public static int[] getDieRolls() {
+        return dieRolls;
+    }
+
+    public ImageView getPlayer_img() {
+        return player_img;
+    }
+
+    public void setPlayer_img(ImageView player_img) {
+        this.player_img = player_img;
     }
     
-    private Pane createCardPane() throws FileNotFoundException{
-        TilePane cardPane = new TilePane();
-        for (Card c : game.getCurrentPlayer().viewCards()){
-            InputStream stream = new FileInputStream(c.getImgPath());
-            Image image = new Image(stream);
-            ImageView tempImageView = new ImageView();
-            //Setting image to the image view
-            tempImageView.setImage(image);
-            cardPane.getChildren().add(tempImageView);
-        }
-        return cardPane;
-    }
+    
     
     /**
      * 
@@ -160,12 +160,21 @@ public class GameController implements Initializable {
         
         //This needs to be incorporated to rollDice() in Game
         //I didn't want to remove and fuck up the FXML
-        int[] dieRolls = game.rollDice();
+        dieRolls = game.rollDice();
         
         moves_label.setText("YOU ROLLED A\n"+dieRolls[2]);
         
         board.unlightAllTiles();
-        highlighted = board.showAvailableMoves(board.getStartPos(getPlayer()), dieRolls[2]);
+
+            board.showAvailableMoves(board.getTile(Board.startCols[Place.turn], Board.startRows[Place.turn]),dieRolls[2]);
+
+
+
+
+
+        
+
+
         
         /*
         Stage window = new Stage();
@@ -193,5 +202,6 @@ public class GameController implements Initializable {
             window.showAndWait();  
         */
     }
+
     
 }

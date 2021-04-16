@@ -15,12 +15,14 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.LinkedList;
 
 import java.util.Random;
 
 
 import java.util.Set;
+import javafx.scene.control.Button;
 
 public final class Board {
 
@@ -30,8 +32,11 @@ public final class Board {
     private Place[][] places; //All
     private Room[][] rooms; //Room Doors
     private Tile[][] tiles; //Tiles
+    
+    public static int startCols[] = new int[]{16,23,14,9,0,0};
+    public static int startRows[] = new int[]{0,7,24,24,18,5};
 
-    private ArrayList<Player> players;
+    private ArrayList<Player> players = new ArrayList<>();
 
     /**
      * 
@@ -45,6 +50,10 @@ public final class Board {
 
         //highlightAllTiles();
 
+    }
+    public Board(){
+        createGrid();
+        
     }
     
     /**
@@ -63,7 +72,6 @@ public final class Board {
      * 
      * @param player 
      */
-    /*
     public void addPlayers(Player player){
         Random rand = new Random();
         int rand_pos;
@@ -83,8 +91,7 @@ public final class Board {
             
         }
     
-    }
-    */
+}
     
     /**
      * 
@@ -390,6 +397,13 @@ public final class Board {
         reach.remove(start);
         return new ArrayList<>(reach);
     }
+    public ArrayList<Button> getReachableButtons(ArrayList<Tile> convertTile){
+        ArrayList<Button> buttons = new ArrayList<>();
+        for(Tile t:convertTile){
+            buttons.add(t.getButton());
+        }
+        return buttons;
+    }
 
     /**
      * 
@@ -424,24 +438,18 @@ public final class Board {
         }
     }
 
-    public ArrayList<Player> getPlayers() {
-        return players;
-    }
-
-    /*
+    
     public void highlightAllTiles() {
-    for (Tile[] tr : tiles) {
-    for (Tile t : tr) {
-    if (t != null) {
-    t.startFlashing();
-    }
-    }
-    }
-    }*/
-    public void setPlayers(ArrayList<Player> players) {    
-        this.players = players;
+        for (Tile[] tr : tiles) {
+            for (Tile t : tr) {
+                if (t != null) {
+                    t.startFlashing();
+                }
+            }
+        }
     }
 
+    
     /**
      * 
      * @param start
@@ -486,6 +494,22 @@ public final class Board {
         else{
             tile.startFlashing();
         }
+    }
+    
+    /**
+     * 
+     * @return 
+     */
+    public ArrayList<Player> getPlayers() {
+        return players;
+    }
+
+    /**
+     *
+     * @param players
+     */
+    public void setPlayers(ArrayList<Player> players) {
+        this.players = players;
     }
     
     /**

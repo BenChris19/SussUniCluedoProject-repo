@@ -36,7 +36,7 @@ public final class Game{
      * @param players
      * @throws IOException 
      */
-    public Game(GameController controller, ArrayList<Player> players) throws IOException{
+    public Game(GameController controller) throws IOException{
         this.controller = controller;
         board = getBoard();
         weapon_cards = new ArrayList<>();
@@ -44,10 +44,10 @@ public final class Game{
         suspect_cards = new ArrayList<>();
         this.players = players;
         System.out.println(board);
-        board.setPlayers(players);
+//        board.setPlayers(players);
         initialise();
         startGame();
-        currentPlayer = players.get(0);
+//        currentPlayer = players.get(0);
     }
     
     /**
@@ -121,10 +121,10 @@ public final class Game{
         }
         Collections.shuffle(cards);
         int i = 0;
-        while(!cards.isEmpty() && !players.isEmpty()){
-            players.get(i%players.size()).addCard(cards.remove(0));
-            i++;
-        }
+//        while(!cards.isEmpty() && !players.isEmpty()){
+  //          players.get(i%players.size()).addCard(cards.remove(0));
+    //        i++;
+      //  }
         
         //currentPlayer = players.get(0);
     }

@@ -7,29 +7,14 @@
 package com.seteam23.clue.game.entities;
 
 import com.seteam23.clue.game.board.Place;
-import com.seteam23.clue.game.ui.CheckTile;
-import com.seteam23.clue.singleplayer.SingleplayerMenu;
 import com.seteam23.clue.game.board.Tile;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import javafx.application.Application;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
-import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.layout.StackPane;
-import javafx.stage.Stage;
 
 import java.util.Random;
-import java.util.function.Consumer;
-import javafx.scene.image.ImageView;
 
 public class Player {
-    private CheckTile[][] CheckBoard;
-    private static int noOfPlayers;
-    private int row = 21, column;
-    private int diceTotal = 0;
+
     private int order;
     private String name;
     private int currentPosY;
@@ -37,12 +22,11 @@ public class Player {
     private String imgPath;
     private boolean human;
     private List<Card> cards;
-    private Card player; //Card assigned to each player in Game initialisation, when each player chooses their character.
     private Place[][] place;
-    private HashMap<Card, Boolean> checklist;
     private boolean endTurn;
     private ArrayList<Tile> searchSpace;
     private final boolean isHuman;
+    private boolean isInRoom;
 
     /**
      * 
@@ -50,7 +34,7 @@ public class Player {
      * @param noOfPlayers
      * @param turn 
      */
-    public Player(String name,int order,String playerImgPath,int currentPosY,int currentPosX,boolean endTurn) {
+    public Player(String name,int order,String playerImgPath,int currentPosY,int currentPosX,boolean endTurn,boolean isInRoom) {
         this.order = order;
         this.isHuman = true;
         this.endTurn = endTurn;
@@ -58,10 +42,9 @@ public class Player {
         this.currentPosY = currentPosY;
         this.currentPosX = currentPosX;
         this.imgPath = playerImgPath;
-        this.noOfPlayers = noOfPlayers;
-        this.CheckBoard = new CheckTile[row][noOfPlayers];
         this.name = name;  
         this.cards = new ArrayList<>();
+        this.isInRoom = isInRoom;
         
     }
 
@@ -71,6 +54,12 @@ public class Player {
         });
     }
 
+    public void setIsInRoom(boolean isInRoom) {
+        this.isInRoom = isInRoom;
+    }
+
+    
+    
     public ArrayList<Tile> getSearchSpace() {
         return searchSpace;
     }
@@ -148,13 +137,7 @@ public class Player {
         return name;
     }
 
-    /**
-     * 
-     * @return 
-     */
-    public static int getNoOfPlayers() {
-        return noOfPlayers;
-    }
+
     
     
 
@@ -188,9 +171,13 @@ public class Player {
         int die2 = r.nextInt(6)+1;
         System.out.println(die1+","+die2);
         int[] dice = new int[die1+die2];//Kept as individual dice for graphics
-        diceTotal = die1+die2;
         return dice;
     }
+
+    public boolean getIsInRoom() {
+        return isInRoom;
+    }
+    
     
     /**
      * 
@@ -210,7 +197,7 @@ public class Player {
      * @param weapon
      * @return 
      */
-    public String makeSuggestion(Card person, Card weapon){  //No Room as it has to be in the same room as the player is in
+    public String makeSuggestion(String person, String weapon){  //No Room as it has to be in the same room as the player is in
         String s = "Person: "+person+" Weapon: "+weapon+ " Room: "+place;
         return s;
 

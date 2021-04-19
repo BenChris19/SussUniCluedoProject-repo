@@ -27,7 +27,7 @@ public class SingleplayerMenu{
      * @throws IOException 
      */
     public SingleplayerMenu() throws IOException{
-        player1 = new Player("Miss Scarlett",1,"/resources/cards/players/Miss Scarlett.jpg",16,0,true);
+        player1 = new Player("Miss Scarlett",1,"/resources/cards/players/Miss Scarlett.jpg",16,0,true,false);
         opponentPlayers = new ArrayList<>();
         murderCards = new ArrayList<>();
     }
@@ -47,15 +47,19 @@ public class SingleplayerMenu{
         murderCards.add(murderCard);
     }
 
+    public static ArrayList<Card> getMurderCards() {
+        return murderCards;
+    }
+
 
 
     public void setOpponents(int opponents) {
-                NPC[] candidates = new NPC[]{new NPC("Miss Scarlett",1,"/resources/cards/players/Miss Scarlett.jpg",16,0,true),
-                new NPC("Col Mustard",2,"/resources/cards/players/Col Mustard.jpg",23,7,true),
-                new NPC("Mrs White",3,"/resources/cards/players/Mrs White.jpg",14,24,true),
-                new NPC("Rev Green",4,"/resources/cards/players/Rev Green.jpg",9,24,true),
-                new NPC("Mrs Peacock",5,"/resources/cards/players/Mrs Peacock.jpg",0,18,true),
-                new NPC("Prof Plum",6,"/resources/cards/players/Prof Plum.jpg",0,5,true)};
+                NPC[] candidates = new NPC[]{new NPC("Miss Scarlett",1,"/resources/cards/players/Miss Scarlett.jpg",16,0,true,false),
+                new NPC("Col Mustard",2,"/resources/cards/players/Col Mustard.jpg",23,7,true,false),
+                new NPC("Mrs White",3,"/resources/cards/players/Mrs White.jpg",14,24,true,false),
+                new NPC("Rev Green",4,"/resources/cards/players/Rev Green.jpg",9,24,true,false),
+                new NPC("Mrs Peacock",5,"/resources/cards/players/Mrs Peacock.jpg",0,18,true,false),
+                new NPC("Prof Plum",6,"/resources/cards/players/Prof Plum.jpg",0,5,true,false)};
         
         for(int i=0;i<opponents;i++){
             int idx = new Random().nextInt(candidates.length);

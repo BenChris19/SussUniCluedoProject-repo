@@ -34,17 +34,20 @@ public final class Game{
         this.board = new Board();
 
     }
+    public Game(){
+        
+    }
 
     //Returns separate dice rolls also for a potential visualisation of the dice in the GUI
     /**
      * 
      * @return 
      */
-    public static int[] rollDice(){
+    public int rollDice(){
         Random r = new Random();
         int die1 = r.nextInt(6)+1;
         int die2 = r.nextInt(6)+1;
-        int[] rolls = new int[]{die1, die2, die1 + die2};
+        int rolls = die1 + die2;
         return rolls;
     }
     

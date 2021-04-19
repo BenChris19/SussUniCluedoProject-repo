@@ -148,7 +148,6 @@ public class SingleplayerMenuController implements Initializable {
      */
     @FXML
     private void onMouseClicked(ActionEvent event) throws Exception{
-        List<String> people = Arrays.asList("Miss Scarlett", "Col Mustard","Mrs White", "Rev Green","Mrs Peacock","Prof Plum");
         Button b = (Button)event.getSource();
         
         SingleplayerMenu.getPlayer1().setName(b.getText());
@@ -221,17 +220,17 @@ public class SingleplayerMenuController implements Initializable {
         while(filledMurder[0] == false || filledMurder[1] == false || filledMurder[2] == false){
             if(cardsImagePaths.get(j).split("/")[3].equals("rooms") && !filledMurder[0]){
                 filledMurder[0] = true;
-                SingleplayerMenu.addMurderCards(new Card(cardsImagePaths.get(j).split("/")[3],cardsImagePaths.get(j),cardsImagePaths.get(j).split("/")[2]));
+                SingleplayerMenu.addMurderCards(new Card(cardsImagePaths.get(j).split("/")[4],cardsImagePaths.get(j),cardsImagePaths.get(j).split("/")[3]));
                 cardsImagePaths.remove(j);
             }
             else if(cardsImagePaths.get(j).split("/")[3].equals("weapons") && !filledMurder[1]){
                 filledMurder[1] = true;
-                SingleplayerMenu.addMurderCards(new Card(cardsImagePaths.get(j).split("/")[3],cardsImagePaths.get(j),cardsImagePaths.get(j).split("/")[2]));
+                SingleplayerMenu.addMurderCards(new Card(cardsImagePaths.get(j).split("/")[4],cardsImagePaths.get(j),cardsImagePaths.get(j).split("/")[3]));
                 cardsImagePaths.remove(j);
             }
             else if(cardsImagePaths.get(j).split("/")[3].equals("players") && !filledMurder[2]){
                 filledMurder[2] = true;
-                SingleplayerMenu.addMurderCards(new Card(cardsImagePaths.get(j).split("/")[3],cardsImagePaths.get(j),cardsImagePaths.get(j).split("/")[2]));
+                SingleplayerMenu.addMurderCards(new Card(cardsImagePaths.get(j).split("/")[4],cardsImagePaths.get(j),cardsImagePaths.get(j).split("/")[3]));
                 cardsImagePaths.remove(j);
             }
             j+=1;
@@ -241,12 +240,12 @@ public class SingleplayerMenuController implements Initializable {
         
         for(int i = 0;i<distribution;i++){
                 player1Cards.add(cardsImagePaths.get(i));
-                SingleplayerMenu.getPlayer1().addCards(new Card(cardsImagePaths.get(i).split("/")[3],cardsImagePaths.get(i),cardsImagePaths.get(i).split("/")[2]));
+                SingleplayerMenu.getPlayer1().addCards(new Card(cardsImagePaths.get(i).split("/")[4],cardsImagePaths.get(i),cardsImagePaths.get(i).split("/")[3]));
                 cardsImagePaths.remove(i);
         }
         
         for(int i=0;i<cardsImagePaths.size();i++){
-            getOpponentPlayers().get(i%getOpponentPlayers().size()).addCards(new Card(cardsImagePaths.get(i).split("/")[3],cardsImagePaths.get(i),cardsImagePaths.get(i).split("/")[2]));   
+            getOpponentPlayers().get(i%getOpponentPlayers().size()).addCards(new Card(cardsImagePaths.get(i).split("/")[4],cardsImagePaths.get(i),cardsImagePaths.get(i).split("/")[3]));   
         }
         
         player1Cards.stream().map((card) -> new Image(getClass().getResourceAsStream(card))).map((image) -> new ImageView(image)).map((temp) -> {

@@ -22,7 +22,7 @@
               <ComboBox fx:id="weapon" layoutX="260.0" layoutY="660.0" prefHeight="25.0" prefWidth="103.0" promptText="Weapon" />
               <ComboBox fx:id="room" layoutX="75.0" layoutY="697.0" prefHeight="25.0" prefWidth="116.0" promptText="Room" />
               <Button layoutX="33.0" layoutY="394.0" mnemonicParsing="false" onAction="#rollDices" text="Roll dices" />
-              <Button layoutX="10.0" layoutY="526.0" mnemonicParsing="false" prefHeight="52.0" prefWidth="199.0" style="-fx-background-color: green;" text="Make Suggestion">
+              <Button fx:id="suggest" layoutX="10.0" layoutY="526.0" mnemonicParsing="false" onAction="#makeSuggestion" prefHeight="52.0" prefWidth="199.0" style="-fx-background-color: green;" text="Make Suggestion">
                   <font>
                       <Font size="22.0" />
                   </font>

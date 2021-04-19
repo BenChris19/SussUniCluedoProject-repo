@@ -30,8 +30,8 @@ public class NPC extends Player{
      */
     
     
-    public NPC(String name, int turn, String playerImgPath, int currentPosY, int currentPosX,boolean endTurn) {
-        super(name, turn, playerImgPath, currentPosY, currentPosX,endTurn);
+    public NPC(String name, int turn, String playerImgPath, int currentPosY, int currentPosX,boolean endTurn,boolean isInRoom) {
+        super(name, turn, playerImgPath, currentPosY, currentPosX,endTurn,isInRoom);
 
     }
 
@@ -40,10 +40,7 @@ public class NPC extends Player{
 
 
 
-    public int AIRollsDices(){
-        int moves = Game.rollDice()[2];
-        return moves;
-    }
+
 
     
     

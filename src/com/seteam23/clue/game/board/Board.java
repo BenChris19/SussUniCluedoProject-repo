@@ -10,14 +10,11 @@
 package com.seteam23.clue.game.board;
 
 import com.seteam23.clue.game.entities.Player;
-import static com.seteam23.clue.game.entities.Player.getNoOfPlayers;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
 
-import java.util.Random;
 
 
 import java.util.Set;
@@ -26,9 +23,9 @@ import javafx.scene.control.Button;
 public final class Board {
 
     private Place[][] places; //All
-    private Room[][] rooms; //Room Doors
+    private Room[][] rooms; //Rooms
+    private Door[][] doors;
     private Tile[][] tiles; //Tiles
-    public ArrayList<Button> doorTiles = new ArrayList<>();
     
 
     private ArrayList<Player> players = new ArrayList<>();
@@ -38,10 +35,11 @@ public final class Board {
         createGrid();  
     }
 
-    public ArrayList<Button> getDoorTiles() {
-        return doorTiles;
+    public Door getDoors(int y,int x) {
+        return doors[y][x];
     }
-    
+
+
     /**
      * 
      */
@@ -49,53 +47,54 @@ public final class Board {
         places = new Place[25][24];
         rooms = new Room[25][24];
         tiles = new Tile[25][24];
+        doors = new Door[25][24];
 
         // Rooms
-        Room study = createRoom(0, 0, 7, 4);
-        Room library = createRoom(1, 6, 5, 5);
-        Room billiard_room = createRoom(0, 12, 6, 5);
-        Room conservatory = createRoom(0, 20, 6, 4);
-        Room hall = createRoom(9, 1, 6, 5);
-        Room ballroom = createRoom(9, 18, 6, 4);
-        Room lounge = createRoom(1, 18, 5, 4);
-        Room dining_room = createRoom(17, 10, 6, 4);
-        Room kitchen = createRoom(19, 19, 4, 4);
+        Room study = createRoom("Study",0, 0, 7, 4);
+        Room library = createRoom("Library",1, 6, 5, 5);
+        Room billiard_room = createRoom("Billard Room",0, 12, 6, 5);
+        Room conservatory = createRoom("Conservatory",0, 20, 6, 4);
+        Room hall = createRoom("Hall",9, 1, 6, 5);
+        Room ballroom = createRoom("Ballroom",9, 18, 6, 4);
+        Room lounge = createRoom("Lounge",1, 18, 5, 4);
+        Room dining_room = createRoom("Dining Room",17, 10, 6, 4);
+        Room kitchen = createRoom("Kitchen",19, 19, 4, 4);
 
         // Doors
         addTile(study.addDoor("N"), 6, 3);
-     //   doorTiles.add(createTile(6,3).getButton());
+        this.doors[6][3] = new Door(study,"N");
         addTile(library.addDoor("W"), 6, 8);
-     //   doorTiles.add(createTile(6,8).getButton());
+        this.doors[6][8] = new Door(library,"w");
         addTile(library.addDoor("N"), 3, 10);
-     //   doorTiles.add(createTile(3,10).getButton());
+     this.doors[3][10] = new Door(library,"N");
         addTile(billiard_room.addDoor("S"), 1, 12);
-      //  doorTiles.add(createTile(1,12).getButton());
+      this.doors[1][12] = new Door(billiard_room,"S");
         addTile(billiard_room.addDoor("W"), 5, 15);
-     //   doorTiles.add(createTile(5,15).getButton());
+     this.doors[5][15] = new Door(billiard_room,"W");
         addTile(conservatory.addDoor("W"), 4, 19);
-     //   doorTiles.add(createTile(4,19).getButton());
+     this.doors[4][19] = new Door(conservatory,"W");
         addTile(hall.addDoor("E"), 9, 4);
-     //   doorTiles.add(createTile(9,4).getButton());
+     this.doors[9][4] = new Door(hall,"E");
         addTile(hall.addDoor("N"), 11, 6);
-     //   doorTiles.add(createTile(11,6).getButton());
+     this.doors[11][6] = new Door(hall,"N");
         addTile(hall.addDoor("N"), 12, 6);
-     //   doorTiles.add(createTile(12,6).getButton());
+     this.doors[12][6] = new Door(hall,"N");
         addTile(ballroom.addDoor("E"), 8, 19);
-     //   doorTiles.add(createTile(8,19).getButton());
+    this.doors[8][19] = new Door(ballroom,"E");
         addTile(ballroom.addDoor("S"), 9, 17);
-     //   doorTiles.add(createTile(9,17).getButton());
+     this.doors[9][17] = new Door(ballroom,"S");
         addTile(ballroom.addDoor("S"), 14, 17);
-     //   doorTiles.add(createTile(14,17).getButton());
+     this.doors[14][17] = new Door(ballroom,"S");
         addTile(ballroom.addDoor("W"), 15, 19);
-      //  doorTiles.add(createTile(15,19).getButton());
+     this.doors[15][19] = new Door(ballroom,"W");
         addTile(lounge.addDoor("N"), 17, 5);
-      //  doorTiles.add(createTile(17,5).getButton());
+      this.doors[17][5] = new Door(lounge,"N");
         addTile(dining_room.addDoor("S"), 17, 9);
-      //  doorTiles.add(createTile(17,19).getButton());
+      this.doors[17][9] = new Door(dining_room,"S");
         addTile(dining_room.addDoor("E"), 16, 12);
-      //  doorTiles.add(createTile(16,12).getButton());
+     this.doors[16][12] = new Door(dining_room,"E");
         addTile(kitchen.addDoor("S"), 19, 18);
-        //doorTiles.add(createTile(19,18).getButton());
+        this.doors[19][18] = new Door(kitchen,"S");
 
         // Start Platforms
         createTile(0, 5);
@@ -214,8 +213,10 @@ public final class Board {
                     // Door only adjacent
                     if (tile.getClass() == Door.class) {
                         Door door = (Door) tile;
+                        
                         if (y - 1 >= 0 && door.entryFrom() == "N") {
                             door.setAdjacent("N", tiles[y - 1][x]);
+                            
                         }
                         if (y + 1 < 25 && door.entryFrom() == "S") {
                             door.setAdjacent("S", tiles[y + 1][x]);
@@ -276,6 +277,9 @@ public final class Board {
         tiles[y][x] = tile;
     }
 
+    
+    
+
     /**
      * Create Room and add to arrays
      *
@@ -285,8 +289,8 @@ public final class Board {
      * @param height
      * @return room
      */
-    private Room createRoom(int x, int y, int width, int height) {
-        Room room = new Room(x, y, width, height);
+    private Room createRoom(String roomName,int x, int y, int width, int height) {
+        Room room = new Room(roomName,x, y, width, height);
         places[y][x] = room;
         rooms[y][x] = room;
 

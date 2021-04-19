@@ -9,6 +9,7 @@ import com.seteam23.clue.game.board.Board;
 import com.seteam23.clue.game.board.Door;
 
 import com.seteam23.clue.game.board.Tile;
+import com.seteam23.clue.game.entities.Card;
 import com.seteam23.clue.game.entities.NPC;
 import com.seteam23.clue.game.entities.Player;
 import static com.seteam23.clue.singleplayer.SingleplayerMenu.getOpponentPlayers;
@@ -23,6 +24,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -53,6 +55,9 @@ public class GameController implements Initializable {
     @FXML private Label moves_label;
     @FXML private GridPane grid;
     
+    @FXML private Button suggest;
+    @FXML private Button accuse;
+    
     private int endAIMovement;
     private int[] aiPrevX;
     private int[] aiPrevY;
@@ -60,7 +65,7 @@ public class GameController implements Initializable {
     private ArrayList<Tile> searchSpace;
     private Player startingPlayer;
     public static Board board;
-    public int[] dieRolls = new int[3];
+    public int dieRolls;
     public int turn = 0;
 
 
@@ -73,6 +78,7 @@ public class GameController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         board = new Board();
+        this.game = new Game();
         createButtons();
         aiPrevX = new int[6];
         aiPrevY = new int[6];
@@ -144,21 +150,22 @@ public class GameController implements Initializable {
     
     public void rollDicesAnimation(){
         Timer timer = new Timer();
-        moves_label.setText("    "+dieRolls[2]);
+        this.dieRolls = this.game.rollDice();
+        moves_label.setText("    "+dieRolls);
         moves_label.setVisible(false);
         diceThrow.setVisible(true);
-        getStartingPlayer().setSearchSpace(board.reachableFrom(board.getTile(getStartingPlayer().getCurrentPosY(), getStartingPlayer().getCurrentPosX()),dieRolls[2]));
+        getStartingPlayer().setSearchSpace(board.reachableFrom(board.getTile(getStartingPlayer().getCurrentPosY(), getStartingPlayer().getCurrentPosX()),dieRolls));
             timer.schedule(new TimerTask() {
                 @Override
                 public void run() {
                     diceThrow.setVisible(false);
                     moves_label.setVisible(true);
-                    board.showAvailableMoves(board.getTile(getStartingPlayer().getCurrentPosY(), getStartingPlayer().getCurrentPosX()),dieRolls[2]);
+                    board.showAvailableMoves(board.getTile(getStartingPlayer().getCurrentPosY(), getStartingPlayer().getCurrentPosX()),dieRolls);
                     if(!getStartingPlayer().isHuman()){
                         if((aiPrevY[getStartingPlayer().getOrder()-1] != 0) && (aiPrevY[getStartingPlayer().getOrder()-1]!=0)){
                             getBoard().getTile(aiPrevY[getStartingPlayer().getOrder()-1], aiPrevX[getStartingPlayer().getOrder()-1]).getButton().getStyleClass().remove("toggle-"+getStartingPlayer().getName().split(" ",-1)[1]);
                         }
-                        NPC npc = new NPC(getStartingPlayer().getName(),getStartingPlayer().getOrder(),getStartingPlayer().getImgPath(),getStartingPlayer().getCurrentPosY(),getStartingPlayer().getCurrentPosX(),false);
+                        NPC npc = new NPC(getStartingPlayer().getName(),getStartingPlayer().getOrder(),getStartingPlayer().getImgPath(),getStartingPlayer().getCurrentPosY(),getStartingPlayer().getCurrentPosX(),false,false);
                         Button aiMovedButton = npc.AIMoves(getStartingPlayer().getSearchSpace()).getButton();
                         aiMovedButton.getStyleClass().add("toggle-"+getStartingPlayer().getName().split(" ",-1)[1]);
                         getStartingPlayer().setCurrentPosYX(GridPane.getColumnIndex(aiMovedButton), GridPane.getRowIndex(aiMovedButton));
@@ -177,12 +184,36 @@ public class GameController implements Initializable {
     @FXML
     private void rollDices() throws Exception{
         this.startingPlayer.setEndTurn(false);
-        dieRolls = game.rollDice();
         rollDicesAnimation();
-        if(getBoard().getTile(this.startingPlayer.getCurrentPosY(), this.startingPlayer.getCurrentPosX()) instanceof Door){
-            
-        }
 
+    }
+    @FXML
+    private void makeSuggestion(ActionEvent event) throws Exception{
+        if(this.startingPlayer.getIsInRoom()){
+            this.room.getSelectionModel().select(getBoard().getDoors(this.startingPlayer.getCurrentPosY(), this.startingPlayer.getCurrentPosX()).getRoom().getRoomName());
+            boolean shown = false;
+            int askNext = this.startingPlayer.getOrder()+1;
+            while(!shown){
+                if(askNext%7 == this.startingPlayer.getOrder()){
+                    System.out.print("Done");
+                    shown = true;
+                }
+                else{
+                for(NPC eachPlayer:getOpponentPlayers()){                    
+                    if(eachPlayer.getOrder() == (askNext%7)){
+                        for(Card aiEachCard:eachPlayer.getCards()){
+                            if(aiEachCard.getName().equals(person.getValue()+".jpg") || aiEachCard.getName().equals(weapon.getValue()+".JPG") || aiEachCard.getName().equals(room.getValue()+".png")){
+                                System.out.print(aiEachCard.getName()+"   ");
+                                System.out.print(eachPlayer.getName()+"  ");
+                                shown=true;
+                            }
+                        }   
+                    }
+                }
+                askNext+=1;
+                }
+            }
+        }
     }
     
     @FXML
@@ -212,17 +243,21 @@ public class GameController implements Initializable {
         player_img.setImage(userImage);
         
         if(!getStartingPlayer().isHuman()){
-            this.dieRolls = Game.rollDice();
             rollDicesAnimation(); 
             Timer timer = new Timer();
             timer.schedule(new TimerTask() {
                 @Override
                 public void run() {
-                    try {
-                        endTurn();
-                    } catch (Exception ex) {
-                        Logger.getLogger(GameController.class.getName()).log(Level.SEVERE, null, ex);
-                    }
+                     Platform.runLater(new Runnable(){
+                         @Override
+                         public void run() {
+                            try {
+                                endTurn();
+                            } catch (Exception ex) {
+                                Logger.getLogger(GameController.class.getName()).log(Level.SEVERE, null, ex);
+                            }
+                         }
+                     });
                     timer.cancel();
                 }
         },3200);

@@ -9,19 +9,14 @@ package com.seteam23.clue.game.board;
 
 import static com.seteam23.clue.game.GameController.getBoard;
 
-import com.seteam23.clue.game.entities.NPC;
 
 import com.seteam23.clue.game.entities.Player;
-import com.seteam23.clue.singleplayer.SingleplayerMenu;
 import static com.seteam23.clue.singleplayer.SingleplayerMenu.getPlayer1;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.scene.control.Button;
 import javafx.scene.layout.GridPane;
 
@@ -33,7 +28,7 @@ public abstract class Place {
     private int max_players;
     private ArrayList<Player> occupiers;
     private Button button;
-    public static int turn = 0;
+    private boolean occupied;
 
     
     /**
@@ -44,10 +39,14 @@ public abstract class Place {
         this.max_players = max_players;
         this.occupiers = new ArrayList<>();
         this.button = createButton();
+        this.occupied = false;
         
     }
 
-    
+    public boolean isOccupied() {
+        return occupied;
+    }
+
     
     /**
      * Adds the Player to the Place if there is space for them
@@ -56,6 +55,7 @@ public abstract class Place {
      */
     public boolean addOccupier(Player p) {
         if (this.occupiers.size() < this.max_players) {
+            this.occupied = true;
             return this.occupiers.add(p);
         }
         return false;
@@ -67,6 +67,7 @@ public abstract class Place {
      * @return True if removed from ArrayList
      */
     public boolean removeOccupier(Player p) {
+        this.occupied = false;
         return this.occupiers.remove(p);
     }
     

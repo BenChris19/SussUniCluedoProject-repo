@@ -8,21 +8,13 @@ package com.seteam23.clue.game.board;
 
 import com.seteam23.clue.game.entities.Card;
 import java.util.ArrayList;
-import java.util.Random;
-import javafx.application.Application;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
-import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.layout.StackPane;
-import javafx.stage.Stage;
 
 public class Room extends Place{
     private int x, y;
     private int width, height;
     private Card weapon;
     private ArrayList<Tile> doors;
-    
+    private String roomName;
     private Card[] weapons;
     
     /**
@@ -32,11 +24,12 @@ public class Room extends Place{
      * @param width
      * @param height 
      */
-    public Room(int x, int y, int width, int height) {
+    public Room(String roomName,int x, int y, int width, int height) {
         // Can hold 6 people (SET TO MAX PLAYERS FOR GAME)
         super(6);
         
         this.x = x;
+        this.roomName = roomName;
         this.y = y;
         this.width = width;
         this.height = height;
@@ -44,6 +37,7 @@ public class Room extends Place{
         doors = new ArrayList<>();
     }
 
+    
     /**
      * 
      * @param weaponToAdd 
@@ -52,6 +46,11 @@ public class Room extends Place{
         weapon = weaponToAdd;
     }
 
+    public String getRoomName() {
+        return roomName;
+    }
+
+    
     /**
      * 
      */

@@ -6,43 +6,35 @@
 package com.seteam23.clue.game;
 
 import com.seteam23.clue.game.board.Board;
-import com.seteam23.clue.game.board.BoardController;
-import com.seteam23.clue.game.board.Place;
-import com.seteam23.clue.game.board.Tile;
-import com.seteam23.clue.game.entities.Card;
-import com.seteam23.clue.game.entities.Player;
-import com.seteam23.clue.singleplayer.SingleplayerMenuController;
-import static com.seteam23.clue.singleplayer.SingleplayerMenuController.generatePlayers;
+import com.seteam23.clue.game.board.Door;
 
-import static com.seteam23.clue.singleplayer.SingleplayerMenuController.getImageview;
-import static com.seteam23.clue.singleplayer.SingleplayerMenuController.getPlayer;
-import static com.seteam23.clue.singleplayer.SingleplayerMenuController.getPlayers;
-import static com.seteam23.clue.singleplayer.SingleplayerMenuController.getImageview;
-import static com.seteam23.clue.singleplayer.SingleplayerMenuController.getPlayer;
-import java.awt.event.MouseEvent;
-import java.io.IOException;
+import com.seteam23.clue.game.board.Tile;
+import com.seteam23.clue.game.entities.NPC;
+import com.seteam23.clue.game.entities.Player;
+import static com.seteam23.clue.singleplayer.SingleplayerMenu.getOpponentPlayers;
+import static com.seteam23.clue.singleplayer.SingleplayerMenu.getPlayer1;
+
+
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.ResourceBundle;
+import java.util.Timer;
+import java.util.TimerTask;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
+
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.Pane;
-import javafx.stage.Stage;
 
 /**
  * FXML Controller class
@@ -51,18 +43,24 @@ import javafx.stage.Stage;
  */
 public class GameController implements Initializable {
     
-    @FXML private BorderPane viewport;
     @FXML private ComboBox person;
     @FXML private ComboBox weapon;
     @FXML private ComboBox room;
     @FXML private ImageView player_img;
-    @FXML private AnchorPane anchorPane;
+    @FXML private ImageView diceThrow;
+
+
     @FXML private Label moves_label;
     @FXML private GridPane grid;
-
+    
+    private int endAIMovement;
+    private int[] aiPrevX;
+    private int[] aiPrevY;
     private Game game;
+    private ArrayList<Tile> searchSpace;
+    private Player startingPlayer;
     public static Board board;
-    public static int[] dieRolls = new int[3];
+    public int[] dieRolls = new int[3];
     public int turn = 0;
 
 
@@ -74,25 +72,60 @@ public class GameController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        try {
-            game = new Game(this);
-            board = new Board();
-            createButtons();
-            //board.getStartPos(getPlayer()).startFlashing();
+        board = new Board();
+        createButtons();
+        aiPrevX = new int[6];
+        aiPrevY = new int[6];
+
+        ArrayList<String> allPlayers = new ArrayList<>(Arrays.asList("Miss Scarlett","Col Mustard","Mrs White","Rev Green","Mrs Peacock","Prof Plum"));
+        int startingPlayerPos = 0;
+        boolean startFound = false;
+        Image userImage = null;
+        while(!startFound){
+        for(int i=0;i<getOpponentPlayers().size();i++){
+            if(getOpponentPlayers().get(i).getName().equals(allPlayers.get(startingPlayerPos))){
+                userImage = new Image(getClass().getResourceAsStream(getOpponentPlayers().get(i).getImgPath()));
+                this.startingPlayer = getOpponentPlayers().get(i);
+                startFound = true;
+                break;
+            }
+            else if (getPlayer1().getName().equals(allPlayers.get(startingPlayerPos))){
+                userImage = new Image(getClass().getResourceAsStream(getPlayer1().getImgPath()));
+                this.startingPlayer = getPlayer1();
+                this.startingPlayer.setHuman(true);
+                startFound = true;
+                break;
+            }
+            }
+            startingPlayerPos+=1;
         }
-        catch (IOException e) {
-            e.printStackTrace();
-        }
-        player_img = getImageview();
-        anchorPane.getChildren().remove(player_img);
-        anchorPane.getChildren().addAll(player_img);
-        ObservableList<String> listPer = FXCollections.observableArrayList(game.getSuspectNames());
+
+        player_img.setImage(userImage);
+        ObservableList<String> listPer = FXCollections.observableArrayList("Miss Scarlett","Rev Green","Col Mustard","Mrs Peacock","Mrs White","Prof Plum");
         this.person.setItems(listPer);
-        ObservableList<String> listWea = FXCollections.observableArrayList(game.getWeaponNames());
+        ObservableList<String> listWea = FXCollections.observableArrayList("Candlestick","Knife","Lead Pipe","Revolver","Rope","Wrench");
         this.weapon.setItems(listWea);
-        ObservableList<String> listRoo = FXCollections.observableArrayList(game.getRoomNames());
+        ObservableList<String> listRoo = FXCollections.observableArrayList("Ballroom","Billard room","Conservatory","Dining room","Hall","Kitchen","Library","Lounge","Study");
         this.room.setItems(listRoo);
+        
+        if(this.startingPlayer instanceof NPC){
+            try {
+                rollDices();
+            } catch (Exception ex) {
+                Logger.getLogger(GameController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        }
+    
+
+    public static Board getBoard() {
+        return board;
     }
+
+    public void setStartingPlayer(Player startingPlayer) {
+        this.startingPlayer = startingPlayer;
+    }
+    
     
     
     public void createButtons() {
@@ -105,103 +138,95 @@ public class GameController implements Initializable {
         }
     }
 
-    
-    /**
-     * 
-     * @param event
-     * @throws Exception 
-     */
-    @FXML
-    private void change(ActionEvent event) throws Exception{ 
-        Button b = (Button)event.getSource();
-        if (b.getText().equals("Make Suggestion")) {
-                    b.setStyle("-fx-background-color: red");
-                    b.setText("Make Accusation"); 
-        }
-        else {
-                    b.setStyle("-fx-background-color: green");
-                    b.setText("Make Suggestion"); 
-        }
+    public Player getStartingPlayer() {
+        return startingPlayer;
     }
     
-    /**
-     * 
-     * @param image_path 
-     */
-    public void changeChar(String image_path){
-        player_img.setImage(new Image(getClass().getResource(image_path).toExternalForm()));
-    }
-
-    public static Board getBoard() {
-        return board;
-    }
-
-    public static int[] getDieRolls() {
-        return dieRolls;
-    }
-
-    public ImageView getPlayer_img() {
-        return player_img;
-    }
-
-    public void setPlayer_img(ImageView player_img) {
-        this.player_img = player_img;
-    }
-    
-    
-    
-    /**
-     * 
-     * @param event
-     * @throws Exception 
-     */
-    @FXML
-    private void rollDices(ActionEvent event) throws Exception{
+    public void rollDicesAnimation(){
+        Timer timer = new Timer();
+        moves_label.setText("    "+dieRolls[2]);
+        moves_label.setVisible(false);
+        diceThrow.setVisible(true);
+        getStartingPlayer().setSearchSpace(board.reachableFrom(board.getTile(getStartingPlayer().getCurrentPosY(), getStartingPlayer().getCurrentPosX()),dieRolls[2]));
+            timer.schedule(new TimerTask() {
+                @Override
+                public void run() {
+                    diceThrow.setVisible(false);
+                    moves_label.setVisible(true);
+                    board.showAvailableMoves(board.getTile(getStartingPlayer().getCurrentPosY(), getStartingPlayer().getCurrentPosX()),dieRolls[2]);
+                    if(!getStartingPlayer().isHuman()){
+                        if((aiPrevY[getStartingPlayer().getOrder()-1] != 0) && (aiPrevY[getStartingPlayer().getOrder()-1]!=0)){
+                            getBoard().getTile(aiPrevY[getStartingPlayer().getOrder()-1], aiPrevX[getStartingPlayer().getOrder()-1]).getButton().getStyleClass().remove("toggle-"+getStartingPlayer().getName().split(" ",-1)[1]);
+                        }
+                        NPC npc = new NPC(getStartingPlayer().getName(),getStartingPlayer().getOrder(),getStartingPlayer().getImgPath(),getStartingPlayer().getCurrentPosY(),getStartingPlayer().getCurrentPosX(),false);
+                        Button aiMovedButton = npc.AIMoves(getStartingPlayer().getSearchSpace()).getButton();
+                        aiMovedButton.getStyleClass().add("toggle-"+getStartingPlayer().getName().split(" ",-1)[1]);
+                        getStartingPlayer().setCurrentPosYX(GridPane.getColumnIndex(aiMovedButton), GridPane.getRowIndex(aiMovedButton));
+                        aiPrevX[getStartingPlayer().getOrder()-1] = GridPane.getRowIndex(aiMovedButton);
+                        aiPrevY[getStartingPlayer().getOrder()-1] = GridPane.getColumnIndex(aiMovedButton);
+                    }
+                    timer.cancel();
+                }
+            }, 2500);
+        board.unlightAllTiles(); 
         
-        //This needs to be incorporated to rollDice() in Game
-        //I didn't want to remove and fuck up the FXML
+    }
+    
+    
+
+    @FXML
+    private void rollDices() throws Exception{
+        this.startingPlayer.setEndTurn(false);
         dieRolls = game.rollDice();
-        
-        moves_label.setText("YOU ROLLED A\n"+dieRolls[2]);
-        
+        rollDicesAnimation();
+        if(getBoard().getTile(this.startingPlayer.getCurrentPosY(), this.startingPlayer.getCurrentPosX()) instanceof Door){
+            
+        }
+
+    }
+    
+    @FXML
+    private void endTurn() throws Exception{
         board.unlightAllTiles();
-
-            board.showAvailableMoves(board.getTile(Board.startCols[Place.turn], Board.startRows[Place.turn]),dieRolls[2]);
-
-
-
-
-
+        getStartingPlayer().setEndTurn(true);
+        int next = getStartingPlayer().getOrder()+1;
+        boolean nextPlayerFound = false;
         
-
-
+        while(!nextPlayerFound){
+            for(int i = 0;i<getOpponentPlayers().size();i++){
+                if(getOpponentPlayers().get(i).getOrder() == next%7){
+                    setStartingPlayer(getOpponentPlayers().get(i));
+                    nextPlayerFound = true;
+                    break;
+                }
+                else if(getPlayer1().getOrder() == next%7){
+                    setStartingPlayer(getPlayer1());
+                    this.getStartingPlayer().setHuman(true);
+                    nextPlayerFound = true;      
+                    break;
+                }
+            }
+            next+=1;
+        }
+        Image userImage = new Image(getClass().getResourceAsStream(getStartingPlayer().getImgPath()));
+        player_img.setImage(userImage);
         
-        /*
-        Stage window = new Stage();
-            window.initModality(Modality.APPLICATION_MODAL);
-            window.setWidth(250);
-            window.setHeight(150);
-            
-            BorderPane paneRoll = new BorderPane();
-            Label labelRoll = new Label("You rolled a...");
-            Label diceSum = new Label(Integer.toString(dieRolls[2]));
-            BorderPane.setAlignment(labelRoll, Pos.TOP_CENTER);
-            BorderPane.setAlignment(diceSum,Pos.CENTER);
-            paneRoll.setTop(labelRoll);
-            paneRoll.setCenter(diceSum);
-            
-            Button buttonOK = new Button("Ok");  //closes current window and opens a new one, reseting the game
-            buttonOK.setOnAction(e->{
-                window.close();
-            });
-            BorderPane.setAlignment(buttonOK,Pos.CENTER);
-            paneRoll.setBottom(buttonOK);
-        
-            Scene scene = new Scene(paneRoll);
-            window.setScene(scene);
-            window.showAndWait();  
-        */
+        if(!getStartingPlayer().isHuman()){
+            this.dieRolls = Game.rollDice();
+            rollDicesAnimation(); 
+            Timer timer = new Timer();
+            timer.schedule(new TimerTask() {
+                @Override
+                public void run() {
+                    try {
+                        endTurn();
+                    } catch (Exception ex) {
+                        Logger.getLogger(GameController.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                    timer.cancel();
+                }
+        },3200);
     }
 
-    
+}
 }

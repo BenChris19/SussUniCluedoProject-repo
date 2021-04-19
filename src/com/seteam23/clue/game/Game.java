@@ -6,7 +6,6 @@
 package com.seteam23.clue.game;
 
 import com.seteam23.clue.game.board.Board;
-import static com.seteam23.clue.game.board.BoardController.getBoard;
 import com.seteam23.clue.game.entities.Card;
 import com.seteam23.clue.game.entities.Player;
 import java.io.BufferedReader;
@@ -30,110 +29,18 @@ public final class Game{
     ArrayList<Player> players; //Indiscriminant of human or AI
     Player currentPlayer;
     
-    /**
-     * 
-     * @param controller
-     * @param players
-     * @throws IOException 
-     */
     public Game(GameController controller) throws IOException{
         this.controller = controller;
-        board = getBoard();
-        weapon_cards = new ArrayList<>();
-        room_cards = new ArrayList<>();
-        suspect_cards = new ArrayList<>();
-        this.players = players;
-        System.out.println(board);
-//        board.setPlayers(players);
-        initialise();
-        startGame();
-//        currentPlayer = players.get(0);
+        this.board = new Board();
+
     }
-    
-    /**
-     * Loads data from the init.txt file in the directory in to the game object
-     * 
-     * @throws IOException
-     */
-    public void initialise() throws IOException{
-        //Creates file reader
-        try (BufferedReader br = new BufferedReader(new FileReader("src/resources/main/init.csv"))) {
-            String line;
-            //Reads through each line in the document
-            while ((line = br.readLine()) != null) {
-                //Filters out comments in the file starting with character #
-                System.out.println(line);
-                if (!(line.charAt(0) == '#')){
-                    //Splits a line in to strings separated by commas
-                    String[] info = line.split(",");
-                    switch (info[0]){
-                        case "CARD":
-                            System.out.println("Recognised Card");
-                            //Creates a card object with specified data
-                            String tempName = info[2];
-                            String tempPath = info[3];
-                            String tempType = info[1];
-                            Card temp = new Card(tempName, tempPath, tempType);
-                            //Adds card to game
-                            switch (temp.getCardType()) {
-                                case "WEAPON":
-                                    //System.out.println("Recognised Weapon");
-                                    weapon_cards.add(temp);
-                                    break;
-                                case "SUSPECT":
-                                    //System.out.println("Recognised Suspect");
-                                    suspect_cards.add(temp);
-                                    break;
-                                case "ROOM":
-                                    //System.out.println("Recognised Room");
-                                    room_cards.add(temp);
-                                    break;
-                            }
-                        break;
-                    }
-                }
-            }
-        //Thrown if file not found
-        } catch (IOException e) {
-            System.out.println("init.txt missing from directory");
-        }
-    }
-    
-    //Separates Killer cards from deck and distributes remaining cards
-    /**
-     * 
-     */
-    public void startGame(){
-        //Pick killer cards at random
-        Random r = new Random();
-        int suspectInd = r.nextInt(suspect_cards.size());
-        int weaponInd = r.nextInt(weapon_cards.size());
-        int roomInd = r.nextInt(room_cards.size());
-        killCards = new Card[]{suspect_cards.get(suspectInd), weapon_cards.get(weaponInd), room_cards.get(roomInd)};
-        //Combine all cards and distribute between players
-        //Mix all cards together
-        ArrayList<Card> cards = new ArrayList<>();
-        cards.addAll(suspect_cards);
-        cards.addAll(weapon_cards);
-        cards.addAll(room_cards);
-        for (Card c : killCards){
-            cards.remove(c);
-        }
-        Collections.shuffle(cards);
-        int i = 0;
-//        while(!cards.isEmpty() && !players.isEmpty()){
-  //          players.get(i%players.size()).addCard(cards.remove(0));
-    //        i++;
-      //  }
-        
-        //currentPlayer = players.get(0);
-    }
+
     //Returns separate dice rolls also for a potential visualisation of the dice in the GUI
     /**
      * 
      * @return 
      */
-    public int[] rollDice(){
+    public static int[] rollDice(){
         Random r = new Random();
         int die1 = r.nextInt(6)+1;
         int die2 = r.nextInt(6)+1;
@@ -271,13 +178,7 @@ public final class Game{
         this.controller = controller;
     }
 
-    /**
-     * 
-     * @param img_path 
-     */
-    public void setCharacterImage(String img_path) {
-        controller.changeChar(img_path);
-    }
+
     
 }
 

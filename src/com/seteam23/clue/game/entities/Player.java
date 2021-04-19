@@ -12,6 +12,7 @@ import com.seteam23.clue.singleplayer.SingleplayerMenu;
 import com.seteam23.clue.game.board.Tile;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -21,6 +22,7 @@ import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
 import java.util.Random;
+import java.util.function.Consumer;
 import javafx.scene.image.ImageView;
 
 public class Player {
@@ -28,13 +30,19 @@ public class Player {
     private static int noOfPlayers;
     private int row = 21, column;
     private int diceTotal = 0;
-    private boolean turn;
+    private int order;
     private String name;
-    private ImageView imgPath;
-    private ArrayList<Card> cards;
+    private int currentPosY;
+    private int currentPosX;
+    private String imgPath;
+    private boolean human;
+    private List<Card> cards;
     private Card player; //Card assigned to each player in Game initialisation, when each player chooses their character.
     private Place[][] place;
     private HashMap<Card, Boolean> checklist;
+    private boolean endTurn;
+    private ArrayList<Tile> searchSpace;
+    private final boolean isHuman;
 
     /**
      * 
@@ -42,38 +50,95 @@ public class Player {
      * @param noOfPlayers
      * @param turn 
      */
-    public Player(String name) {
-        this.turn = turn;
+    public Player(String name,int order,String playerImgPath,int currentPosY,int currentPosX,boolean endTurn) {
+        this.order = order;
+        this.isHuman = true;
+        this.endTurn = endTurn;
+        this.searchSpace = new ArrayList<>();
+        this.currentPosY = currentPosY;
+        this.currentPosX = currentPosX;
+        this.imgPath = playerImgPath;
         this.noOfPlayers = noOfPlayers;
         this.CheckBoard = new CheckTile[row][noOfPlayers];
         this.name = name;  
-        cards = new ArrayList<>();
-        switch (this.name) {
-            case "Scarlett":
-                this.place = new Tile[16][0];
-                break;
-            case "Plum":
-                this.place = new Tile[0][5];
-                break;
-            case "Peacock":
-                this.place = new Tile[0][18];
-                break;
-            case "Mustard":
-                this.place = new Tile[23][7];
-                break;
-            case "Green":
-                this.place = new Tile[15][23];
-            case "White":
-                this.place = new Tile[16][23];
-            default:
-                break;
-        }
+        this.cards = new ArrayList<>();
         
     }
 
-    public ArrayList<Card> getCards() {
+    public void setSearchSpace(ArrayList<Tile> searchSpace) {
+        searchSpace.forEach((Tile t) -> {
+            Player.this.searchSpace.add(t);
+        });
+    }
+
+    public ArrayList<Tile> getSearchSpace() {
+        return searchSpace;
+    }
+
+    public boolean isHuman() {
+        return human;
+    }
+
+    public void setHuman(boolean human) {
+        this.human = human;
+    }
+
+    
+    public void setEndTurn(boolean endTurn) {
+        this.endTurn = endTurn;
+    }
+
+    public boolean isEndTurn() {
+        return endTurn;
+    }
+
+    
+    public void setCurrentPosYX(int currentPosY, int currentPosX) {
+        this.currentPosY = currentPosY;
+        this.currentPosX = currentPosX;
+    }
+
+    public int getCurrentPosY() {
+        return currentPosY;
+    }
+
+    public int getCurrentPosX() {
+        return currentPosX;
+    }
+
+
+
+    public String getImgPath() {
+        return imgPath;
+    }
+
+    public int getOrder() {
+        return order;
+    }
+
+    
+    
+    public void setTurn(int turn) {
+        this.order = turn;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setImgPath(String imgPath) {
+        this.imgPath = imgPath;
+    }
+
+    public void addCards(Card card) {
+        this.cards.add(card);
+    }
+    
+
+    public List<Card> getCards() {
         return cards;
     }
+    
     
     /**
      * 
@@ -92,30 +157,15 @@ public class Player {
     }
     
     
-    /**
-     * 
-     */
-    public void finishTurn(){
 
-        turn = false;
-        //Game.nextPlayerTurn()
-    }
     
-    /**
-     * 
-     */
-    public void startTurn(){
 
-        turn = true;
-        //rollDice();
-        //
-    }
 
     /**
      * 
      * @return 
      */
-    public ArrayList<Card> viewCards(){
+    public List<Card> viewCards(){
 
         return cards;
     }

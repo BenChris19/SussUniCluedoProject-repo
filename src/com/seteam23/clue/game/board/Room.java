@@ -77,4 +77,9 @@ public class Room extends Place{
         doors.add(door);
         return door;
     }
+
+    public ArrayList<Tile> getDoors() {
+        return doors;
+    }
+    
 }

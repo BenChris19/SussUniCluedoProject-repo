@@ -45,6 +45,7 @@ public class Tile extends Place {
         flasher.setAutoReverse(true);
         
     }
+
     
     /**
      * 
@@ -53,7 +54,7 @@ public class Tile extends Place {
         if(!flashing){
             flashing = true;
             this.getButton().pseudoClassStateChanged(FLASH_HIGHLIGHT, true);
-            flasher.play();
+            //flasher.play();
         }
     }
     
@@ -72,7 +73,7 @@ public class Tile extends Place {
         if (flashing) {
             flashing = false;
             this.getButton().pseudoClassStateChanged(FLASH_HIGHLIGHT, false);
-            flasher.stop();
+            //flasher.stop();
         }
     }
 
@@ -94,4 +95,12 @@ public class Tile extends Place {
     public void setAdjacent(String direction, Tile tile) {
         adjacent.put(direction, tile);
     }
+    public String getKeyFromValue(HashMap hm, Door value) {
+            for (Object o : hm.keySet()) {
+              if (hm.get(o)!=null && hm.get(o).equals(value)) {
+                return (String)o;
+              }
+            }
+            return null;
+          }
 }

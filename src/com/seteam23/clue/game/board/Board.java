@@ -15,7 +15,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.LinkedList;
 
 import java.util.Random;
@@ -26,72 +25,22 @@ import javafx.scene.control.Button;
 
 public final class Board {
 
-    // Reference to the Current used Board Controller
-    private BoardController controller;
-
     private Place[][] places; //All
     private Room[][] rooms; //Room Doors
     private Tile[][] tiles; //Tiles
+    public ArrayList<Button> doorTiles = new ArrayList<>();
     
-    public static int startCols[] = new int[]{16,23,14,9,0,0};
-    public static int startRows[] = new int[]{0,7,24,24,18,5};
 
     private ArrayList<Player> players = new ArrayList<>();
 
-    /**
-     * 
-     * @param controller 
-     */
-    public Board(BoardController controller) {
-        this.controller = controller;
 
-        createGrid();
-
-
-        //highlightAllTiles();
-
-    }
     public Board(){
-        createGrid();
-        
+        createGrid();  
     }
-    
-    /**
-     * 
-     * @param controller
-     * @param img_path 
-     */
-    public Board(BoardController controller, String img_path) {
-        this.controller = controller;
-        setBackgroundImage(img_path);
 
-        createGrid();
+    public ArrayList<Button> getDoorTiles() {
+        return doorTiles;
     }
-    
-    /**
-     * 
-     * @param player 
-     */
-    public void addPlayers(Player player){
-        Random rand = new Random();
-        int rand_pos;
-        ArrayList<String> oppponents =  new ArrayList<>(Arrays.asList("Miss Scarlett","Prof Plum","Col Mustard","Rev Green","Mrs White","Mrs Peacock") );
-        this.players.add(player);
-        int players_left =getNoOfPlayers();
-        for(int i=0;i<getNoOfPlayers();i++){
-            rand_pos = rand.nextInt(players_left);
-            if(!this.players.contains(new Player(oppponents.get(rand_pos)))){
-                this.players.add(new Player(oppponents.remove(rand_pos)));
-                players_left-=1;
-            }
-            else{
-                oppponents.remove(rand_pos);
-                i-=1;
-            }
-            
-        }
-    
-}
     
     /**
      * 
@@ -114,22 +63,39 @@ public final class Board {
 
         // Doors
         addTile(study.addDoor("N"), 6, 3);
+     //   doorTiles.add(createTile(6,3).getButton());
         addTile(library.addDoor("W"), 6, 8);
+     //   doorTiles.add(createTile(6,8).getButton());
         addTile(library.addDoor("N"), 3, 10);
+     //   doorTiles.add(createTile(3,10).getButton());
         addTile(billiard_room.addDoor("S"), 1, 12);
+      //  doorTiles.add(createTile(1,12).getButton());
         addTile(billiard_room.addDoor("W"), 5, 15);
+     //   doorTiles.add(createTile(5,15).getButton());
         addTile(conservatory.addDoor("W"), 4, 19);
+     //   doorTiles.add(createTile(4,19).getButton());
         addTile(hall.addDoor("E"), 9, 4);
+     //   doorTiles.add(createTile(9,4).getButton());
         addTile(hall.addDoor("N"), 11, 6);
+     //   doorTiles.add(createTile(11,6).getButton());
         addTile(hall.addDoor("N"), 12, 6);
+     //   doorTiles.add(createTile(12,6).getButton());
         addTile(ballroom.addDoor("E"), 8, 19);
+     //   doorTiles.add(createTile(8,19).getButton());
         addTile(ballroom.addDoor("S"), 9, 17);
+     //   doorTiles.add(createTile(9,17).getButton());
         addTile(ballroom.addDoor("S"), 14, 17);
+     //   doorTiles.add(createTile(14,17).getButton());
         addTile(ballroom.addDoor("W"), 15, 19);
+      //  doorTiles.add(createTile(15,19).getButton());
         addTile(lounge.addDoor("N"), 17, 5);
+      //  doorTiles.add(createTile(17,5).getButton());
         addTile(dining_room.addDoor("S"), 17, 9);
+      //  doorTiles.add(createTile(17,19).getButton());
         addTile(dining_room.addDoor("E"), 16, 12);
+      //  doorTiles.add(createTile(16,12).getButton());
         addTile(kitchen.addDoor("S"), 19, 18);
+        //doorTiles.add(createTile(19,18).getButton());
 
         // Start Platforms
         createTile(0, 5);
@@ -374,13 +340,21 @@ public final class Board {
 
 
         if (moves_remaining > 0) {
-            for (Tile a : start.getAdjacent().values()) {
-                if (a != null && !a.isFull()) {
+            start.getAdjacent().values().stream().filter((a) -> (a != null && !a.isFull())).forEachOrdered((a) -> {
+                if(a instanceof Door){
+                    Door checkDoor = (Door)a;
+                    if(start.getKeyFromValue(start.getAdjacent(), checkDoor).equals(checkDoor.entryFrom())){
+                        Set<Tile> r = reachableRecursive(a, moves_remaining - 1);
+                        reach.addAll(r);
+                        reach.add(a);
+                    }
+                }
+                else{
                     Set<Tile> r = reachableRecursive(a, moves_remaining - 1);
                     reach.addAll(r);
                     reach.add(a);
                 }
-            }
+            });
         }
 
         return reach;
@@ -475,15 +449,6 @@ public final class Board {
     
 
     /**
-     * Set the board image to the new image
-     *
-     * @param img_path
-     */
-    public void setBackgroundImage(String img_path) {
-        controller.changeBackground(img_path);
-    }
-
-    /**
      * 
      * @param tile 
      */
@@ -533,6 +498,9 @@ public final class Board {
                 return getTile(16,0);
         }
         
+    }
+    public Tile setStartPos(int y,int x){
+        return getTile(y,x);
     }
         
 }

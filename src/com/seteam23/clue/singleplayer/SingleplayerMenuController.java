@@ -3,18 +3,15 @@ package com.seteam23.clue.singleplayer;
 import com.seteam23.clue.game.GameController;
 import com.seteam23.clue.game.entities.Card;
 import com.seteam23.clue.main.MainController;
-import com.seteam23.clue.game.entities.Player;
 import java.io.IOException;
 import static com.seteam23.clue.main.Main.makeFullscreen;
-import java.io.FileInputStream;
+import static com.seteam23.clue.singleplayer.SingleplayerMenu.getOpponentPlayers;
 import java.io.FileNotFoundException;
-import java.io.InputStream;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
-import java.util.Random;
 import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -22,20 +19,16 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
-import javafx.scene.control.Label;
-import javafx.scene.layout.BorderPane;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.TilePane;
-import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 /**
@@ -58,20 +51,13 @@ public class SingleplayerMenuController implements Initializable {
     private ComboBox difLevel;
     @FXML 
     private ComboBox numPlayers;
-    private static int numPlayersAsInt;
 
-    private static String character = "Miss Scarlett";  //Use Scarlett as default character
-    private static int order = 1;
-    private SingleplayerMenu spMenu;
+
+    private final SingleplayerMenu spMenu;
     private Button prevCharacter;
-    private Image imageCharacter;
-    public static ImageView imageview;
-    private static ArrayList<String> others = new ArrayList<>(
-        Arrays.asList("Scarlett","Mustard","Plum","Green","Peacock","White"));
-    private static Player user;
-    private TabPane tabPane = new TabPane();
+
+    private final TabPane tabPane;
     private final String[] tabNames = {"Board", "Cards"};
-    private static ArrayList<Player> players;
 
     /**
      * 
@@ -79,23 +65,9 @@ public class SingleplayerMenuController implements Initializable {
      */
     public SingleplayerMenuController() throws IOException{
         spMenu = new SingleplayerMenu();
-        SingleplayerMenuController.imageview = new ImageView(new Image(getClass().getResourceAsStream("/resources/main/Miss Scarlett.jpg")));
-        SingleplayerMenuController.imageview.setFitHeight(370);
-        SingleplayerMenuController.imageview.setFitWidth(245);
+        tabPane = new TabPane();
     }
 
-    /**
-     * 
-     * @return 
-     */
-    public static ImageView getImageview() {
-        return imageview;
-    }
-    
-    public static int getNumOpponents(){
-        return numPlayersAsInt;
-    }
-    
 
     /**
      * Initialises the controller class.
@@ -117,76 +89,6 @@ public class SingleplayerMenuController implements Initializable {
         numPlayers.getSelectionModel().select(2);    // Index position in observableArray    
     }
     
-    /**
-     * 
-     * @return 
-     */
-    public String getCharacterName(){
-        return this.character;
-    }
-    
-    /**
-     * 
-     * @return 
-     */
-    public String getDifficulty(){
-        if (this.difLevel.getSelectionModel().getSelectedItem() == null){
-            return null;
-        }
-        else{
-            return (String) this.difLevel.getSelectionModel().getSelectedItem();
-        }
-    }
-
-    public static ArrayList<Player> getPlayers() {
-        return players;
-    }
-    
-    /**
-     * 
-     * @return 
-     */
-    public int getOpponents(){
-        if (this.numPlayers.getSelectionModel().getSelectedItem() == null){
-            return 0;
-        }
-        else{
-            return (int) this.numPlayers.getSelectionModel().getSelectedItem();
-        }
-    }
-    
-    /**
-     * 
-     * @return 
-     */
-    public String getOtherCharacterNames(){
-        return others.get(new Random().nextInt(others.size())); 
-    }
-    
-    /**
-     * 
-     * @return 
-     */
-    public Image getImageCharacter() {
-        return imageCharacter;
-    }
-    
-    public static ArrayList<Player> generatePlayers(){
-        ArrayList<Player> players = new ArrayList<>();
-        players.add(user);
-        ArrayList<String> charNames = new ArrayList<>();
-        for (String s:others){
-            if (!s.equals(user.getName())){
-                charNames.add(s);
-            }
-        }
-        Collections.shuffle(charNames);
-        for (int i=0; i < numPlayersAsInt; i++){
-            Player temp = new Player(charNames.get(i));
-            players.add(temp);
-        }
-        return players;
-    }
     
     /**
      * Changes to the Main Menu's Scene.
@@ -203,6 +105,7 @@ public class SingleplayerMenuController implements Initializable {
         window_menu.setFullScreen(true);
         makeFullscreen(root,970,545);
     }
+    
     /**
      * Changes to the Board's Scene.
      * @param event executes and event, in this case, it goes to the next window i.e 
@@ -210,117 +113,77 @@ public class SingleplayerMenuController implements Initializable {
      */
     @FXML
     private void continueBoard(ActionEvent event) throws Exception{
-        if (getOpponents() == 0 || getDifficulty() == null){
-            Stage window = new Stage();
-            window.initModality(Modality.APPLICATION_MODAL);
-            window.setTitle("Error");
-            window.setWidth(500);
-            window.setHeight(150);
-            
-            BorderPane paneError = new BorderPane();
-            Label labelError = new Label("You must choose a difficulty level and the number of opponents");
-            BorderPane.setAlignment(labelError, Pos.TOP_CENTER);
-            paneError.setTop(labelError);
-            
-            Button buttonOK = new Button("Ok");  //closes current window and opens a new one, reseting the game
-            buttonOK.setOnAction(e->{
-                window.close();
-            });
-            BorderPane.setAlignment(buttonOK,Pos.CENTER);
-            paneError.setBottom(buttonOK);
-        
-            Scene scene = new Scene(paneError);
-            window.setScene(scene);
-            window.showAndWait();
-        }
-        else{
-            numPlayersAsInt = getOpponents();
-            this.user = new Player(this.character);
-            players = generatePlayers();
-
+        spMenu.setOpponents(((Integer)this.numPlayers.getValue())-1);
         for (String s : tabNames) {
             Tab t = new Tab(s);
             t.setClosable(false);
             tabPane.getTabs().add(t);
             switch (s) {
                 case "Board":
-                    //t.setContent(FXMLLoader.load(BoardController.class.getResource("board.fxml")));
                     t.setContent(FXMLLoader.load(GameController.class.getResource("game.fxml")));
-                    
                     break;
-                case "Card":
+                case "Cards":
                     t.setContent(createCardPane());
                     break;
             }
-
         }
         Parent board = tabPane;
-        
-
             Stage window_game = (Stage)board_game.getScene().getWindow();
             window_game.setScene(new Scene(board));
             window_game.setFullScreen(true);
             makeFullscreen(board,1600,940);
-    }
+    
     }
     
-    /**
-     * 
-     * @return
-     */
-    public static Player getPlayer(){
-        return SingleplayerMenuController.user;
-    }
 
-    public static void setPlayer(Player user) {
-        SingleplayerMenuController.user = user;
-    }
     
     
     
-//@@ -85,6 +115,22 @@ private void continueBoard(ActionEvent event) throws Exception{
-    // * the player icon is on, changes to yellow to indicate that the user has chosen
-    // * that character.
-    // */
-    
-    /**
-     * 
-     * @return
-     * @throws FileNotFoundException 
-     */
-    private Pane createCardPane() throws FileNotFoundException{
-        TilePane cardPane = new TilePane();
-        for (Card c : user.viewCards()){
-            InputStream stream = new FileInputStream(c.getImgPath());
-            Image image = new Image(stream);
-            ImageView tempImageView = new ImageView();
-            //Setting image to the image view
-            tempImageView.setImage(image);
-            cardPane.getChildren().add(tempImageView);
-        }
-        return cardPane;
-    }
+
         /**
-     * Let's the user choose a character.
+     * Allows the user to choose a character.
      * @param event executes and event, in this case, the border of the button
      * the player icon is on, changes to yellow to indicate that the user has chosen
      * that character.
      */
     @FXML
     private void onMouseClicked(ActionEvent event) throws Exception{
-        List<String> people = Arrays.asList("Miss Scarlett", "Col Mustard", "Rev Green","Prof Plum","Mrs Peacock","Mrs White");
+        List<String> people = Arrays.asList("Miss Scarlett", "Col Mustard","Mrs White", "Rev Green","Mrs Peacock","Prof Plum");
         Button b = (Button)event.getSource();
-        b.setStyle("-fx-background-color: yellow");
-        character = b.getText();   
-        order = people.indexOf(b.getText());
-        Image image = new Image(getClass().getResourceAsStream("/resources/main/"+this.character+".jpg"));
-        this.imageview = new ImageView(image);
-        this.imageview.setFitHeight(370);
-        this.imageview.setFitWidth(245);
-
         
-        if(!character.equals("Miss Scarlett")){
+        SingleplayerMenu.getPlayer1().setName(b.getText());
+        SingleplayerMenu.getPlayer1().setImgPath("/resources/cards/players/"+b.getText()+".jpg");
+        
+        switch (b.getText()) {
+            case "Miss Scarlett":
+                SingleplayerMenu.getPlayer1().setTurn(1);
+                SingleplayerMenu.getPlayer1().setCurrentPosYX(16, 0);
+                break;
+            case "Prof Plum":
+                SingleplayerMenu.getPlayer1().setTurn(6);
+                SingleplayerMenu.getPlayer1().setCurrentPosYX(0,5);
+                break;
+            case "Col Mustard":
+                SingleplayerMenu.getPlayer1().setTurn(2);
+                SingleplayerMenu.getPlayer1().setCurrentPosYX(23, 7);
+                break;
+            case "Mrs White":
+                SingleplayerMenu.getPlayer1().setTurn(3);
+                SingleplayerMenu.getPlayer1().setCurrentPosYX(14, 24);
+                break;
+            case "Rev Green":
+                SingleplayerMenu.getPlayer1().setTurn(4);
+                SingleplayerMenu.getPlayer1().setCurrentPosYX(9, 24);
+                break;
+            default:
+                SingleplayerMenu.getPlayer1().setTurn(5);
+                SingleplayerMenu.getPlayer1().setCurrentPosYX(0, 18);
+                break;
+        }
+        
+        if(!b.getText().equals("Miss Scarlett")){
             this.buttonScarlett.setStyle("-fx-background-color: transparent");
+            b.setStyle("-fx-background-color: yellow");
         }
         else{
             this.buttonScarlett.setStyle("-fx-background-color: yellow");
@@ -332,6 +195,70 @@ public class SingleplayerMenuController implements Initializable {
         prevCharacter = b;
         
     }
-
+        /**
+     * Creates a Pane of ImageViews displaying the player's cards.
+     * 
+     * @return CardPane
+     */
+    private Pane createCardPane() throws FileNotFoundException{
+        ArrayList<String> cardsImagePaths = new ArrayList<>(Arrays.asList("/resources/cards/rooms/Ballroom.png","/resources/cards/rooms/Billard Room.png","/resources/cards/rooms/Conservatory.png",
+        "/resources/cards/rooms/Dining Room.png","/resources/cards/rooms/Hall.png","/resources/cards/rooms/Kitchen.png","/resources/cards/rooms/Library.png","/resources/cards/rooms/Lounge.png",
+            "/resources/cards/rooms/Study.png",
+        
+        "/resources/cards/weapons/Candlestick.JPG","/resources/cards/weapons/Knife.JPG","/resources/cards/weapons/Lead Pipe.JPG",
+            "/resources/cards/weapons/Revolver.JPG","/resources/cards/weapons/Rope.JPG","/resources/cards/weapons/wrench.JPG",
+        
+        "/resources/cards/players/Miss Scarlett.jpg","/resources/cards/players/Col Mustard.jpg","/resources/cards/players/Rev Green.jpg",
+            "/resources/cards/players/Prof Plum.jpg","/resources/cards/players/Mrs White.jpg","/resources/cards/players/Mrs Peacock.jpg"));
+        Collections.shuffle(cardsImagePaths);
+        
+        TilePane cardPane = new TilePane();
+        
+        ArrayList<String> player1Cards = new ArrayList<>();
+        
+        boolean[] filledMurder = new boolean[]{false,false,false};
+        int j = 0;
+        while(filledMurder[0] == false || filledMurder[1] == false || filledMurder[2] == false){
+            if(cardsImagePaths.get(j).split("/")[3].equals("rooms") && !filledMurder[0]){
+                filledMurder[0] = true;
+                SingleplayerMenu.addMurderCards(new Card(cardsImagePaths.get(j).split("/")[3],cardsImagePaths.get(j),cardsImagePaths.get(j).split("/")[2]));
+                cardsImagePaths.remove(j);
+            }
+            else if(cardsImagePaths.get(j).split("/")[3].equals("weapons") && !filledMurder[1]){
+                filledMurder[1] = true;
+                SingleplayerMenu.addMurderCards(new Card(cardsImagePaths.get(j).split("/")[3],cardsImagePaths.get(j),cardsImagePaths.get(j).split("/")[2]));
+                cardsImagePaths.remove(j);
+            }
+            else if(cardsImagePaths.get(j).split("/")[3].equals("players") && !filledMurder[2]){
+                filledMurder[2] = true;
+                SingleplayerMenu.addMurderCards(new Card(cardsImagePaths.get(j).split("/")[3],cardsImagePaths.get(j),cardsImagePaths.get(j).split("/")[2]));
+                cardsImagePaths.remove(j);
+            }
+            j+=1;
+        }
+        
+        int distribution = cardsImagePaths.size()/(Integer)this.numPlayers.getValue();
+        
+        for(int i = 0;i<distribution;i++){
+                player1Cards.add(cardsImagePaths.get(i));
+                SingleplayerMenu.getPlayer1().addCards(new Card(cardsImagePaths.get(i).split("/")[3],cardsImagePaths.get(i),cardsImagePaths.get(i).split("/")[2]));
+                cardsImagePaths.remove(i);
+        }
+        
+        for(int i=0;i<cardsImagePaths.size();i++){
+            getOpponentPlayers().get(i%getOpponentPlayers().size()).addCards(new Card(cardsImagePaths.get(i).split("/")[3],cardsImagePaths.get(i),cardsImagePaths.get(i).split("/")[2]));   
+        }
+        
+        player1Cards.stream().map((card) -> new Image(getClass().getResourceAsStream(card))).map((image) -> new ImageView(image)).map((temp) -> {
+            temp.setFitHeight(200);
+            return temp;
+        }).map((temp) -> {
+            temp.setFitWidth(125);
+            return temp;
+        }).forEachOrdered((temp) -> {
+            cardPane.getChildren().add(temp);
+        });
+        return cardPane;
+    }
 
 }

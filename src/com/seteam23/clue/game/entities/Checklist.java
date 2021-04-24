@@ -48,7 +48,7 @@ public class Checklist {
         for ( Map.Entry<Card, Boolean> entry : marked.entrySet()) {
             Card key = entry.getKey();
             Boolean b = entry.getValue();
-            data.add(new ChecklistEntry(key.getName(), key.getCardType(), b));
+            data.add(new ChecklistEntry(key, b));
         }
         return data;
     }

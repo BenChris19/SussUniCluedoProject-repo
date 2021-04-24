@@ -147,10 +147,11 @@ public class Player {
     }
     
     public ObservableList<ChecklistEntry> getChecklistEntries(){
-        System.out.println(checklist.getEntries());
         return checklist.getEntries();
     }
-    
+    public void markCard(ChecklistEntry c){
+        checklist.mark(c.getCard());
+    }
     /**
      * 
      * @return 

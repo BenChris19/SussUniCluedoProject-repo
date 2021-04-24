@@ -13,9 +13,44 @@ public class ChecklistEntry {
     private String name;
     private String cardType;
     private Boolean checked;
-    public ChecklistEntry(String name, String cardType, Boolean checked){
-        this.name = name;
-        this.cardType = cardType;
+    private Card card;
+    public ChecklistEntry(Card c, Boolean checked){
+        this.card = c;
+        this.name = c.getName();
+        this.cardType = c.getCardType();
         this.checked = checked;
     }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getCardType() {
+        return cardType;
+    }
+
+    public void setCardType(String cardType) {
+        this.cardType = cardType;
+    }
+
+    public Boolean getChecked() {
+        return checked;
+    }
+
+    public void setChecked(Boolean checked) {
+        this.checked = checked;
+    }
+
+    public Card getCard() {
+        return card;
+    }
+
+    public void setCard(Card card) {
+        this.card = card;
+    }
+    
 }

@@ -18,6 +18,8 @@ import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.event.Event;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -66,7 +68,7 @@ public class SingleplayerMenuController implements Initializable {
 
     private final TabPane tabPane;
     private final String[] tabNames = {"Board", "Cards", "Checklist"};
-    private TableView table;
+    private TableView table = new TableView();
 
     /**
      * 
@@ -75,7 +77,6 @@ public class SingleplayerMenuController implements Initializable {
     public SingleplayerMenuController() throws IOException{
         spMenu = new SingleplayerMenu();
         tabPane = new TabPane();
-        table = new TableView();
     }
 
 
@@ -136,6 +137,14 @@ public class SingleplayerMenuController implements Initializable {
                     t.setContent(createCardPane());
                     break;
                 case "Checklist":
+                    t.setOnSelectionChanged(new EventHandler<Event>() {
+                        @Override
+                        public void handle(Event event) {
+                            if (t.isSelected()) {
+                                table.refresh();
+                            }
+                        }
+                    });
                     t.setContent(createChecklistPane());
             }
         }
@@ -266,7 +275,6 @@ public class SingleplayerMenuController implements Initializable {
         for(int i=0;i < numCards;i++){
             getOpponentPlayers().get(i%getOpponentPlayers().size()).addCards(gameCards.remove(0));  
         }
-        System.out.println(player1Cards);
         player1Cards.stream().map((card) -> new Image(getClass().getResourceAsStream(card))).map((image) -> new ImageView(image)).map((temp) -> {
             temp.setFitHeight(200);
             return temp;
@@ -280,12 +288,11 @@ public class SingleplayerMenuController implements Initializable {
     }
 
     private Node createChecklistPane() {
-        
-        TableView table = new TableView();
+        table = new TableView();
         TableColumn<ChecklistEntry, String> nameCol = new TableColumn<>("Name");
         TableColumn<ChecklistEntry, String> cardTypeCol = new TableColumn<>("Card Type");
         TableColumn<ChecklistEntry, Boolean> markedCol = new TableColumn<>("Marked");
-        table.getColumns().addAll(nameCol, cardTypeCol, markedCol);
+        System.out.println(SingleplayerMenu.getPlayer1().getChecklistEntries());
         table.setItems(SingleplayerMenu.getPlayer1().getChecklistEntries());
         nameCol.setCellValueFactory(
                 new PropertyValueFactory<ChecklistEntry, String>("name"));
@@ -293,7 +300,12 @@ public class SingleplayerMenuController implements Initializable {
                 new PropertyValueFactory<ChecklistEntry, String>("cardType"));
         markedCol.setCellValueFactory(
                 new PropertyValueFactory<ChecklistEntry, Boolean>("checked"));
-        
+        table.getColumns().setAll(nameCol, cardTypeCol, markedCol);
+        table.getSelectionModel().selectedItemProperty().addListener((obs, oldValue, newValue)
+                -> {
+            SingleplayerMenu.getPlayer1().markCard((ChecklistEntry) oldValue);
+            table.setItems(SingleplayerMenu.getPlayer1().getChecklistEntries());
+        });
         return table;
     }
 }

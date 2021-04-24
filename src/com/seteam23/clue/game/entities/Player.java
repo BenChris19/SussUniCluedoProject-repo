@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import java.util.Random;
+import javafx.collections.ObservableList;
 
 public class Player {
 
@@ -27,6 +28,7 @@ public class Player {
     private ArrayList<Tile> searchSpace;
     private final boolean isHuman;
     private boolean isInRoom;
+    private Checklist checklist;
 
     /**
      * 
@@ -137,13 +139,18 @@ public class Player {
         return name;
     }
 
-
+    public void initialiseChecklist(ArrayList<Card> gameCards){
+        checklist = new Checklist();
+        for (Card c : gameCards){
+            checklist.add(c);
+        }
+    }
     
+    public ObservableList<ChecklistEntry> getChecklistEntries(){
+        System.out.println(checklist.getEntries());
+        return checklist.getEntries();
+    }
     
-
-    
-
-
     /**
      * 
      * @return 

@@ -32,7 +32,6 @@ public class Main extends Application {
      * @param height 
      */
     public static void makeFullscreen(Parent root,double width,double height){
-        
         Dimension resolution = Toolkit.getDefaultToolkit().getScreenSize();
         double w = resolution.getWidth()/width;  // your window width
         double h = resolution.getHeight()/height;  // your window height

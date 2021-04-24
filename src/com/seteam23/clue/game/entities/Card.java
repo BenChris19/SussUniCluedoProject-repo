@@ -6,6 +6,8 @@
  */
 package com.seteam23.clue.game.entities;
 
+import java.util.Objects;
+
 public class Card{
     private String name;
     private String imgPath;
@@ -44,7 +46,7 @@ public class Card{
      * @return 
      */
     public String getImgPath() {
-        return "src/resources/cards/" + imgPath;
+        return imgPath;
     }
 
     /**
@@ -69,5 +71,30 @@ public class Card{
      */
     public void setCardType(String cardType) {
         this.cardType = cardType;
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 5;
+        hash = 37 * hash + Objects.hashCode(this.name);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Card other = (Card) obj;
+        if (!Objects.equals(this.name, other.name)) {
+            return false;
+        }
+        return true;
     }
 }

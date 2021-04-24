@@ -2,6 +2,8 @@ package com.seteam23.clue.singleplayer;
 
 import com.seteam23.clue.game.GameController;
 import com.seteam23.clue.game.entities.Card;
+import com.seteam23.clue.game.entities.ChecklistEntry;
+import com.seteam23.clue.game.entities.Player;
 import com.seteam23.clue.main.MainController;
 import java.io.IOException;
 import static com.seteam23.clue.main.Main.makeFullscreen;
@@ -19,16 +21,22 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.geometry.Insets;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.TilePane;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 /**
@@ -57,7 +65,8 @@ public class SingleplayerMenuController implements Initializable {
     private Button prevCharacter;
 
     private final TabPane tabPane;
-    private final String[] tabNames = {"Board", "Cards"};
+    private final String[] tabNames = {"Board", "Cards", "Checklist"};
+    private TableView table;
 
     /**
      * 
@@ -66,6 +75,7 @@ public class SingleplayerMenuController implements Initializable {
     public SingleplayerMenuController() throws IOException{
         spMenu = new SingleplayerMenu();
         tabPane = new TabPane();
+        table = new TableView();
     }
 
 
@@ -125,6 +135,8 @@ public class SingleplayerMenuController implements Initializable {
                 case "Cards":
                     t.setContent(createCardPane());
                     break;
+                case "Checklist":
+                    t.setContent(createChecklistPane());
             }
         }
         Parent board = tabPane;
@@ -215,39 +227,46 @@ public class SingleplayerMenuController implements Initializable {
         
         ArrayList<String> player1Cards = new ArrayList<>();
         
+        ArrayList<Card> gameCards = new ArrayList<>();
+        cardsImagePaths.forEach((path) -> {
+            gameCards.add(new Card(path.split("/")[4],path,path.split("/")[3]));
+        });
+        
+        SingleplayerMenu.getPlayer1().initialiseChecklist(gameCards);
+        for (Player p : getOpponentPlayers()){
+            p.initialiseChecklist(gameCards);
+        }
+        
         boolean[] filledMurder = new boolean[]{false,false,false};
         int j = 0;
         while(filledMurder[0] == false || filledMurder[1] == false || filledMurder[2] == false){
-            if(cardsImagePaths.get(j).split("/")[3].equals("rooms") && !filledMurder[0]){
+            if(gameCards.get(j).getCardType().equals("rooms") && !filledMurder[0]){
                 filledMurder[0] = true;
-                SingleplayerMenu.addMurderCards(new Card(cardsImagePaths.get(j).split("/")[4],cardsImagePaths.get(j),cardsImagePaths.get(j).split("/")[3]));
-                cardsImagePaths.remove(j);
+                SingleplayerMenu.addMurderCards(gameCards.remove(j));
             }
-            else if(cardsImagePaths.get(j).split("/")[3].equals("weapons") && !filledMurder[1]){
+            else if(gameCards.get(j).getCardType().equals("weapons") && !filledMurder[1]){
                 filledMurder[1] = true;
-                SingleplayerMenu.addMurderCards(new Card(cardsImagePaths.get(j).split("/")[4],cardsImagePaths.get(j),cardsImagePaths.get(j).split("/")[3]));
-                cardsImagePaths.remove(j);
+                SingleplayerMenu.addMurderCards(gameCards.remove(j));
             }
-            else if(cardsImagePaths.get(j).split("/")[3].equals("players") && !filledMurder[2]){
+            else if(gameCards.get(j).getCardType().equals("players") && !filledMurder[2]){
                 filledMurder[2] = true;
-                SingleplayerMenu.addMurderCards(new Card(cardsImagePaths.get(j).split("/")[4],cardsImagePaths.get(j),cardsImagePaths.get(j).split("/")[3]));
-                cardsImagePaths.remove(j);
+                SingleplayerMenu.addMurderCards(gameCards.remove(j));
             }
             j+=1;
         }
         
-        int distribution = cardsImagePaths.size()/(Integer)this.numPlayers.getValue();
+        int distribution = gameCards.size()/(Integer)this.numPlayers.getValue();
         
         for(int i = 0;i<distribution;i++){
-                player1Cards.add(cardsImagePaths.get(i));
-                SingleplayerMenu.getPlayer1().addCards(new Card(cardsImagePaths.get(i).split("/")[4],cardsImagePaths.get(i),cardsImagePaths.get(i).split("/")[3]));
-                cardsImagePaths.remove(i);
+            Card temp = gameCards.remove(0);
+            player1Cards.add(temp.getImgPath());
+            SingleplayerMenu.getPlayer1().addCards(temp);
         }
-        
-        for(int i=0;i<cardsImagePaths.size();i++){
-            getOpponentPlayers().get(i%getOpponentPlayers().size()).addCards(new Card(cardsImagePaths.get(i).split("/")[4],cardsImagePaths.get(i),cardsImagePaths.get(i).split("/")[3]));   
+        int numCards = gameCards.size();
+        for(int i=0;i < numCards;i++){
+            getOpponentPlayers().get(i%getOpponentPlayers().size()).addCards(gameCards.remove(0));  
         }
-        
+        System.out.println(player1Cards);
         player1Cards.stream().map((card) -> new Image(getClass().getResourceAsStream(card))).map((image) -> new ImageView(image)).map((temp) -> {
             temp.setFitHeight(200);
             return temp;
@@ -260,4 +279,21 @@ public class SingleplayerMenuController implements Initializable {
         return cardPane;
     }
 
+    private Node createChecklistPane() {
+        
+        TableView table = new TableView();
+        TableColumn<ChecklistEntry, String> nameCol = new TableColumn<>("Name");
+        TableColumn<ChecklistEntry, String> cardTypeCol = new TableColumn<>("Card Type");
+        TableColumn<ChecklistEntry, Boolean> markedCol = new TableColumn<>("Marked");
+        table.getColumns().addAll(nameCol, cardTypeCol, markedCol);
+        table.setItems(SingleplayerMenu.getPlayer1().getChecklistEntries());
+        nameCol.setCellValueFactory(
+                new PropertyValueFactory<ChecklistEntry, String>("name"));
+        cardTypeCol.setCellValueFactory(
+                new PropertyValueFactory<ChecklistEntry, String>("cardType"));
+        markedCol.setCellValueFactory(
+                new PropertyValueFactory<ChecklistEntry, Boolean>("checked"));
+        
+        return table;
+    }
 }

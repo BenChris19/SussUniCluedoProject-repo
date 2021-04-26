@@ -31,7 +31,7 @@ public final class Game{
     
     public Game(GameController controller) throws IOException{
         this.controller = controller;
-        this.board = new Board();
+        this.board = this.controller.getBoard();
 
     }
     public Game(){

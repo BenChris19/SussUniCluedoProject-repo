@@ -6,7 +6,10 @@
  */
 package com.seteam23.clue.game.board;
 
+import com.seteam23.clue.game.Game;
+import com.seteam23.clue.game.GameController;
 import com.seteam23.clue.game.entities.Card;
+import com.seteam23.clue.game.entities.Player;
 import java.util.ArrayList;
 
 public class Room extends Place{
@@ -14,6 +17,7 @@ public class Room extends Place{
     private int width, height;
     private Card weapon;
     private ArrayList<Tile> doors;
+    private ArrayList<Player> players;
     private String roomName;
     private Card[] weapons;
     
@@ -35,8 +39,66 @@ public class Room extends Place{
         this.height = height;
         
         doors = new ArrayList<>();
+        players = new ArrayList<>();
     }
-
+    
+    /**
+     * 
+     * @param player 
+     */
+    public void addPlayer(Player player) {
+        players.add(player);
+        int i;
+        switch (player.getName()) {
+            case "Col Mustard":
+                i = 1;
+                break;
+            case "Mrs White":
+                i = 2;
+                break;
+            case "Rev Green":
+                i = 3;
+                break;
+            case "Mrs Peacock":
+                i = 4;
+                break;
+            case "Prof Plum":
+                i = 5;
+                break;
+            default:
+                i = 0;
+                break;
+        }
+    }
+    
+    /**
+     * 
+     * @param player 
+     */
+    public boolean removePlayer(Player player) {
+        int i;
+        switch (player.getName()) {
+            case "Col Mustard":
+                i = 1;
+                break;
+            case "Mrs White":
+                i = 2;
+                break;
+            case "Rev Green":
+                i = 3;
+                break;
+            case "Mrs Peacock":
+                i = 4;
+                break;
+            case "Prof Plum":
+                i = 5;
+                break;
+            default:
+                i = 0;
+                break;
+        }
+        return players.remove(player);
+    }
     
     /**
      * 
@@ -71,8 +133,8 @@ public class Room extends Place{
      * @param entry_from
      * @return 
      */
-    protected Door addDoor(String entry_from) {
-        Door door = new Door(this, entry_from);
+    protected Door addDoor(String entry_from, int x, int y) {
+        Door door = new Door(this, entry_from, x, y);
         doors.add(door);
         return door;
     }

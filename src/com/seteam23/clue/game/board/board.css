@@ -17,7 +17,8 @@
 
 
 .button:flash-highlight {
-    -fx-background-color: #00cc00;
+    -fx-border-color: #00cc00;
+    -fx-border-width: 2;
 }
 .toggle-Scarlett {
     -fx-background-image: url('/resources/game/Miss-Scarlett-game-piece.png');

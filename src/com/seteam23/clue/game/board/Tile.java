@@ -21,13 +21,20 @@ public class Tile extends Place {
     private FadeTransition flasher;
     private static PseudoClass FLASH_HIGHLIGHT;
     private boolean flashing;
+    
+    public final int x;
+    public final int y;
+   
 
     /**
      * Constructor
      */
-    public Tile() {
+    public Tile(int x, int y) {
         // Can hold one Player at a time
         super(1);
+        
+        this.x = x;
+        this.y = y;
         
         // 
 
@@ -45,7 +52,14 @@ public class Tile extends Place {
         flasher.setAutoReverse(true);
         
     }
-
+    
+    /**
+     * 
+     * @return 
+     */
+    public int[] getCoords() {
+        return new int[]{this.x, this.y};
+    }
     
     /**
      * 

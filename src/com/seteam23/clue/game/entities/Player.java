@@ -51,6 +51,7 @@ public class Player {
     }
 
     public void setSearchSpace(ArrayList<Tile> searchSpace) {
+        this.searchSpace.clear();
         searchSpace.forEach((Tile t) -> {
             Player.this.searchSpace.add(t);
         });

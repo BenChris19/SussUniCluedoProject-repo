@@ -7,8 +7,6 @@ package com.seteam23.clue.game;
 
 import com.seteam23.clue.game.Game;
 import com.seteam23.clue.game.board.Board;
-import com.seteam23.clue.game.board.Door;
-
 import com.seteam23.clue.game.board.Tile;
 import com.seteam23.clue.game.entities.Card;
 import com.seteam23.clue.game.entities.NPC;
@@ -17,7 +15,6 @@ import com.seteam23.clue.main.Main;
 import static com.seteam23.clue.singleplayer.SingleplayerMenu.getMurderCards;
 import static com.seteam23.clue.singleplayer.SingleplayerMenu.getOpponentPlayers;
 import static com.seteam23.clue.singleplayer.SingleplayerMenu.getPlayer1;
-import com.seteam23.clue.singleplayer.SingleplayerMenuController;
 
 
 import java.net.URL;
@@ -63,7 +60,7 @@ public class GameController implements Initializable {
 
 
     @FXML private Label moves_label;
-    @FXML private GridPane grid;
+    @FXML public GridPane grid;
     
     @FXML private Button suggest;
     @FXML private Button accuse;
@@ -92,6 +89,8 @@ public class GameController implements Initializable {
         createButtons();
         aiPrevX = new int[6];
         aiPrevY = new int[6];
+        
+        
 
         ArrayList<String> allPlayers = new ArrayList<>(Arrays.asList("Miss Scarlett","Col Mustard","Mrs White","Rev Green","Mrs Peacock","Prof Plum"));
         int startingPlayerPos = 0;

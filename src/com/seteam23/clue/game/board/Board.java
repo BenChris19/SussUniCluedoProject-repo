@@ -13,9 +13,6 @@ import com.seteam23.clue.game.entities.Player;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.LinkedList;
-
-
 
 import java.util.Set;
 import javafx.scene.control.Button;
@@ -61,40 +58,23 @@ public final class Board {
         Room kitchen = createRoom("Kitchen",19, 19, 4, 4);
 
         // Doors
-        addTile(study.addDoor("N"), 6, 3);
-        this.doors[6][3] = new Door(study,"N");
-        addTile(library.addDoor("W"), 6, 8);
-        this.doors[6][8] = new Door(library,"w");
-        addTile(library.addDoor("N"), 3, 10);
-     this.doors[3][10] = new Door(library,"N");
-        addTile(billiard_room.addDoor("S"), 1, 12);
-      this.doors[1][12] = new Door(billiard_room,"S");
-        addTile(billiard_room.addDoor("W"), 5, 15);
-     this.doors[5][15] = new Door(billiard_room,"W");
-        addTile(conservatory.addDoor("W"), 4, 19);
-     this.doors[4][19] = new Door(conservatory,"W");
-        addTile(hall.addDoor("E"), 9, 4);
-     this.doors[9][4] = new Door(hall,"E");
-        addTile(hall.addDoor("N"), 11, 6);
-     this.doors[11][6] = new Door(hall,"N");
-        addTile(hall.addDoor("N"), 12, 6);
-     this.doors[12][6] = new Door(hall,"N");
-        addTile(ballroom.addDoor("E"), 8, 19);
-    this.doors[8][19] = new Door(ballroom,"E");
-        addTile(ballroom.addDoor("S"), 9, 17);
-     this.doors[9][17] = new Door(ballroom,"S");
-        addTile(ballroom.addDoor("S"), 14, 17);
-     this.doors[14][17] = new Door(ballroom,"S");
-        addTile(ballroom.addDoor("W"), 15, 19);
-     this.doors[15][19] = new Door(ballroom,"W");
-        addTile(lounge.addDoor("N"), 17, 5);
-      this.doors[17][5] = new Door(lounge,"N");
-        addTile(dining_room.addDoor("S"), 17, 9);
-      this.doors[17][9] = new Door(dining_room,"S");
-        addTile(dining_room.addDoor("E"), 16, 12);
-     this.doors[16][12] = new Door(dining_room,"E");
-        addTile(kitchen.addDoor("S"), 19, 18);
-        this.doors[19][18] = new Door(kitchen,"S");
+        addDoor(study, "N", 6, 3);
+        addDoor(library, "W", 6, 8);
+        addDoor(library, "N", 3, 10);
+        addDoor(billiard_room, "S", 1, 12);
+        addDoor(billiard_room, "W", 5, 15);
+        addDoor(conservatory, "W", 4, 19);
+        addDoor(hall, "E", 9, 4);
+        addDoor(hall, "N", 11, 6);
+        addDoor(hall, "N", 12, 6);
+        addDoor(ballroom, "E", 8, 19);
+        addDoor(ballroom, "S", 9, 17);
+        addDoor(ballroom, "S", 14, 17);
+        addDoor(ballroom, "W", 15, 19);
+        addDoor(lounge, "N", 17, 5);
+        addDoor(dining_room, "S", 17, 9);
+        addDoor(dining_room, "E", 16, 12);
+        addDoor(kitchen, "S", 19, 18);
 
         // Start Platforms
         createTile(0, 5);
@@ -216,7 +196,6 @@ public final class Board {
                         
                         if (y - 1 >= 0 && door.entryFrom() == "N") {
                             door.setAdjacent("N", tiles[y - 1][x]);
-                            
                         }
                         if (y + 1 < 25 && door.entryFrom() == "S") {
                             door.setAdjacent("S", tiles[y + 1][x]);
@@ -256,7 +235,7 @@ public final class Board {
      * @return tile
      */
     private Tile createTile(int x, int y) {
-        Tile tile = new Tile();
+        Tile tile = new Tile(x, y);
         places[y][x] = tile;
         tiles[y][x] = tile;
 
@@ -272,9 +251,11 @@ public final class Board {
      * @param x
      * @param y
      */
-    private void addTile(Tile tile, int x, int y) {
-        places[y][x] = tile;
-        tiles[y][x] = tile;
+    private void addDoor(Room room, String entry, int x, int y) {
+        Door door = room.addDoor(entry, x, y);
+        places[y][x] = door;
+        tiles[y][x] = door;
+        doors[y][x] = door;
     }
 
     
@@ -328,50 +309,15 @@ public final class Board {
 
         return reach;
     }
-    
-    /**
-     * 
-     * @param start
-     * @param moves_remaining
-     * @return 
-     */
-    private static Set<Tile> furthestReachableRecursive(Tile start, int moves_remaining) {
-        Set<Tile> reach = new HashSet<>();
-
-
-        if (moves_remaining > 0) {
-            start.getAdjacent().values().stream().filter((a) -> (a != null && !a.isFull())).forEachOrdered((a) -> {
-                if(a instanceof Door){
-                    Door checkDoor = (Door)a;
-                    if(start.getKeyFromValue(start.getAdjacent(), checkDoor).equals(checkDoor.entryFrom())){
-                        Set<Tile> r = furthestReachableRecursive(a, moves_remaining - 1);
-                        reach.addAll(r);
-                        reach.add(a);
-                    }
-                }
-                else if (moves_remaining - 1 == 0) {
-                    Set<Tile> r = furthestReachableRecursive(a, moves_remaining - 1);
-                    reach.addAll(r);
-                    reach.add(a);
-                }
-                else {
-                    Set<Tile> r = furthestReachableRecursive(a, moves_remaining - 1);
-                    reach.addAll(r);
-                }
-            });
-        }
-
-        return reach;
-    }
 
     /**
      * 
      * @param start
-     * @param moves_remaining
+     * @param die_roll
      * @return 
      */
-    public ArrayList<Tile> reachableFrom(Tile start, int moves_remaining) {
-        Set<Tile> reach = reachableRecursive(start, moves_remaining);
+    public ArrayList<Tile> reachableFrom(Tile start, int die_roll) {
+        Set<Tile> reach = reachableRecursive(start, die_roll);
         reach.remove(start);
         return new ArrayList<>(reach);
     }
@@ -389,9 +335,34 @@ public final class Board {
         return buttons;
     }
     
-    public static ArrayList<Tile> furthestReachableFrom(Tile start, int moves_remaining) {
-        //Set<Tile> reach = furthestReachableRecursive(start, moves_remaining);
-        return new ArrayList<>(furthestReachableRecursive(start, moves_remaining));
+    /**
+     * 
+     * @param start
+     * @param die_roll
+     * @return 
+     */
+    public ArrayList<Tile> furthestReachableFrom(Tile start, int die_roll) {
+        Set<Tile> all_reach = reachableRecursive(start, die_roll);
+        ArrayList<Tile> reach = new ArrayList<>();
+        
+        int[] s = start.getCoords();
+        
+        for (Tile tile : all_reach) {
+            if (tile instanceof Door) {
+                reach.add(tile);
+            }
+            else {
+                int[] t = tile.getCoords();
+                int dx = Math.abs(s[0]-t[0]);
+                int dy = Math.abs(s[1]-t[1]);
+                if (dx + dy == die_roll) {
+                    reach.add(tile);
+                }
+            }
+        }
+        
+        reach.remove(start);
+        return reach;
     }
 
     /**

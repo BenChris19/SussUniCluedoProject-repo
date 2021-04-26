@@ -27,7 +27,7 @@
                       <Font size="22.0" />
                   </font>
               </Button>
-            <Button layoutX="220.0" layoutY="526.0" mnemonicParsing="false" prefHeight="53.0" prefWidth="198.0" style="-fx-background-color: red;" text="Make Accusation">
+            <Button fx:id="accuse" layoutX="220.0" layoutY="526.0" mnemonicParsing="false" onAction="#WinLose" prefHeight="53.0" prefWidth="198.0" style="-fx-background-color: red;" text="Make Accusation">
                <font>
                   <Font size="22.0" />
                </font>
@@ -139,6 +139,12 @@
                </font>
             </Label>
             <Button layoutX="312.0" layoutY="394.0" mnemonicParsing="false" onAction="#endTurn" text="End Turn?" />
+            <ImageView fx:id="revealCard" fitHeight="264.0" fitWidth="199.0" layoutX="1365.0" layoutY="242.0" pickOnBounds="true" preserveRatio="true" visible="false" />
+            <Label fx:id="whoCard" layoutX="1346.0" layoutY="145.0" prefHeight="40.0" prefWidth="231.0" visible="false">
+               <font>
+                  <Font size="28.0" />
+               </font>
+            </Label>
          </children>
       </AnchorPane>
     </children>

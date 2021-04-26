@@ -5,6 +5,7 @@
  */
 package com.seteam23.clue.game;
 
+import com.seteam23.clue.game.Game;
 import com.seteam23.clue.game.board.Board;
 import com.seteam23.clue.game.board.Door;
 
@@ -12,8 +13,11 @@ import com.seteam23.clue.game.board.Tile;
 import com.seteam23.clue.game.entities.Card;
 import com.seteam23.clue.game.entities.NPC;
 import com.seteam23.clue.game.entities.Player;
+import com.seteam23.clue.main.Main;
+import static com.seteam23.clue.singleplayer.SingleplayerMenu.getMurderCards;
 import static com.seteam23.clue.singleplayer.SingleplayerMenu.getOpponentPlayers;
 import static com.seteam23.clue.singleplayer.SingleplayerMenu.getPlayer1;
+import com.seteam23.clue.singleplayer.SingleplayerMenuController;
 
 
 import java.net.URL;
@@ -29,7 +33,10 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 
 import javafx.scene.control.ComboBox;
@@ -37,6 +44,7 @@ import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
+import javafx.stage.Stage;
 
 /**
  * FXML Controller class
@@ -50,6 +58,8 @@ public class GameController implements Initializable {
     @FXML private ComboBox room;
     @FXML private ImageView player_img;
     @FXML private ImageView diceThrow;
+    @FXML private ImageView revealCard;
+    @FXML private Label whoCard;
 
 
     @FXML private Label moves_label;
@@ -58,7 +68,7 @@ public class GameController implements Initializable {
     @FXML private Button suggest;
     @FXML private Button accuse;
     
-    private int endAIMovement;
+    
     private int[] aiPrevX;
     private int[] aiPrevY;
     private Game game;
@@ -120,8 +130,23 @@ public class GameController implements Initializable {
             } catch (Exception ex) {
                 Logger.getLogger(GameController.class.getName()).log(Level.SEVERE, null, ex);
             }
+            Timer timer = new Timer();
+            timer.schedule(new TimerTask() {
+                @Override
+                public void run() {
+                     Platform.runLater(() -> {
+                         try {
+                             endTurn();
+                         } catch (Exception ex) {
+                             Logger.getLogger(GameController.class.getName()).log(Level.SEVERE, null, ex);
+                         }
+                     });
+                    timer.cancel();
+                }
+        },3200);
+        
         }
-        }
+    }
     
 
     public static Board getBoard() {
@@ -187,6 +212,19 @@ public class GameController implements Initializable {
         rollDicesAnimation();
 
     }
+    @FXML private void WinLose(ActionEvent event) throws Exception{
+        if(!getMurderCards().contains(person.getValue()+".jpg") || !getMurderCards().contains(weapon.getValue()+".JPG") || !getMurderCards().contains(room.getValue()+".png")){
+            Parent root = FXMLLoader.load(GameController.class.getResource("gameover.fxml"));
+            Stage window_over = (Stage)accuse.getScene().getWindow();
+            window_over.setScene(new Scene(root));
+            window_over.setFullScreen(true);
+            Main.makeFullscreen(root,871.9,545);
+        }
+        else{
+            
+        }
+        
+    }
     @FXML
     private void makeSuggestion(ActionEvent event) throws Exception{
         if(this.startingPlayer.getIsInRoom()){
@@ -205,6 +243,14 @@ public class GameController implements Initializable {
                             if(aiEachCard.getName().equals(person.getValue()+".jpg") || aiEachCard.getName().equals(weapon.getValue()+".JPG") || aiEachCard.getName().equals(room.getValue()+".png")){
                                 System.out.print(aiEachCard.getName()+"   ");
                                 System.out.print(eachPlayer.getName()+"  ");
+                                this.whoCard.setText(eachPlayer.getName()+" has this card");
+                                System.out.print(aiEachCard.getImgPath());
+                                Image cardImage = new Image(getClass().getResourceAsStream(aiEachCard.getImgPath()));
+                                this.revealCard.setImage(cardImage);
+                                this.revealCard.setVisible(true);
+                                this.whoCard.setVisible(true);
+                                
+                                
                                 shown=true;
                             }
                         }   
@@ -218,6 +264,8 @@ public class GameController implements Initializable {
     
     @FXML
     private void endTurn() throws Exception{
+        this.revealCard.setVisible(false);
+        this.whoCard.setVisible(false);
         board.unlightAllTiles();
         getStartingPlayer().setEndTurn(true);
         int next = getStartingPlayer().getOrder()+1;

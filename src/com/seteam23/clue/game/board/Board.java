@@ -296,41 +296,6 @@ public final class Board {
 
         return room;
     }
-
-    //Performs a breadth first search to find all places on the board that can be reached
-    //from a particular Place for a given number of steps
-    //Might need return type to be changed to hashmap<Tile, Bool> if works better
-
-    private ArrayList<Tile> reachableTiles(Tile start, int diceRoll) {
-
-        ArrayList<LinkedList<Tile>> tileQueueArray = new ArrayList<>();
-        HashMap<Tile, Boolean> visited = new HashMap();
-        int i = 0;
-        tileQueueArray.add(i, new LinkedList<>());
-        LinkedList<Tile> list = tileQueueArray.get(i);
-        list.add(start);
-        visited.put(start, true);
-        while (!list.isEmpty() && i < diceRoll) {
-            tileQueueArray.add(i + 1, new LinkedList<>());
-            for (Tile t : list) {
-                for (Tile u : t.getAdjacent().values()) {
-                    if (!visited.get(u)) {
-                        tileQueueArray.get(i + 1).add(u);
-                        visited.put(u, true);
-                    }
-                }
-            }
-            i++;
-            list = tileQueueArray.get(i);
-        }
-        ArrayList<Tile> tempTiles = new ArrayList();
-        tileQueueArray.forEach((l) -> {
-            l.forEach((p) -> {
-                tempTiles.add(p);
-            });
-        });
-        return tempTiles;
-    }
     
 
     /**
@@ -363,6 +328,41 @@ public final class Board {
 
         return reach;
     }
+    
+    /**
+     * 
+     * @param start
+     * @param moves_remaining
+     * @return 
+     */
+    private static Set<Tile> furthestReachableRecursive(Tile start, int moves_remaining) {
+        Set<Tile> reach = new HashSet<>();
+
+
+        if (moves_remaining > 0) {
+            start.getAdjacent().values().stream().filter((a) -> (a != null && !a.isFull())).forEachOrdered((a) -> {
+                if(a instanceof Door){
+                    Door checkDoor = (Door)a;
+                    if(start.getKeyFromValue(start.getAdjacent(), checkDoor).equals(checkDoor.entryFrom())){
+                        Set<Tile> r = furthestReachableRecursive(a, moves_remaining - 1);
+                        reach.addAll(r);
+                        reach.add(a);
+                    }
+                }
+                else if (moves_remaining - 1 == 0) {
+                    Set<Tile> r = furthestReachableRecursive(a, moves_remaining - 1);
+                    reach.addAll(r);
+                    reach.add(a);
+                }
+                else {
+                    Set<Tile> r = furthestReachableRecursive(a, moves_remaining - 1);
+                    reach.addAll(r);
+                }
+            });
+        }
+
+        return reach;
+    }
 
     /**
      * 
@@ -375,12 +375,23 @@ public final class Board {
         reach.remove(start);
         return new ArrayList<>(reach);
     }
+    
+    /**
+     * 
+     * @param convertTile
+     * @return 
+     */
     public ArrayList<Button> getReachableButtons(ArrayList<Tile> convertTile){
         ArrayList<Button> buttons = new ArrayList<>();
         for(Tile t:convertTile){
             buttons.add(t.getButton());
         }
         return buttons;
+    }
+    
+    public static ArrayList<Tile> furthestReachableFrom(Tile start, int moves_remaining) {
+        //Set<Tile> reach = furthestReachableRecursive(start, moves_remaining);
+        return new ArrayList<>(furthestReachableRecursive(start, moves_remaining));
     }
 
     /**

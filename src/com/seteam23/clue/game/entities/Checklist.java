@@ -47,8 +47,7 @@ public class Checklist {
         ObservableList<ChecklistEntry> data = FXCollections.observableArrayList();
         for ( Map.Entry<Card, Boolean> entry : marked.entrySet()) {
             Card key = entry.getKey();
-            Boolean b = entry.getValue();
-            data.add(new ChecklistEntry(key, b));
+            data.add(new ChecklistEntry(this, key));
         }
         return data;
     }

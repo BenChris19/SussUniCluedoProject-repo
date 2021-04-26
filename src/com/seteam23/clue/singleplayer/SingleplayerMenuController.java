@@ -15,6 +15,8 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.ResourceBundle;
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -31,15 +33,22 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
+import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.ColumnConstraints;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.RowConstraints;
 import javafx.scene.layout.TilePane;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
+import javafx.util.Callback;
 
 /**
  * FXML GameController class
@@ -69,6 +78,7 @@ public class SingleplayerMenuController implements Initializable {
     private final TabPane tabPane;
     private final String[] tabNames = {"Board", "Cards", "Checklist"};
     private TableView table = new TableView();
+    private ObservableList<ChecklistEntry> checklistElements;
 
     /**
      * 
@@ -288,24 +298,42 @@ public class SingleplayerMenuController implements Initializable {
     }
 
     private Node createChecklistPane() {
+        GridPane tablePane = new GridPane();
         table = new TableView();
         TableColumn<ChecklistEntry, String> nameCol = new TableColumn<>("Name");
         TableColumn<ChecklistEntry, String> cardTypeCol = new TableColumn<>("Card Type");
-        TableColumn<ChecklistEntry, Boolean> markedCol = new TableColumn<>("Marked");
+        TableColumn<ChecklistEntry, Button> markedCol = new TableColumn<>("Marked");
         System.out.println(SingleplayerMenu.getPlayer1().getChecklistEntries());
-        table.setItems(SingleplayerMenu.getPlayer1().getChecklistEntries());
-        nameCol.setCellValueFactory(
-                new PropertyValueFactory<ChecklistEntry, String>("name"));
-        cardTypeCol.setCellValueFactory(
-                new PropertyValueFactory<ChecklistEntry, String>("cardType"));
-        markedCol.setCellValueFactory(
-                new PropertyValueFactory<ChecklistEntry, Boolean>("checked"));
+        checklistElements = SingleplayerMenu.getPlayer1().getChecklistEntries();
+        table.setItems(checklistElements);
+        nameCol.setCellValueFactory(new PropertyValueFactory<ChecklistEntry, String>("name"));
+        cardTypeCol.setCellValueFactory(new PropertyValueFactory<ChecklistEntry, String>("cardType"));
+        //markedCol.setCellValueFactory(new PropertyValueFactory<ChecklistEntry, Boolean>("checked"));
+        markedCol.setCellValueFactory(new PropertyValueFactory<ChecklistEntry, Button>("mark"));
         table.getColumns().setAll(nameCol, cardTypeCol, markedCol);
-        table.getSelectionModel().selectedItemProperty().addListener((obs, oldValue, newValue)
-                -> {
-            SingleplayerMenu.getPlayer1().markCard((ChecklistEntry) oldValue);
-            table.setItems(SingleplayerMenu.getPlayer1().getChecklistEntries());
+        table.setRowFactory(tv -> new TableRow<ChecklistEntry>() {
+        @Override
+        protected void updateItem(ChecklistEntry item, boolean empty) {
+            super.updateItem(item, empty);
+            if (item == null || item.getCardType() == null){
+                setStyle("");
+            }
+            else if (item.getCardType().equals("weapons")){
+                setStyle("-fx-text-background-color: #ff0000;");
+            }
+            else if (item.getCardType().equals("rooms")){
+                setStyle("-fx-text-background-color: #0000ff;");
+            }
+            else if (item.getCardType().equals("players")){
+                setStyle("-fx-text-background-color: #00ff00;");
+            }
+            else{
+                setStyle("-fx-background-color: #444444;");
+            }
+        }
         });
-        return table;
+        tablePane.getChildren().add(table);
+        tablePane.getRowConstraints().add(new RowConstraints(checklistElements.size()*32.5));
+        return tablePane;
     }
 }

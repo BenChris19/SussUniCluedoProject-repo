@@ -5,6 +5,8 @@
  */
 package com.seteam23.clue.game.entities;
 
+import javafx.scene.control.Button;
+
 /**
  *
  * @author Joseph
@@ -12,17 +14,27 @@ package com.seteam23.clue.game.entities;
 public class ChecklistEntry {
     private String name;
     private String cardType;
-    private Boolean checked;
     private Card card;
-    public ChecklistEntry(Card c, Boolean checked){
+    private Button mark;
+    private Checklist checklist;
+    public ChecklistEntry(Checklist checklist, Card c){
         this.card = c;
-        this.name = c.getName();
-        this.cardType = c.getCardType();
-        this.checked = checked;
+        this.checklist = checklist;
+        this.mark = new Button();
+        this.mark.setStyle("-fx-background-color: #ff0000");
+        this.mark.setOnAction((event) -> {
+            this.setChecked();
+            if (this.getChecked() == true){
+                this.mark.setStyle("-fx-background-color: #00ff00");
+            }
+            else{
+                this.mark.setStyle("-fx-background-color: #ff0000");
+            }
+        });
     }
 
     public String getName() {
-        return name;
+        return card.getName();
     }
 
     public void setName(String name) {
@@ -30,7 +42,7 @@ public class ChecklistEntry {
     }
 
     public String getCardType() {
-        return cardType;
+        return card.getCardType();
     }
 
     public void setCardType(String cardType) {
@@ -38,11 +50,11 @@ public class ChecklistEntry {
     }
 
     public Boolean getChecked() {
-        return checked;
+        return checklist.getValue(card);
     }
 
-    public void setChecked(Boolean checked) {
-        this.checked = checked;
+    public void setChecked() {
+        this.checklist.mark(this.card);
     }
 
     public Card getCard() {
@@ -51,6 +63,14 @@ public class ChecklistEntry {
 
     public void setCard(Card card) {
         this.card = card;
+    }
+
+    public Button getMark() {
+        return mark;
+    }
+
+    public void setMark(Button mark) {
+        this.mark = mark;
     }
     
 }

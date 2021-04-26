@@ -48,7 +48,7 @@ public class Checklist {
         marked.entrySet().forEach((entry) -> {
             Card key = entry.getKey();
             data.add(new ChecklistEntry(this, key));
-        }
+        });
         return data;
     }
 }

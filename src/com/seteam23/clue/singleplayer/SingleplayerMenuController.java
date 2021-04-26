@@ -288,11 +288,11 @@ public class SingleplayerMenuController implements Initializable {
         table.getColumns().addAll(nameCol, cardTypeCol, markedCol);
         table.setItems(SingleplayerMenu.getPlayer1().getChecklistEntries());
         nameCol.setCellValueFactory(
-                new PropertyValueFactory<ChecklistEntry, String>("name"));
+                new PropertyValueFactory<>("name"));
         cardTypeCol.setCellValueFactory(
-                new PropertyValueFactory<ChecklistEntry, String>("cardType"));
+                new PropertyValueFactory<>("cardType"));
         markedCol.setCellValueFactory(
-                new PropertyValueFactory<ChecklistEntry, Boolean>("checked"));
+                new PropertyValueFactory<>("checked"));
         
         return table;
     }

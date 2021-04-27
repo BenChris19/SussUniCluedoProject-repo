@@ -73,7 +73,7 @@ public class GameController implements Initializable {
     private Player startingPlayer;
     public int dieRolls;
     public int turn = 0;
-    private static boolean lose = false;
+    private static boolean win = false;
     
     private final String[] playerImg = new String[]{"/resources/game/Miss-Scarlett-game-piece.png","/resources/game/Col-Mustard-game-piece.png","/resources/game/Mrs-White-game-piece.png","/resources/game/Rev-Green-game-piece.png","/resources/game/Mrs-Peacock-game-piece.png","/resources/game/Prof-Plum-game-piece.png"};
     private static final HashMap<String, ImageView[]> playerMarkers = new HashMap<>();
@@ -163,12 +163,12 @@ public class GameController implements Initializable {
         }
     }
 
-    public static void setLose(boolean lose) {
-        GameController.lose = lose;
+    public static void setWin(boolean lose) {
+        GameController.win = lose;
     }
 
-    public static boolean isLose() {
-        return lose;
+    public static boolean isWin() {
+        return win;
     }
     
     
@@ -289,17 +289,14 @@ public class GameController implements Initializable {
 
     }
     @FXML private void WinLose(ActionEvent event) throws Exception{
-        if(!getMurderCards().contains(person.getValue()+".jpg") || !getMurderCards().contains(weapon.getValue()+".JPG") || !getMurderCards().contains(room.getValue()+".png")){
-            setLose(true);
+        if(getMurderCards().contains(new Card(person.getValue()+".jpg","/resources/cards/players/"+person.getValue()+".jpg","players")) || getMurderCards().contains(new Card(weapon.getValue()+".JPG","/resources/cards/weapons/"+weapon.getValue()+".JPG","weapons")) || getMurderCards().contains(new Card(room.getValue()+".png","/resources/cards/rooms/"+room.getValue()+".png","rooms"))){
+            setWin(true);
+        }
             Parent root = FXMLLoader.load(GameController.class.getResource("gameover.fxml"));
             Stage window_over = (Stage)accuse.getScene().getWindow();
             window_over.setScene(new Scene(root));
             window_over.setFullScreen(true);
             Main.makeFullscreen(root,871.9,545);
-        }
-        else{
-            
-        }
         
     }
     @FXML

@@ -5,18 +5,22 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-
-<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/16" fx:controller="com.seteam23.clue.game.GameoverController">
+<AnchorPane id="AnchorPane" prefHeight="535.0" prefWidth="756.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.seteam23.clue.game.GameoverController">
    <children>
-      <Button layoutX="161.0" layoutY="209.0" mnemonicParsing="false" onAction="#quitGame" prefHeight="171.0" prefWidth="278.0" text="QUIT">
+      <Button layoutX="239.0" layoutY="329.0" mnemonicParsing="false" onAction="#quitGame" prefHeight="171.0" prefWidth="278.0" text="QUIT">
          <font>
             <Font size="57.0" />
          </font>
       </Button>
-      <Label layoutX="2.0" layoutY="-1.0" prefHeight="151.0" prefWidth="600.0" text="    GAME OVER" textAlignment="CENTER" textFill="RED">
+      <Label layoutX="78.0" prefHeight="151.0" prefWidth="600.0" text="    GAME OVER" textAlignment="CENTER" textFill="RED">
          <font>
             <Font size="76.0" />
          </font>
       </Label>
+      <Button fx:id="playAgainButton" layoutX="149.0" layoutY="151.0" mnemonicParsing="false" onAction="#playAgain" prefHeight="152.0" prefWidth="459.0" text="Play Again">
+         <font>
+            <Font size="71.0" />
+         </font>
+      </Button>
    </children>
 </AnchorPane>

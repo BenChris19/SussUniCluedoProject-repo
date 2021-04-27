@@ -51,7 +51,7 @@ public abstract class Place {
      */
     public boolean addOccupier(Player p) {
         if (this.occupiers.size() < this.max_players) {
-            this.getButton().getStyleClass().add("toggle-"+getPlayer1().getName().split(" ",-1)[1]);
+            this.getButton().getStyleClass().add("toggle-"+p.getName().split(" ",-1)[1]);
             this.occupied = true;
             return this.occupiers.add(p);
         }
@@ -65,7 +65,7 @@ public abstract class Place {
      */
     public boolean removeOccupier(Player p) {
         // remove player icon from tile
-        getBoard().getTile(getPlayer1().getCurrentPosY(),getPlayer1().getCurrentPosX()).getButton().getStyleClass().remove("toggle-"+getPlayer1().getName().split(" ",-1)[1]);
+        getBoard().getTile(p.getCurrentPosY(),p.getCurrentPosX()).getButton().getStyleClass().remove("toggle-"+p.getName().split(" ",-1)[1]);
         this.occupied = false;
         return this.occupiers.remove(p);
     }
@@ -122,35 +122,6 @@ public abstract class Place {
     public void activate() throws InterruptedException {
         getBoard().getTile(getPlayer1().getCurrentPosY(),getPlayer1().getCurrentPosX()).removeOccupier(getPlayer1());
         getPlayer1().setCurrentPosYX(GridPane.getColumnIndex(button), GridPane.getRowIndex(button));
-        addOccupier(getPlayer1());
-        
-        
-        switch (getPlayer1().getName()) {
-            case "Miss Scarlett":
-                button.getStyleClass().add("toggle-Scarlett");
-                break;
-            case "Prof Plum":
-                button.getStyleClass().add("toggle-Plum");
-                break;
-            case "Col Mustard":
-                button.getStyleClass().add("toggle-Mustard");
-                break;
-            case "Mrs White":
-                button.getStyleClass().add("toggle-White");
-                break;
-            case "Rev Green":
-                button.getStyleClass().add("toggle-Green");
-                break;
-            default:
-                button.getStyleClass().add("toggle-Peacock");
-                break;
-        }
-
-            
-        
-        
-   
+        addOccupier(getPlayer1()); 
     }
-    
- 
 }

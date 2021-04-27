@@ -40,6 +40,7 @@ public class Door extends Tile {
         getPlayer1().setIsInRoom(true);
         room.addPlayer(getPlayer1());
         getPlayer1().setCurrentPosYX(GridPane.getColumnIndex(getButton()), GridPane.getRowIndex(getButton()));
+        getBoard().unlightAllTiles();
         //addOccupier(getPlayer1());
 
     }

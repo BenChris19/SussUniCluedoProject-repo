@@ -5,6 +5,7 @@
  */
 package com.seteam23.clue.game;
 
+import static com.seteam23.clue.game.GameController.isLose;
 import com.seteam23.clue.main.Main;
 import com.seteam23.clue.singleplayer.SingleplayerMenuController;
 import java.net.URL;
@@ -16,6 +17,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.stage.Stage;
 
 /**
@@ -26,7 +28,7 @@ import javafx.stage.Stage;
 public class GameoverController implements Initializable {
 
     @FXML private Button playAgainButton;
-    
+    @FXML private Label winloseMess;
     /**
      * Initializes the controller class.
      */
@@ -36,6 +38,9 @@ public class GameoverController implements Initializable {
     }    
         @FXML
     private void playAgain(ActionEvent event) throws Exception {
+        if(!isLose()){
+            winloseMess.setText("YOU WIN!");
+        }
         Parent again = FXMLLoader.load(SingleplayerMenuController.class.getResource("singleplayerMenu.fxml"));
         
         Stage window = (Stage)playAgainButton.getScene().getWindow();

@@ -12,12 +12,12 @@
             <Font size="57.0" />
          </font>
       </Button>
-      <Label layoutX="78.0" prefHeight="151.0" prefWidth="600.0" text="    GAME OVER" textAlignment="CENTER" textFill="RED">
+      <Label fx:id="winloseMess" layoutX="196.0" layoutY="14.0" prefHeight="133.0" prefWidth="366.0" text="YOU LOSE!" textAlignment="RIGHT" textFill="RED">
          <font>
             <Font size="76.0" />
          </font>
       </Label>
-      <Button fx:id="playAgainButton" layoutX="149.0" layoutY="151.0" mnemonicParsing="false" onAction="#playAgain" prefHeight="152.0" prefWidth="459.0" text="Play Again">
+      <Button fx:id="playAgainButton" layoutX="149.0" layoutY="168.0" mnemonicParsing="false" onAction="#playAgain" prefHeight="152.0" prefWidth="459.0" text="Play Again">
          <font>
             <Font size="71.0" />
          </font>

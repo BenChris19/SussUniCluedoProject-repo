@@ -75,6 +75,7 @@ public class GameController implements Initializable {
     private Player startingPlayer;
     public int dieRolls;
     public int turn = 0;
+    private static boolean lose = false;
     
     private final String[] playerImg = new String[]{"/resources/game/Miss-Scarlett-game-piece.png","/resources/game/Col-Mustard-game-piece.png","/resources/game/Mrs-White-game-piece.png","/resources/game/Rev-Green-game-piece.png","/resources/game/Mrs-Peacock-game-piece.png","/resources/game/Prof-Plum-game-piece.png"};
     private static HashMap<String, ImageView[]> playerMarkers = new HashMap<>();
@@ -163,6 +164,15 @@ public class GameController implements Initializable {
         
         }
     }
+
+    public static void setLose(boolean lose) {
+        GameController.lose = lose;
+    }
+
+    public static boolean isLose() {
+        return lose;
+    }
+    
     
     public static Board getBoard() {
         return board;
@@ -254,11 +264,12 @@ public class GameController implements Initializable {
                             getBoard().getTile(aiPrevY[getStartingPlayer().getOrder()-1], aiPrevX[getStartingPlayer().getOrder()-1]).getButton().getStyleClass().remove("toggle-"+getStartingPlayer().getName().split(" ",-1)[1]);
                         }
                         NPC npc = new NPC(getStartingPlayer().getName(),getStartingPlayer().getOrder(),getStartingPlayer().getImgPath(),getStartingPlayer().getCurrentPosY(),getStartingPlayer().getCurrentPosX(),false,false);
-                        Button aiMovedButton = npc.AIMoves(getStartingPlayer().getSearchSpace()).getButton();
-                        aiMovedButton.getStyleClass().add("toggle-"+getStartingPlayer().getName().split(" ",-1)[1]);
-                        getStartingPlayer().setCurrentPosYX(GridPane.getColumnIndex(aiMovedButton), GridPane.getRowIndex(aiMovedButton));
-                        aiPrevX[getStartingPlayer().getOrder()-1] = GridPane.getRowIndex(aiMovedButton);
-                        aiPrevY[getStartingPlayer().getOrder()-1] = GridPane.getColumnIndex(aiMovedButton);
+                        Tile aiMoved = npc.AIMoves(getStartingPlayer().getSearchSpace());
+                        getBoard().getTile(getStartingPlayer().getCurrentPosY(), getStartingPlayer().getCurrentPosX());
+                        //getBoard().unlightAllTiles();
+                        getStartingPlayer().setCurrentPosYX(GridPane.getColumnIndex(aiMoved.getButton()), GridPane.getRowIndex(aiMoved.getButton()));
+                        aiPrevX[getStartingPlayer().getOrder()-1] = GridPane.getRowIndex(aiMoved.getButton());
+                        aiPrevY[getStartingPlayer().getOrder()-1] = GridPane.getColumnIndex(aiMoved.getButton());
                     }
                     timer.cancel();
                 }
@@ -277,6 +288,7 @@ public class GameController implements Initializable {
     }
     @FXML private void WinLose(ActionEvent event) throws Exception{
         if(!getMurderCards().contains(person.getValue()+".jpg") || !getMurderCards().contains(weapon.getValue()+".JPG") || !getMurderCards().contains(room.getValue()+".png")){
+            setLose(true);
             Parent root = FXMLLoader.load(GameController.class.getResource("gameover.fxml"));
             Stage window_over = (Stage)accuse.getScene().getWindow();
             window_over.setScene(new Scene(root));
@@ -290,8 +302,8 @@ public class GameController implements Initializable {
     }
     @FXML
     private void makeSuggestion(ActionEvent event) throws Exception{
-        if(this.startingPlayer.isInRoom()){
-            this.room.getSelectionModel().select(getBoard().getDoors(this.startingPlayer.getCurrentPosY(), this.startingPlayer.getCurrentPosX()).getRoom().getRoomName());
+        if(this.startingPlayer.isInRoom() && (this.person.getValue()!= null || this.weapon.getValue() != null)){
+            this.room.getSelectionModel().select(getBoard().getDoors(this.startingPlayer.getCurrentPosX(), this.startingPlayer.getCurrentPosY()).getRoom().getRoomName());
             boolean shown = false;
             int askNext = this.startingPlayer.getOrder()+1;
             while(!shown){

@@ -61,7 +61,6 @@ public class GameController implements Initializable {
     @FXML private ImageView revealCard;
     @FXML private Label whoCard;
 
-
     @FXML private Label moves_label;
     @FXML private GridPane grid;
     
@@ -78,7 +77,6 @@ public class GameController implements Initializable {
     public int turn = 0;
     
     private final String[] playerImg = new String[]{"/resources/game/Miss-Scarlett-game-piece.png","/resources/game/Col-Mustard-game-piece.png","/resources/game/Mrs-White-game-piece.png","/resources/game/Rev-Green-game-piece.png","/resources/game/Mrs-Peacock-game-piece.png","/resources/game/Prof-Plum-game-piece.png"};
-    private int[][] playerIndicatorPos;
     private static HashMap<String, ImageView[]> playerMarkers = new HashMap<>();
 
     
@@ -89,6 +87,8 @@ public class GameController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        playerMarkers.clear();
+        
         createButtons();
         
         aiPrevX = new int[6];
@@ -99,7 +99,7 @@ public class GameController implements Initializable {
             int[][] pos = room.getPlayerIndicatorPos();
             for (int i = 0; i < 6; i++) {
                 int[] coord = pos[i];
-                ImageView img = new ImageView(playerImg[i]);
+                ImageView img = new ImageView(new Image(playerImg[i], 35, 35, false, false));
                 img.setFitHeight(35);
                 img.setFitWidth(35); 
                 img.setVisible(false);

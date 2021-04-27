@@ -19,6 +19,7 @@ public class SingleplayerMenu{
     private static Player player1;
     private static ArrayList<NPC> opponentPlayers;
     private static ArrayList<Card> murderCards;
+    private static String dif;
 
     
     /**
@@ -35,6 +36,15 @@ public class SingleplayerMenu{
     public static Player getPlayer1() {
         return player1;
     }
+
+    public static String getDif() {
+        return dif;
+    }
+
+    public static void setDif(String dif) {
+        SingleplayerMenu.dif = dif;
+    }
+    
 
     public static void setPlayer1(Player player1) {
         SingleplayerMenu.player1 = player1;

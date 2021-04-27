@@ -5,7 +5,6 @@
  */
 package com.seteam23.clue.game;
 
-import com.seteam23.clue.game.Game;
 import com.seteam23.clue.game.board.Board;
 import com.seteam23.clue.game.board.Room;
 import com.seteam23.clue.game.board.Tile;
@@ -34,7 +33,6 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -78,7 +76,7 @@ public class GameController implements Initializable {
     private static boolean lose = false;
     
     private final String[] playerImg = new String[]{"/resources/game/Miss-Scarlett-game-piece.png","/resources/game/Col-Mustard-game-piece.png","/resources/game/Mrs-White-game-piece.png","/resources/game/Rev-Green-game-piece.png","/resources/game/Mrs-Peacock-game-piece.png","/resources/game/Prof-Plum-game-piece.png"};
-    private static HashMap<String, ImageView[]> playerMarkers = new HashMap<>();
+    private static final HashMap<String, ImageView[]> playerMarkers = new HashMap<>();
 
     
     /**
@@ -95,7 +93,7 @@ public class GameController implements Initializable {
         aiPrevX = new int[6];
         aiPrevY = new int[6];
         
-        for (Room room : board.getRooms()) {
+        board.getRooms().forEach((room) -> {
             ImageView[] playerRoomIcon = new ImageView[9];
             int[][] pos = room.getPlayerIndicatorPos();
             for (int i = 0; i < 6; i++) {
@@ -108,7 +106,7 @@ public class GameController implements Initializable {
                 grid.add(playerRoomIcon[i], coord[0], coord[1]);
             }
             playerMarkers.put(room.getRoomName(), playerRoomIcon);
-        }
+        });
 
         ArrayList<String> allPlayers = new ArrayList<>(Arrays.asList("Miss Scarlett","Col Mustard","Mrs White","Rev Green","Mrs Peacock","Prof Plum"));
         int startingPlayerPos = 0;
@@ -271,8 +269,6 @@ public class GameController implements Initializable {
                         }
                         NPC npc = new NPC(getStartingPlayer().getName(),getStartingPlayer().getOrder(),getStartingPlayer().getImgPath(),getStartingPlayer().getCurrentPosY(),getStartingPlayer().getCurrentPosX(),false,false);
                         Tile aiMoved = npc.AIMoves(getStartingPlayer().getSearchSpace());
-                        //getBoard().getTile(getStartingPlayer().getCurrentPosY(), getStartingPlayer().getCurrentPosX()).activate();
-                        //getBoard().unlightAllTiles();
                         getStartingPlayer().setCurrentPosYX(GridPane.getColumnIndex(aiMoved.getButton()), GridPane.getRowIndex(aiMoved.getButton()));
                         aiPrevX[getStartingPlayer().getOrder()-1] = GridPane.getRowIndex(aiMoved.getButton());
                         aiPrevY[getStartingPlayer().getOrder()-1] = GridPane.getColumnIndex(aiMoved.getButton());

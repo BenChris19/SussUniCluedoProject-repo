@@ -22,7 +22,7 @@ public class Player {
     private int currentPosX;
     private String imgPath;
     private boolean human;
-    private List<Card> cards;
+    private ArrayList<Card> cards;
     private Place[][] place;
     private boolean endTurn;
     private ArrayList<Tile> searchSpace;
@@ -33,8 +33,12 @@ public class Player {
     /**
      * 
      * @param name
-     * @param noOfPlayers
-     * @param turn 
+     * @param order
+     * @param playerImgPath
+     * @param currentPosY
+     * @param currentPosX
+     * @param endTurn
+     * @param isInRoom 
      */
     public Player(String name,int order,String playerImgPath,int currentPosY,int currentPosX,boolean endTurn,boolean isInRoom) {
         this.order = order;
@@ -157,7 +161,7 @@ public class Player {
      * 
      * @return 
      */
-    public List<Card> viewCards(){
+    public ArrayList<Card> viewCards(){
 
         return cards;
     }

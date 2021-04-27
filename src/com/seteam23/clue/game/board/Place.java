@@ -51,6 +51,7 @@ public abstract class Place {
      */
     public boolean addOccupier(Player p) {
         if (this.occupiers.size() < this.max_players) {
+            this.getButton().getStyleClass().add("toggle-"+getPlayer1().getName().split(" ",-1)[1]);
             this.occupied = true;
             return this.occupiers.add(p);
         }
@@ -97,7 +98,7 @@ public abstract class Place {
         button.setOnAction((ActionEvent e) -> {
             try {
                 if (getPlayer1().isEndTurn() == false && getPlayer1().getSearchSpace().contains(getBoard().getTile(GridPane.getColumnIndex(button), GridPane.getRowIndex(button)))) {
-                    Place.this.activate();
+                    this.activate();
                 }
             }catch (InterruptedException ex) {
                 Logger.getLogger(Place.class.getName()).log(Level.SEVERE, null, ex);

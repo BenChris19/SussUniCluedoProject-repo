@@ -6,11 +6,11 @@
  */
 package com.seteam23.clue.game.board;
 
-import com.seteam23.clue.game.Game;
 import com.seteam23.clue.game.GameController;
 import com.seteam23.clue.game.entities.Card;
 import com.seteam23.clue.game.entities.Player;
 import java.util.ArrayList;
+import javafx.scene.image.ImageView;
 
 public class Room extends Place{
     private int x, y;
@@ -18,6 +18,7 @@ public class Room extends Place{
     private Card weapon;
     private ArrayList<Tile> doors;
     private ArrayList<Player> players;
+    private final int[][] playerIndicatorPos;
     private String roomName;
     private Card[] weapons;
     
@@ -28,12 +29,13 @@ public class Room extends Place{
      * @param width
      * @param height 
      */
-    public Room(String roomName,int x, int y, int width, int height) {
+    public Room(String roomName, int[][] playerIndicatorPos, int x, int y, int width, int height) {
         // Can hold 6 people (SET TO MAX PLAYERS FOR GAME)
         super(6);
         
-        this.x = x;
         this.roomName = roomName;
+        this.playerIndicatorPos = playerIndicatorPos;
+        this.x = x;
         this.y = y;
         this.width = width;
         this.height = height;
@@ -48,27 +50,7 @@ public class Room extends Place{
      */
     public void addPlayer(Player player) {
         players.add(player);
-        int i;
-        switch (player.getName()) {
-            case "Col Mustard":
-                i = 1;
-                break;
-            case "Mrs White":
-                i = 2;
-                break;
-            case "Rev Green":
-                i = 3;
-                break;
-            case "Mrs Peacock":
-                i = 4;
-                break;
-            case "Prof Plum":
-                i = 5;
-                break;
-            default:
-                i = 0;
-                break;
-        }
+        GameController.showPlayerRoom(roomName, player.getName());
     }
     
     /**
@@ -76,27 +58,7 @@ public class Room extends Place{
      * @param player 
      */
     public boolean removePlayer(Player player) {
-        int i;
-        switch (player.getName()) {
-            case "Col Mustard":
-                i = 1;
-                break;
-            case "Mrs White":
-                i = 2;
-                break;
-            case "Rev Green":
-                i = 3;
-                break;
-            case "Mrs Peacock":
-                i = 4;
-                break;
-            case "Prof Plum":
-                i = 5;
-                break;
-            default:
-                i = 0;
-                break;
-        }
+        GameController.hidePlayerRoom(roomName, player.getName());
         return players.remove(player);
     }
     
@@ -141,6 +103,10 @@ public class Room extends Place{
 
     public ArrayList<Tile> getDoors() {
         return doors;
+    }
+    
+    public int[][] getPlayerIndicatorPos() {
+        return playerIndicatorPos;
     }
     
 }

@@ -11,7 +11,6 @@ package com.seteam23.clue.game.board;
 
 import com.seteam23.clue.game.entities.Player;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.HashSet;
 
 import java.util.Set;
@@ -20,7 +19,7 @@ import javafx.scene.control.Button;
 public final class Board {
 
     private Place[][] places; //All
-    private Room[][] rooms; //Rooms
+    private ArrayList<Room> rooms; //Rooms
     private Door[][] doors;
     private Tile[][] tiles; //Tiles
     
@@ -42,39 +41,10 @@ public final class Board {
      */
     public void createGrid() {
         places = new Place[25][24];
-        rooms = new Room[25][24];
+        rooms = new ArrayList<Room>();
         tiles = new Tile[25][24];
         doors = new Door[25][24];
 
-        // Rooms
-        Room study = createRoom("Study",0, 0, 7, 4);
-        Room library = createRoom("Library",1, 6, 5, 5);
-        Room billiard_room = createRoom("Billard Room",0, 12, 6, 5);
-        Room conservatory = createRoom("Conservatory",0, 20, 6, 4);
-        Room hall = createRoom("Hall",9, 1, 6, 5);
-        Room ballroom = createRoom("Ballroom",9, 18, 6, 4);
-        Room lounge = createRoom("Lounge",1, 18, 5, 4);
-        Room dining_room = createRoom("Dining Room",17, 10, 6, 4);
-        Room kitchen = createRoom("Kitchen",19, 19, 4, 4);
-
-        // Doors
-        addDoor(study, "N", 6, 3);
-        addDoor(library, "W", 6, 8);
-        addDoor(library, "N", 3, 10);
-        addDoor(billiard_room, "S", 1, 12);
-        addDoor(billiard_room, "W", 5, 15);
-        addDoor(conservatory, "W", 4, 19);
-        addDoor(hall, "E", 9, 4);
-        addDoor(hall, "N", 11, 6);
-        addDoor(hall, "N", 12, 6);
-        addDoor(ballroom, "E", 8, 19);
-        addDoor(ballroom, "S", 9, 17);
-        addDoor(ballroom, "S", 14, 17);
-        addDoor(ballroom, "W", 15, 19);
-        addDoor(lounge, "N", 17, 5);
-        addDoor(dining_room, "S", 17, 9);
-        addDoor(dining_room, "E", 16, 12);
-        addDoor(kitchen, "S", 19, 18);
 
         // Start Platforms
         createTile(0, 5);
@@ -182,6 +152,48 @@ public final class Board {
                 createTile(x, y);
             }
         }
+        
+        
+        // Rooms
+        int[][] studyPlayers = new int[][]{ {2,1}, {3,1}, {4,1}, {2,2}, {3,2}, {4,2}};
+        int[][] libraryPlayers = new int[][]{ {2,7}, {3,7}, {4,7}, {2,9}, {3,9}, {3,9}};
+        int[][] billiardPlayers = new int[][]{ {2,13}, {3,13}, {2,14}, {3,14}, {2,15}, {3,15}};
+        int[][] conservatoryPlayers = new int[][]{{1,21}, {2,21}, {3,21}, {4,21}, {2,22}, {3,22}};
+        int[][] hallPlayers = new int[][]{{10,1}, {13,1}, {10,3}, {13,3}, {10,5}, {13,5}};
+        int[][] ballroomPlayers = new int[][]{{10,19}, {11,19}, {12,19}, {13,19}, {11,21}, {12,21}};
+        int[][] loungePlayers = new int[][]{{19,1}, {20,1}, {21,1}, {19,3}, {20,3}, {21,3}};
+        int[][] diningPlayers = new int[][]{{18,11}, {19,11}, {20,11}, {21,11}, {21,12}, {21,3}};
+        int[][] kitchenPlayers = new int[][]{{19,20}, {20,20}, {21,20}, {20,21}, {21,21}, {22,21}};
+        
+        Room study = createRoom("Study", studyPlayers, 0, 0, 7, 4);
+        Room library = createRoom("Library", libraryPlayers, 1, 6, 5, 5);
+        Room billiard_room = createRoom("Billard Room", billiardPlayers,0, 12, 6, 5);
+        Room conservatory = createRoom("Conservatory", conservatoryPlayers, 0, 20, 6, 4);
+        Room hall = createRoom("Hall", hallPlayers, 9, 1, 6, 5);
+        Room ballroom = createRoom("Ballroom", ballroomPlayers, 9, 18, 6, 4);
+        Room lounge = createRoom("Lounge", loungePlayers, 1, 18, 5, 4);
+        Room dining_room = createRoom("Dining Room", diningPlayers, 17, 10, 6, 4);
+        Room kitchen = createRoom("Kitchen", kitchenPlayers, 19, 19, 4, 4);
+
+        // Doors
+        addDoor(study, "N", 6, 3);
+        addDoor(library, "W", 6, 8);
+        addDoor(library, "N", 3, 10);
+        addDoor(billiard_room, "S", 1, 12);
+        addDoor(billiard_room, "W", 5, 15);
+        addDoor(conservatory, "W", 4, 19);
+        addDoor(hall, "E", 9, 4);
+        addDoor(hall, "N", 11, 6);
+        addDoor(hall, "N", 12, 6);
+        addDoor(ballroom, "E", 8, 19);
+        addDoor(ballroom, "S", 9, 17);
+        addDoor(ballroom, "S", 14, 17);
+        addDoor(ballroom, "W", 15, 19);
+        addDoor(lounge, "N", 17, 5);
+        addDoor(dining_room, "S", 17, 9);
+        addDoor(dining_room, "E", 16, 12);
+        addDoor(kitchen, "S", 19, 18);
+        
 
         // Adjacency
         for (int y = 0; y < 25; y++) {
@@ -270,12 +282,16 @@ public final class Board {
      * @param height
      * @return room
      */
-    private Room createRoom(String roomName,int x, int y, int width, int height) {
-        Room room = new Room(roomName,x, y, width, height);
+    private Room createRoom(String roomName, int[][] playerIndicators, int x, int y, int width, int height) {
+        Room room = new Room(roomName, playerIndicators, x, y, width, height);
         places[y][x] = room;
-        rooms[y][x] = room;
+        rooms.add(room);
 
         return room;
+    }
+    
+    public ArrayList<Room> getRooms() {
+        return rooms;
     }
     
 

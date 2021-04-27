@@ -5,11 +5,7 @@
  */
 package com.seteam23.clue.game.board;
 
-
-
 import static com.seteam23.clue.game.GameController.getBoard;
-
-
 import com.seteam23.clue.game.entities.Player;
 import static com.seteam23.clue.singleplayer.SingleplayerMenu.getPlayer1;
 
@@ -67,6 +63,8 @@ public abstract class Place {
      * @return True if removed from ArrayList
      */
     public boolean removeOccupier(Player p) {
+        // remove player icon from tile
+        getBoard().getTile(getPlayer1().getCurrentPosY(),getPlayer1().getCurrentPosX()).getButton().getStyleClass().remove("toggle-"+getPlayer1().getName().split(" ",-1)[1]);
         this.occupied = false;
         return this.occupiers.remove(p);
     }
@@ -121,29 +119,31 @@ public abstract class Place {
      * @throws java.lang.InterruptedException
      */
     public void activate() throws InterruptedException {
-        System.out.println("CLICK");
-            switch (getPlayer1().getName()) {
-                case "Miss Scarlett":
-                    button.getStyleClass().add("toggle-Scarlett");
-                    break;
-                case "Prof Plum":
-                    button.getStyleClass().add("toggle-Plum");
-                    break;
-                case "Col Mustard":
-                    button.getStyleClass().add("toggle-Mustard");
-                    break;
-                case "Mrs White":
-                    button.getStyleClass().add("toggle-White");
-                    break;
-                case "Rev Green":
-                    button.getStyleClass().add("toggle-Green");
-                    break;
-                default:
-                    button.getStyleClass().add("toggle-Peacock");
-                    break;
+        getBoard().getTile(getPlayer1().getCurrentPosY(),getPlayer1().getCurrentPosX()).removeOccupier(getPlayer1());
+        getPlayer1().setCurrentPosYX(GridPane.getColumnIndex(button), GridPane.getRowIndex(button));
+        addOccupier(getPlayer1());
+        
+        
+        switch (getPlayer1().getName()) {
+            case "Miss Scarlett":
+                button.getStyleClass().add("toggle-Scarlett");
+                break;
+            case "Prof Plum":
+                button.getStyleClass().add("toggle-Plum");
+                break;
+            case "Col Mustard":
+                button.getStyleClass().add("toggle-Mustard");
+                break;
+            case "Mrs White":
+                button.getStyleClass().add("toggle-White");
+                break;
+            case "Rev Green":
+                button.getStyleClass().add("toggle-Green");
+                break;
+            default:
+                button.getStyleClass().add("toggle-Peacock");
+                break;
         }
-            getBoard().getTile(getPlayer1().getCurrentPosY(),getPlayer1().getCurrentPosX()).getButton().getStyleClass().remove("toggle-"+getPlayer1().getName().split(" ",-1)[1]);
-            getPlayer1().setCurrentPosYX(GridPane.getColumnIndex(button), GridPane.getRowIndex(button));
 
             
         

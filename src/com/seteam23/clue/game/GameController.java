@@ -7,6 +7,7 @@ package com.seteam23.clue.game;
 
 import com.seteam23.clue.game.Game;
 import com.seteam23.clue.game.board.Board;
+import com.seteam23.clue.game.board.Room;
 import com.seteam23.clue.game.board.Tile;
 import com.seteam23.clue.game.entities.Card;
 import com.seteam23.clue.game.entities.NPC;
@@ -20,6 +21,7 @@ import static com.seteam23.clue.singleplayer.SingleplayerMenu.getPlayer1;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.ResourceBundle;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -32,6 +34,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -60,21 +63,23 @@ public class GameController implements Initializable {
 
 
     @FXML private Label moves_label;
-    @FXML public GridPane grid;
+    @FXML private GridPane grid;
     
     @FXML private Button suggest;
     @FXML private Button accuse;
     
-    
     private int[] aiPrevX;
     private int[] aiPrevY;
-    private Game game;
+    private static final Game game = new Game();
+    private static final Board board = new Board();
     private ArrayList<Tile> searchSpace;
     private Player startingPlayer;
-    public static Board board;
     public int dieRolls;
     public int turn = 0;
-
+    
+    private final String[] playerImg = new String[]{"/resources/game/Miss-Scarlett-game-piece.png","/resources/game/Col-Mustard-game-piece.png","/resources/game/Mrs-White-game-piece.png","/resources/game/Rev-Green-game-piece.png","/resources/game/Mrs-Peacock-game-piece.png","/resources/game/Prof-Plum-game-piece.png"};
+    private int[][] playerIndicatorPos;
+    private static HashMap<String, ImageView[]> playerMarkers = new HashMap<>();
 
     
     /**
@@ -84,13 +89,25 @@ public class GameController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        board = new Board();
-        this.game = new Game();
         createButtons();
+        
         aiPrevX = new int[6];
         aiPrevY = new int[6];
         
-        
+        for (Room room : board.getRooms()) {
+            ImageView[] playerRoomIcon = new ImageView[9];
+            int[][] pos = room.getPlayerIndicatorPos();
+            for (int i = 0; i < 6; i++) {
+                int[] coord = pos[i];
+                ImageView img = new ImageView(playerImg[i]);
+                img.setFitHeight(35);
+                img.setFitWidth(35); 
+                img.setVisible(false);
+                playerRoomIcon[i] = img;
+                grid.add(playerRoomIcon[i], coord[0], coord[1]);
+            }
+            playerMarkers.put(room.getRoomName(), playerRoomIcon);
+        }
 
         ArrayList<String> allPlayers = new ArrayList<>(Arrays.asList("Miss Scarlett","Col Mustard","Mrs White","Rev Green","Mrs Peacock","Prof Plum"));
         int startingPlayerPos = 0;
@@ -147,7 +164,6 @@ public class GameController implements Initializable {
         }
     }
     
-
     public static Board getBoard() {
         return board;
     }
@@ -155,8 +171,6 @@ public class GameController implements Initializable {
     public void setStartingPlayer(Player startingPlayer) {
         this.startingPlayer = startingPlayer;
     }
-    
-    
     
     public void createButtons() {
         for (int y = 0; y<25; y++) {
@@ -170,6 +184,56 @@ public class GameController implements Initializable {
 
     public Player getStartingPlayer() {
         return startingPlayer;
+    }
+    
+    public static void showPlayerRoom(String roomName, String playerName) {
+        int i;
+        switch (playerName) {
+            case "Col Mustard":
+                i = 1;
+                break;
+            case "Mrs White":
+                i = 2;
+                break;
+            case "Rev Green":
+                i = 3;
+                break;
+            case "Mrs Peacock":
+                i = 4;
+                break;
+            case "Prof Plum":
+                i = 5;
+                break;
+            default:
+                i = 0;
+                break;
+        }
+        playerMarkers.get(roomName)[i].setVisible(true);
+    }
+    
+    public static void hidePlayerRoom(String roomName, String playerName) {
+        int i;
+        switch (playerName) {
+            case "Col Mustard":
+                i = 1;
+                break;
+            case "Mrs White":
+                i = 2;
+                break;
+            case "Rev Green":
+                i = 3;
+                break;
+            case "Mrs Peacock":
+                i = 4;
+                break;
+            case "Prof Plum":
+                i = 5;
+                break;
+            default:
+                i = 0;
+                break;
+        }
+        playerMarkers.get(roomName)[i].setVisible(false);
     }
     
     public void rollDicesAnimation(){
@@ -226,7 +290,7 @@ public class GameController implements Initializable {
     }
     @FXML
     private void makeSuggestion(ActionEvent event) throws Exception{
-        if(this.startingPlayer.getIsInRoom()){
+        if(this.startingPlayer.isInRoom()){
             this.room.getSelectionModel().select(getBoard().getDoors(this.startingPlayer.getCurrentPosY(), this.startingPlayer.getCurrentPosX()).getRoom().getRoomName());
             boolean shown = false;
             int askNext = this.startingPlayer.getOrder()+1;

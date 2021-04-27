@@ -183,7 +183,7 @@ public class Player {
         return dice;
     }
 
-    public boolean getIsInRoom() {
+    public boolean isInRoom() {
         return isInRoom;
     }
     

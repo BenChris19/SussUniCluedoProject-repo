@@ -8,7 +8,6 @@ package com.seteam23.clue.game.board;
 import static com.seteam23.clue.game.GameController.getBoard;
 import static com.seteam23.clue.singleplayer.SingleplayerMenu.getPlayer1;
 import javafx.scene.layout.GridPane;
-
 /**
  *
  * @author Team23
@@ -36,12 +35,12 @@ public class Door extends Tile {
     @Override    
     public void activate() {
         System.out.println("DING DONG");
-        //getBoard().getTile(getPlayer1().getCurrentPosY(),getPlayer1().getCurrentPosX()).getButton().getStyleClass().remove("toggle-"+getPlayer1().getName().split(" ",-1)[1]);
+        getBoard().getTile(getPlayer1().getCurrentPosY(),getPlayer1().getCurrentPosX()).getButton().getStyleClass().remove("toggle-"+getPlayer1().getName().split(" ",-1)[1]);
         //getBoard().getTile(GridPane.getColumnIndex(getButton()), GridPane.getRowIndex(getButton())).getButton().getStyleClass().add("toggle-"+getPlayer1().getName().split(" ",-1)[1]);
         getPlayer1().setIsInRoom(true);
         room.addPlayer(getPlayer1());
         getPlayer1().setCurrentPosYX(GridPane.getColumnIndex(getButton()), GridPane.getRowIndex(getButton()));
-        addOccupier(getPlayer1());
+        //addOccupier(getPlayer1());
 
     }
     

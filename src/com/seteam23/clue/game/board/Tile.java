@@ -109,6 +109,13 @@ public class Tile extends Place {
     public void setAdjacent(String direction, Tile tile) {
         adjacent.put(direction, tile);
     }
+    
+    /**
+     * 
+     * @param hm
+     * @param value
+     * @return 
+     */
     public String getKeyFromValue(HashMap hm, Door value) {
             for (Object o : hm.keySet()) {
               if (hm.get(o)!=null && hm.get(o).equals(value)) {

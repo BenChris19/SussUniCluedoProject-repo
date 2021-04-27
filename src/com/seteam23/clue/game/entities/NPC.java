@@ -1,7 +1,6 @@
 package com.seteam23.clue.game.entities;
 
 import com.seteam23.clue.game.Game;
-import static com.seteam23.clue.game.GameController.getBoard;
 import com.seteam23.clue.game.board.Board;
 import com.seteam23.clue.game.board.Door;
 import com.seteam23.clue.game.board.Room;

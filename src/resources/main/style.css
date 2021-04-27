@@ -2,10 +2,16 @@
     src: url('Oswald-Bold.ttf');
 }
 #button-quit{
-    -fx-font-size:40px;
+    -fx-font-size:30px;
     -fx-font-family: 'Oswald';
 }
+
+#button-multiplayer {
+    -fx-font-size: 30px;
+    -fx-font-family: 'Oswald';
+}
+
 #button-start{
-    -fx-font-size:40px;
+    -fx-font-size:30px;
     -fx-font-family: 'Oswald';
 }

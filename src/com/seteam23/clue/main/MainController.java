@@ -25,6 +25,9 @@ public class MainController implements Initializable {
     private Button button_start;
     
     @FXML
+    private Button button_multiplayer;
+    
+    @FXML
     private Button button_quit;
     
     /**

@@ -5,58 +5,45 @@
  */
 package com.seteam23.clue.game.entities;
 
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.*;
+import java.util.ArrayList;
+import java.util.List;
+import javafx.collections.ObservableList;
+import org.junit.Before;
+import org.junit.Test;
+import static org.junit.Assert.*;
 
 /**
  *
  * @author InfernoKay
  */
 public class PlayerTest {
-    
+    Player instance1;
+    Player instance2;
     public PlayerTest() {
     }
-    
-    @BeforeAll
-    public static void setUpClass() {
-    }
-    
-    @AfterAll
-    public static void tearDownClass() {
-    }
-    
-    @BeforeEach
-    public void setUp() {
-    }
-    
-    @AfterEach
-    public void tearDown() {
-    }
+    @Before
+    public void setUp(){
+        instance1 = new Player("Miss Scarlett", 0, "Miss_Scarlett.jpg", 0, 0, false, false);
+        instance2 = new Player("Miss Scarlett", 0, "Miss_Scarlett.jpg", 0, 0, false, false);
+    }   
 
     /**
-     * Test of finishTurn method, of class Player.
+     * Test of initialiseChecklist method, of class Player.
      */
     @Test
-    public void testFinishTurn() {
+    public void testInitialiseChecklist() {
         System.out.println("finishTurn");
-        Player instance = new Player();
-        instance.finishTurn();
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-
-    /**
-     * Test of startTurn method, of class Player.
-     */
-    @Test
-    public void testStartTurn() {
-        System.out.println("startTurn");
-        Player instance = new Player();
-        instance.startTurn();
+        ArrayList<Card> gameCards = new ArrayList<>();
+        gameCards.add(new Card("Hammer", "h.jpg", "weapon"));
+        gameCards.add(new Card("Wrench", "w.jpg", "weapon"));
+        instance1.initialiseChecklist(gameCards);
+        List<ChecklistEntry> entries = instance1.getChecklistEntries();
+        assertEquals(entries.get(0).getName(), "Hammer");
+        assertEquals(entries.get(0).getChecked(), false);
+        assertEquals(entries.get(0).getName(), "Wrench");
+        assertEquals(entries.get(0).getChecked(), false);
+        instance1.markCard(entries.get(0));
+        assertEquals(entries.get(0).getChecked(), true);
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
     }
@@ -67,74 +54,13 @@ public class PlayerTest {
     @Test
     public void testViewCards() {
         System.out.println("viewCards");
-        Player instance = new Player();
-        Card[] expResult = null;
-        Card[] result = instance.viewCards();
-        assertArrayEquals(expResult, result);
+        ArrayList<Card> expResult = new ArrayList<>();
+        expResult.add(new Card("Hammer", "h.jpg", "weapon"));
+        expResult.add(new Card("Wrench", "w.jpg", "weapon"));
+        instance1.addCard(new Card("Hammer", "h.jpg", "weapon"));
+        instance1.addCard(new Card("Wrench", "w.jpg", "weapon"));
+        ArrayList<Card> result = instance1.viewCards();
+        assertArrayEquals(expResult.toArray(), result.toArray());
         // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-
-    /**
-     * Test of rollDice method, of class Player.
-     */
-    @Test
-    public void testRollDice() {
-        System.out.println("rollDice");
-        Player instance = new Player();
-        int[] expResult = null;
-        int[] result = instance.rollDice();
-        assertArrayEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-
-    /**
-     * Test of makeAccusation method, of class Player.
-     */
-    @Test
-    public void testMakeAccusation() {
-        System.out.println("makeAccusation");
-        Card person = null;
-        Card weapon = null;
-        Card room = null;
-        Player instance = new Player();
-        String expResult = "";
-        String result = instance.makeAccusation(person, weapon, room);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-
-    /**
-     * Test of makeSuggestion method, of class Player.
-     */
-    @Test
-    public void testMakeSuggestion() {
-        System.out.println("makeSuggestion");
-        Card person = null;
-        Card weapon = null;
-        Player instance = new Player();
-        String expResult = "";
-        String result = instance.makeSuggestion(person, weapon);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-
-    /**
-     * Test of movePlayer method, of class Player.
-     */
-    @Test
-    public void testMovePlayer() {
-        System.out.println("movePlayer");
-        int x = 0;
-        int y = 0;
-        int diceTotal = 0;
-        Player instance = new Player();
-        instance.movePlayer(x, y, diceTotal);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-    
+    }    
 }

@@ -135,6 +135,7 @@ public class SingleplayerMenuController implements Initializable {
     @FXML
     private void continueBoard(ActionEvent event) throws Exception{
         spMenu.setOpponents(((Integer)this.numPlayers.getValue())-1);
+        SingleplayerMenu.setDif(difLevel.getValue().toString());
         for (String s : tabNames) {
             Tab t = new Tab(s);
             t.setClosable(false);

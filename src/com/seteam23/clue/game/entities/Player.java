@@ -182,7 +182,6 @@ public class Player {
         Random r = new Random();
         int die1 = r.nextInt(6)+1;
         int die2 = r.nextInt(6)+1;
-        System.out.println(die1+","+die2);
         int[] dice = new int[die1+die2];//Kept as individual dice for graphics
         return dice;
     }

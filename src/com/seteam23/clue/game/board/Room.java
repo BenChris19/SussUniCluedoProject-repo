@@ -16,7 +16,7 @@ public class Room extends Place{
     private int x, y;
     private int width, height;
     private Card weapon;
-    private ArrayList<Tile> doors;
+    private ArrayList<Door> doors;
     private ArrayList<Player> players;
     private final int[][] playerIndicatorPos;
     private String roomName;
@@ -48,16 +48,18 @@ public class Room extends Place{
      * 
      * @param player 
      */
-    public void addPlayer(Player player) {
-        players.add(player);
+    @Override
+    public boolean addOccupier(Player player) {
         GameController.showPlayerRoom(roomName, player.getName());
+        return players.add(player);
     }
     
     /**
      * 
      * @param player 
      */
-    public boolean removePlayer(Player player) {
+    @Override
+    public boolean removeOccupier(Player player) {
         GameController.hidePlayerRoom(roomName, player.getName());
         return players.remove(player);
     }
@@ -101,7 +103,7 @@ public class Room extends Place{
         return door;
     }
 
-    public ArrayList<Tile> getDoors() {
+    public ArrayList<Door> getDoors() {
         return doors;
     }
     

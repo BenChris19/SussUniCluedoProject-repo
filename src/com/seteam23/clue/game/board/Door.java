@@ -34,14 +34,10 @@ public class Door extends Tile {
      */
     @Override    
     public void activate() {
-        System.out.println("DING DONG");
-        getBoard().getTile(getPlayer1().getCurrentPosY(),getPlayer1().getCurrentPosX()).getButton().getStyleClass().remove("toggle-"+getPlayer1().getName().split(" ",-1)[1]);
-        //getBoard().getTile(GridPane.getColumnIndex(getButton()), GridPane.getRowIndex(getButton())).getButton().getStyleClass().add("toggle-"+getPlayer1().getName().split(" ",-1)[1]);
+        getBoard().getTile(getPlayer1().getCurrentPosY(),getPlayer1().getCurrentPosX()).removeOccupier(getPlayer1());
         getPlayer1().setIsInRoom(true);
-        room.addPlayer(getPlayer1());
         getPlayer1().setCurrentPosYX(GridPane.getColumnIndex(getButton()), GridPane.getRowIndex(getButton()));
-        getBoard().unlightAllTiles();
-        //addOccupier(getPlayer1());
+        room.addOccupier(getPlayer1());
 
     }
     

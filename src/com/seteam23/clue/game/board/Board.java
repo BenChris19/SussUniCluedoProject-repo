@@ -22,8 +22,6 @@ public final class Board {
     private ArrayList<Room> rooms; //Rooms
     private Door[][] doors;
     private Tile[][] tiles; //Tiles
-    
-
     private ArrayList<Player> players = new ArrayList<>();
 
 
@@ -41,7 +39,7 @@ public final class Board {
      */
     public void createGrid() {
         places = new Place[25][24];
-        rooms = new ArrayList<Room>();
+        rooms = new ArrayList<>();
         tiles = new Tile[25][24];
         doors = new Door[25][24];
 
@@ -296,14 +294,13 @@ public final class Board {
     
 
     /**
-     * 
-     * @param start
-     * @param moves_remaining
-     * @return 
+     * Recursive method to find all tiles reachable from the start using Tile adjacency matrix
+     * @param start Initial tile to check from
+     * @param moves_remaining How many moves left, decreases by 1 when call to 0
+     * @return Set of tiles reachable from the current tile
      */
     private Set<Tile> reachableRecursive(Tile start, int moves_remaining) {
         Set<Tile> reach = new HashSet<>();
-
 
         if (moves_remaining > 0) {
             start.getAdjacent().values().stream().filter((a) -> (a != null && !a.isFull())).forEachOrdered((a) -> {
@@ -327,14 +324,29 @@ public final class Board {
     }
 
     /**
-     * 
-     * @param start
-     * @param die_roll
-     * @return 
+     * Gets the tiles reachable from a start TILE with a known dice roll total
+     * @param start Initial Tile
+     * @param die_roll Total number of moves available
+     * @return ArrayList of Tiles reachable from a Tile
      */
     public ArrayList<Tile> reachableFrom(Tile start, int die_roll) {
         Set<Tile> reach = reachableRecursive(start, die_roll);
         reach.remove(start);
+        return new ArrayList<>(reach);
+    }
+    
+    /**
+     * Gets the tiles reachable from a ROOM through the doors with a known dice roll total
+     * @param room Initial Room, uses doors to get places movable
+     * @param die_roll Total number of moves available
+     * @return ArrayList of Tiles reachable from a Room's doors
+     */
+    public ArrayList<Tile> reachableFrom(Room room, int die_roll) {
+        Set<Tile> reach = new HashSet<>();
+        for (Door door : room.getDoors()) {
+            reach.addAll(reachableRecursive(door, die_roll));
+            reach.remove(door);
+        }
         return new ArrayList<>(reach);
     }
     
@@ -378,6 +390,41 @@ public final class Board {
         }
         
         reach.remove(start);
+        return reach;
+    }
+    
+    /**
+     * 
+     * @param room
+     * @param die_roll
+     * @return 
+     */
+    public ArrayList<Tile> furthestReachableFrom(Room room, int die_roll) {
+        ArrayList<Tile> reach = new ArrayList<>();
+        Set<Tile> all_reach = new HashSet<>();
+        
+        for (Door door : room.getDoors()) {
+            all_reach = reachableRecursive(door, die_roll);
+
+            int[] s = door.getCoords();
+
+            for (Tile tile : all_reach) {
+                if (tile instanceof Door) {
+                    reach.add(tile);
+                }
+                else {
+                    int[] t = tile.getCoords();
+                    int dx = Math.abs(s[0]-t[0]);
+                    int dy = Math.abs(s[1]-t[1]);
+                    if (dx + dy == die_roll) {
+                        reach.add(tile);
+                    }
+                }
+            }
+        }
+        
+        for (Door door : room.getDoors()) reach.remove(door);
+        
         return reach;
     }
 

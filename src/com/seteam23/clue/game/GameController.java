@@ -252,7 +252,13 @@ public class GameController implements Initializable {
         moves_label.setText("    "+dieRolls);
         moves_label.setVisible(false);
         diceThrow.setVisible(true);
-        getStartingPlayer().setSearchSpace(board.reachableFrom(board.getTile(getStartingPlayer().getCurrentPosY(), getStartingPlayer().getCurrentPosX()),dieRolls));
+        if (getStartingPlayer().isHuman()) {
+            getStartingPlayer().setSearchSpace(board.reachableFrom(board.getTile(getStartingPlayer().getCurrentPosY(), getStartingPlayer().getCurrentPosX()),dieRolls));
+        }
+        else {
+            getStartingPlayer().setSearchSpace(board.furthestReachableFrom(board.getTile(getStartingPlayer().getCurrentPosY(), getStartingPlayer().getCurrentPosX()),dieRolls));
+        }
+        
             timer.schedule(new TimerTask() {
                 @Override
                 public void run() {
@@ -265,7 +271,7 @@ public class GameController implements Initializable {
                         }
                         NPC npc = new NPC(getStartingPlayer().getName(),getStartingPlayer().getOrder(),getStartingPlayer().getImgPath(),getStartingPlayer().getCurrentPosY(),getStartingPlayer().getCurrentPosX(),false,false);
                         Tile aiMoved = npc.AIMoves(getStartingPlayer().getSearchSpace());
-                        getBoard().getTile(getStartingPlayer().getCurrentPosY(), getStartingPlayer().getCurrentPosX());
+                        //getBoard().getTile(getStartingPlayer().getCurrentPosY(), getStartingPlayer().getCurrentPosX()).activate();
                         //getBoard().unlightAllTiles();
                         getStartingPlayer().setCurrentPosYX(GridPane.getColumnIndex(aiMoved.getButton()), GridPane.getRowIndex(aiMoved.getButton()));
                         aiPrevX[getStartingPlayer().getOrder()-1] = GridPane.getRowIndex(aiMoved.getButton());

@@ -22,6 +22,8 @@ public final class Board {
     private ArrayList<Room> rooms; //Rooms
     private Door[][] doors;
     private Tile[][] tiles; //Tiles
+    private ArrayList<Passage> passages;
+    
     private ArrayList<Player> players = new ArrayList<>();
 
 
@@ -42,6 +44,7 @@ public final class Board {
         rooms = new ArrayList<>();
         tiles = new Tile[25][24];
         doors = new Door[25][24];
+        passages = new ArrayList<>();
 
 
         // Start Platforms
@@ -192,6 +195,12 @@ public final class Board {
         addDoor(dining_room, "E", 16, 12);
         addDoor(kitchen, "S", 19, 18);
         
+        // Passages
+        addPassage(study, kitchen, 0, 3);
+        addPassage(kitchen, study, 18, 23);
+        addPassage(lounge, conservatory, 23, 5);
+        addPassage(conservatory, lounge, 1, 19);
+        
 
         // Adjacency
         for (int y = 0; y < 25; y++) {
@@ -216,7 +225,9 @@ public final class Board {
                         if (x + 1 < 24 && door.entryFrom() == "E") {
                             door.setAdjacent("E", tiles[y][x + 1]);
                         }
-                    } // NEED TO CHECK IF ADJACENT IS DOOR THEN ONLY ADD IF IN ENTRY FROM SIDE
+                    }
+                    else if (tile.getClass() == Passage.class) {
+                    }
                     else {
                         if (y - 1 >= 0) {
                             tile.setAdjacent("N", tiles[y - 1][x]);
@@ -244,12 +255,10 @@ public final class Board {
      * @param y
      * @return tile
      */
-    private Tile createTile(int x, int y) {
+    private void createTile(int x, int y) {
         Tile tile = new Tile(x, y);
         places[y][x] = tile;
         tiles[y][x] = tile;
-
-        return tile;
     }
 
     /**
@@ -266,6 +275,15 @@ public final class Board {
         places[y][x] = door;
         tiles[y][x] = door;
         doors[y][x] = door;
+    }
+    
+    private void addPassage(Room start, Room end, int x, int y) {
+        Passage passage = new Passage(start, end, x, y);
+        System.out.println(passage);
+        places[y][x] = passage;
+        tiles[y][x] = passage;
+        passages.add(passage);
+        System.out.println(passages);
     }
 
     

@@ -91,7 +91,7 @@ public abstract class Place {
      * Creates the Tile's JavaFX Button
      * @return button
      */
-    private Button createButton() {
+    protected Button createButton() {
         Button button = new Button();
         
 

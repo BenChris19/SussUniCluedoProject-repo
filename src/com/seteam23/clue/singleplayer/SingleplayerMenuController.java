@@ -303,7 +303,7 @@ public class SingleplayerMenuController implements Initializable {
         TableColumn<ChecklistEntry, String> nameCol = new TableColumn<>("Name");
         TableColumn<ChecklistEntry, String> cardTypeCol = new TableColumn<>("Card Type");
         TableColumn<ChecklistEntry, Button> markedCol = new TableColumn<>("Marked");
-        System.out.println(SingleplayerMenu.getPlayer1().getChecklistEntries());
+        //System.out.println(SingleplayerMenu.getPlayer1().getChecklistEntries());
         checklistElements = SingleplayerMenu.getPlayer1().getChecklistEntries();
         table.setItems(checklistElements);
         nameCol.setCellValueFactory(new PropertyValueFactory<ChecklistEntry, String>("name"));

@@ -14,13 +14,15 @@ import javafx.scene.layout.GridPane;
  */
 public class Door extends Tile {
     
-    private Room room;
-    private String entry;
+    private final Room room;
+    private final String entry;
     
     /**
      * Constructor
      * @param room
      * @param entry_from 
+     * @param x 
+     * @param y 
      */
     public Door(Room room, String entry_from, int x, int y) {
         super(x, y);
@@ -33,7 +35,7 @@ public class Door extends Tile {
      * Overrides the button activate function
      */
     @Override    
-    public void activate() {
+    public void activate() throws InterruptedException{
         getBoard().getTile(getPlayer1().getCurrentPosY(),getPlayer1().getCurrentPosX()).removeOccupier(getPlayer1());
         getPlayer1().setIsInRoom(true);
         getPlayer1().setCurrentPosYX(GridPane.getColumnIndex(getButton()), GridPane.getRowIndex(getButton()));

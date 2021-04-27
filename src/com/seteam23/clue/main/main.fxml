@@ -8,16 +8,17 @@
 
 <AnchorPane id="AnchorPane" stylesheets="@../../../../resources/main/style.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.seteam23.clue.main.MainController">
     <children>
-      <Pane id="pane" prefHeight="545.0" prefWidth="970.0">
-         <children>
-            <ImageView id="background-image" fitHeight="545.0" fitWidth="1005.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@../../../../resources/main/Clue-Box-19921.jpg" />
-               </image>
-            </ImageView>
-            <Button id="button-quit" fx:id="button_quit" layoutX="420.0" layoutY="334.0" mnemonicParsing="false" onAction="#quitGame" text="Quit" />
-              <Button id="button-start" fx:id="button_start" contentDisplay="CENTER" layoutX="360.0" layoutY="217.0" onAction="#startGame" text="Single Player" textAlignment="CENTER" />
-         </children>
-      </Pane>
+        <Pane id="pane" prefHeight="545.0" prefWidth="970.0">
+            <children>
+                <ImageView id="background-image" fitHeight="545.0" fitWidth="1005.0" pickOnBounds="true" preserveRatio="true">
+                    <image>
+                        <Image url="@../../../../resources/main/Clue-Box-19921.jpg" />
+                    </image>
+                </ImageView>
+                <Button id="button-quit" fx:id="button_quit" layoutX="435.0" layoutY="374.0" mnemonicParsing="false" onAction="#quitGame" text="Quit" />
+                <Button id="button-multiplayer" fx:id="button_multiplayer" contentDisplay="CENTER" layoutX="388.0"  layoutY="297.0" onAction="#startGame" text="Multiplayer" textAlignment="CENTER" />
+                <Button id="button-start" fx:id="button_start" contentDisplay="CENTER" layoutX="378.0" layoutY="215.0" onAction="#startGame" text="Single Player" textAlignment="CENTER" />
+            </children>
+        </Pane>
     </children>
 </AnchorPane>

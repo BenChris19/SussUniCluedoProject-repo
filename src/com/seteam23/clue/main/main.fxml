@@ -6,7 +6,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.Pane?>
 
-<AnchorPane id="AnchorPane" stylesheets="@../../../../resources/main/style.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.seteam23.clue.main.MainController">
+<AnchorPane id="AnchorPane" stylesheets="@../../../../resources/main/style.css" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.seteam23.clue.main.MainController">
     <children>
         <Pane id="pane" prefHeight="545.0" prefWidth="970.0">
             <children>
@@ -15,9 +15,9 @@
                         <Image url="@../../../../resources/main/Clue-Box-19921.jpg" />
                     </image>
                 </ImageView>
-                <Button id="button-quit" fx:id="button_quit" layoutX="435.0" layoutY="374.0" mnemonicParsing="false" onAction="#quitGame" text="Quit" />
-                <Button id="button-multiplayer" fx:id="button_multiplayer" contentDisplay="CENTER" layoutX="388.0"  layoutY="297.0" onAction="#startGame" text="Multiplayer" textAlignment="CENTER" />
-                <Button id="button-start" fx:id="button_start" contentDisplay="CENTER" layoutX="378.0" layoutY="215.0" onAction="#startGame" text="Single Player" textAlignment="CENTER" />
+                <Button id="button-quit" layoutX="394.0" layoutY="380.0" mnemonicParsing="false" onAction="#quitGame" style="-fx-background-color: #e60000;" stylesheets="@../../../../resources/fonts/Button%20word%20style.css" text="Quit Game" />
+                <Button id="button-multiplayer" fx:id="button_multiplayer" contentDisplay="CENTER" layoutX="373.0" layoutY="296.0" onAction="#multiGame" prefHeight="61.0" prefWidth="209.0" style="-fx-background-color: #ffbb33;" stylesheets="@../../../../resources/fonts/Button%20word%20style.css" text="Multiplayer" textAlignment="CENTER" />
+                <Button id="button-start" fx:id="button_single" contentDisplay="CENTER" layoutX="357.0" layoutY="212.0" onAction="#singleGame" prefHeight="61.0" prefWidth="241.0" style="-fx-background-color: #8092ff;" stylesheets="@../../../../resources/fonts/Button%20word%20style.css" text="Single Player" textAlignment="CENTER" />
             </children>
         </Pane>
     </children>

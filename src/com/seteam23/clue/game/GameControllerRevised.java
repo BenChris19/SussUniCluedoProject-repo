@@ -7,12 +7,12 @@ package com.seteam23.clue.game;
 
 import com.seteam23.clue.game.board.Room;
 import com.seteam23.clue.game.board.Tile;
+import com.seteam23.clue.game.entities.AIPlayer;
 import com.seteam23.clue.game.entities.Card;
-import com.seteam23.clue.game.entities.NPC;
-import com.seteam23.clue.game.entities.Player;
 import com.seteam23.clue.game.entities.PlayerRevised;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Random;
 import java.util.ResourceBundle;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -62,7 +62,7 @@ public final class GameControllerRevised implements Initializable {
     private GameRevised game;
     private PlayerRevised player;
     private ArrayList<Tile> searchSpace;
-    
+
     
     /**
      * Initializes the controller class.
@@ -72,6 +72,7 @@ public final class GameControllerRevised implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         this.player = game.getCurrentPlayer();
+        player_img.setImage(new Image(this.player.IMG_PATH));
         this.searchSpace = new ArrayList<>();
         
         createButtons();
@@ -128,11 +129,20 @@ public final class GameControllerRevised implements Initializable {
     
     @FXML
     public void rollDie() {
-        int roll = game.rollDice();
+        Random r = new Random();
+        int roll = 0;
+        
+        if (this.player.roll()) {
+            int die1 = r.nextInt(6)+1;
+            int die2 = r.nextInt(6)+1;
+            roll = die1 + die2;
+            //return rolls;
+        }
+        
         moves_label.setText(""+roll);
         rollDieAnimation();
         
-        searchSpace = this.player.getSearchSpace(roll);
+        searchSpace = this.player.setSearchSpace(roll);
         game.BOARD.highlightTiles(searchSpace);
     }
     
@@ -172,6 +182,11 @@ public final class GameControllerRevised implements Initializable {
     }
     
     @FXML
+    public void makeAccusation() {
+        System.out.println();
+    }
+    
+    @FXML
     public void endTurn() {
         this.game.nextTurn();
         
@@ -189,7 +204,7 @@ public final class GameControllerRevised implements Initializable {
         searchSpace.clear();
         
         // If NPC cannot look at cards or checklist tabs
-        if (this.player.getClass().equals(NPC.class)) {
+        if (this.player.getClass().equals(AIPlayer.class)) {
             cardsTab.setDisable(true);
             checklistTab.setDisable(true);
         }

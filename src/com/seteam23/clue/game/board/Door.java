@@ -5,9 +5,9 @@
  */
 package com.seteam23.clue.game.board;
 
-import static com.seteam23.clue.game.GameController.getBoard;
-import static com.seteam23.clue.singleplayer.SingleplayerMenu.getPlayer1;
-import javafx.scene.layout.GridPane;
+import static com.seteam23.clue.game.GameRevised.getCurrentPlayer;
+import static com.seteam23.clue.game.GameRevised.getRound;
+
 /**
  *
  * @author Team23
@@ -36,11 +36,9 @@ public class Door extends Tile {
      */
     @Override    
     public void activate() {
-        getBoard().getTile(getPlayer1().getCurrentPosY(),getPlayer1().getCurrentPosX()).removeOccupier(getPlayer1());
-        getPlayer1().setIsInRoom(true);
-        getPlayer1().setCurrentPosYX(GridPane.getColumnIndex(getButton()), GridPane.getRowIndex(getButton()));
-        room.addOccupier(getPlayer1());
-
+        getCurrentPlayer().getLocation().removeOccupier(getCurrentPlayer());
+        getCurrentPlayer().enterRoom(room);
+        this.addOccupier(getCurrentPlayer());
     }
     
     /**

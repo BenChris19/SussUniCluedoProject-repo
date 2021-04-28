@@ -6,7 +6,7 @@
 package com.seteam23.clue.game;
 
 
-import static com.seteam23.clue.game.GameController.isWin;
+import static com.seteam23.clue.game.GameRevised.gameWon;
 import com.seteam23.clue.main.Main;
 import com.seteam23.clue.singleplayer.SingleplayerMenuController;
 import java.net.URL;
@@ -35,7 +35,7 @@ public class GameoverController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-                if(!isWin()){
+                if(!gameWon){
             winloseMess.setText("YOU LOSE!");
             winloseMess.setVisible(true);
         }

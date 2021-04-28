@@ -6,9 +6,9 @@
  */
 package com.seteam23.clue.game.board;
 
-import com.seteam23.clue.game.GameController;
 import com.seteam23.clue.game.entities.Card;
 import com.seteam23.clue.game.entities.Player;
+import com.seteam23.clue.game.entities.PlayerRevised;
 import java.util.ArrayList;
 
 public class Room extends Place{
@@ -16,7 +16,7 @@ public class Room extends Place{
     private int width, height;
     private Card weapon;
     private ArrayList<Door> doors;
-    private ArrayList<Player> players;
+    private ArrayList<PlayerRevised> players;
     private final int[][] playerIndicatorPos;
     private String roomName;
     private Card[] weapons;
@@ -48,8 +48,8 @@ public class Room extends Place{
      * @param player 
      */
     @Override
-    public boolean addOccupier(Player player) {
-        GameController.showPlayerRoom(roomName, player.getName());
+    public boolean addOccupier(PlayerRevised player) {
+        //GameController.showPlayerRoom(roomName, player.NAME);
         return players.add(player);
     }
     
@@ -58,16 +58,9 @@ public class Room extends Place{
      * @param player 
      */
     @Override
-    public boolean removeOccupier(Player player) {
-        GameController.hidePlayerRoom(roomName, player.getName());
+    public boolean removeOccupier(PlayerRevised player) {
+        //GameController.hidePlayerRoom(roomName, player.NAME);
         return players.remove(player);
-    }
-    
-    /**
-     * Do nothing on click
-     */
-    @Override
-    public void activate() {
     }
     
     /**
@@ -81,7 +74,6 @@ public class Room extends Place{
     public String getName() {
         return roomName;
     }
-
     
     /**
      * 

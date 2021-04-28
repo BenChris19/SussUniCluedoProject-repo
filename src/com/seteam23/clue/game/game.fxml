@@ -14,7 +14,7 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane id="AnchorPane" fx:id="anchorPane" prefHeight="920.0" prefWidth="1600.0" stylesheets="@game.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.seteam23.clue.game.GameController">
+<AnchorPane id="AnchorPane" fx:id="anchorPane" prefHeight="920.0" prefWidth="1600.0" stylesheets="@game.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.seteam23.clue.game.GameControllerRevised">
     <children>
       <TabPane fx:id="tabPane" prefHeight="920.0" prefWidth="1600.0" tabClosingPolicy="UNAVAILABLE">
         <tabs>
@@ -31,7 +31,7 @@
                                   <Font size="22.0" />
                               </font>
                           </Button>
-                        <Button fx:id="accuse" layoutX="120.0" layoutY="714.0" mnemonicParsing="false" onAction="#WinLose" prefHeight="53.0" prefWidth="198.0" style="-fx-background-color: red;" text="Make Accusation">
+                        <Button fx:id="accuse" layoutX="120.0" layoutY="714.0" mnemonicParsing="false" onAction="#makeAccusation" prefHeight="53.0" prefWidth="198.0" style="-fx-background-color: red;" text="Make Accusation">
                            <font>
                               <Font size="22.0" />
                            </font>

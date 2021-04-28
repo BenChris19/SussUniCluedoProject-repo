@@ -19,7 +19,8 @@ public class PlayerRevised {
     public final String IMG_PATH;
     
     protected Place location;
-    protected ArrayList<Card> cards;
+    protected ArrayList<Card> cards = new ArrayList<>();
+    protected ArrayList<Tile> searchSpace = new ArrayList<>();
     
     private int round_extra_roll = 0;
     private int round_extra_suggest = 0;
@@ -32,8 +33,6 @@ public class PlayerRevised {
      * 
      * @param name
      * @param imgPath
-     * @param x
-     * @param y
      */
     public PlayerRevised(String name, String imgPath) {
         this.NAME = name;
@@ -117,13 +116,19 @@ public class PlayerRevised {
      * @param dieRoll
      * @return List of Tiles reachable from current location
      */
-    public ArrayList<Tile> getSearchSpace(int dieRoll) {
+    public ArrayList<Tile> setSearchSpace(int dieRoll) {
+        searchSpace.clear();
         if (isInRoom()) {
-            return GameRevised.BOARD.reachableFrom((Room)location, dieRoll);
+            this.searchSpace = GameRevised.BOARD.reachableFrom((Room)location, dieRoll);
         }
         else {
-            return GameRevised.BOARD.reachableFrom((Tile)location, dieRoll);
+            this.searchSpace = GameRevised.BOARD.reachableFrom((Tile)location, dieRoll);
         }
+        return this.searchSpace;
+    }
+    
+    public ArrayList<Tile> getSearchSpace() {
+        return this.searchSpace;
     }
     
     /**

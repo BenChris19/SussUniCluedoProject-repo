@@ -5,9 +5,8 @@
  */
 package com.seteam23.clue.game.board;
 
-import static com.seteam23.clue.game.GameController.getBoard;
-import static com.seteam23.clue.singleplayer.SingleplayerMenu.getPlayer1;
-import javafx.scene.layout.GridPane;
+import static com.seteam23.clue.game.GameRevised.getCurrentPlayer;
+import static com.seteam23.clue.game.GameRevised.getRound;
 
 /**
  *
@@ -22,10 +21,8 @@ public class ExtraRollTile extends Tile {
     }
     
     @Override
-    public void activate() throws InterruptedException {
-        getBoard().getTile(getPlayer1().getCurrentPosY(),getPlayer1().getCurrentPosX()).removeOccupier(getPlayer1());
-        getPlayer1().setCurrentPosYX(GridPane.getColumnIndex(getButton()), GridPane.getRowIndex(getButton()));
-        addOccupier(getPlayer1()); 
-        // player.extraRoll();
+    public void activate()  {
+        getCurrentPlayer().moveTo(this);
+        getCurrentPlayer().extraSuggest(getRound());
     }
 }

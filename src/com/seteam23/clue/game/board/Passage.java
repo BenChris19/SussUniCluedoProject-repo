@@ -5,13 +5,9 @@
  */
 package com.seteam23.clue.game.board;
 
-import static com.seteam23.clue.game.GameController.getBoard;
-import static com.seteam23.clue.singleplayer.SingleplayerMenu.getPlayer1;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import static com.seteam23.clue.game.GameRevised.getCurrentPlayer;
 import javafx.event.ActionEvent;
 import javafx.scene.control.Button;
-import javafx.scene.layout.GridPane;
 
 /**
  *
@@ -41,11 +37,7 @@ public class Passage extends Tile {
      */
     @Override
     public void activate() {
-        location.removeOccupier(getPlayer1());
-        destination.addOccupier(getPlayer1());
-        Door d = destination.getDoors().get(0);
-        getPlayer1().setCurrentPosYX(d.y, d.x);
-
+        getCurrentPlayer().enterRoom(destination);
     }
     
     /**
@@ -57,7 +49,7 @@ public class Passage extends Tile {
         Button button = new Button();
 
         button.setOnAction((ActionEvent e) -> {
-            if (getPlayer1().isEndTurn() == true && getPlayer1().isInRoom()) {
+            if (getCurrentPlayer().isInRoom()) {
                 this.activate();
             }
         });

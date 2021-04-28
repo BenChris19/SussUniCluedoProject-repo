@@ -5,13 +5,12 @@
  */
 package com.seteam23.clue.game.board;
 
-import static com.seteam23.clue.game.GameController.getBoard;
+import static com.seteam23.clue.game.GameRevised.BOARD;
+import static com.seteam23.clue.game.GameRevised.getCurrentPlayer;
 import com.seteam23.clue.game.entities.Player;
-import static com.seteam23.clue.singleplayer.SingleplayerMenu.getPlayer1;
+import com.seteam23.clue.game.entities.PlayerRevised;
 
 import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javafx.event.ActionEvent;
 import javafx.scene.control.Button;
 import javafx.scene.layout.GridPane;
@@ -21,10 +20,9 @@ import javafx.scene.layout.GridPane;
  * @author InfernoKay
  */
 public abstract class Place {
-    private int max_players;
-    private ArrayList<Player> occupiers;
-    private Button button;
-    private boolean occupied;
+    protected int max_players;
+    protected ArrayList<PlayerRevised> occupiers;
+    protected boolean occupied;
 
     
     /**
@@ -34,7 +32,6 @@ public abstract class Place {
     public Place(int max_players) {        
         this.max_players = max_players;
         this.occupiers = new ArrayList<>();
-        this.button = createButton();
         this.occupied = false;
         
     }
@@ -49,33 +46,21 @@ public abstract class Place {
      * @param p Player to add to Place
      * @return True if added to ArrayList
      */
-    public boolean addOccupier(Player p) {
-        if (this.occupiers.size() < this.max_players) {
-            this.getButton().getStyleClass().add("toggle-"+p.getName().split(" ",-1)[1]);
-            this.occupied = true;
-            return this.occupiers.add(p);
-        }
-        return false;
-    }
+    public abstract boolean addOccupier(PlayerRevised p);
     
     /**
      * Removes Player from the Place
      * @param p Player to remove
      * @return True if removed from ArrayList
      */
-    public boolean removeOccupier(Player p) {
-        // remove player icon from tile
-        getBoard().getTile(p.getCurrentPosY(),p.getCurrentPosX()).getButton().getStyleClass().remove("toggle-"+p.getName().split(" ",-1)[1]);
-        this.occupied = false;
-        return this.occupiers.remove(p);
-    }
+    public abstract boolean removeOccupier(PlayerRevised p);
     
     
     /**
      * 
      * @return List of Players Occupying the place
      */
-    public ArrayList<Player> occupiedBy() {
+    public ArrayList<PlayerRevised> occupiedBy() {
         return this.occupiers;
     }
     
@@ -85,38 +70,5 @@ public abstract class Place {
      */
     public boolean isFull() {
         return this.occupiers.size() == this.max_players;
-    }
-    
-    /**
-     * Creates the Tile's JavaFX Button
-     * @return button
-     */
-    protected Button createButton() {
-        Button button = new Button();
-        
-
-        button.setOnAction((ActionEvent e) -> {
-            if (getPlayer1().isEndTurn() == false && getPlayer1().getSearchSpace().contains(getBoard().getTile(GridPane.getColumnIndex(button), GridPane.getRowIndex(button)))) {
-                this.activate();
-            }
-        });
-        
-        button.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
-        return button;
-    }
-    
-    /**
-     * Gets the associated button
-     */
-    public Button getButton() {
-        return this.button;
-    }
-    /**
-     * Activated effect when button clicked
-     */
-    public void activate() {
-        getBoard().getTile(getPlayer1().getCurrentPosY(),getPlayer1().getCurrentPosX()).removeOccupier(getPlayer1());
-        getPlayer1().setCurrentPosYX(GridPane.getColumnIndex(button), GridPane.getRowIndex(button));
-        addOccupier(getPlayer1()); 
     }
 }

@@ -6,7 +6,6 @@
 package com.seteam23.clue.game.entities;
 
 import com.seteam23.clue.game.GameRevised;
-import com.seteam23.clue.game.board.Place;
 import com.seteam23.clue.game.board.Room;
 import com.seteam23.clue.game.board.Tile;
 import java.util.ArrayList;
@@ -17,12 +16,12 @@ import javafx.util.Duration;
 
 /**
  *
- * @author Team23
+ * @author Team 23
  */
 public class AIPlayer extends PlayerRevised {
     
     private String difficulty;
-    
+    private GameRevised game;
     private ArrayList<Tile> searchSpace = new ArrayList<>();
     private Random r = new Random();
     
@@ -33,20 +32,21 @@ public class AIPlayer extends PlayerRevised {
      * @param difficulty
      * @param imgPath
      */
-    public AIPlayer(String name, String difficulty, String imgPath) {
+    public AIPlayer(GameRevised game, String name, String difficulty, String imgPath) {
         super(name, imgPath);
         
         this.difficulty = difficulty;
+        this.game = game;
         
-        Timeline timeline = new Timeline(
-            new KeyFrame(Duration.ZERO, e -> {
-                GameRevised.CONTROLLER.rollDie();
-            }),
-            new KeyFrame(Duration.seconds(4), e -> {
-                GameRevised.CONTROLLER.getSearchSpace();
-            })
-        );
-        timeline.play();
+//        Timeline timeline = new Timeline(
+//            new KeyFrame(Duration.seconds(2), e -> {
+//                GameRevised.CONTROLLER.rollDie();
+//            }),
+//            new KeyFrame(Duration.seconds(2), e -> {
+//                GameRevised.CONTROLLER.getSearchSpace();
+//            })
+//        );
+//        timeline.play();
     }
     
     
@@ -60,10 +60,10 @@ public class AIPlayer extends PlayerRevised {
         
         Timeline timeline = new Timeline(
             new KeyFrame(Duration.ZERO, e -> {
-                GameRevised.CONTROLLER.rollDie();
+                this.game.CONTROLLER.rollDie();
             }),
             new KeyFrame(Duration.seconds(4), e -> {
-                searchSpace = GameRevised.CONTROLLER.getSearchSpace();
+                searchSpace = this.game.CONTROLLER.getSearchSpace();
                 
                 searchSpace.get(r.nextInt(searchSpace.size())).activate();
             }),
@@ -81,7 +81,7 @@ public class AIPlayer extends PlayerRevised {
      * @return List of Tiles reachable from current location
      */
     @Override
-    public ArrayList<Tile> getSearchSpace(int dieRoll) {
+    public ArrayList<Tile> setSearchSpace(int dieRoll) {
         switch (this.difficulty) {
             case "EASY":
                 return easySearchSpace(dieRoll);
@@ -96,28 +96,28 @@ public class AIPlayer extends PlayerRevised {
     
     public ArrayList<Tile> easySearchSpace(int dieRoll) {
         if (isInRoom()) {
-            return GameRevised.BOARD.reachableFrom((Room)location, dieRoll);
+            return this.game.BOARD.reachableFrom((Room)location, dieRoll);
         }
         else {
-            return GameRevised.BOARD.reachableFrom((Tile)location, dieRoll);
+            return this.game.BOARD.reachableFrom((Tile)location, dieRoll);
         }
     }
     
     public ArrayList<Tile> mediumSearchSpace(int dieRoll) {
         if (isInRoom()) {
-            return GameRevised.BOARD.furthestReachableFrom((Room)location, dieRoll);
+            return this.game.BOARD.furthestReachableFrom((Room)location, dieRoll);
         }
         else {
-            return GameRevised.BOARD.furthestReachableFrom((Tile)location, dieRoll);
+            return this.game.BOARD.furthestReachableFrom((Tile)location, dieRoll);
         }
     }
     
     public ArrayList<Tile> hardSearchSpace(int dieRoll) {
         if (isInRoom()) {
-            return GameRevised.BOARD.furthestReachableFrom((Room)location, dieRoll);
+            return this.game.BOARD.furthestReachableFrom((Room)location, dieRoll);
         }
         else {
-            return GameRevised.BOARD.furthestReachableFrom((Tile)location, dieRoll);
+            return this.game.BOARD.furthestReachableFrom((Tile)location, dieRoll);
         }
     }
 }

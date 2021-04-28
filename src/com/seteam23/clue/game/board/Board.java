@@ -1,11 +1,8 @@
- /*
- *      The Board / Map
-
 /*
  *      The Board / Map
  *
  *      Constructs Rooms and Tiles
-*      Players exist within the Board
+ *      Players exist within the Board
  */
 package com.seteam23.clue.game.board;
 
@@ -155,7 +152,6 @@ public final class Board {
             }
         }
         
-        
         // Rooms
         int[][] studyPlayers = new int[][]{ {2,1}, {3,1}, {4,1}, {2,2}, {3,2}, {4,2}};
         int[][] libraryPlayers = new int[][]{ {2,7}, {3,7}, {4,7}, {2,9}, {3,9}, {3,9}};
@@ -298,11 +294,9 @@ public final class Board {
     
     private void addPassage(Room start, Room end, int x, int y) {
         Passage passage = new Passage(start, end, x, y);
-        System.out.println(passage);
         places[y][x] = passage;
         tiles[y][x] = passage;
         passages.add(passage);
-        System.out.println(passages);
     }
 
     
@@ -352,7 +346,7 @@ public final class Board {
                 else{
                     Set<Tile> r = reachableRecursive(a, moves_remaining - 1);
                     reach.addAll(r);
-                    reach.add(a);
+                    if (!a.isFull()) reach.add(a);
                 }
             });
         }

@@ -8,6 +8,7 @@ package com.seteam23.clue.game;
 import com.seteam23.clue.game.board.*;
 import com.seteam23.clue.game.entities.*;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Random;
 import javafx.util.Pair;
@@ -20,9 +21,10 @@ public final class GameRevised {
     
     private Random r = new Random();
     
-    public static final GameControllerRevised CONTROLLER = new GameControllerRevised();
     public static final Board BOARD = new Board();
+    public final GameControllerRevised CONTROLLER = new GameControllerRevised();
     
+    private final PlayerRevised[] PLAYER_ARRAY;
     public final ArrayList<PlayerRevised> PLAYERS;
     public final int NUM_PLAYERS;
     
@@ -36,9 +38,9 @@ public final class GameRevised {
     private final ArrayList<Card> cards;
     private final Card[] KILL_CARDS;
     
-    private PlayerRevised player;   // Current Player
-    private int turn = 1;   // Turn inc whenever new player
-    private int round = 1;  // One Round : All Players played
+    private static PlayerRevised player;   // Current Player
+    private static int turn = 1;   // Turn inc whenever new player
+    private static int round = 1;  // One Round : All Players played
 
     
     
@@ -46,12 +48,26 @@ public final class GameRevised {
      * 
      * @param players 
      */
-    public GameRevised(ArrayList<PlayerRevised> players,
+    public GameRevised(ArrayList<PlayerRevised> humanPlayers, int numAI, String difficulty, 
                        ArrayList<Card> weapons, ArrayList<Card> suspects, ArrayList<Card> rooms, ArrayList<Card> all) {
         // Set Vars and Finals
-        this.PLAYERS = players;
-        this.NUM_PLAYERS = players.size();
-        this.player = players.get(0);
+        this.player = humanPlayers.get(0);
+        
+        this.PLAYER_ARRAY = new PlayerRevised[6];
+        
+        for (PlayerRevised p : humanPlayers) {
+            int charIndex = getOrder(p.NAME);
+            PLAYER_ARRAY[charIndex] = p;
+        }
+        
+        for (int i = 0; i < numAI; i++) {
+            
+        }
+        
+        ArrayList<PlayerRevised> temp = new ArrayList<>(Arrays.asList(PLAYER_ARRAY));
+        temp.removeAll(Collections.singleton(null));
+        this.PLAYERS = temp;
+        this.NUM_PLAYERS = PLAYERS.size();
         
         this.CONTROLLER.setGame(this); // Hand to Controller
         
@@ -69,27 +85,42 @@ public final class GameRevised {
         
         // Place Players on Board
         for (PlayerRevised p : PLAYERS) {
+            this.player = p;
+            Tile t;
             switch (p.NAME) {
                 case "Miss Scarlett":
-                    p.moveTo(BOARD.getTile(16, 0));
+                    t = BOARD.getTile(16, 0);
+                    p.moveTo(t);
+                    t.addOccupier(p);
                     break;
                 case "Prof Plum":
-                    p.moveTo(BOARD.getTile(0,5));
+                    t = BOARD.getTile(0,5);
+                    p.moveTo(t);
+                    t.addOccupier(p);
                     break;
                 case "Col Mustard":
-                    p.moveTo(BOARD.getTile(23, 7));
+                    t = BOARD.getTile(23, 7);
+                    p.moveTo(t);
+                    t.addOccupier(p);
                     break;
                 case "Mrs White":
-                    p.moveTo(BOARD.getTile(14, 24));
+                    t = BOARD.getTile(14, 24);
+                    p.moveTo(t);
+                    t.addOccupier(p);
                     break;
                 case "Rev Green":
-                    p.moveTo(BOARD.getTile(9, 24));
+                    t = BOARD.getTile(9, 24);
+                    p.moveTo(t);
+                    t.addOccupier(p);
                     break;
                 default:
-                    p.moveTo(BOARD.getTile(0, 18));
+                    t = BOARD.getTile(0, 18);
+                    p.moveTo(t);
+                    t.addOccupier(p);
                     break;
             }
         }
+        this.player = PLAYERS.get(0);
         
         // Shuffle and Handout Cards
         Collections.shuffle(cards, r);
@@ -98,9 +129,40 @@ public final class GameRevised {
         }
     }
     
+    private AIPlayer newAI(ArrayList<String> playable, String difficulty) {
+        Random rand = new Random();
+        int charIndex = rand.nextInt(playable.size());
+        String name = playable.remove(charIndex);
+        return new AIPlayer(this, name, "/resources/cards/players/"+name+".jpg", difficulty);
+    }
+    
+    /**
+     * Get index between 0 to 5 (inclusive) based on which character name is given
+     * @param name
+     * @return 
+     */
+    private int getOrder(String name) {
+        switch (name) {
+            case "Miss Scarlett":
+                return 0;
+            case "Col Mustard":
+                return 1;
+            case "Mrs White":
+                return 2;
+            case "Rev Green":
+                return 3;
+            case "Mrs Peacock":
+                return 4;
+            default: //Prof Plum
+                return 5;
+        }
+    }
+    
+    
+    
     /**
      * Selects random card from cardList, removes from cards to hand out 
-     * @param cardList
+     * @param cardList ArrayList
      * @return 
      */
     private Card selectRandomCard(ArrayList<Card> cardList) {
@@ -115,7 +177,7 @@ public final class GameRevised {
      * Get the Current Player
      * @return Player or NPC
      */
-    public PlayerRevised getCurrentPlayer() {
+    public static PlayerRevised getCurrentPlayer() {
         return player;
     }
     
@@ -123,15 +185,15 @@ public final class GameRevised {
      * Rolls 2d6 and returns combined result
      * @return Random int between 2 and 12 (inclusive)
      */
-    public int rollDice(){
-        if (this.player.roll()) {
-            int die1 = r.nextInt(6)+1;
-            int die2 = r.nextInt(6)+1;
-            int rolls = die1 + die2;
-            return rolls;
-        }
-        return 0;
-    }
+//    public int rollDice(){
+//        if (this.player.roll()) {
+//            int die1 = r.nextInt(6)+1;
+//            int die2 = r.nextInt(6)+1;
+//            int rolls = die1 + die2;
+//            return rolls;
+//        }
+//        return 0;
+//    }
     
     
     public void suggestion(String person, String weapon, Room room) {
@@ -154,12 +216,12 @@ public final class GameRevised {
         }
     }
     
-    public int getTurn() {
-        return this.turn;
+    public static int getTurn() {
+        return turn;
     }
     
-    public int getRound() {
-        return this.getRound();
+    public static int getRound() {
+        return round;
     }
     
     /**

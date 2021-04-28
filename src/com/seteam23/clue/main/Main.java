@@ -10,8 +10,7 @@ import javafx.scene.Parent;
 import javafx.scene.transform.Scale;
 
 /**
- *Main class, executes the Clue! board game.
- * 
+ *Main class, executes the program and shows the main menu.
  * 
  * @author team23
  */
@@ -21,11 +20,11 @@ public class Main extends Application {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        // Initialise as JavaFX project
         launch(args);
     }
 
     /**
+     * Enables the window to fill the whole screen.
      * 
      * @param root
      * @param width
@@ -33,8 +32,8 @@ public class Main extends Application {
      */
     public static void makeFullscreen(Parent root,double width,double height){
         Dimension resolution = Toolkit.getDefaultToolkit().getScreenSize();
-        double w = resolution.getWidth()/width;  // your window width
-        double h = resolution.getHeight()/height;  // your window height
+        double w = resolution.getWidth()/width;  // your screen window width
+        double h = resolution.getHeight()/height;  // your screen window height
         Scale scale = new Scale(w, h, 0, 0);
         root.getTransforms().add(scale);
     }
@@ -43,11 +42,14 @@ public class Main extends Application {
      * Overrides the JFX Start function
      * 
      * Start is run after being initialised
+     * @param primaryStage  
+     * @throws java.lang.Exception
      **/
     @Override
     public void start(Stage primaryStage) throws Exception {
         primaryStage.setTitle("Clue!");
 
+        //Load the FXML file
         Parent root = FXMLLoader.load(MainController.class.getResource("main.fxml"));
         Scene scene = new Scene(root);
 

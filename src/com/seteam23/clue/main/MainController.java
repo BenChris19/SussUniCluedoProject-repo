@@ -1,9 +1,9 @@
 package com.seteam23.clue.main;
 
+import com.seteam23.clue.singleplayer.MultiplayerMenuController;
 import com.seteam23.clue.singleplayer.SingleplayerMenuController;
 import java.net.URL;
 import java.util.ResourceBundle;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -22,13 +22,10 @@ import javafx.stage.Stage;
 public class MainController implements Initializable {
     
     @FXML
-    private Button button_start;
+    private Button button_single;
     
     @FXML
     private Button button_multiplayer;
-    
-    @FXML
-    private Button button_quit;
     
     /**
      * Initialises the controller class.
@@ -40,34 +37,45 @@ public class MainController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO
+        
     }
     
     
     /**
      * Changes to the Character selection Scene.
-     * 
-     * @param event executes an event, in this case, the event is to
-     * go to the next scene, which is the character selection menu.
+     * Allows the user to transition to the character selection menu
      */
     @FXML
-    private void startGame(ActionEvent event) throws Exception {
+    private void singleGame() throws Exception {
         Parent root = FXMLLoader.load(SingleplayerMenuController.class.getResource("singleplayerMenu.fxml"));
         
-        Stage window = (Stage)button_start.getScene().getWindow();
+        Stage window = (Stage)button_single.getScene().getWindow();
 
         window.setScene(new Scene(root));
         window.setFullScreen(true);
         Main.makeFullscreen(root,871.9,545);
     }
         /**
-     * Quits game.
-     * 
-     * @param event executes an event, in this case, it exits the game 
-     * and code is terminated.
+     * Changes to the Character selection Scene.
+     * Allows the user to transition to the character selection menu
      */
     @FXML
-    private void quitGame(ActionEvent event) throws Exception {
+    private void multiGame() throws Exception {
+        Parent root = FXMLLoader.load(MultiplayerMenuController.class.getResource("multiplayerMenu.fxml"));
+        
+        Stage window = (Stage)button_multiplayer.getScene().getWindow();
+
+        window.setScene(new Scene(root));
+        window.setFullScreen(true);
+        Main.makeFullscreen(root,871.9,545);
+    }
+    
+    /**
+     * Quits game.
+     * Exits the program
+     */
+    @FXML
+    private void quitGame() throws Exception {
         System.exit(0);
     }
 }

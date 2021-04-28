@@ -205,8 +205,8 @@ public final class Board {
         Tile t;
         // 3 Extra Tiles
         while (et < 3) {
-            etx = r.nextInt(24);
-            ety = r.nextInt(25);
+            etx = r.nextInt(20)+2;
+            ety = r.nextInt(21)+2;
             t = tiles[ety][etx];
             // Not null and regular Tile
             if (t != null && t.getClass() == Tile.class) {

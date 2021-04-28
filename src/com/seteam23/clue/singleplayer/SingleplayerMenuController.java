@@ -13,10 +13,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.List;
 import java.util.ResourceBundle;
-import javafx.beans.property.BooleanProperty;
-import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -25,7 +22,6 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -33,22 +29,17 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
-import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.RowConstraints;
 import javafx.scene.layout.TilePane;
-import javafx.scene.layout.VBox;
-import javafx.scene.paint.Color;
 import javafx.stage.Stage;
-import javafx.util.Callback;
 
 /**
  * FXML GameController class
@@ -120,7 +111,6 @@ public class SingleplayerMenuController implements Initializable {
     private void mainMenu(ActionEvent event) throws Exception{
         Parent root = FXMLLoader.load(MainController.class.getResource("main.fxml"));
         
-        
         Stage window_menu = (Stage)main_menu.getScene().getWindow();
         window_menu.setScene(new Scene(root));
         window_menu.setFullScreen(true);
@@ -136,35 +126,17 @@ public class SingleplayerMenuController implements Initializable {
     private void continueBoard(ActionEvent event) throws Exception{
         spMenu.setOpponents(((Integer)this.numPlayers.getValue())-1);
         SingleplayerMenu.setDif(difLevel.getValue().toString());
-        for (String s : tabNames) {
-            Tab t = new Tab(s);
-            t.setClosable(false);
-            tabPane.getTabs().add(t);
-            switch (s) {
-                case "Board":
-                    t.setContent(FXMLLoader.load(GameController.class.getResource("game.fxml")));
-                    break;
-                case "Cards":
-                    t.setContent(createCardPane());
-                    break;
-                case "Checklist":
-                    t.setOnSelectionChanged(new EventHandler<Event>() {
-                        @Override
-                        public void handle(Event event) {
-                            if (t.isSelected()) {
-                                table.refresh();
-                            }
-                        }
-                    });
-                    t.setContent(createChecklistPane());
-            }
-        }
-        Parent board = tabPane;
-            Stage window_game = (Stage)board_game.getScene().getWindow();
-            window_game.setScene(new Scene(board));
-            window_game.setFullScreen(true);
-            makeFullscreen(board,1600,940);
-    
+        
+        FXMLLoader loader = new FXMLLoader(GameController.class.getResource("game.fxml"));
+        Parent game = loader.load();
+        GameController ctrl = loader.getController();
+        
+        ctrl.setNumberOfPlayers((Integer)this.numPlayers.getValue());
+        
+        Stage window_menu = (Stage)board_game.getScene().getWindow();
+        window_menu.setScene(new Scene(game));
+        window_menu.setFullScreen(true);
+        makeFullscreen(game,1600,920);
     }
     
 
@@ -225,116 +197,5 @@ public class SingleplayerMenuController implements Initializable {
         }
         prevCharacter = b;
         
-    }
-        /**
-     * Creates a Pane of ImageViews displaying the player's cards.
-     * 
-     * @return CardPane
-     */
-    private Pane createCardPane() throws FileNotFoundException{
-        ArrayList<String> cardsImagePaths = new ArrayList<>(Arrays.asList("/resources/cards/rooms/Ballroom.png","/resources/cards/rooms/Billard Room.png","/resources/cards/rooms/Conservatory.png",
-        "/resources/cards/rooms/Dining Room.png","/resources/cards/rooms/Hall.png","/resources/cards/rooms/Kitchen.png","/resources/cards/rooms/Library.png","/resources/cards/rooms/Lounge.png",
-            "/resources/cards/rooms/Study.png",
-        
-        "/resources/cards/weapons/Candlestick.JPG","/resources/cards/weapons/Knife.JPG","/resources/cards/weapons/Lead Pipe.JPG",
-            "/resources/cards/weapons/Revolver.JPG","/resources/cards/weapons/Rope.JPG","/resources/cards/weapons/wrench.JPG",
-        
-        "/resources/cards/players/Miss Scarlett.jpg","/resources/cards/players/Col Mustard.jpg","/resources/cards/players/Rev Green.jpg",
-            "/resources/cards/players/Prof Plum.jpg","/resources/cards/players/Mrs White.jpg","/resources/cards/players/Mrs Peacock.jpg"));
-        Collections.shuffle(cardsImagePaths);
-        
-        TilePane cardPane = new TilePane();
-        
-        ArrayList<String> player1Cards = new ArrayList<>();
-        
-        ArrayList<Card> gameCards = new ArrayList<>();
-        cardsImagePaths.forEach((path) -> {
-            gameCards.add(new Card(path.split("/")[4],path,path.split("/")[3]));
-        });
-        
-        SingleplayerMenu.getPlayer1().initialiseChecklist(gameCards);
-        for (Player p : getOpponentPlayers()){
-            p.initialiseChecklist(gameCards);
-        }
-        
-        boolean[] filledMurder = new boolean[]{false,false,false};
-        int j = 0;
-        while(filledMurder[0] == false || filledMurder[1] == false || filledMurder[2] == false){
-            if(gameCards.get(j).getCardType().equals("rooms") && !filledMurder[0]){
-                filledMurder[0] = true;
-                SingleplayerMenu.addMurderCards(gameCards.remove(j));
-            }
-            else if(gameCards.get(j).getCardType().equals("weapons") && !filledMurder[1]){
-                filledMurder[1] = true;
-                SingleplayerMenu.addMurderCards(gameCards.remove(j));
-            }
-            else if(gameCards.get(j).getCardType().equals("players") && !filledMurder[2]){
-                filledMurder[2] = true;
-                SingleplayerMenu.addMurderCards(gameCards.remove(j));
-            }
-            j+=1;
-        }
-        
-        int distribution = gameCards.size()/(Integer)this.numPlayers.getValue();
-        
-        for(int i = 0;i<distribution;i++){
-            Card temp = gameCards.remove(0);
-            player1Cards.add(temp.getImgPath());
-            SingleplayerMenu.getPlayer1().addCards(temp);
-        }
-        int numCards = gameCards.size();
-        for(int i=0;i < numCards;i++){
-            getOpponentPlayers().get(i%getOpponentPlayers().size()).addCards(gameCards.remove(0));  
-        }
-        player1Cards.stream().map((card) -> new Image(getClass().getResourceAsStream(card))).map((image) -> new ImageView(image)).map((temp) -> {
-            temp.setFitHeight(200);
-            return temp;
-        }).map((temp) -> {
-            temp.setFitWidth(125);
-            return temp;
-        }).forEachOrdered((temp) -> {
-            cardPane.getChildren().add(temp);
-        });
-        return cardPane;
-    }
-
-    private Node createChecklistPane() {
-        GridPane tablePane = new GridPane();
-        table = new TableView();
-        TableColumn<ChecklistEntry, String> nameCol = new TableColumn<>("Name");
-        TableColumn<ChecklistEntry, String> cardTypeCol = new TableColumn<>("Card Type");
-        TableColumn<ChecklistEntry, Button> markedCol = new TableColumn<>("Marked");
-        //System.out.println(SingleplayerMenu.getPlayer1().getChecklistEntries());
-        checklistElements = SingleplayerMenu.getPlayer1().getChecklistEntries();
-        table.setItems(checklistElements);
-        nameCol.setCellValueFactory(new PropertyValueFactory<ChecklistEntry, String>("name"));
-        cardTypeCol.setCellValueFactory(new PropertyValueFactory<ChecklistEntry, String>("cardType"));
-        //markedCol.setCellValueFactory(new PropertyValueFactory<ChecklistEntry, Boolean>("checked"));
-        markedCol.setCellValueFactory(new PropertyValueFactory<ChecklistEntry, Button>("mark"));
-        table.getColumns().setAll(nameCol, cardTypeCol, markedCol);
-        table.setRowFactory(tv -> new TableRow<ChecklistEntry>() {
-        @Override
-        protected void updateItem(ChecklistEntry item, boolean empty) {
-            super.updateItem(item, empty);
-            if (item == null || item.getCardType() == null){
-                setStyle("");
-            }
-            else if (item.getCardType().equals("weapons")){
-                setStyle("-fx-text-background-color: #ff0000;");
-            }
-            else if (item.getCardType().equals("rooms")){
-                setStyle("-fx-text-background-color: #0000ff;");
-            }
-            else if (item.getCardType().equals("players")){
-                setStyle("-fx-text-background-color: #00ff00;");
-            }
-            else{
-                setStyle("-fx-background-color: #444444;");
-            }
-        }
-        });
-        tablePane.getChildren().add(table);
-        tablePane.getRowConstraints().add(new RowConstraints(checklistElements.size()*32.5));
-        return tablePane;
     }
 }

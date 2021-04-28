@@ -6,20 +6,23 @@
 package com.seteam23.clue.game;
 
 import com.seteam23.clue.game.board.Board;
-import com.seteam23.clue.game.board.Room;
 import com.seteam23.clue.game.board.Tile;
 import com.seteam23.clue.game.entities.Card;
+import com.seteam23.clue.game.entities.ChecklistEntry;
 import com.seteam23.clue.game.entities.NPC;
 import com.seteam23.clue.game.entities.Player;
 import com.seteam23.clue.main.Main;
+import com.seteam23.clue.singleplayer.SingleplayerMenu;
 import static com.seteam23.clue.singleplayer.SingleplayerMenu.getMurderCards;
 import static com.seteam23.clue.singleplayer.SingleplayerMenu.getOpponentPlayers;
 import static com.seteam23.clue.singleplayer.SingleplayerMenu.getPlayer1;
+import java.io.FileNotFoundException;
 
 
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.ResourceBundle;
 import java.util.Timer;
@@ -33,15 +36,24 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.Tab;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableRow;
+import javafx.scene.control.TableView;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.Pane;
+import javafx.scene.layout.RowConstraints;
+import javafx.scene.layout.TilePane;
 import javafx.stage.Stage;
 
 /**
@@ -50,6 +62,10 @@ import javafx.stage.Stage;
  * @author InfernoKay
  */
 public class GameController implements Initializable {
+    
+    @FXML private Tab boardTab;
+    @FXML private Tab cardsTab;
+    @FXML private Tab checklistTab;
     
     @FXML private ComboBox person;
     @FXML private ComboBox weapon;
@@ -77,6 +93,7 @@ public class GameController implements Initializable {
     
     private final String[] playerImg = new String[]{"/resources/game/Miss-Scarlett-game-piece.png","/resources/game/Col-Mustard-game-piece.png","/resources/game/Mrs-White-game-piece.png","/resources/game/Rev-Green-game-piece.png","/resources/game/Mrs-Peacock-game-piece.png","/resources/game/Prof-Plum-game-piece.png"};
     private static final HashMap<String, ImageView[]> playerMarkers = new HashMap<>();
+    private int numberOfPlayers = 6;
 
     
     /**
@@ -86,6 +103,15 @@ public class GameController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        try {
+            cardsTab.setContent(createCardPane());
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(GameController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        checklistTab.setContent(createChecklistPane());
+        
+        
         playerMarkers.clear();
         
         createButtons();
@@ -141,7 +167,7 @@ public class GameController implements Initializable {
         
         if(this.startingPlayer instanceof NPC){
             try {
-                rollDices();
+                rollDie();
             } catch (Exception ex) {
                 Logger.getLogger(GameController.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -244,7 +270,7 @@ public class GameController implements Initializable {
         playerMarkers.get(roomName)[i].setVisible(false);
     }
     
-    public void rollDicesAnimation(){
+    public void rollDieAnimation(){
         Timer timer = new Timer();
         this.dieRolls = this.game.rollDice();
         moves_label.setText("    "+dieRolls);
@@ -283,9 +309,9 @@ public class GameController implements Initializable {
     
 
     @FXML
-    private void rollDices() throws Exception{
+    private void rollDie() throws Exception{
         this.startingPlayer.setEndTurn(false);
-        rollDicesAnimation();
+        rollDieAnimation();
 
     }
     @FXML private void WinLose(ActionEvent event) throws Exception{
@@ -368,7 +394,7 @@ public class GameController implements Initializable {
         player_img.setImage(userImage);
         
         if(!getStartingPlayer().isHuman()){
-            rollDicesAnimation(); 
+            rollDieAnimation(); 
             Timer timer = new Timer();
             timer.schedule(new TimerTask() {
                 @Override
@@ -385,8 +411,129 @@ public class GameController implements Initializable {
                      });
                     timer.cancel();
                 }
-        },3200);
+            },3200);
+        }   
     }
-
-}
+    
+    
+    public void setNumberOfPlayers(int num) {
+        this.numberOfPlayers = num;
+    }
+    
+    /**
+    * Creates a Pane of ImageViews displaying the player's cards.
+    * 
+    * @return CardPane
+    */
+    private Pane createCardPane() throws FileNotFoundException{
+        ArrayList<String> cardsImagePaths = new ArrayList<>(Arrays.asList("/resources/cards/rooms/Ballroom.png","/resources/cards/rooms/Billard Room.png","/resources/cards/rooms/Conservatory.png",
+        "/resources/cards/rooms/Dining Room.png","/resources/cards/rooms/Hall.png","/resources/cards/rooms/Kitchen.png","/resources/cards/rooms/Library.png","/resources/cards/rooms/Lounge.png",
+            "/resources/cards/rooms/Study.png",
+        
+        "/resources/cards/weapons/Candlestick.JPG","/resources/cards/weapons/Knife.JPG","/resources/cards/weapons/Lead Pipe.JPG",
+            "/resources/cards/weapons/Revolver.JPG","/resources/cards/weapons/Rope.JPG","/resources/cards/weapons/wrench.JPG",
+        
+        "/resources/cards/players/Miss Scarlett.jpg","/resources/cards/players/Col Mustard.jpg","/resources/cards/players/Rev Green.jpg",
+            "/resources/cards/players/Prof Plum.jpg","/resources/cards/players/Mrs White.jpg","/resources/cards/players/Mrs Peacock.jpg"));
+        Collections.shuffle(cardsImagePaths);
+        
+        TilePane cardPane = new TilePane();
+        
+        ArrayList<String> player1Cards = new ArrayList<>();
+        
+        ArrayList<Card> gameCards = new ArrayList<>();
+        cardsImagePaths.forEach((path) -> {
+            gameCards.add(new Card(path.split("/")[4],path,path.split("/")[3]));
+        });
+        
+        SingleplayerMenu.getPlayer1().initialiseChecklist(gameCards);
+        for (Player p : getOpponentPlayers()){
+            p.initialiseChecklist(gameCards);
+        }
+        
+        boolean[] filledMurder = new boolean[]{false,false,false};
+        int j = 0;
+        while(filledMurder[0] == false || filledMurder[1] == false || filledMurder[2] == false){
+            if(gameCards.get(j).getCardType().equals("rooms") && !filledMurder[0]){
+                filledMurder[0] = true;
+                SingleplayerMenu.addMurderCards(gameCards.remove(j));
+            }
+            else if(gameCards.get(j).getCardType().equals("weapons") && !filledMurder[1]){
+                filledMurder[1] = true;
+                SingleplayerMenu.addMurderCards(gameCards.remove(j));
+            }
+            else if(gameCards.get(j).getCardType().equals("players") && !filledMurder[2]){
+                filledMurder[2] = true;
+                SingleplayerMenu.addMurderCards(gameCards.remove(j));
+            }
+            j+=1;
+        }
+        
+        int distribution = gameCards.size()/this.numberOfPlayers;
+        
+        for(int i = 0;i<distribution;i++){
+            Card temp = gameCards.remove(0);
+            player1Cards.add(temp.getImgPath());
+            SingleplayerMenu.getPlayer1().addCards(temp);
+        }
+        int numCards = gameCards.size();
+        for(int i=0;i < numCards;i++){
+            getOpponentPlayers().get(i%getOpponentPlayers().size()).addCards(gameCards.remove(0));  
+        }
+        player1Cards.stream().map((card) -> new Image(getClass().getResourceAsStream(card))).map((image) -> new ImageView(image)).map((temp) -> {
+            temp.setFitHeight(200);
+            return temp;
+        }).map((temp) -> {
+            temp.setFitWidth(125);
+            return temp;
+        }).forEachOrdered((temp) -> {
+            cardPane.getChildren().add(temp);
+        });
+        return cardPane;
+    }
+    
+    
+    /**
+     * 
+     * @return 
+     */
+    private Node createChecklistPane() {
+        GridPane tablePane = new GridPane();
+        TableView table = new TableView();
+        TableColumn<ChecklistEntry, String> nameCol = new TableColumn<>("Name");
+        TableColumn<ChecklistEntry, String> cardTypeCol = new TableColumn<>("Card Type");
+        TableColumn<ChecklistEntry, Button> markedCol = new TableColumn<>("Marked");
+        //System.out.println(SingleplayerMenu.getPlayer1().getChecklistEntries());
+        ObservableList<ChecklistEntry> checklistElements = getPlayer1().getChecklistEntries();
+        table.setItems(checklistElements);
+        nameCol.setCellValueFactory(new PropertyValueFactory<ChecklistEntry, String>("name"));
+        cardTypeCol.setCellValueFactory(new PropertyValueFactory<ChecklistEntry, String>("cardType"));
+        //markedCol.setCellValueFactory(new PropertyValueFactory<ChecklistEntry, Boolean>("checked"));
+        markedCol.setCellValueFactory(new PropertyValueFactory<ChecklistEntry, Button>("mark"));
+        table.getColumns().setAll(nameCol, cardTypeCol, markedCol);
+        table.setRowFactory(tv -> new TableRow<ChecklistEntry>() {
+        @Override
+        protected void updateItem(ChecklistEntry item, boolean empty) {
+            super.updateItem(item, empty);
+            if (item == null || item.getCardType() == null){
+                setStyle("");
+            }
+            else if (item.getCardType().equals("weapons")){
+                setStyle("-fx-text-background-color: #ff0000;");
+            }
+            else if (item.getCardType().equals("rooms")){
+                setStyle("-fx-text-background-color: #0000ff;");
+            }
+            else if (item.getCardType().equals("players")){
+                setStyle("-fx-text-background-color: #00ff00;");
+            }
+            else{
+                setStyle("-fx-background-color: #444444;");
+            }
+        }
+        });
+        tablePane.getChildren().add(table);
+        tablePane.getRowConstraints().add(new RowConstraints(checklistElements.size()*32.5));
+        return tablePane;
+    }
 }

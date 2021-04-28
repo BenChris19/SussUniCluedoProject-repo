@@ -16,6 +16,7 @@ import com.seteam23.clue.singleplayer.SingleplayerMenu;
 import static com.seteam23.clue.singleplayer.SingleplayerMenu.getMurderCards;
 import static com.seteam23.clue.singleplayer.SingleplayerMenu.getOpponentPlayers;
 import static com.seteam23.clue.singleplayer.SingleplayerMenu.getPlayer1;
+import java.io.File;
 import java.io.FileNotFoundException;
 
 
@@ -56,6 +57,8 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.RowConstraints;
 import javafx.scene.layout.TilePane;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import javafx.stage.Stage;
 
 /**
@@ -279,6 +282,9 @@ public class GameController implements Initializable {
     }
     
     public void rollDieAnimation(){
+        Media sound = new Media(new File("Dice-Roll-Sound.m4a").toURI().toString());
+        MediaPlayer mediaPlayer = new MediaPlayer(sound);
+        mediaPlayer.play();
         Timer timer = new Timer();
         this.dieRolls = this.game.rollDice();
         moves_label.setText("    "+dieRolls);
@@ -336,6 +342,9 @@ public class GameController implements Initializable {
     @FXML
     private void makeSuggestion(ActionEvent event) throws Exception{
         if(this.startingPlayer.isInRoom() && (this.person.getValue()!= null || this.weapon.getValue() != null)){
+            Media sound = new Media(new File("SuggSound.mp3").toURI().toString());
+            MediaPlayer mediaPlayer = new MediaPlayer(sound);
+            mediaPlayer.play();
             this.room.getSelectionModel().select(getBoard().getDoors(this.startingPlayer.getCurrentPosX(), this.startingPlayer.getCurrentPosY()).getRoom().getRoomName());
             boolean shown = false;
             int askNext = this.startingPlayer.getOrder()+1;
@@ -436,7 +445,7 @@ public class GameController implements Initializable {
             "/resources/cards/rooms/Study.png",
         
         "/resources/cards/weapons/Candlestick.JPG","/resources/cards/weapons/Knife.JPG","/resources/cards/weapons/Lead Pipe.JPG",
-            "/resources/cards/weapons/Revolver.JPG","/resources/cards/weapons/Rope.JPG","/resources/cards/weapons/wrench.JPG",
+            "/resources/cards/weapons/Revolver.JPG","/resources/cards/weapons/Rope.JPG","/resources/cards/weapons/Wrench.JPG",
         
         "/resources/cards/players/Miss Scarlett.jpg","/resources/cards/players/Col Mustard.jpg","/resources/cards/players/Rev Green.jpg",
             "/resources/cards/players/Prof Plum.jpg","/resources/cards/players/Mrs White.jpg","/resources/cards/players/Mrs Peacock.jpg"));

@@ -12,6 +12,7 @@ package com.seteam23.clue.game.board;
 import com.seteam23.clue.game.entities.Player;
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.Random;
 
 import java.util.Set;
 import javafx.scene.control.Button;
@@ -201,6 +202,24 @@ public final class Board {
         addPassage(lounge, conservatory, 23, 5);
         addPassage(conservatory, lounge, 1, 19);
         
+        // Extra Tiles
+        Random r = new Random();
+        int et = 0;
+        int etx, ety;
+        Tile t;
+        // 3 Extra Tiles
+        while (et < 3) {
+            etx = r.nextInt(24);
+            ety = r.nextInt(25);
+            t = tiles[ety][etx];
+            // Not null and regular Tile
+            if (t != null && t.getClass() == Tile.class) {
+                int type = r.nextInt(2);
+                // if type==0: extra roll, if type==1: extra suggest
+                tiles[ety][etx] = type == 0 ? new ExtraRollTile(etx, ety) : new ExtraSuggestTile(etx, ety);
+                et++;
+            }
+        }
 
         // Adjacency
         for (int y = 0; y < 25; y++) {
@@ -361,9 +380,16 @@ public final class Board {
      */
     public ArrayList<Tile> reachableFrom(Room room, int die_roll) {
         Set<Tile> reach = new HashSet<>();
+        // Reach from each door
         for (Door door : room.getDoors()) {
             reach.addAll(reachableRecursive(door, die_roll));
             reach.remove(door);
+        }
+        // Add passage in room if any
+        for (Passage pass : passages) {
+            if (pass.getLocation().equals(room)) {
+                reach.add(pass);
+            }
         }
         return new ArrayList<>(reach);
     }
@@ -425,11 +451,14 @@ public final class Board {
             all_reach = reachableRecursive(door, die_roll);
 
             int[] s = door.getCoords();
-
+            
+            // All Tiles Reachable from Room
             for (Tile tile : all_reach) {
+                // Add all doors
                 if (tile instanceof Door) {
                     reach.add(tile);
                 }
+                // Add furthest tile
                 else {
                     int[] t = tile.getCoords();
                     int dx = Math.abs(s[0]-t[0]);
@@ -439,8 +468,16 @@ public final class Board {
                     }
                 }
             }
+            
+            // Passage in room
+            for (Passage pass : passages) {
+                if (pass.getLocation().equals(room)) {
+                    reach.add(pass);
+                }
+            }
         }
         
+        // Remove all doors in the room
         for (Door door : room.getDoors()) reach.remove(door);
         
         return reach;

@@ -13,6 +13,8 @@
     -fx-background-color: transparent;
     -fx-fill-width: true;
     -fx-fill-height: true;
+    -fx-font-size:15;
+    -fx-content-display: center;
 }
 
 

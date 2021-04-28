@@ -1,0 +1,8 @@
+@font-face {
+    font-family: 'Oswald';
+    src: url('Oswald-Bold.ttf');
+}
+
+.text {
+    -fx-font-family: "Oswald";
+}

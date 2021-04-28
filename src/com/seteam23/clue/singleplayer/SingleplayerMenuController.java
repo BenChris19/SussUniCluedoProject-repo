@@ -3,42 +3,27 @@ package com.seteam23.clue.singleplayer;
 import com.seteam23.clue.game.GameController;
 import com.seteam23.clue.game.entities.Card;
 import com.seteam23.clue.game.entities.ChecklistEntry;
-import com.seteam23.clue.game.entities.Player;
 import com.seteam23.clue.main.MainController;
 import java.io.IOException;
 import static com.seteam23.clue.main.Main.makeFullscreen;
-import static com.seteam23.clue.singleplayer.SingleplayerMenu.getOpponentPlayers;
-import java.io.FileNotFoundException;
+import static com.seteam23.clue.singleplayer.SingleplayerMenu.getMurderCards;
+import java.io.File;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
-import javafx.event.Event;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
-import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
-import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.Pane;
-import javafx.scene.layout.RowConstraints;
-import javafx.scene.layout.TilePane;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import javafx.stage.Stage;
 
 /**
@@ -99,6 +84,10 @@ public class SingleplayerMenuController implements Initializable {
         ObservableList<Integer> listOpo = FXCollections.observableArrayList(2,3,4,5,6);
         numPlayers.setItems(listOpo);
         numPlayers.getSelectionModel().select(2);    // Index position in observableArray    
+        
+        Media sound = new Media(new File("Wii Music - No Copyright.mp3").toURI().toString());
+        MediaPlayer mediaPlayer = new MediaPlayer(sound);
+        mediaPlayer.play();
     }
     
     
@@ -132,6 +121,10 @@ public class SingleplayerMenuController implements Initializable {
         GameController ctrl = loader.getController();
         
         ctrl.setNumberOfPlayers((Integer)this.numPlayers.getValue());
+        
+        for(Card c:getMurderCards()){
+            System.out.print(c.getName());
+        }
         
         Stage window_menu = (Stage)board_game.getScene().getWindow();
         window_menu.setScene(new Scene(game));

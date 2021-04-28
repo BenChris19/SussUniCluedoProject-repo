@@ -19,6 +19,9 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
 /**
@@ -30,6 +33,7 @@ public class GameoverController implements Initializable {
 
     @FXML private Button playAgainButton;
     @FXML private Label winloseMess;
+    @FXML private ImageView winLoseImg;
     /**
      * Initializes the controller class.
      */
@@ -38,10 +42,13 @@ public class GameoverController implements Initializable {
                 if(!isWin()){
             winloseMess.setText("YOU LOSE!");
             winloseMess.setVisible(true);
+            winLoseImg.setImage(new Image("/resources/game/Game-over.jpg", 1036, 603, false, false));
         }
         else{
             winloseMess.setText("YOU WIN!");
+            winloseMess.setTextFill(Color.color(0, 0, 1));
             winloseMess.setVisible(true);
+            winLoseImg.setImage(new Image("/resources/game/Win-game.jpg", 1036, 603, false, false));
         }
     }    
         @FXML

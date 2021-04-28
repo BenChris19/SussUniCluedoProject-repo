@@ -7,10 +7,14 @@ package com.seteam23.clue.singleplayer;
 
 
 import com.seteam23.clue.game.GameControllerRevised;
+import com.seteam23.clue.game.GameRevised;
+import com.seteam23.clue.game.entities.PlayerRevised;
 import static com.seteam23.clue.main.Main.makeFullscreen;
 import com.seteam23.clue.main.MainController;
+import static com.seteam23.clue.singleplayer.SingleplayerMenuController.MENU;
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -45,8 +49,8 @@ public class MultiplayerMenuController implements Initializable {
     @FXML
     private Button confirm;
 
-    private String unchooseable;
     private int choosingRange;
+    private ArrayList<String> playing_players = new ArrayList<>();
     
     private final SingleplayerMenu spMenu;
     private Button prevCharacter;
@@ -67,7 +71,7 @@ public class MultiplayerMenuController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        choosingRange = 1;
+        choosingRange = 0;
         board_game.setDisable(true);
         ObservableList<Integer> listOpo = FXCollections.observableArrayList(2,3,4,5,6);
         numPlayers.setItems(listOpo);
@@ -119,6 +123,7 @@ public class MultiplayerMenuController implements Initializable {
         }
         else{
             this.buttonScarlett.setStyle("-fx-background-color: yellow");
+            
         }
         
         if(prevCharacter != b && prevCharacter != null){
@@ -133,30 +138,51 @@ public class MultiplayerMenuController implements Initializable {
      * Changes to the Board Scene and the playable game.
      */
     @FXML
-    private void continueBoard() throws Exception{        
+    private void continueBoard() throws Exception{       
+        ArrayList<PlayerRevised> playerList = new ArrayList<PlayerRevised>(){
+            {
+                for(String player_name:playing_players){
+                    add(MENU.newPlayer(player_name));
+                    System.out.print(player_name);
+                }
+                
+            }
+        };
         FXMLLoader loader = new FXMLLoader(GameControllerRevised.class.getResource("game.fxml"));
-        Parent game = loader.load();
+        Parent gamesScene = loader.load();
         GameControllerRevised ctrl = loader.getController();
+        
+        GameRevised game = new GameRevised(ctrl, playerList, 0, null,
+        MENU.WEAPON_CARDS, MENU.SUSPECT_CARDS, MENU.ROOM_CARDS, MENU.ALL_CARDS);
         
         
         Stage window_menu = (Stage)board_game.getScene().getWindow();
-        window_menu.setScene(new Scene(game));
+        window_menu.setScene(new Scene(gamesScene));
         window_menu.setFullScreen(true);
-        makeFullscreen(game,1600,920);
+        makeFullscreen(gamesScene,1600,920);
     }
     @FXML
     private void confirm() throws Exception{
         if(choosingRange < (Integer) numPlayers.getValue()){
             if(prevCharacter == null){
                 buttonScarlett.setDisable(true);
+                playing_players.add("Miss Scarlett");
+
             }
-            prevCharacter.setDisable(true);
+            else{
+                System.out.print(prevCharacter);
+                prevCharacter.setDisable(true);
+                playing_players.add(prevCharacter.getText());
+            }
             choosingRange+=1;
+            
+            
+            if(choosingRange == (Integer) numPlayers.getValue()){
+                board_game.setDisable(false);
+                confirm.setDisable(true);
+            }
         }
-        if(choosingRange == (Integer) numPlayers.getValue()){
-            board_game.setDisable(false);
-            confirm.setDisable(true);
-        }
+
 
     }
     

@@ -5,26 +5,43 @@
  */
 package com.seteam23.clue.game;
 
+import static com.seteam23.clue.game.GameRevised.BOARD;
 import com.seteam23.clue.game.board.Room;
 import com.seteam23.clue.game.board.Tile;
 import com.seteam23.clue.game.entities.AIPlayer;
 import com.seteam23.clue.game.entities.Card;
+import com.seteam23.clue.game.entities.ChecklistEntry;
+import com.seteam23.clue.game.entities.Player;
 import com.seteam23.clue.game.entities.PlayerRevised;
+import java.io.FileNotFoundException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.Random;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.Tab;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableRow;
+import javafx.scene.control.TableView;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.Pane;
+import javafx.scene.layout.RowConstraints;
+import javafx.scene.layout.TilePane;
 import javafx.util.Duration;
 
 /**
@@ -70,6 +87,7 @@ public final class GameControllerRevised implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        
         this.searchSpace = new ArrayList<>();
         
         createButtons();
@@ -83,6 +101,14 @@ public final class GameControllerRevised implements Initializable {
         this.game = game;
         this.player = game.getCurrentPlayer();
         player_img.setImage(new Image(this.player.IMG_PATH));
+        try {
+            cardsTab.setContent(createCardPane());
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(GameControllerRevised.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        
+        checklistTab.setContent(createChecklistPane());
     }
     
     /**
@@ -190,16 +216,16 @@ public final class GameControllerRevised implements Initializable {
         this.game.nextTurn();
         
         // Player
-        this.player = game.getCurrentPlayer();
+        this.player = GameRevised.getCurrentPlayer();
         player_img.setImage(new Image(this.player.IMG_PATH));
         
         // Reset GUI
-        game.BOARD.unlightAllTiles();
+        BOARD.unlightAllTiles();
         revealCard.setVisible(false);
         whoCard.setVisible(false);
         
         // Unlight Tiles
-        game.BOARD.unlightTiles(searchSpace);
+        BOARD.unlightTiles(searchSpace);
         searchSpace.clear();
         
         // If NPC cannot look at cards or checklist tabs
@@ -214,5 +240,75 @@ public final class GameControllerRevised implements Initializable {
         }
     }
     
+     /**
+    * Creates a Pane of ImageViews displaying the player's cards.
+    * 
+    * @return CardPane
+    */
+    private Pane createCardPane() throws FileNotFoundException{
+        TilePane cardPane = new TilePane();
+
+        player.initialiseChecklist(game.getAllCards());
+        System.out.print(player.getCards().get(0));
+        for(Card c:player.getCards()){
+            
+            Image temp = new Image(getClass().getResourceAsStream(c.getImgPath()));
+            ImageView showCard = new ImageView();
+            showCard.setImage(temp);
+            showCard.setFitHeight(200);
+            showCard.setFitWidth(125);
+
+            cardPane.getChildren().add(showCard);
+            
+        }
+        return cardPane;
+    }
     
+    
+    /**
+     * 
+     * @return 
+     */
+    private Node createChecklistPane() {
+        GridPane tablePane = new GridPane();
+        TableView table = new TableView();
+        TableColumn<ChecklistEntry, String> nameCol = new TableColumn<>("Name");
+        TableColumn<ChecklistEntry, String> cardTypeCol = new TableColumn<>("Card Type");
+        TableColumn<ChecklistEntry, Button> markedCol = new TableColumn<>("Marked");
+        //System.out.println(player.getChecklistEntries());
+        ObservableList<ChecklistEntry> checklistElements = player.getChecklistEntries();
+        table.setItems(checklistElements);
+        nameCol.setCellValueFactory(new PropertyValueFactory<ChecklistEntry, String>("name"));
+        cardTypeCol.setCellValueFactory(new PropertyValueFactory<ChecklistEntry, String>("cardType"));
+        //markedCol.setCellValueFactory(new PropertyValueFactory<ChecklistEntry, Boolean>("checked"));
+        markedCol.setCellValueFactory(new PropertyValueFactory<ChecklistEntry, Button>("mark"));
+        table.getColumns().setAll(nameCol, cardTypeCol, markedCol);
+        table.setRowFactory(tv -> new TableRow<ChecklistEntry>() {
+        @Override
+        protected void updateItem(ChecklistEntry item, boolean empty) {
+            super.updateItem(item, empty);
+            if (item == null || item.getCardType() == null){
+                setStyle("");
+            }
+            else if (item.getCardType().equals("weapons")){
+                setStyle("-fx-text-background-color: #ff0000;");
+            }
+            else if (item.getCardType().equals("rooms")){
+                setStyle("-fx-text-background-color: #0000ff;");
+            }
+            else if (item.getCardType().equals("players")){
+                setStyle("-fx-text-background-color: #00ff00;");
+            }
+            else{
+                setStyle("-fx-background-color: #444444;");
+            }
+        }
+        });
+        tablePane.getChildren().add(table);
+        tablePane.getRowConstraints().add(new RowConstraints(checklistElements.size()*32.5));
+        return tablePane;
+    }
 }
+    
+    
+

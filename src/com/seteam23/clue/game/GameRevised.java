@@ -45,7 +45,14 @@ public final class GameRevised {
     
     /**
      * 
-     * @param players 
+     * @param controller
+     * @param humanPlayers
+     * @param numAI
+     * @param difficulty
+     * @param weapons
+     * @param suspects
+     * @param rooms
+     * @param all
      */
     public GameRevised(GameControllerRevised controller, ArrayList<PlayerRevised> humanPlayers, int numAI, String difficulty, 
                        ArrayList<Card> weapons, ArrayList<Card> suspects, ArrayList<Card> rooms, ArrayList<Card> all) {
@@ -54,17 +61,17 @@ public final class GameRevised {
         
         this.PLAYER_ARRAY = new PlayerRevised[6];
         
-        ArrayList<String> characters = new ArrayList<>(Arrays.asList("Miss Scarlett","Col Mustard","Mrs White","Rev Green","Mrs Peacock","Prof Plum"));;
+        ArrayList<String> characters = new ArrayList<>(Arrays.asList("Miss Scarlett","Col Mustard","Mrs White","Rev Green","Mrs Peacock","Prof Plum"));
         
         for (PlayerRevised p : humanPlayers) {
             int charIndex = getOrder(p.NAME);
-            characters.remove(charIndex);
+            characters.get(charIndex);
             PLAYER_ARRAY[charIndex] = p;
         }
         
         for (int i = 0; i < numAI; i++) {
             int charIndex = r.nextInt(characters.size());
-            String name = characters.remove(charIndex);
+            String name = characters.get(charIndex);
             int order = getOrder(name);
             PLAYER_ARRAY[order] = newAI(name, difficulty);
         }
@@ -73,9 +80,6 @@ public final class GameRevised {
         temp.removeAll(Collections.singleton(null));
         this.PLAYERS = temp;
         this.NUM_PLAYERS = PLAYERS.size();
-        
-        this.CONTROLLER = controller;
-        this.CONTROLLER.setGame(this); // Hand to Controller
         
         this.WEAPON_CARDS = weapons;
         this.SUSPECT_CARDS = suspects;
@@ -91,7 +95,7 @@ public final class GameRevised {
         
         // Place Players on Board
         for (PlayerRevised p : PLAYERS) {
-            this.player = p;
+            GameRevised.player = p;
             Tile t;
             switch (p.NAME) {
                 case "Miss Scarlett":
@@ -126,13 +130,15 @@ public final class GameRevised {
                     break;
             }
         }
-        this.player = PLAYERS.get(0);
+        GameRevised.player = PLAYERS.get(0);
         
         // Shuffle and Handout Cards
         Collections.shuffle(cards, r);
         for (int i = 0; i < cards.size(); i++) {
             PLAYERS.get(i % NUM_PLAYERS).addCard(cards.get(i));
         }
+        this.CONTROLLER = controller;
+        this.CONTROLLER.setGame(this); // Hand to Controller
     }
     
     private AIPlayer newAI(String name, String difficulty) {
@@ -186,7 +192,9 @@ public final class GameRevised {
     
     /**
      * Rolls 2d6 and returns combined result
-     * @return Random int between 2 and 12 (inclusive)
+     * @param person
+     * @param weapon
+     * @param room
      */
 //    public int rollDice(){
 //        if (this.player.roll()) {
@@ -204,7 +212,7 @@ public final class GameRevised {
         Card found = null;
         int i = 1;
         
-        if (this.player.suggest()) {
+        if (GameRevised.player.suggest()) {
             while (found != null && i < NUM_PLAYERS) {
                 nextPlayer = PLAYERS.get((turn+i) % NUM_PLAYERS);
                 nextPlayer.enterRoom(room);
@@ -232,13 +240,13 @@ public final class GameRevised {
      */
     public void nextTurn() {
         // Sets current player to next player
-        this.turn++;
-        this.round = (int) Math.ceil(this.turn / NUM_PLAYERS);
-        this.player = PLAYERS.get(turn % NUM_PLAYERS);
+        GameRevised.turn++;
+        GameRevised.round = (int) Math.ceil(GameRevised.turn / NUM_PLAYERS);
+        GameRevised.player = PLAYERS.get(turn % NUM_PLAYERS);
 
         // Reset rolls and suggestions if player is playing 
-        if (this.player.isPlaying()) {
-            this.player.newTurn();
+        if (GameRevised.player.isPlaying()) {
+            GameRevised.player.newTurn();
         }
         // Check if any Human Players left
         else {
@@ -257,5 +265,8 @@ public final class GameRevised {
                 gameLost = true;
             }
         }
+    }
+    public ArrayList<Card> getAllCards(){
+        return this.ALL_CARDS;
     }
 }

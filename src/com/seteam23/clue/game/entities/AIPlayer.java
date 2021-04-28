@@ -67,8 +67,8 @@ public class AIPlayer extends PlayerRevised {
                 
                 searchSpace.get(r.nextInt(searchSpace.size())).activate();
             }),
-            new KeyFrame(Duration.seconds(4), e -> {
-                // other
+            new KeyFrame(Duration.seconds(1), e -> {
+              //  this.game.CONTROLLER.endTurn();
             })
         );
         timeline.play();

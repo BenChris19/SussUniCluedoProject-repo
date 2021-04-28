@@ -8,6 +8,7 @@ package com.seteam23.clue.game.entities;
 import com.seteam23.clue.game.GameRevised;
 import com.seteam23.clue.game.board.*;
 import java.util.ArrayList;
+import javafx.collections.ObservableList;
 
 /**
  *
@@ -20,6 +21,7 @@ public class PlayerRevised {
     
     protected Place location;
     protected ArrayList<Card> cards = new ArrayList<>();
+    protected Checklist checklist = new Checklist();
     protected ArrayList<Tile> searchSpace = new ArrayList<>();
     
     private int round_extra_roll = 0;
@@ -188,5 +190,16 @@ public class PlayerRevised {
      */
     public boolean isPlaying() {
         return !out;
+    }
+    
+    public void initialiseChecklist(ArrayList<Card> gameCards){
+        checklist = new Checklist();
+        gameCards.forEach((c) -> {
+            checklist.add(c);
+        });
+    }
+    
+    public ObservableList<ChecklistEntry> getChecklistEntries(){
+        return checklist.getEntries();
     }
 }

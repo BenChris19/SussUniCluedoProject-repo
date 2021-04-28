@@ -90,7 +90,6 @@ public class SingleplayerMenuController implements Initializable {
                 add(MENU.newPlayer(charName));
             }
         };
-        
         FXMLLoader loader = new FXMLLoader(GameControllerRevised.class.getResource("game.fxml"));
         Parent gameScene = loader.load();
         GameControllerRevised ctrl = loader.getController();

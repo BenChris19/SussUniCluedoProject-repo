@@ -7,11 +7,13 @@
 package com.seteam23.clue.game.entities;
 
 import java.util.Objects;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 
 public class Card{
     private String name;
     private String imgPath;
-    //private ImageView img;
+    private Image img;
     private String cardType;
     /**
      *
@@ -23,6 +25,7 @@ public class Card{
         this.name = name;
         this.imgPath = imgPath;
         this.cardType = cardType;
+        this.img = new Image(imgPath);
     }
 
     /**
@@ -55,6 +58,10 @@ public class Card{
      */
     public void setImgPath(String imgPath) {
         this.imgPath = imgPath;
+    }
+    
+    public Image getImg() {
+        return this.img;
     }
 
     /**

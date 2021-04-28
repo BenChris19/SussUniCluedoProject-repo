@@ -40,7 +40,7 @@ public class Passage extends Tile {
      * When clicked, if in room, move player to new room
      */
     @Override
-    public void activate() throws InterruptedException {
+    public void activate() {
         location.removeOccupier(getPlayer1());
         destination.addOccupier(getPlayer1());
         Door d = destination.getDoors().get(0);
@@ -57,12 +57,8 @@ public class Passage extends Tile {
         Button button = new Button();
 
         button.setOnAction((ActionEvent e) -> {
-            try {
-                if (getPlayer1().isEndTurn() == true && getPlayer1().isInRoom()) {
-                    this.activate();
-                }
-            }catch (InterruptedException ex) {
-                Logger.getLogger(Place.class.getName()).log(Level.SEVERE, null, ex);
+            if (getPlayer1().isEndTurn() == true && getPlayer1().isInRoom()) {
+                this.activate();
             }
         });
         

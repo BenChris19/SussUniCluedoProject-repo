@@ -232,16 +232,16 @@ public final class Board {
                     if (tile.getClass() == Door.class) {
                         Door door = (Door) tile;
                         
-                        if (y - 1 >= 0 && door.entryFrom() == "N") {
+                        if (y - 1 >= 0 && door.entryFrom().equals("N")) {
                             door.setAdjacent("N", tiles[y - 1][x]);
                         }
-                        if (y + 1 < 25 && door.entryFrom() == "S") {
+                        if (y + 1 < 25 && door.entryFrom().equals("S")) {
                             door.setAdjacent("S", tiles[y + 1][x]);
                         }
-                        if (x - 1 >= 0 && door.entryFrom() == "W") {
+                        if (x - 1 >= 0 && door.entryFrom().equals("W")) {
                             door.setAdjacent("W", tiles[y][x - 1]);
                         }
-                        if (x + 1 < 24 && door.entryFrom() == "E") {
+                        if (x + 1 < 24 && door.entryFrom().equals("E")) {
                             door.setAdjacent("E", tiles[y][x + 1]);
                         }
                     }
@@ -606,5 +606,23 @@ public final class Board {
     public Tile setStartPos(int y,int x){
         return getTile(y,x);
     }
+
+    public Place[][] getPlaces() {
+        return places;
+    }
+
+    public Door[][] getDoors() {
+        return doors;
+    }
+
+    public Tile[][] getTiles() {
+        return tiles;
+    }
+
+    public ArrayList<Passage> getPassages() {
+        return passages;
+    }
+    
+    
         
 }

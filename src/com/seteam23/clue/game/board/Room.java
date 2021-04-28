@@ -10,7 +10,6 @@ import com.seteam23.clue.game.GameController;
 import com.seteam23.clue.game.entities.Card;
 import com.seteam23.clue.game.entities.Player;
 import java.util.ArrayList;
-import javafx.scene.image.ImageView;
 
 public class Room extends Place{
     private int x, y;
@@ -65,6 +64,13 @@ public class Room extends Place{
     }
     
     /**
+     * Do nothing on click
+     */
+    @Override
+    public void activate() {
+    }
+    
+    /**
      * 
      * @param weaponToAdd 
      */
@@ -72,7 +78,7 @@ public class Room extends Place{
         weapon = weaponToAdd;
     }
 
-    public String getRoomName() {
+    public String getName() {
         return roomName;
     }
 

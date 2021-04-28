@@ -139,7 +139,7 @@ public class GameController implements Initializable {
                 playerRoomIcon[i] = img;
                 grid.add(playerRoomIcon[i], coord[0], coord[1]);
             }
-            playerMarkers.put(room.getRoomName(), playerRoomIcon);
+            playerMarkers.put(room.getName(), playerRoomIcon);
         });
 
         ArrayList<String> allPlayers = new ArrayList<>(Arrays.asList("Miss Scarlett","Col Mustard","Mrs White","Rev Green","Mrs Peacock","Prof Plum"));
@@ -336,7 +336,7 @@ public class GameController implements Initializable {
     @FXML
     private void makeSuggestion(ActionEvent event) throws Exception{
         if(this.startingPlayer.isInRoom() && (this.person.getValue()!= null || this.weapon.getValue() != null)){
-            this.room.getSelectionModel().select(getBoard().getDoors(this.startingPlayer.getCurrentPosX(), this.startingPlayer.getCurrentPosY()).getRoom().getRoomName());
+            this.room.getSelectionModel().select(getBoard().getDoors(this.startingPlayer.getCurrentPosX(), this.startingPlayer.getCurrentPosY()).getRoom().getName());
             boolean shown = false;
             int askNext = this.startingPlayer.getOrder()+1;
             while(!shown){

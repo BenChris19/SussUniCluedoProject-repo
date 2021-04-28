@@ -35,7 +35,7 @@ public class Door extends Tile {
      * Overrides the button activate function
      */
     @Override    
-    public void activate() throws InterruptedException{
+    public void activate() {
         getBoard().getTile(getPlayer1().getCurrentPosY(),getPlayer1().getCurrentPosX()).removeOccupier(getPlayer1());
         getPlayer1().setIsInRoom(true);
         getPlayer1().setCurrentPosYX(GridPane.getColumnIndex(getButton()), GridPane.getRowIndex(getButton()));

@@ -96,12 +96,8 @@ public abstract class Place {
         
 
         button.setOnAction((ActionEvent e) -> {
-            try {
-                if (getPlayer1().isEndTurn() == false && getPlayer1().getSearchSpace().contains(getBoard().getTile(GridPane.getColumnIndex(button), GridPane.getRowIndex(button)))) {
-                    this.activate();
-                }
-            }catch (InterruptedException ex) {
-                Logger.getLogger(Place.class.getName()).log(Level.SEVERE, null, ex);
+            if (getPlayer1().isEndTurn() == false && getPlayer1().getSearchSpace().contains(getBoard().getTile(GridPane.getColumnIndex(button), GridPane.getRowIndex(button)))) {
+                this.activate();
             }
         });
         
@@ -117,9 +113,8 @@ public abstract class Place {
     }
     /**
      * Activated effect when button clicked
-     * @throws java.lang.InterruptedException
      */
-    public void activate() throws InterruptedException {
+    public void activate() {
         getBoard().getTile(getPlayer1().getCurrentPosY(),getPlayer1().getCurrentPosX()).removeOccupier(getPlayer1());
         getPlayer1().setCurrentPosYX(GridPane.getColumnIndex(button), GridPane.getRowIndex(button));
         addOccupier(getPlayer1()); 

@@ -1,44 +1,29 @@
 package com.seteam23.clue.singleplayer;
 
+import com.seteam23.clue.game.Game;
 import com.seteam23.clue.game.GameController;
-import com.seteam23.clue.game.entities.Card;
+import com.seteam23.clue.game.GameControllerRevised;
+import com.seteam23.clue.game.GameRevised;
 import com.seteam23.clue.game.entities.ChecklistEntry;
-import com.seteam23.clue.game.entities.Player;
+import com.seteam23.clue.game.entities.PlayerRevised;
 import com.seteam23.clue.main.MainController;
 import java.io.IOException;
 import static com.seteam23.clue.main.Main.makeFullscreen;
-import static com.seteam23.clue.singleplayer.SingleplayerMenu.getOpponentPlayers;
-import java.io.FileNotFoundException;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
-import javafx.event.Event;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
-import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
-import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.Pane;
-import javafx.scene.layout.RowConstraints;
-import javafx.scene.layout.TilePane;
 import javafx.stage.Stage;
 
 /**
@@ -65,7 +50,9 @@ public class SingleplayerMenuController implements Initializable {
 
     private final SingleplayerMenu spMenu;
     private Button prevCharacter;
-
+    private String charName;
+    private String charPath;
+    
     private final TabPane tabPane;
     private final String[] tabNames = {"Board", "Cards", "Checklist"};
     private TableView table = new TableView();
@@ -73,11 +60,9 @@ public class SingleplayerMenuController implements Initializable {
 
     /**
      * 
-     * @throws IOException 
      */
-    public SingleplayerMenuController() throws IOException{
-        spMenu = new SingleplayerMenu();
-        tabPane = new TabPane();
+    public SingleplayerMenuController(){
+        charName = null;
     }
 
 
@@ -127,16 +112,21 @@ public class SingleplayerMenuController implements Initializable {
         spMenu.setOpponents(((Integer)this.numPlayers.getValue())-1);
         SingleplayerMenu.setDif(difLevel.getValue().toString());
         
-        FXMLLoader loader = new FXMLLoader(GameController.class.getResource("game.fxml"));
-        Parent game = loader.load();
-        GameController ctrl = loader.getController();
+        int numAI = (Integer)numPlayers.getValue() - 1;
+        PlayerRevised p = new PlayerRevised(charName, charPath);
+        ArrayList<PlayerRevised> players = new ArrayList<>();
         
-        ctrl.setNumberOfPlayers((Integer)this.numPlayers.getValue());
+        /*
+        GameRevised game = new GameRevised(players);
+        GameControllerRevised ctrl = game.CONTROLLER;
+        
+        FXMLLoader loader = new FXMLLoader(ctrl.getClass().getResource("game.fxml"));
+        Parent gameScene = loader.load();
         
         Stage window_menu = (Stage)board_game.getScene().getWindow();
-        window_menu.setScene(new Scene(game));
+        window_menu.setScene(new Scene(gameScene));
         window_menu.setFullScreen(true);
-        makeFullscreen(game,1600,920);
+        makeFullscreen(gameScene,1600,920);*/
     }
     
 
@@ -152,6 +142,9 @@ public class SingleplayerMenuController implements Initializable {
         
         SingleplayerMenu.getPlayer1().setName(b.getText());
         SingleplayerMenu.getPlayer1().setImgPath("/resources/cards/players/"+b.getText()+".jpg");
+        
+        String[] playerPaths = new String[]{"/resources/cards/players/Miss Scarlett.jpg","/resources/cards/players/Col Mustard.jpg","/resources/cards/players/Rev Green.jpg",
+            "/resources/cards/players/Prof Plum.jpg","/resources/cards/players/Mrs White.jpg","/resources/cards/players/Mrs Peacock.jpg"};
         
         switch (b.getText()) {
             case "Miss Scarlett":

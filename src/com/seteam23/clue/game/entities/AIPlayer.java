@@ -37,16 +37,6 @@ public class AIPlayer extends PlayerRevised {
         
         this.difficulty = difficulty;
         this.game = game;
-        
-//        Timeline timeline = new Timeline(
-//            new KeyFrame(Duration.seconds(2), e -> {
-//                GameRevised.CONTROLLER.rollDie();
-//            }),
-//            new KeyFrame(Duration.seconds(2), e -> {
-//                GameRevised.CONTROLLER.getSearchSpace();
-//            })
-//        );
-//        timeline.play();
     }
     
     
@@ -59,16 +49,20 @@ public class AIPlayer extends PlayerRevised {
         suggest_remaining = 1;
         
         Timeline timeline = new Timeline(
-            new KeyFrame(Duration.ZERO, e -> {
-                this.game.CONTROLLER.rollDie();
+            new KeyFrame(Duration.seconds(0.5), e -> {
+                game.CONTROLLER.rollDie();
             }),
-            new KeyFrame(Duration.seconds(4), e -> {
+            new KeyFrame(Duration.seconds(3), e -> {
                 searchSpace = this.game.CONTROLLER.getSearchSpace();
-                
+                System.out.println(searchSpace);
                 searchSpace.get(r.nextInt(searchSpace.size())).activate();
             }),
-            new KeyFrame(Duration.seconds(4), e -> {
-                // other
+            new KeyFrame(Duration.seconds(2), e -> {
+                // if in room suggest or accuse
+                
+            }),
+            new KeyFrame(Duration.ZERO, e -> {
+                game.CONTROLLER.endTurn();
             })
         );
         timeline.play();
@@ -84,13 +78,11 @@ public class AIPlayer extends PlayerRevised {
     public ArrayList<Tile> setSearchSpace(int dieRoll) {
         switch (this.difficulty) {
             case "EASY":
-                return easySearchSpace(dieRoll);
-            case "MEDIUM":
-                return mediumSearchSpace(dieRoll);
+                return searchSpace = easySearchSpace(dieRoll);
             case "HARD":
-                return hardSearchSpace(dieRoll);
+                return searchSpace = hardSearchSpace(dieRoll);
             default:
-                return mediumSearchSpace(dieRoll);
+                return searchSpace = mediumSearchSpace(dieRoll);
         }
     }
     

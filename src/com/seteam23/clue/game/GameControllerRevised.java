@@ -5,6 +5,8 @@
  */
 package com.seteam23.clue.game;
 
+import static com.seteam23.clue.game.GameRevised.BOARD;
+import static com.seteam23.clue.game.GameRevised.getCurrentPlayer;
 import com.seteam23.clue.game.board.Room;
 import com.seteam23.clue.game.board.Tile;
 import com.seteam23.clue.game.entities.AIPlayer;
@@ -61,7 +63,7 @@ public final class GameControllerRevised implements Initializable {
      */
     private GameRevised game;
     private PlayerRevised player;
-    private ArrayList<Tile> searchSpace;
+    private ArrayList<Tile> searchSpace = new ArrayList<>();
     
     /**
      * Initializes the controller class.
@@ -70,7 +72,6 @@ public final class GameControllerRevised implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        this.searchSpace = new ArrayList<>();
         
         createButtons();
     }
@@ -81,7 +82,8 @@ public final class GameControllerRevised implements Initializable {
      */
     public void setGame(GameRevised game) {
         this.game = game;
-        this.player = game.getCurrentPlayer();
+        
+        this.player = getCurrentPlayer();
         player_img.setImage(new Image(this.player.IMG_PATH));
     }
     
@@ -89,7 +91,7 @@ public final class GameControllerRevised implements Initializable {
      * 
      */
     private void createButtons() {
-        for (Tile[] tileArr : game.BOARD.getTiles()) {
+        for (Tile[] tileArr : BOARD.getTiles()) {
             for (Tile tile : tileArr) {
                 if (tile != null) grid.add(tile.getButton(), tile.x ,tile.y);
             }
@@ -142,7 +144,7 @@ public final class GameControllerRevised implements Initializable {
         rollDieAnimation();
         
         searchSpace = this.player.setSearchSpace(roll);
-        game.BOARD.highlightTiles(searchSpace);
+        BOARD.highlightTiles(searchSpace);
     }
     
     @FXML
@@ -187,20 +189,16 @@ public final class GameControllerRevised implements Initializable {
     
     @FXML
     public void endTurn() {
-        this.game.nextTurn();
-        
-        // Player
-        this.player = game.getCurrentPlayer();
-        player_img.setImage(new Image(this.player.IMG_PATH));
-        
         // Reset GUI
-        game.BOARD.unlightAllTiles();
+        searchSpace.clear();
+        BOARD.unlightAllTiles();
         revealCard.setVisible(false);
         whoCard.setVisible(false);
         
-        // Unlight Tiles
-        game.BOARD.unlightTiles(searchSpace);
-        searchSpace.clear();
+        // Player
+        game.nextTurn();
+        this.player = getCurrentPlayer();
+        //player_img.setImage(new Image(this.player.IMG_PATH));
         
         // If NPC cannot look at cards or checklist tabs
         if (this.player.getClass().equals(AIPlayer.class)) {

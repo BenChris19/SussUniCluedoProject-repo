@@ -6,7 +6,7 @@
  *      User input detected here
  *      Constructs Players and Board
  */
-package com.seteam23.clue.singleplayer;
+package com.seteam23.clue.menus;
 
 import com.seteam23.clue.game.entities.Card;
 import com.seteam23.clue.game.entities.PlayerRevised;

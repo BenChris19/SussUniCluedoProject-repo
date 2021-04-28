@@ -1,4 +1,4 @@
-package com.seteam23.clue.singleplayer;
+package com.seteam23.clue.menus;
 
 import com.seteam23.clue.game.GameControllerRevised;
 import com.seteam23.clue.game.GameRevised;

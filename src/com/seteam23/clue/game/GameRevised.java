@@ -11,7 +11,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Random;
-import javafx.util.Pair;
 
 /**
  *
@@ -20,9 +19,9 @@ import javafx.util.Pair;
 public final class GameRevised {
     
     private Random r = new Random();
-    
+
+    public final GameControllerRevised CONTROLLER;
     public static final Board BOARD = new Board();
-    public final GameControllerRevised CONTROLLER = new GameControllerRevised();
     
     private final PlayerRevised[] PLAYER_ARRAY;
     public final ArrayList<PlayerRevised> PLAYERS;
@@ -48,20 +47,26 @@ public final class GameRevised {
      * 
      * @param players 
      */
-    public GameRevised(ArrayList<PlayerRevised> humanPlayers, int numAI, String difficulty, 
+    public GameRevised(GameControllerRevised controller, ArrayList<PlayerRevised> humanPlayers, int numAI, String difficulty, 
                        ArrayList<Card> weapons, ArrayList<Card> suspects, ArrayList<Card> rooms, ArrayList<Card> all) {
         // Set Vars and Finals
         this.player = humanPlayers.get(0);
         
         this.PLAYER_ARRAY = new PlayerRevised[6];
         
+        ArrayList<String> characters = new ArrayList<>(Arrays.asList("Miss Scarlett","Col Mustard","Mrs White","Rev Green","Mrs Peacock","Prof Plum"));;
+        
         for (PlayerRevised p : humanPlayers) {
             int charIndex = getOrder(p.NAME);
+            characters.remove(charIndex);
             PLAYER_ARRAY[charIndex] = p;
         }
         
         for (int i = 0; i < numAI; i++) {
-            
+            int charIndex = r.nextInt(characters.size());
+            String name = characters.remove(charIndex);
+            int order = getOrder(name);
+            PLAYER_ARRAY[order] = newAI(name, difficulty);
         }
         
         ArrayList<PlayerRevised> temp = new ArrayList<>(Arrays.asList(PLAYER_ARRAY));
@@ -69,6 +74,7 @@ public final class GameRevised {
         this.PLAYERS = temp;
         this.NUM_PLAYERS = PLAYERS.size();
         
+        this.CONTROLLER = controller;
         this.CONTROLLER.setGame(this); // Hand to Controller
         
         this.WEAPON_CARDS = weapons;
@@ -129,10 +135,7 @@ public final class GameRevised {
         }
     }
     
-    private AIPlayer newAI(ArrayList<String> playable, String difficulty) {
-        Random rand = new Random();
-        int charIndex = rand.nextInt(playable.size());
-        String name = playable.remove(charIndex);
+    private AIPlayer newAI(String name, String difficulty) {
         return new AIPlayer(this, name, "/resources/cards/players/"+name+".jpg", difficulty);
     }
     

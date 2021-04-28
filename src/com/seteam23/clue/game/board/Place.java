@@ -5,7 +5,6 @@
  */
 package com.seteam23.clue.game.board;
 
-import static com.seteam23.clue.game.GameRevised.BOARD;
 import static com.seteam23.clue.game.GameRevised.getCurrentPlayer;
 import com.seteam23.clue.game.entities.Player;
 import com.seteam23.clue.game.entities.PlayerRevised;

@@ -62,7 +62,6 @@ public final class GameControllerRevised implements Initializable {
     private GameRevised game;
     private PlayerRevised player;
     private ArrayList<Tile> searchSpace;
-
     
     /**
      * Initializes the controller class.
@@ -71,8 +70,6 @@ public final class GameControllerRevised implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        this.player = game.getCurrentPlayer();
-        player_img.setImage(new Image(this.player.IMG_PATH));
         this.searchSpace = new ArrayList<>();
         
         createButtons();
@@ -84,6 +81,8 @@ public final class GameControllerRevised implements Initializable {
      */
     public void setGame(GameRevised game) {
         this.game = game;
+        this.player = game.getCurrentPlayer();
+        player_img.setImage(new Image(this.player.IMG_PATH));
     }
     
     /**

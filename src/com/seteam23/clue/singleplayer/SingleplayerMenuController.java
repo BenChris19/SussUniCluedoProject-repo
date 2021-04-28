@@ -2,15 +2,11 @@ package com.seteam23.clue.singleplayer;
 
 import com.seteam23.clue.game.GameControllerRevised;
 import com.seteam23.clue.game.GameRevised;
-import com.seteam23.clue.game.entities.AIPlayer;
 import com.seteam23.clue.game.entities.PlayerRevised;
 import com.seteam23.clue.main.MainController;
 import static com.seteam23.clue.main.Main.makeFullscreen;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.Random;
 import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -95,12 +91,12 @@ public class SingleplayerMenuController implements Initializable {
             }
         };
         
-        GameRevised game = new GameRevised(playerList, (Integer)numPlayers.getValue() -1, difLevel.getValue().toString(),
-                                           MENU.WEAPON_CARDS, MENU.SUSPECT_CARDS, MENU.ROOM_CARDS, MENU.ALL_CARDS);
-        GameControllerRevised ctrl = game.CONTROLLER;
-        
-        FXMLLoader loader = new FXMLLoader(ctrl.getClass().getResource("game.fxml"));
+        FXMLLoader loader = new FXMLLoader(GameControllerRevised.class.getResource("game.fxml"));
         Parent gameScene = loader.load();
+        GameControllerRevised ctrl = loader.getController();
+        
+        GameRevised game = new GameRevised(ctrl, playerList, (Integer)numPlayers.getValue() -1, difLevel.getValue().toString(),
+                                           MENU.WEAPON_CARDS, MENU.SUSPECT_CARDS, MENU.ROOM_CARDS, MENU.ALL_CARDS);
         
         Stage window_menu = (Stage)board_game.getScene().getWindow();
         window_menu.setScene(new Scene(gameScene));

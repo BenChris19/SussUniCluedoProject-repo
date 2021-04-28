@@ -140,10 +140,6 @@ public class SingleplayerMenuController implements Initializable {
     }
     
 
-    
-    
-    
-
         /**
      * Allows the user to choose a character.
      * @param event executes and event, in this case, the border of the button

@@ -8,32 +8,33 @@ package com.seteam23.clue.game;
 import com.seteam23.clue.game.board.Board;
 import com.seteam23.clue.game.entities.Card;
 import com.seteam23.clue.game.entities.Player;
-import java.io.BufferedReader;
-import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Random;
 
 /**
  * 
  * @author InfernoKay
  */
-public final class Game{
-    Board board;
-    ArrayList<Card> weapon_cards;
-    ArrayList<Card> suspect_cards;
-    ArrayList<Card> room_cards;
-    GameController controller;
-    Card[] killCards;
-    ArrayList<Player> players; //Indiscriminant of human or AI
-    Player currentPlayer;
+public final class Game {
+    
+    private GameController controller;
+    private Board board;
+    
+    private ArrayList<Card> weapon_cards;
+    private ArrayList<Card> suspect_cards;
+    private ArrayList<Card> room_cards;
+    
+    private Card[] killCards;
+    private ArrayList<Player> players; //Indiscriminant of human or AI
+    private static Player currentPlayer;
     
     public Game(GameController controller) throws IOException{
         this.controller = controller;
         this.board = this.controller.getBoard();
 
     }
+    
     public Game(){
         
     }

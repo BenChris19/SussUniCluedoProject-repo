@@ -74,7 +74,7 @@ public class MultiplayerMenuController implements Initializable {
         numPlayers.getSelectionModel().select(2);    // Index position in observableArray 
     }    
     
-        /**
+     /**
      * Changes to the Main Menu's Scene.
      * Loads the main menu FXML file if the user desires to go to the previous window
      */
@@ -149,7 +149,6 @@ public class MultiplayerMenuController implements Initializable {
         if(choosingRange < (Integer) numPlayers.getValue()){
             if(prevCharacter == null){
                 buttonScarlett.setDisable(true);
-                confirm.setDisable(true);
             }
             prevCharacter.setDisable(true);
             choosingRange+=1;

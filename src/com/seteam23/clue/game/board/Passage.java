@@ -38,7 +38,9 @@ public class Passage extends Tile {
     @Override
     public void activate() {
         getCurrentPlayer().clearSearchSpace();
+        location.removeOccupier(getCurrentPlayer());
         getCurrentPlayer().enterRoom(destination);
+        destination.addOccupier(getCurrentPlayer());
     }
     
     /**

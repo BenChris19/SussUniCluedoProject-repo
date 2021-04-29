@@ -132,9 +132,9 @@
                         </Label>
                         <Button fx:id="finish" disable="true" layoutX="120.0" layoutY="820.0" mnemonicParsing="false" onAction="#endTurn" prefWidth="198.0" style="-fx-background-color: cyan;" text="End Turn?" />
                         <ImageView fx:id="revealCard" fitHeight="264.0" fitWidth="199.0" layoutX="1342.0" layoutY="57.0" pickOnBounds="true" preserveRatio="true" visible="false" />
-                        <Label fx:id="whoCard" layoutX="1326.0" layoutY="424.0" prefHeight="40.0" prefWidth="231.0" visible="false">
+                        <Label fx:id="whoCard" layoutX="1326.0" layoutY="424.0" prefHeight="51.0" prefWidth="255.0" visible="false">
                            <font>
-                              <Font size="28.0" />
+                              <Font size="25.0" />
                            </font>
                         </Label>
                         <Label fx:id="moves_label" layoutX="776.0" layoutY="294.0" prefHeight="133.0" prefWidth="164.0">

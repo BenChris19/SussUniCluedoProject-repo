@@ -6,7 +6,6 @@
 package com.seteam23.clue.game;
 
 import static com.seteam23.clue.game.GameRevised.BOARD;
-import static com.seteam23.clue.game.GameRevised.getCurrentPlayer;
 import com.seteam23.clue.game.board.*;
 import com.seteam23.clue.game.entities.*;
 import com.seteam23.clue.main.Main;
@@ -82,7 +81,7 @@ public final class GameControllerRevised implements Initializable {
      */
     private GameRevised game;
     private PlayerRevised player;
-    private ArrayList<PlayerRevised> outOfGame = new ArrayList<>();
+    private final ArrayList<PlayerRevised> OUTOFGAME = new ArrayList<>();
     
     private final String[] playerImg = new String[]{"/resources/game/Miss-Scarlett-game-piece.png","/resources/game/Col-Mustard-game-piece.png","/resources/game/Mrs-White-game-piece.png","/resources/game/Rev-Green-game-piece.png","/resources/game/Mrs-Peacock-game-piece.png","/resources/game/Prof-Plum-game-piece.png"};
     public static final HashMap<String, ImageView[]> PLAYER_MARKERS = new HashMap<>();
@@ -118,6 +117,13 @@ public final class GameControllerRevised implements Initializable {
             PLAYER_MARKERS.put(room.getName(), playerRoomIcon);
         });
         
+    }
+    public void getPerson(int i) {
+        person.getSelectionModel().select(i);
+    }
+
+    public void getWeapon(int i) {
+        weapon.getSelectionModel().select(i);
     }
     
     /**
@@ -215,7 +221,7 @@ public final class GameControllerRevised implements Initializable {
             this.room.getSelectionModel().select(((Room)this.player.getLocation()).getName());
             Card found = null;
             PlayerRevised nextPlayer = null;
-            int i = 0;
+            int i = 1;
 
             // If  player can suggest and value in person and weapon boxes
             if (person.getValue() != null && weapon.getValue() != null) {
@@ -290,8 +296,8 @@ public final class GameControllerRevised implements Initializable {
             }
             else{
                 GameRevised.gameLost = true;
-                    outOfGame.add(this.player);
-                    if(outOfGame.size()>=game.getNumberPlayers()){
+                    OUTOFGAME.add(this.player);
+                    if(OUTOFGAME.size()>=game.getNumberPlayers()){
                         Parent root = FXMLLoader.load(GameControllerRevised.class.getResource("gameover.fxml"));
                         Stage window_over = (Stage)accuse.getScene().getWindow();
                         window_over.setScene(new Scene(root));

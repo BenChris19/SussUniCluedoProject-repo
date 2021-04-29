@@ -59,6 +59,14 @@ public class AIPlayer extends PlayerRevised {
                 }
                 
             }),
+            new KeyFrame(Duration.seconds(6), e -> {
+               if (isInRoom()) {
+                        this.game.CONTROLLER.getPerson(r.nextInt(6));
+                        this.game.CONTROLLER.getWeapon(r.nextInt(6));
+                        this.game.CONTROLLER.makeSuggestion();
+                }
+                
+            }),
             new KeyFrame(Duration.seconds(8), e -> {
                 this.game.CONTROLLER.endTurn();
             })

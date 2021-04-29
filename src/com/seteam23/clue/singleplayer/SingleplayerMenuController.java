@@ -1,12 +1,9 @@
 package com.seteam23.clue.singleplayer;
 
 import com.seteam23.clue.game.GameController;
-import com.seteam23.clue.game.entities.Card;
-import com.seteam23.clue.game.entities.ChecklistEntry;
 import com.seteam23.clue.main.MainController;
 import java.io.IOException;
 import static com.seteam23.clue.main.Main.makeFullscreen;
-import static com.seteam23.clue.singleplayer.SingleplayerMenu.getMurderCards;
 import java.io.File;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -21,7 +18,6 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TabPane;
-import javafx.scene.control.TableView;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.stage.Stage;
@@ -29,7 +25,7 @@ import javafx.stage.Stage;
 /**
  * FXML GameController class
  * The controller class, allows the FXML file to be initialised, and
- * allows the user to interact with the GUI
+ * allows the user to interact with the GUI.
  *
  * @author team23
  */
@@ -51,18 +47,17 @@ public class SingleplayerMenuController implements Initializable {
     private final SingleplayerMenu spMenu;
     private Button prevCharacter;
 
-    private final TabPane tabPane;
-    private final String[] tabNames = {"Board", "Cards", "Checklist"};
-    private TableView table = new TableView();
-    private ObservableList<ChecklistEntry> checklistElements;
+    private final TabPane TABPANE;
+    private final String[] TABNAMES;
 
-    /**
+    /**Initialises the single player menu controller, a.k.a the player menu controller.
      * 
      * @throws IOException 
      */
     public SingleplayerMenuController() throws IOException{
+        this.TABNAMES = new String[]{"Board", "Cards", "Checklist"};
         spMenu = new SingleplayerMenu();
-        tabPane = new TabPane();
+        TABPANE = new TabPane();
     }
 
 
@@ -80,7 +75,7 @@ public class SingleplayerMenuController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         ObservableList<String> listDif = FXCollections.observableArrayList("EASY","MEDIUM","HARD");
         difLevel.setItems(listDif);
-        difLevel.getSelectionModel().select("MEDIUM");
+        difLevel.getSelectionModel().select("MEDIUM");  // Index position in observableArray
         ObservableList<Integer> listOpo = FXCollections.observableArrayList(2,3,4,5,6);
         numPlayers.setItems(listOpo);
         numPlayers.getSelectionModel().select(2);    // Index position in observableArray    
@@ -93,11 +88,10 @@ public class SingleplayerMenuController implements Initializable {
     
     /**
      * Changes to the Main Menu's Scene.
-     * @param event executes and event, in this case, it goes to the previous window i.e 
-     * the main menu
+     * Loads the main menu FXML file if the user desires to go to the previous window
      */
     @FXML
-    private void mainMenu(ActionEvent event) throws Exception{
+    private void mainMenu() throws Exception{
         Parent root = FXMLLoader.load(MainController.class.getResource("main.fxml"));
         
         Stage window_menu = (Stage)main_menu.getScene().getWindow();
@@ -107,13 +101,11 @@ public class SingleplayerMenuController implements Initializable {
     }
     
     /**
-     * Changes to the Board's Scene.
-     * @param event executes and event, in this case, it goes to the next window i.e 
-     * the board game.
+     * Changes to the Board Scene and the playable game.
      */
     @FXML
-    private void continueBoard(ActionEvent event) throws Exception{
-        spMenu.setOpponents(((Integer)this.numPlayers.getValue())-1);
+    private void continueBoard() throws Exception{
+        spMenu.setOpponents(((Integer)this.numPlayers.getValue())-1); //Get the opponents
         SingleplayerMenu.setDif(difLevel.getValue().toString());
         
         FXMLLoader loader = new FXMLLoader(GameController.class.getResource("game.fxml"));
@@ -122,9 +114,6 @@ public class SingleplayerMenuController implements Initializable {
         
         ctrl.setNumberOfPlayers((Integer)this.numPlayers.getValue());
         
-        for(Card c:getMurderCards()){
-            System.out.print(c.getName());
-        }
         
         Stage window_menu = (Stage)board_game.getScene().getWindow();
         window_menu.setScene(new Scene(game));
@@ -135,6 +124,9 @@ public class SingleplayerMenuController implements Initializable {
 
         /**
      * Allows the user to choose a character.
+     * The user may choose the desired character, which they will play as in the next
+     * window.
+     * 
      * @param event executes and event, in this case, the border of the button
      * the player icon is on, changes to yellow to indicate that the user has chosen
      * that character.
@@ -148,7 +140,7 @@ public class SingleplayerMenuController implements Initializable {
         
         switch (b.getText()) {
             case "Miss Scarlett":
-                SingleplayerMenu.getPlayer1().setTurn(1);
+                SingleplayerMenu.getPlayer1().setTurn(1);       
                 SingleplayerMenu.getPlayer1().setCurrentPosYX(16, 0);
                 break;
             case "Prof Plum":

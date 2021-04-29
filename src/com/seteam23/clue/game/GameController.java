@@ -13,7 +13,6 @@ import com.seteam23.clue.game.entities.NPC;
 import com.seteam23.clue.game.entities.Player;
 import com.seteam23.clue.main.Main;
 import com.seteam23.clue.singleplayer.SingleplayerMenu;
-import static com.seteam23.clue.singleplayer.SingleplayerMenu.getMurderCards;
 import static com.seteam23.clue.singleplayer.SingleplayerMenu.getOpponentPlayers;
 import static com.seteam23.clue.singleplayer.SingleplayerMenu.getPlayer1;
 import java.io.File;
@@ -105,15 +104,18 @@ public class GameController implements Initializable {
     private TabPane tabPane;
     @FXML
     private ImageView background_img;
+    
+    private static ArrayList<Card> murderCards;
 
     
     /**
-     * Initializes the controller class.
+     * Initialises the controller class.
      * @param url
      * @param rb
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        murderCards = new ArrayList<>();
         try {
             cardsTab.setContent(createCardPane());
         } catch (FileNotFoundException ex) {
@@ -208,6 +210,9 @@ public class GameController implements Initializable {
         return win;
     }
     
+    public static ArrayList<Card> getMurderCards() {
+        return murderCards;
+    }
     
     public static Board getBoard() {
         return board;
@@ -282,11 +287,14 @@ public class GameController implements Initializable {
     }
     
     public void rollDieAnimation(){
+        getMurderCards().forEach((c) -> {
+            System.out.print(c.getName());
+        });
         Media sound = new Media(new File("Dice-Roll-Sound.m4a").toURI().toString());
         MediaPlayer mediaPlayer = new MediaPlayer(sound);
         mediaPlayer.play();
         Timer timer = new Timer();
-        this.dieRolls = this.game.rollDice();
+        this.dieRolls = GameController.game.rollDice();
         moves_label.setText("    "+dieRolls);
         moves_label.setVisible(false);
         diceThrow.setVisible(true);
@@ -308,10 +316,9 @@ public class GameController implements Initializable {
                             getBoard().getTile(aiPrevY[getStartingPlayer().getOrder()-1], aiPrevX[getStartingPlayer().getOrder()-1]).getButton().getStyleClass().remove("toggle-"+getStartingPlayer().getName().split(" ",-1)[1]);
                         }
                         NPC npc = new NPC(getStartingPlayer().getName(),getStartingPlayer().getOrder(),getStartingPlayer().getImgPath(),getStartingPlayer().getCurrentPosY(),getStartingPlayer().getCurrentPosX(),false,false);
-                        Tile aiMoved = npc.AIMoves(getStartingPlayer().getSearchSpace());
-                        getStartingPlayer().setCurrentPosYX(GridPane.getColumnIndex(aiMoved.getButton()), GridPane.getRowIndex(aiMoved.getButton()));
-                        aiPrevX[getStartingPlayer().getOrder()-1] = GridPane.getRowIndex(aiMoved.getButton());
-                        aiPrevY[getStartingPlayer().getOrder()-1] = GridPane.getColumnIndex(aiMoved.getButton());
+                        getStartingPlayer().setCurrentPosYX(GridPane.getColumnIndex(npc.AIMoves(getStartingPlayer().getSearchSpace()).getButton()), GridPane.getRowIndex(npc.AIMoves(getStartingPlayer().getSearchSpace()).getButton()));
+                        aiPrevX[getStartingPlayer().getOrder()-1] = GridPane.getRowIndex(npc.AIMoves(getStartingPlayer().getSearchSpace()).getButton());
+                        aiPrevY[getStartingPlayer().getOrder()-1] = GridPane.getColumnIndex(npc.AIMoves(getStartingPlayer().getSearchSpace()).getButton());
                     }
                     timer.cancel();
                 }
@@ -460,7 +467,7 @@ public class GameController implements Initializable {
             gameCards.add(new Card(path.split("/")[4],path,path.split("/")[3]));
         });
         
-        SingleplayerMenu.getPlayer1().initialiseChecklist(gameCards);
+        getPlayer1().initialiseChecklist(gameCards);
         for (Player p : getOpponentPlayers()){
             p.initialiseChecklist(gameCards);
         }
@@ -470,15 +477,15 @@ public class GameController implements Initializable {
         while(filledMurder[0] == false || filledMurder[1] == false || filledMurder[2] == false){
             if(gameCards.get(j).getCardType().equals("rooms") && !filledMurder[0]){
                 filledMurder[0] = true;
-                SingleplayerMenu.addMurderCards(gameCards.remove(j));
+                this.murderCards.add(gameCards.remove(j));
             }
             else if(gameCards.get(j).getCardType().equals("weapons") && !filledMurder[1]){
                 filledMurder[1] = true;
-                SingleplayerMenu.addMurderCards(gameCards.remove(j));
+                this.murderCards.add(gameCards.remove(j));
             }
             else if(gameCards.get(j).getCardType().equals("players") && !filledMurder[2]){
                 filledMurder[2] = true;
-                SingleplayerMenu.addMurderCards(gameCards.remove(j));
+                this.murderCards.add(gameCards.remove(j));
             }
             j+=1;
         }
@@ -488,7 +495,7 @@ public class GameController implements Initializable {
         for(int i = 0;i<distribution;i++){
             Card temp = gameCards.remove(0);
             player1Cards.add(temp.getImgPath());
-            SingleplayerMenu.getPlayer1().addCards(temp);
+            getPlayer1().addCards(temp);
         }
         int numCards = gameCards.size();
         for(int i=0;i < numCards;i++){
@@ -517,7 +524,7 @@ public class GameController implements Initializable {
         TableColumn<ChecklistEntry, String> nameCol = new TableColumn<>("Name");
         TableColumn<ChecklistEntry, String> cardTypeCol = new TableColumn<>("Card Type");
         TableColumn<ChecklistEntry, Button> markedCol = new TableColumn<>("Marked");
-        //System.out.println(SingleplayerMenu.getPlayer1().getChecklistEntries());
+        //System.out.println(getPlayer1().getChecklistEntries());
         ObservableList<ChecklistEntry> checklistElements = getPlayer1().getChecklistEntries();
         table.setItems(checklistElements);
         nameCol.setCellValueFactory(new PropertyValueFactory<ChecklistEntry, String>("name"));

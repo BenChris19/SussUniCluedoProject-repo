@@ -1,9 +1,9 @@
 package com.seteam23.clue.game.entities;
 
+import static com.seteam23.clue.game.GameController.getMurderCards;
 import com.seteam23.clue.game.board.Door;
 import com.seteam23.clue.game.board.Tile;
 import static com.seteam23.clue.singleplayer.SingleplayerMenu.getDif;
-import static com.seteam23.clue.singleplayer.SingleplayerMenu.getMurderCards;
 import java.util.ArrayList;
 import java.util.Random;
 

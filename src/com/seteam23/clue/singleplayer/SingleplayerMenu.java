@@ -1,14 +1,5 @@
-/*
- *      Game
- *
- *      Main loops and game logic
- *      Most of code will be here (probably)
- *      User input detected here
- *      Constructs Players and Board
- */
 package com.seteam23.clue.singleplayer;
 
-import com.seteam23.clue.game.entities.Card;
 import com.seteam23.clue.game.entities.NPC;
 import com.seteam23.clue.game.entities.Player;
 import java.io.IOException;
@@ -18,51 +9,63 @@ import java.util.Random;
 public class SingleplayerMenu{
     private static Player player1;
     private static ArrayList<NPC> opponentPlayers;
-    private static ArrayList<Card> murderCards;
     private static String dif;
 
     
-    /**
-     * 
-     * @param opponents
+    /**Initialises the Single Player Menu
+     *
+     * Depending on what the user chooses in the single player menu controller, that information
+     * will be transfered to the Game class.
      * @throws IOException 
      */
     public SingleplayerMenu() throws IOException{
-        player1 = new Player("Miss Scarlett",1,"/resources/cards/players/Miss Scarlett.jpg",16,0,true,false);
+        player1 = new Player("Miss Scarlett",1,"/resources/cards/players/Miss Scarlett.jpg",16,0,true,false);//Miss Scarlett is chosen as default character
         opponentPlayers = new ArrayList<>();
-        murderCards = new ArrayList<>();
+        
     }
 
+    /**Getter method to get the user's player
+     *
+     * @return player1 the player the user has chosen.
+     */
     public static Player getPlayer1() {
         return player1;
     }
-
-    public static String getDif() {
-        return dif;
-    }
-
-    public static void setDif(String dif) {
-        SingleplayerMenu.dif = dif;
-    }
-    
 
     public static void setPlayer1(Player player1) {
         SingleplayerMenu.player1 = player1;
     }
 
+    /**Getter method to get Difficulty of AI opponents 
+     *
+     * @return dif a String which is either "EASY","MEDIUM" and "HARD".
+     */
+    public static String getDif() {
+        return dif;
+    } 
+
+    /**Sets the difficulty
+     *
+     * @param dif
+     */
+    public static void setDif(String dif) {
+        SingleplayerMenu.dif = dif;
+    }
+    
+
+    /**Gets the number of opponents the user will play against
+     *
+     * @return opponentPlayers ArrayList of NPC (AI players) the user will play against.
+     */
     public static ArrayList<NPC> getOpponentPlayers() {
         return opponentPlayers;
     }
-    public static void addMurderCards(Card murderCard){
-        murderCards.add(murderCard);
-    }
-
-    public static ArrayList<Card> getMurderCards() {
-        return murderCards;
-    }
-
-
-
+    
+    /**Sets the opponents of the user
+     * The code make sure that all opponents are different from each other and from the user.
+     *
+     * @param opponents
+     */
     public void setOpponents(int opponents) {
                 NPC[] candidates = new NPC[]{new NPC("Miss Scarlett",1,"/resources/cards/players/Miss Scarlett.jpg",16,0,true,false),
                 new NPC("Col Mustard",2,"/resources/cards/players/Col Mustard.jpg",23,7,true,false),

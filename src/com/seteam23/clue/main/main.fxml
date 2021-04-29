@@ -15,9 +15,9 @@
                         <Image url="@../../../../resources/main/Clue-Box-19921.jpg" />
                     </image>
                 </ImageView>
-                <Button id="button-quit" fx:id="button_quit" layoutX="394.0" layoutY="380.0" mnemonicParsing="false" onAction="#quitGame" style="-fx-background-color: #e60000;" stylesheets="@../../../../resources/fonts/Button%20word%20style.css" text="Quit Game" />
-                <Button id="button-multiplayer" fx:id="button_multiplayer" contentDisplay="CENTER" layoutX="373.0" layoutY="296.0" onAction="#startGame" prefHeight="61.0" prefWidth="209.0" style="-fx-background-color: #ffbb33;" stylesheets="@../../../../resources/fonts/Button%20word%20style.css" text="Multiplayer" textAlignment="CENTER" />
-                <Button id="button-start" fx:id="button_start" contentDisplay="CENTER" layoutX="357.0" layoutY="212.0" onAction="#startGame" prefHeight="61.0" prefWidth="241.0" style="-fx-background-color: #8092ff;" stylesheets="@../../../../resources/fonts/Button%20word%20style.css" text="Single Player" textAlignment="CENTER" />
+                <Button id="button-quit" layoutX="394.0" layoutY="380.0" mnemonicParsing="false" onAction="#quitGame" style="-fx-background-color: #e60000;" stylesheets="@../../../../resources/fonts/Button%20word%20style.css" text="Quit Game" />
+                <Button id="button-multiplayer" fx:id="button_multiplayer" contentDisplay="CENTER" layoutX="373.0" layoutY="296.0" onAction="#multiGame" prefHeight="61.0" prefWidth="209.0" style="-fx-background-color: #ffbb33;" stylesheets="@../../../../resources/fonts/Button%20word%20style.css" text="Multiplayer" textAlignment="CENTER" />
+                <Button id="button-start" fx:id="button_single" contentDisplay="CENTER" layoutX="357.0" layoutY="212.0" onAction="#singleGame" prefHeight="61.0" prefWidth="241.0" style="-fx-background-color: #8092ff;" stylesheets="@../../../../resources/fonts/Button%20word%20style.css" text="Single Player" textAlignment="CENTER" />
             </children>
         </Pane>
     </children>

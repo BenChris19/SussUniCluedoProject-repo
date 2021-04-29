@@ -5,13 +5,11 @@
  */
 package com.seteam23.clue.game.board;
 
-import static com.seteam23.clue.game.GameController.getBoard;
 import static com.seteam23.clue.singleplayer.SingleplayerMenu.getPlayer1;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.event.ActionEvent;
 import javafx.scene.control.Button;
-import javafx.scene.layout.GridPane;
 
 /**
  *

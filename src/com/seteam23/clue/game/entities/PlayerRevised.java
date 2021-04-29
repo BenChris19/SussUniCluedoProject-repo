@@ -95,6 +95,14 @@ public class PlayerRevised {
     }
     
     /**
+     * Mark card in checklist
+     * @param card 
+     */
+    public void markCard(Card card) {
+        this.checklist.mark(card);
+    }
+    
+    /**
      * Return all cards in hand
      * @return 
      */

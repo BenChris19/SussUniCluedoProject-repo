@@ -195,14 +195,11 @@ public final class GameControllerRevised implements Initializable {
         }
         
         if (!(this.player instanceof AIPlayer)) {
-            for(Tile t:this.player.getSearchSpace()){
-                if(t.getClass().equals(Door.class)){
-                    suggest.setDisable(false);
-                    room.setDisable(false);
-                    weapon.setDisable(false);
-                    person.setDisable(false);
-                    
-                }
+            if (this.player.isInRoom() || this.player.getSearchSpace().stream().anyMatch(Door.class::isInstance)) {
+                suggest.setDisable(false);
+                room.setDisable(false);
+                weapon.setDisable(false);
+                person.setDisable(false);
             }
             finish.setDisable(false);
         }
@@ -211,6 +208,7 @@ public final class GameControllerRevised implements Initializable {
     @FXML
     public void makeSuggestion() {
         if(this.player.isInRoom()){
+            this.player.clearSearchSpace();
             
             this.room.getSelectionModel().select(((Room)this.player.getLocation()).getName());
             Card found = null;
@@ -234,22 +232,22 @@ public final class GameControllerRevised implements Initializable {
                         }
                     }
                     // Check for found or ran out of players
-                    while (i < game.getNumberPlayers()) {
+                    while (i < game.getNumberPlayers() && found == null) {
                         nextPlayer = game.PLAYERS.get((GameRevised.getTurn()+i) % game.getNumberPlayers());
-
-
-                        //nextPlayer.enterRoom(current_room);
 
                         // Look through cards of next player and see if have any of suggested
                         for (Card c : nextPlayer.getCards()) {
                             if (c.getName().equals(person.getValue()+".jpg") || c.getName().equals(weapon.getValue()+".JPG") || c.getName().equals(current_room.getName()+".png")) {
                                 found = c;
-
-                                this.whoCard.setText(nextPlayer.NAME+" has this card");
+                                this.player.markCard(found);
+                                
                                 Image cardImage = new Image(getClass().getResourceAsStream(c.getImgPath()));
                                 this.revealCard.setImage(cardImage);
+                                this.whoCard.setText(nextPlayer.NAME+" has this card");
+                                
                                 this.revealCard.setVisible(true);
                                 this.whoCard.setVisible(true);
+                                
                                 break;
                             }
                         }
@@ -266,11 +264,9 @@ public final class GameControllerRevised implements Initializable {
                     }
                 }
 
-                // If Player no moves OR is AI Player disable accuse button
-                if (!this.player.canSuggest() || this.player.getClass().equals(AIPlayer.class)) {
+                // If Player no suggestions left disable accuse button
+                if (!this.player.canSuggest()) {
                     suggest.setDisable(true);
-                }
-                else {
                     accuse.setDisable(false);
                 }
             }

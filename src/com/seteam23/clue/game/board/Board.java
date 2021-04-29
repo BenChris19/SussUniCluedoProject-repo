@@ -335,13 +335,17 @@ public final class Board {
 
         if (moves_remaining > 0) {
             start.getAdjacent().values().stream().filter((a) -> (a != null && !a.isFull())).forEachOrdered((a) -> {
-                if(a instanceof Door){
+                if (a instanceof Door){
                     Door checkDoor = (Door)a;
                     if(start.getKeyFromValue(start.getAdjacent(), checkDoor).equals(checkDoor.entryFrom())){
                         Set<Tile> r = reachableRecursive(a, moves_remaining - 1);
                         reach.addAll(r);
                         reach.add(a);
                     }
+                }
+                else if (a instanceof Passage) {
+                    Set<Tile> r = reachableRecursive(a, moves_remaining - 1);
+                    reach.addAll(r);
                 }
                 else{
                     Set<Tile> r = reachableRecursive(a, moves_remaining - 1);
@@ -383,6 +387,7 @@ public final class Board {
         for (Passage pass : passages) {
             if (pass.getLocation().equals(room)) {
                 reach.add(pass);
+                break;
             }
         }
         return new ArrayList<>(reach);
@@ -467,6 +472,7 @@ public final class Board {
             for (Passage pass : passages) {
                 if (pass.getLocation().equals(room)) {
                     reach.add(pass);
+                    break;
                 }
             }
         }

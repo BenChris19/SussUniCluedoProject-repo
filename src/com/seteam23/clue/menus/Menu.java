@@ -17,7 +17,7 @@ import java.util.Arrays;
  * 
  * @author Team 23
  */
-public class SingleplayerMenu {
+public class Menu {
     private final ArrayList<String> CHARACTERS = new ArrayList<>(Arrays.asList("Miss Scarlett","Col Mustard","Mrs White","Rev Green","Mrs Peacock","Prof Plum"));
    
     private final ArrayList<String> CHARACTER_PATHS = new ArrayList<>(Arrays.asList("/resources/cards/players/Miss Scarlett.jpg","/resources/cards/players/Col Mustard.jpg","/resources/cards/players/Mrs White.jpg",
@@ -38,7 +38,7 @@ public class SingleplayerMenu {
     /**
      * 
      */
-    public SingleplayerMenu() {
+    public Menu() {
         WEAPON_PATHS.forEach((path) -> {
             WEAPON_CARDS.add(new Card(path.split("/")[4], path, path.split("/")[3]));
         });

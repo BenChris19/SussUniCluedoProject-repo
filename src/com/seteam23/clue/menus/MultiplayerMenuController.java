@@ -48,7 +48,7 @@ public class MultiplayerMenuController implements Initializable {
     private String unchooseable;
     private int choosingRange;
     
-    private final SingleplayerMenu spMenu;
+    private final Menu MENU = new Menu();
     private Button prevCharacter;
 
     private final TabPane TABPANE;
@@ -56,7 +56,7 @@ public class MultiplayerMenuController implements Initializable {
     
     public MultiplayerMenuController() throws IOException{
         this.TABNAMES = new String[]{"Board", "Cards", "Checklist"};
-        spMenu = new SingleplayerMenu();
+        //MENU = new Menu();
         TABPANE = new TabPane();
     }
 

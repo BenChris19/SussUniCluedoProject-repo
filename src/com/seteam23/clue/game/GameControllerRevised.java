@@ -6,6 +6,7 @@
 package com.seteam23.clue.game;
 
 import static com.seteam23.clue.game.GameRevised.BOARD;
+import static com.seteam23.clue.game.GameRevised.getCurrentPlayer;
 import com.seteam23.clue.game.board.Room;
 import com.seteam23.clue.game.board.Tile;
 import com.seteam23.clue.game.entities.AIPlayer;

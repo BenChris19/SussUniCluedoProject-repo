@@ -18,6 +18,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 
@@ -39,16 +40,20 @@ public class GameoverController implements Initializable {
         if(GameRevised.gameLost){
             winloseMess.setText("YOU LOSE!");
             winloseMess.setVisible(true);
+            winloseMess.setVisible(true);
+            winLoseImg.setImage(new Image("/resources/game/Game-over.jpg", 1036, 603, false, false));
         }
         else{
             winloseMess.setText("YOU WIN!");
             winloseMess.setVisible(true);
+            winloseMess.setVisible(true);
+            winLoseImg.setImage(new Image("/resources/game/Win-game.jpg", 1036, 603, false, false));
         }
     }    
         @FXML
     private void playAgain(ActionEvent event) throws Exception {
 
-        Parent again = FXMLLoader.load(SingleplayerMenuController.class.getResource("singleplayerMenu.fxml"));
+        Parent again = FXMLLoader.load(Main.class.getResource("main.fxml"));
         
         Stage window = (Stage)playAgainButton.getScene().getWindow();
 

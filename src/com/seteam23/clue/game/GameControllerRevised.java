@@ -8,9 +8,11 @@ package com.seteam23.clue.game;
 import static com.seteam23.clue.game.GameRevised.BOARD;
 import com.seteam23.clue.game.board.*;
 import com.seteam23.clue.game.entities.*;
+import com.seteam23.clue.main.Main;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Random;
 import java.util.ResourceBundle;
@@ -21,8 +23,11 @@ import javafx.animation.Timeline;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
@@ -37,6 +42,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.RowConstraints;
 import javafx.scene.layout.TilePane;
+import javafx.stage.Stage;
 import javafx.util.Duration;
 
 /**
@@ -75,6 +81,7 @@ public final class GameControllerRevised implements Initializable {
      */
     private GameRevised game;
     private PlayerRevised player;
+    private ArrayList<PlayerRevised> outOfGame = new ArrayList<>();
     
     private final String[] playerImg = new String[]{"/resources/game/Miss-Scarlett-game-piece.png","/resources/game/Col-Mustard-game-piece.png","/resources/game/Mrs-White-game-piece.png","/resources/game/Rev-Green-game-piece.png","/resources/game/Mrs-Peacock-game-piece.png","/resources/game/Prof-Plum-game-piece.png"};
     public static final HashMap<String, ImageView[]> PLAYER_MARKERS = new HashMap<>();
@@ -187,12 +194,17 @@ public final class GameControllerRevised implements Initializable {
         for(Tile t:this.player.getSearchSpace()){
             if(t.getClass().equals(Door.class)){
                 suggest.setDisable(false);
+                room.setDisable(false);
+                weapon.setDisable(false);
+                person.setDisable(false);
             }
         }
     }
     
     @FXML
     public void makeSuggestion() {
+        if(player.isInRoom()){
+        this.room.getSelectionModel().select(((Room)this.player.getLocation()).getName());
         Card found = null;
         PlayerRevised nextPlayer = null;
         int i = 0;
@@ -204,7 +216,7 @@ public final class GameControllerRevised implements Initializable {
                 nextPlayer = game.PLAYERS.get((game.getTurn()+i) % game.getNumberPlayers());
                 
                 Room current_room = (Room)player.getLocation();
-                nextPlayer.enterRoom(current_room);
+                //nextPlayer.enterRoom(current_room);
                 
                 // Look through cards of next player and see if have any of suggested
                 for (Card c : nextPlayer.getCards()) {
@@ -230,6 +242,9 @@ public final class GameControllerRevised implements Initializable {
                 this.whoCard.setText("No-one else had these cards");
             }
         }
+        accuse.setDisable(false);
+        suggest.setDisable(true);
+        }
     }
     
     @FXML
@@ -247,16 +262,25 @@ public final class GameControllerRevised implements Initializable {
                 }
                 else{
                     game.gameLost = true;
+                        outOfGame.add(this.player);
+                        if(outOfGame.size()>=game.getNumberPlayers()){
+                            Parent root = FXMLLoader.load(GameControllerRevised.class.getResource("gameover.fxml"));
+                            Stage window_over = (Stage)accuse.getScene().getWindow();
+                            window_over.setScene(new Scene(root));
+                            window_over.setFullScreen(true);
+                            Main.makeFullscreen(root,871.9,545);
+                        }
+                        else{
+                            endTurn();
+                        }
+                    
                     break;
                 }
             }
-            endTurn();
-//
-////            Parent root = FXMLLoader.load(GameControllerRevised.class.getResource("gameover.fxml"));
-////            Stage window_over = (Stage)accuse.getScene().getWindow();
-//            window_over.setScene(new Scene(root));
-//            window_over.setFullScreen(true);
-//            Main.makeFullscreen(root,871.9,545);
+            
+
+
+
     }
     
     @FXML
@@ -273,6 +297,9 @@ public final class GameControllerRevised implements Initializable {
         
         // Player
         this.player = GameRevised.getCurrentPlayer();
+        if(outOfGame.contains(this.player)){
+            endTurn();
+        }
         player_img.setImage(new Image(this.player.IMG_PATH));     //It work for multiplayer, not for AI, however it makes sense that you can only see the image characte of what the user chose for single player
         setPanes();
         if (!this.player.isInRoom()) suggest.setDisable(true);
@@ -292,7 +319,12 @@ public final class GameControllerRevised implements Initializable {
             cardsTab.setDisable(false);
             checklistTab.setDisable(false);
         }
-
+        
+        suggest.setDisable(true);
+        room.setDisable(true);
+        weapon.setDisable(true);
+        person.setDisable(true);
+        accuse.setDisable(true);
     }
     
      /**

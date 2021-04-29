@@ -22,16 +22,16 @@
                <content>
                   <AnchorPane>
                      <children>
-                          <ComboBox fx:id="person" layoutX="195.0" layoutY="484.0" prefHeight="25.0" prefWidth="120.0" promptText="Person" />
-                          <ComboBox fx:id="weapon" layoutX="195.0" layoutY="524.0" prefHeight="25.0" prefWidth="120.0" promptText="Weapon" />
-                          <ComboBox fx:id="room" layoutX="195.0" layoutY="564.0" prefHeight="25.0" prefWidth="120.0" promptText="Room" />
+                          <ComboBox fx:id="person" disable="true" layoutX="195.0" layoutY="484.0" prefHeight="25.0" prefWidth="120.0" promptText="Person" />
+                          <ComboBox fx:id="weapon" disable="true" layoutX="195.0" layoutY="524.0" prefHeight="25.0" prefWidth="120.0" promptText="Weapon" />
+                          <ComboBox fx:id="room" disable="true" layoutX="195.0" layoutY="564.0" prefHeight="25.0" prefWidth="120.0" promptText="Room" />
                           <Button fx:id="diceRoll" layoutX="120.0" layoutY="434.0" mnemonicParsing="false" onAction="#rollDie" prefWidth="200.0" style="-fx-background-color: orange;" text="Roll the Dice" />
                           <Button fx:id="suggest" disable="true" layoutX="120.0" layoutY="644.0" mnemonicParsing="false" onAction="#makeSuggestion" prefHeight="52.0" prefWidth="199.0" style="-fx-background-color: green;" text="Make Suggestion">
                               <font>
                                   <Font size="22.0" />
                               </font>
                           </Button>
-                        <Button fx:id="accuse" layoutX="120.0" layoutY="714.0" mnemonicParsing="false" onAction="#makeAccusation" prefHeight="53.0" prefWidth="198.0" style="-fx-background-color: red;" text="Make Accusation">
+                        <Button fx:id="accuse" disable="true" layoutX="120.0" layoutY="714.0" mnemonicParsing="false" onAction="#makeAccusation" prefHeight="53.0" prefWidth="198.0" style="-fx-background-color: red;" text="Make Accusation">
                            <font>
                               <Font size="22.0" />
                            </font>

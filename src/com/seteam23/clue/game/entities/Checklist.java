@@ -30,7 +30,6 @@ public class Checklist {
     public void mark(Card c){
         if (marked.get(c) == false){
             //System.out.println(getValue(c));
-            System.out.println(this);
             marked.put(c, true);
             getEntries();
         }

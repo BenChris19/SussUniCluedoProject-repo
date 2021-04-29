@@ -266,12 +266,12 @@ public final class GameControllerRevised implements Initializable {
         if (this.player.getClass().equals(AIPlayer.class)) {    //Players should be able to access and see the cards they have at all times
             cardsTab.setDisable(true);
             checklistTab.setDisable(true);
-            while(!this.player.getClass().equals(AIPlayer.class)){
-                rollDie();
-                endTurn();
-            }
+//            while(!this.player.getClass().equals(AIPlayer.class)){
+//                rollDie();
+//                endTurn();
+//            }
         }
-        // If Player can
+        // If Player thencan
         else {
             cardsTab.setDisable(false);
             checklistTab.setDisable(false);
@@ -311,7 +311,6 @@ public final class GameControllerRevised implements Initializable {
         TableColumn<ChecklistEntry, String> nameCol = new TableColumn<>("Name");
         TableColumn<ChecklistEntry, String> cardTypeCol = new TableColumn<>("Card Type");
         TableColumn<ChecklistEntry, Button> markedCol = new TableColumn<>("Marked");
-        //System.out.println(player.getChecklistEntries());
         ObservableList<ChecklistEntry> checklistElements = player.getChecklistEntries();
         table.setItems(checklistElements);
         nameCol.setCellValueFactory(new PropertyValueFactory<ChecklistEntry, String>("name"));

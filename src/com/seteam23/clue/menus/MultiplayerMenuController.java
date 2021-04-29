@@ -9,11 +9,7 @@ package com.seteam23.clue.menus;
 import com.seteam23.clue.game.GameControllerRevised;
 import com.seteam23.clue.game.GameRevised;
 import com.seteam23.clue.game.entities.PlayerRevised;
-import static com.seteam23.clue.main.Main.makeFullscreen;
-import com.seteam23.clue.main.MainController;
 import static com.seteam23.clue.menus.SingleplayerMenuController.MENU;
-import java.io.IOException;
-import java.net.URL;
 import java.util.ArrayList;
 import static com.seteam23.clue.main.Main.makeFullscreen;
 import com.seteam23.clue.main.MainController;
@@ -148,7 +144,6 @@ public class MultiplayerMenuController implements Initializable {
             {
                 for(String player_name:playing_players){
                     add(MENU.newPlayer(player_name));
-                    System.out.print(player_name);
                 }
                 
             }
@@ -175,7 +170,6 @@ public class MultiplayerMenuController implements Initializable {
 
             }
             else{
-                System.out.print(prevCharacter);
                 prevCharacter.setDisable(true);
                 playing_players.add(prevCharacter.getText());
             }

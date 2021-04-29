@@ -30,7 +30,6 @@ public class Checklist {
     public void mark(Card c){
         if (marked.get(c) == false){
             //System.out.println(getValue(c));
-            System.out.println(this);
             marked.put(c, true);
             getEntries();
         }
@@ -52,10 +51,8 @@ public class Checklist {
         marked.entrySet().forEach((entry) -> {
             Card key = entry.getKey();
             Boolean value = entry.getValue();
-            System.out.println(value);
             data.add(new ChecklistEntry(this, key));
         });
-        System.out.println("----");
         return data;
     }
 }

@@ -85,6 +85,9 @@ public final class GameRevised {
         this.ROOM_CARDS = rooms;
         this.ALL_CARDS = all;
         this.cards = all;
+        PLAYERS.forEach((_item) -> {
+            player.initialiseChecklist(getAllCards());
+        });
         
         // Set up Kill Cards
         this.KILL_CARDS = new Card[3];

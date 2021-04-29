@@ -27,6 +27,7 @@ public final class GameRevised {
     public final ArrayList<PlayerRevised> PLAYERS;
     public final int NUM_PLAYERS;
     
+    public static boolean gameWon = false;
     public static boolean gameLost = false;
     
     private final ArrayList<Card> ALL_CARDS;
@@ -211,7 +212,7 @@ public final class GameRevised {
         Card found = null;
         int i = 1;
         
-
+        if (GameRevised.player.suggest()) {
             while (found != null && i < NUM_PLAYERS) {
                 nextPlayer = PLAYERS.get((turn+i) % NUM_PLAYERS);
                 nextPlayer.enterRoom(room);
@@ -223,7 +224,7 @@ public final class GameRevised {
                     }
                 }
             }
-        
+        }
     }
     
     public static int getTurn() {
@@ -239,13 +240,13 @@ public final class GameRevised {
      */
     public void nextTurn() {
         // Sets current player to next player
-        turn++;
-        round = (int) Math.ceil(GameRevised.turn / NUM_PLAYERS);
-        player = PLAYERS.get(turn % NUM_PLAYERS);
+        GameRevised.turn++;
+        GameRevised.round = (int) Math.ceil(GameRevised.turn / NUM_PLAYERS);
+        GameRevised.player = PLAYERS.get(turn % NUM_PLAYERS);
 
         // Reset rolls and suggestions if player is playing 
-        if (player.isPlaying()) {
-            player.newTurn();
+        if (GameRevised.player.isPlaying()) {
+            GameRevised.player.newTurn();
         }
         // Check if any Human Players left
         else {
@@ -268,9 +269,4 @@ public final class GameRevised {
     public ArrayList<Card> getAllCards(){
         return this.ALL_CARDS;
     }
-
-    public Card[] getKILL_CARDS() {
-        return KILL_CARDS;
-    }
-    
 }

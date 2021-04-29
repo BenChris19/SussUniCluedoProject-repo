@@ -6,6 +6,7 @@
 package com.seteam23.clue.game;
 
 
+import static com.seteam23.clue.game.GameRevised.gameWon;
 import com.seteam23.clue.main.Main;
 import com.seteam23.clue.singleplayer.SingleplayerMenuController;
 import java.net.URL;
@@ -18,8 +19,6 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 
 /**
@@ -31,21 +30,18 @@ public class GameoverController implements Initializable {
 
     @FXML private Button playAgainButton;
     @FXML private Label winloseMess;
-    @FXML private ImageView winLoseImg;
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        if(GameRevised.gameLost){
+                if(!gameWon){
             winloseMess.setText("YOU LOSE!");
             winloseMess.setVisible(true);
-            winLoseImg.setImage(new Image("/resources/game/Game-over.jpg", 1036, 603, false, false));
         }
         else{
             winloseMess.setText("YOU WIN!");
             winloseMess.setVisible(true);
-            winLoseImg.setImage(new Image("/resources/game/Win-game.jpg", 1036, 603, false, false));
         }
     }    
         @FXML

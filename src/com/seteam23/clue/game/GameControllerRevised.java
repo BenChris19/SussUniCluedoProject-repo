@@ -129,6 +129,8 @@ public final class GameControllerRevised implements Initializable {
         this.player = game.getCurrentPlayer();
         player_img.setImage(new Image(this.player.IMG_PATH));
         setPanes();
+        
+        if (this.player instanceof AIPlayer) this.player.newTurn();
     }
     
     public void setPanes() {

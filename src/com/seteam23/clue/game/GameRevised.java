@@ -85,6 +85,7 @@ public final class GameRevised {
         this.ROOM_CARDS = rooms;
         this.ALL_CARDS = all;
         this.cards = all;
+        
         for (PlayerRevised p : PLAYERS){
             p.initialiseChecklist(getAllCards());
         }

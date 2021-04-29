@@ -203,8 +203,8 @@ public final class GameControllerRevised implements Initializable {
         // If  player can suggest and value in person and weapon boxes
         if (this.player.suggest() && person.getValue() != null && weapon.getValue() != null) {
             // Check for found or ran out of plauers
-            while (found != null && i < game.getNumPlayers()) {
-                nextPlayer = game.PLAYERS.get((game.getTurn()+i) % game.getNumPlayers());
+            while (found != null && i < game.NUM_PLAYERS) {
+                nextPlayer = game.PLAYERS.get((game.getTurn()+i) % game.NUM_PLAYERS);
                 
                 Room current_room = (Room)player.getLocation();
                 nextPlayer.enterRoom(current_room);

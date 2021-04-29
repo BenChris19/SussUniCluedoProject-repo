@@ -6,7 +6,7 @@
  *      User input detected here
  *      Constructs Players and Board
  */
-package com.seteam23.clue.menus;
+package com.seteam23.clue.singleplayer;
 
 import com.seteam23.clue.game.entities.Card;
 import com.seteam23.clue.game.entities.PlayerRevised;
@@ -17,7 +17,7 @@ import java.util.Arrays;
  * 
  * @author Team 23
  */
-public class Menu {
+public class SingleplayerMenu {
     private final ArrayList<String> CHARACTERS = new ArrayList<>(Arrays.asList("Miss Scarlett","Col Mustard","Mrs White","Rev Green","Mrs Peacock","Prof Plum"));
    
     private final ArrayList<String> CHARACTER_PATHS = new ArrayList<>(Arrays.asList("/resources/cards/players/Miss Scarlett.jpg","/resources/cards/players/Col Mustard.jpg","/resources/cards/players/Mrs White.jpg",
@@ -38,7 +38,7 @@ public class Menu {
     /**
      * 
      */
-    public Menu() {
+    public SingleplayerMenu() {
         WEAPON_PATHS.forEach((path) -> {
             WEAPON_CARDS.add(new Card(path.split("/")[4], path, path.split("/")[3]));
         });
@@ -54,7 +54,7 @@ public class Menu {
     }
     
     public PlayerRevised newPlayer(String name) {
-        return new PlayerRevised(CHARACTERS.remove(getOrder(name)), "/resources/cards/players/"+name+".jpg");
+        return new PlayerRevised(CHARACTERS.get(getOrder(name)), "/resources/cards/players/"+name+".jpg");
     }      
     
     /**

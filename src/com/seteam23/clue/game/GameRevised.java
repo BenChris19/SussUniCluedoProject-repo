@@ -25,7 +25,7 @@ public final class GameRevised {
     
     private final PlayerRevised[] PLAYER_ARRAY;
     public final ArrayList<PlayerRevised> PLAYERS;
-    private int num_players;
+    public final int NUM_PLAYERS;
     
     public static boolean gameWon = false;
     public static boolean gameLost = false;
@@ -69,10 +69,6 @@ public final class GameRevised {
             PLAYER_ARRAY[charIndex] = p;
         }
         
-        for (PlayerRevised p : humanPlayers) {
-            characters.remove(p.NAME);
-        }
-        
         for (int i = 0; i < numAI; i++) {
             int charIndex = r.nextInt(characters.size());
             String name = characters.get(charIndex);
@@ -83,7 +79,7 @@ public final class GameRevised {
         ArrayList<PlayerRevised> temp = new ArrayList<>(Arrays.asList(PLAYER_ARRAY));
         temp.removeAll(Collections.singleton(null));
         this.PLAYERS = temp;
-        this.num_players = PLAYERS.size();
+        this.NUM_PLAYERS = PLAYERS.size();
         
         this.WEAPON_CARDS = weapons;
         this.SUSPECT_CARDS = suspects;
@@ -139,7 +135,7 @@ public final class GameRevised {
         // Shuffle and Handout Cards
         Collections.shuffle(cards, r);
         for (int i = 0; i < cards.size(); i++) {
-            PLAYERS.get(i % num_players).addCard(cards.get(i));
+            PLAYERS.get(i % NUM_PLAYERS).addCard(cards.get(i));
         }
         this.CONTROLLER = controller;
         this.CONTROLLER.setGame(this); // Hand to Controller
@@ -217,8 +213,8 @@ public final class GameRevised {
         int i = 1;
         
         if (GameRevised.player.suggest()) {
-            while (found != null && i < num_players) {
-                nextPlayer = PLAYERS.get((turn+i) % num_players);
+            while (found != null && i < NUM_PLAYERS) {
+                nextPlayer = PLAYERS.get((turn+i) % NUM_PLAYERS);
                 nextPlayer.enterRoom(room);
                 
                 for (Card c : nextPlayer.getCards()) {
@@ -245,14 +241,13 @@ public final class GameRevised {
     public void nextTurn() {
         // Sets current player to next player
         GameRevised.turn++;
-        GameRevised.round = (int) Math.ceil(GameRevised.turn / num_players);
-        GameRevised.player = PLAYERS.get(turn % num_players);
+        GameRevised.round = (int) Math.ceil(GameRevised.turn / NUM_PLAYERS);
+        GameRevised.player = PLAYERS.get(turn % NUM_PLAYERS);
 
         // Reset rolls and suggestions if player is playing 
         if (GameRevised.player.isPlaying()) {
             GameRevised.player.newTurn();
         }
-        /*
         // Check if any Human Players left
         else {
             boolean peoplePlaying = false;
@@ -269,13 +264,9 @@ public final class GameRevised {
             if (!peoplePlaying) {
                 gameLost = true;
             }
-        }*/
+        }
     }
     public ArrayList<Card> getAllCards(){
         return this.ALL_CARDS;
-    }
-    
-    public int getNumPlayers() {
-        return this.num_players;
     }
 }

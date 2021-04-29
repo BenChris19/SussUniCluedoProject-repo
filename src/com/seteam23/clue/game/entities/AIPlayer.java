@@ -37,6 +37,16 @@ public class AIPlayer extends PlayerRevised {
         
         this.difficulty = difficulty;
         this.game = game;
+        
+//        Timeline timeline = new Timeline(
+//            new KeyFrame(Duration.seconds(2), e -> {
+//                GameRevised.CONTROLLER.rollDie();
+//            }),
+//            new KeyFrame(Duration.seconds(2), e -> {
+//                GameRevised.CONTROLLER.getSearchSpace();
+//            })
+//        );
+//        timeline.play();
     }
     
     
@@ -74,11 +84,13 @@ public class AIPlayer extends PlayerRevised {
     public ArrayList<Tile> setSearchSpace(int dieRoll) {
         switch (this.difficulty) {
             case "EASY":
-                return searchSpace = easySearchSpace(dieRoll);
+                return easySearchSpace(dieRoll);
+            case "MEDIUM":
+                return mediumSearchSpace(dieRoll);
             case "HARD":
-                return searchSpace = hardSearchSpace(dieRoll);
+                return hardSearchSpace(dieRoll);
             default:
-                return searchSpace = mediumSearchSpace(dieRoll);
+                return mediumSearchSpace(dieRoll);
         }
     }
     

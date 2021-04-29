@@ -6,7 +6,6 @@
 package com.seteam23.clue.game;
 
 import static com.seteam23.clue.game.GameRevised.BOARD;
-import static com.seteam23.clue.game.GameRevised.getCurrentPlayer;
 import com.seteam23.clue.game.board.Room;
 import com.seteam23.clue.game.board.Tile;
 import com.seteam23.clue.game.entities.AIPlayer;
@@ -112,7 +111,7 @@ public final class GameControllerRevised implements Initializable {
      */
     public void setGame(GameRevised game) {
         this.game = game;
-        
+        this.player = game.getCurrentPlayer();
         player_img.setImage(new Image(this.player.IMG_PATH));
         try {
             cardsTab.setContent(createCardPane());
@@ -128,7 +127,7 @@ public final class GameControllerRevised implements Initializable {
      * 
      */
     private void createButtons() {
-        for (Tile[] tileArr : BOARD.getTiles()) {
+        for (Tile[] tileArr : game.BOARD.getTiles()) {
             for (Tile tile : tileArr) {
                 if (tile != null) grid.add(tile.getButton(), tile.x ,tile.y);
             }
@@ -253,20 +252,19 @@ public final class GameControllerRevised implements Initializable {
         //player_img.setImage(new Image(this.player.IMG_PATH));     //It work for multiplayer, not for AI, however it makes sense that you can only see the image characte of what the user chose for single player
         
         // Reset GUI
-        searchSpace.clear();
         BOARD.unlightAllTiles();
         revealCard.setVisible(false);
         whoCard.setVisible(false);
         
-        // Player
-        game.nextTurn();
-        this.player = getCurrentPlayer();
-        //player_img.setImage(new Image(this.player.IMG_PATH));
         //Change Card and checklist pane if player
         if (!this.player.getClass().equals(AIPlayer.class)) {
             setGame(this.game);
             
         }
+        
+        // Unlight Tiles
+        BOARD.unlightTiles(searchSpace);
+        searchSpace.clear();
         
         // If NPC cannot look at cards or checklist tabs
         if (this.player.getClass().equals(AIPlayer.class)) {    //Players should be able to access and see the cards they have at all times

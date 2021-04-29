@@ -40,7 +40,7 @@ public class Player {
      * @param endTurn
      * @param isInRoom 
      */
-    public Player(String name,int order,String playerImgPath,int currentPosY,int currentPosX,boolean endTurn,boolean isInRoom) {
+    public Player(String name,int order,String playerImgPath,int currentPosY,int currentPosX,boolean endTurn,boolean isInRoom,Checklist checklist) {
         this.order = order;
         this.isHuman = true;
         this.endTurn = endTurn;

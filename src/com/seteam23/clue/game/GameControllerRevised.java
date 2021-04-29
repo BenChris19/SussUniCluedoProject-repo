@@ -252,9 +252,10 @@ public final class GameControllerRevised implements Initializable {
                                 Image cardImage = new Image(getClass().getResourceAsStream(c.getImgPath()));
                                 this.revealCard.setImage(cardImage);
                                 this.whoCard.setText(nextPlayer.NAME+" has this card");
-                                
-                                this.revealCard.setVisible(true);
-                                this.whoCard.setVisible(true);
+                                if (!this.player.getClass().equals(AIPlayer.class)){  
+                                    this.revealCard.setVisible(true);
+                                    this.whoCard.setVisible(true);
+                                }
                                 
                                 break;
                             }
@@ -273,7 +274,7 @@ public final class GameControllerRevised implements Initializable {
                 }
 
                 // If Player no suggestions left disable accuse button
-                if (!this.player.canSuggest()) {
+                if (!this.player.canSuggest() && !this.player.getClass().equals(AIPlayer.class)) {
                     suggest.setDisable(true);
                     accuse.setDisable(false);
                 }
@@ -297,7 +298,7 @@ public final class GameControllerRevised implements Initializable {
             else{
                 GameRevised.gameLost = true;
                     OUTOFGAME.add(this.player);
-                    if(OUTOFGAME.size()>=game.getNumberPlayers()){
+                    if(OUTOFGAME.size()>=game.getNumberPlayers() ){
                         Parent root = FXMLLoader.load(GameControllerRevised.class.getResource("gameover.fxml"));
                         Stage window_over = (Stage)accuse.getScene().getWindow();
                         window_over.setScene(new Scene(root));

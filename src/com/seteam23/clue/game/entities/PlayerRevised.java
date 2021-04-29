@@ -189,10 +189,12 @@ public class PlayerRevised {
     }
     
     public void initialiseChecklist(ArrayList<Card> gameCards){
+        getChecklistEntries();
         checklist = new Checklist();
         gameCards.forEach((c) -> {
             checklist.add(c);
         });
+        getChecklistEntries();
     }
     
     public ObservableList<ChecklistEntry> getChecklistEntries(){

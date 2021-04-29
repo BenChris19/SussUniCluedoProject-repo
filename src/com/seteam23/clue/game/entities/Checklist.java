@@ -52,10 +52,8 @@ public class Checklist {
         marked.entrySet().forEach((entry) -> {
             Card key = entry.getKey();
             Boolean value = entry.getValue();
-            System.out.println(value);
             data.add(new ChecklistEntry(this, key));
         });
-        System.out.println("----");
         return data;
     }
 }

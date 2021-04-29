@@ -191,10 +191,6 @@ public class Tile extends Place {
     public void activate() {
         getCurrentPlayer().getLocation().removeOccupier(getCurrentPlayer());
         getCurrentPlayer().moveTo(this);
-        if(this.getClass().equals(Door.class)){ //Not Working
-            System.out.print(true);
-            getCurrentPlayer().enterRoom(((Door)this).getRoom());
-        }
         this.addOccupier(getCurrentPlayer());
     }
 }

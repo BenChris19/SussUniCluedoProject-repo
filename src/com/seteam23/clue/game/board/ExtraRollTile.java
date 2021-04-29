@@ -22,7 +22,9 @@ public class ExtraRollTile extends Tile {
     
     @Override
     public void activate()  {
+        getCurrentPlayer().getLocation().removeOccupier(getCurrentPlayer());
         getCurrentPlayer().moveTo(this);
+        this.addOccupier(getCurrentPlayer());
         getCurrentPlayer().extraSuggest(getRound());
     }
 }

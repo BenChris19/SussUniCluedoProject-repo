@@ -7,7 +7,7 @@ package com.seteam23.clue.game;
 
 
 import com.seteam23.clue.main.Main;
-import com.seteam23.clue.singleplayer.SingleplayerMenuController;
+import com.seteam23.clue.menus.SingleplayerMenuController;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;

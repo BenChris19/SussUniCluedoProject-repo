@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.seteam23.clue.singleplayer;
+package com.seteam23.clue.menus;
 
 
 import com.seteam23.clue.game.GameControllerRevised;
@@ -11,7 +11,7 @@ import com.seteam23.clue.game.GameRevised;
 import com.seteam23.clue.game.entities.PlayerRevised;
 import static com.seteam23.clue.main.Main.makeFullscreen;
 import com.seteam23.clue.main.MainController;
-import static com.seteam23.clue.singleplayer.SingleplayerMenuController.MENU;
+import static com.seteam23.clue.menus.SingleplayerMenuController.MENU;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -52,7 +52,7 @@ public class MultiplayerMenuController implements Initializable {
     private int choosingRange;
     private ArrayList<String> playing_players = new ArrayList<>();
     
-    private final SingleplayerMenu spMenu;
+    private final Menu spMenu;
     private Button prevCharacter;
 
     private final TabPane TABPANE;
@@ -60,7 +60,7 @@ public class MultiplayerMenuController implements Initializable {
     
     public MultiplayerMenuController() throws IOException{
         this.TABNAMES = new String[]{"Board", "Cards", "Checklist"};
-        spMenu = new SingleplayerMenu();
+        spMenu = new Menu();
         TABPANE = new TabPane();
     }
 

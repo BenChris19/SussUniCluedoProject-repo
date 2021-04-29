@@ -1,4 +1,4 @@
-package com.seteam23.clue.singleplayer;
+package com.seteam23.clue.menus;
 
 import com.seteam23.clue.game.GameControllerRevised;
 import com.seteam23.clue.game.GameRevised;
@@ -29,7 +29,7 @@ import javafx.stage.Stage;
  */
 public class SingleplayerMenuController implements Initializable {
     
-    public static final SingleplayerMenu MENU = new SingleplayerMenu();
+    public static final Menu MENU = new Menu();
     
     @FXML private Button buttonScarlett;
     @FXML private Button main_menu;

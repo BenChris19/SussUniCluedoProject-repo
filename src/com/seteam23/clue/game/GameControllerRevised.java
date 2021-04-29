@@ -266,12 +266,12 @@ public final class GameControllerRevised implements Initializable {
         if (this.player.getClass().equals(AIPlayer.class)) {    //Players should be able to access and see the cards they have at all times
             cardsTab.setDisable(true);
             checklistTab.setDisable(true);
-            while(!this.player.getClass().equals(AIPlayer.class)){
-                rollDie();
-                endTurn();
-            }
+//            while(!this.player.getClass().equals(AIPlayer.class)){
+//                rollDie();
+//                endTurn();
+//            }
         }
-        // If Player can
+        // If Player thencan
         else {
             cardsTab.setDisable(false);
             checklistTab.setDisable(false);

@@ -22,7 +22,7 @@ public class AIPlayer extends PlayerRevised {
     
     private String difficulty;
     private GameRevised game;
-    private ArrayList<Tile> searchSpace = new ArrayList<>();
+    //private ArrayList<Tile> searchSpace = new ArrayList<>();
     private Random r = new Random();
     
     
@@ -49,16 +49,16 @@ public class AIPlayer extends PlayerRevised {
         suggest_remaining = 1;
         
         Timeline timeline = new Timeline(
-            new KeyFrame(Duration.ZERO, e -> {
+            new KeyFrame(Duration.seconds(2), e -> {
                 this.game.CONTROLLER.rollDie();
             }),
             new KeyFrame(Duration.seconds(4), e -> {
-                searchSpace = this.getSearchSpace();
+                //searchSpace = this.getSearchSpace();
                 
                 searchSpace.get(r.nextInt(searchSpace.size())).activate();
             }),
-            new KeyFrame(Duration.seconds(1), e -> {
-              //  this.game.CONTROLLER.endTurn();
+            new KeyFrame(Duration.seconds(8), e -> {
+                this.game.CONTROLLER.endTurn();
             })
         );
         timeline.play();
@@ -95,10 +95,10 @@ public class AIPlayer extends PlayerRevised {
     
     public ArrayList<Tile> mediumSearchSpace(int dieRoll) {
         if (isInRoom()) {
-            return this.game.BOARD.furthestReachableFrom((Room)location, dieRoll);
+            return this.game.BOARD.reachableFrom((Room)location, dieRoll);
         }
         else {
-            return this.game.BOARD.furthestReachableFrom((Tile)location, dieRoll);
+            return this.game.BOARD.reachableFrom((Tile)location, dieRoll);
         }
     }
     

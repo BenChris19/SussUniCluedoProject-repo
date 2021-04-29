@@ -19,16 +19,20 @@ import javafx.collections.ObservableList;
  * @author Joseph
  */
 public class Checklist {
-    private final HashMap<Card, Boolean> marked;
+    private HashMap<Card, Boolean> marked;
     public Checklist(){
         marked = new HashMap<>();
     }
+    
     public void add(Card c){
         marked.put(c, false);
     }
     public void mark(Card c){
         if (marked.get(c) == false){
+            //System.out.println(getValue(c));
+            System.out.println(this);
             marked.put(c, true);
+            getEntries();
         }
         else{
             marked.put(c, false);
@@ -47,8 +51,11 @@ public class Checklist {
         ObservableList<ChecklistEntry> data = FXCollections.observableArrayList();
         marked.entrySet().forEach((entry) -> {
             Card key = entry.getKey();
+            Boolean value = entry.getValue();
+            System.out.println(value);
             data.add(new ChecklistEntry(this, key));
         });
+        System.out.println("----");
         return data;
     }
 }

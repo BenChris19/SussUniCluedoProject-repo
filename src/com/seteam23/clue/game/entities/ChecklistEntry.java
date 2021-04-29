@@ -5,30 +5,36 @@
  */
 package com.seteam23.clue.game.entities;
 
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.scene.control.Button;
 
 /**
  *
  * @author Joseph
  */
-public class ChecklistEntry {
+public final class ChecklistEntry {
     private String name;
     private String cardType;
     private Card card;
-    private Button mark;
-    private Checklist checklist;
+    private Button markButton;
+    private final Checklist checklist;
     public ChecklistEntry(Checklist checklist, Card c){
         this.card = c;
         this.checklist = checklist;
-        this.mark = new Button();
-        this.mark.setStyle("-fx-background-color: #ff0000");
-        this.mark.setOnAction((event) -> {
-            this.setChecked();
-            if (this.getChecked() == true){
-                this.mark.setStyle("-fx-background-color: #00ff00");
-            }
-            else{
-                this.mark.setStyle("-fx-background-color: #ff0000");
+        this.markButton = new Button();
+        if (!getChecked()){
+            this.markButton.setStyle("-fx-background-color: #ff0000");
+        }
+        else{
+            this.markButton.setStyle("-fx-background-color: #00ff00");
+        }
+        this.markButton.setOnAction((ActionEvent event) -> {
+            ChecklistEntry.this.setChecked();
+            if (ChecklistEntry.this.getChecked() == true) {
+                ChecklistEntry.this.markButton.setStyle("-fx-background-color: #00ff00");
+            } else {
+                ChecklistEntry.this.markButton.setStyle("-fx-background-color: #ff0000");
             }
         });
     }
@@ -54,7 +60,7 @@ public class ChecklistEntry {
     }
 
     public void setChecked() {
-        this.checklist.mark(this.card);
+        checklist.mark(card);
     }
 
     public Card getCard() {
@@ -65,12 +71,11 @@ public class ChecklistEntry {
         this.card = card;
     }
 
-    public Button getMark() {
-        return mark;
+    public Button getMarkButton() {
+        return markButton;
     }
 
-    public void setMark(Button mark) {
-        this.mark = mark;
+    public void setMarkButton(Button markButton) {
+        this.markButton = markButton;
     }
-    
 }

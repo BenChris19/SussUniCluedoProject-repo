@@ -317,8 +317,7 @@ public final class GameControllerRevised implements Initializable {
         table.setItems(checklistElements);
         nameCol.setCellValueFactory(new PropertyValueFactory<ChecklistEntry, String>("name"));
         cardTypeCol.setCellValueFactory(new PropertyValueFactory<ChecklistEntry, String>("cardType"));
-        //markedCol.setCellValueFactory(new PropertyValueFactory<ChecklistEntry, Boolean>("checked"));
-        markedCol.setCellValueFactory(new PropertyValueFactory<ChecklistEntry, Button>("mark"));
+        markedCol.setCellValueFactory(new PropertyValueFactory<ChecklistEntry, Button>("markButton"));
         table.getColumns().setAll(nameCol, cardTypeCol, markedCol);
         table.setRowFactory(tv -> new TableRow<ChecklistEntry>() {
         @Override

@@ -15,6 +15,10 @@ import static com.seteam23.clue.menus.SingleplayerMenuController.MENU;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
+import static com.seteam23.clue.main.Main.makeFullscreen;
+import com.seteam23.clue.main.MainController;
+import java.io.IOException;
+import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -53,6 +57,8 @@ public class MultiplayerMenuController implements Initializable {
     private ArrayList<String> playing_players = new ArrayList<>();
     
     private final Menu spMenu;
+    private String unchooseable;
+    
     private Button prevCharacter;
 
     private final TabPane TABPANE;
@@ -71,7 +77,7 @@ public class MultiplayerMenuController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        choosingRange = 0;
+        choosingRange = 0; // Or 1 
         board_game.setDisable(true);
         ObservableList<Integer> listOpo = FXCollections.observableArrayList(2,3,4,5,6);
         numPlayers.setItems(listOpo);
@@ -123,7 +129,6 @@ public class MultiplayerMenuController implements Initializable {
         }
         else{
             this.buttonScarlett.setStyle("-fx-background-color: yellow");
-            
         }
         
         if(prevCharacter != b && prevCharacter != null){
@@ -181,9 +186,17 @@ public class MultiplayerMenuController implements Initializable {
                 board_game.setDisable(false);
                 confirm.setDisable(true);
             }
+//        }
+////
+//            }
+//            prevCharacter.setDisable(true);
+//            choosingRange+=1;
+//        }
+//        if(choosingRange == (Integer) numPlayers.getValue()){
+//            board_game.setDisable(false);
+//            confirm.setDisable(true);
+//        }
         }
-
-
     }
     
 }

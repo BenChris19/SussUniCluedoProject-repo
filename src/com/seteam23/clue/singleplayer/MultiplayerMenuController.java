@@ -139,7 +139,7 @@ public class MultiplayerMenuController implements Initializable {
      */
     @FXML
     private void continueBoard() throws Exception{       
-        ArrayList<PlayerRevised> playerList = new ArrayList<PlayerRevised>(){
+        ArrayList<PlayerRevised> playerListMult = new ArrayList<PlayerRevised>(){
             {
                 for(String player_name:playing_players){
                     add(MENU.newPlayer(player_name));
@@ -152,7 +152,7 @@ public class MultiplayerMenuController implements Initializable {
         Parent gamesScene = loader.load();
         GameControllerRevised ctrl = loader.getController();
         
-        GameRevised game = new GameRevised(ctrl, playerList, 0, null,
+        GameRevised game = new GameRevised(ctrl, playerListMult, 0, null,
         MENU.WEAPON_CARDS, MENU.SUSPECT_CARDS, MENU.ROOM_CARDS, MENU.ALL_CARDS);
         
         

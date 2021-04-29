@@ -38,7 +38,7 @@ public final class GameRevised {
     private final Card[] KILL_CARDS;
     
     private static PlayerRevised player;   // Current Player
-    private static int turn = 1;   // Turn inc whenever new player
+    private static int turn = 0;   // Turn inc whenever new player
     private static int round = 1;  // One Round : All Players played
 
     

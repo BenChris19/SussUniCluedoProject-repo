@@ -54,7 +54,7 @@ public class SingleplayerMenu {
     }
     
     public PlayerRevised newPlayer(String name) {
-        return new PlayerRevised(CHARACTERS.remove(getOrder(name)), "/resources/cards/players/"+name+".jpg");
+        return new PlayerRevised(CHARACTERS.get(getOrder(name)), "/resources/cards/players/"+name+".jpg");
     }      
     
     /**

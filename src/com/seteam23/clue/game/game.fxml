@@ -14,7 +14,7 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane id="AnchorPane" fx:id="anchorPane" prefHeight="920.0" prefWidth="1600.0" stylesheets="@game.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.seteam23.clue.game.GameControllerRevised">
+<AnchorPane id="AnchorPane" fx:id="anchorPane" prefHeight="920.0" prefWidth="1600.0" stylesheets="@game.css" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.seteam23.clue.game.GameControllerRevised">
     <children>
       <TabPane fx:id="tabPane" prefHeight="920.0" prefWidth="1600.0" tabClosingPolicy="UNAVAILABLE">
         <tabs>
@@ -25,8 +25,8 @@
                           <ComboBox fx:id="person" layoutX="195.0" layoutY="484.0" prefHeight="25.0" prefWidth="120.0" promptText="Person" />
                           <ComboBox fx:id="weapon" layoutX="195.0" layoutY="524.0" prefHeight="25.0" prefWidth="120.0" promptText="Weapon" />
                           <ComboBox fx:id="room" layoutX="195.0" layoutY="564.0" prefHeight="25.0" prefWidth="120.0" promptText="Room" />
-                          <Button layoutX="120.0" layoutY="434.0" mnemonicParsing="false" onAction="#rollDie" prefWidth="200.0" style="-fx-background-color: orange;" text="Roll the Dice" />
-                          <Button fx:id="suggest" layoutX="120.0" layoutY="644.0" mnemonicParsing="false" onAction="#makeSuggestion" prefHeight="52.0" prefWidth="199.0" style="-fx-background-color: green;" text="Make Suggestion">
+                          <Button fx:id="diceRoll" layoutX="120.0" layoutY="434.0" mnemonicParsing="false" onAction="#rollDie" prefWidth="200.0" style="-fx-background-color: orange;" text="Roll the Dice" />
+                          <Button fx:id="suggest" disable="true" layoutX="120.0" layoutY="644.0" mnemonicParsing="false" onAction="#makeSuggestion" prefHeight="52.0" prefWidth="199.0" style="-fx-background-color: green;" text="Make Suggestion">
                               <font>
                                   <Font size="22.0" />
                               </font>
@@ -130,7 +130,7 @@
                               <Font size="20.0" />
                            </font>
                         </Label>
-                        <Button layoutX="120.0" layoutY="820.0" mnemonicParsing="false" onAction="#endTurn" prefWidth="198.0" style="-fx-background-color: cyan;" text="End Turn?" />
+                        <Button fx:id="finish" disable="true" layoutX="120.0" layoutY="820.0" mnemonicParsing="false" onAction="#endTurn" prefWidth="198.0" style="-fx-background-color: cyan;" text="End Turn?" />
                         <ImageView fx:id="revealCard" fitHeight="264.0" fitWidth="199.0" layoutX="1342.0" layoutY="57.0" pickOnBounds="true" preserveRatio="true" visible="false" />
                         <Label fx:id="whoCard" layoutX="1326.0" layoutY="424.0" prefHeight="40.0" prefWidth="231.0" visible="false">
                            <font>

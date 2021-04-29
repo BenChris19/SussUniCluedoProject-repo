@@ -11,23 +11,26 @@ import com.seteam23.clue.game.board.Tile;
 import com.seteam23.clue.game.entities.AIPlayer;
 import com.seteam23.clue.game.entities.Card;
 import com.seteam23.clue.game.entities.ChecklistEntry;
-import com.seteam23.clue.game.entities.Player;
 import com.seteam23.clue.game.entities.PlayerRevised;
+import com.seteam23.clue.main.Main;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.Random;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
@@ -42,6 +45,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.RowConstraints;
 import javafx.scene.layout.TilePane;
+import javafx.stage.Stage;
 import javafx.util.Duration;
 
 /**
@@ -68,6 +72,8 @@ public final class GameControllerRevised implements Initializable {
     @FXML private ComboBox room;
     @FXML private Button suggest;
     @FXML private Button accuse;
+    @FXML private Button diceRoll;
+    @FXML private Button finish;
     
     @FXML private ImageView revealCard;
     @FXML private Label whoCard;
@@ -87,6 +93,12 @@ public final class GameControllerRevised implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        ObservableList<String> listPer = FXCollections.observableArrayList("Miss Scarlett","Rev Green","Col Mustard","Mrs Peacock","Mrs White","Prof Plum");
+        this.person.setItems(listPer);
+        ObservableList<String> listWea = FXCollections.observableArrayList("Candlestick","Knife","Lead Pipe","Revolver","Rope","Wrench");
+        this.weapon.setItems(listWea);
+        ObservableList<String> listRoo = FXCollections.observableArrayList("Ballroom","Billard room","Conservatory","Dining room","Hall","Kitchen","Library","Lounge","Study");
+        this.room.setItems(listRoo);
         
         this.searchSpace = new ArrayList<>();
         
@@ -168,11 +180,22 @@ public final class GameControllerRevised implements Initializable {
         rollDieAnimation();
         
         searchSpace = this.player.setSearchSpace(roll);
-        game.BOARD.highlightTiles(searchSpace);
+        Timeline timeline = new Timeline(
+            new KeyFrame(Duration.seconds(2), e -> {
+                BOARD.highlightTiles(searchSpace);
+            })
+        );
+        timeline.play();
+        
+        diceRoll.setDisable(true);
+        finish.setDisable(false);
     }
     
     @FXML
     public void makeSuggestion() {
+        if(this.player.isInRoom()){
+            suggest.setDisable(false);
+        }
         Card found = null;
         PlayerRevised nextPlayer = null;
         int i = 1;
@@ -207,37 +230,57 @@ public final class GameControllerRevised implements Initializable {
     }
     
     @FXML
-    public void makeAccusation() {
-        System.out.println();
+    public void makeAccusation() throws IOException {
+            Parent root = FXMLLoader.load(GameControllerRevised.class.getResource("gameover.fxml"));
+            Stage window_over = (Stage)accuse.getScene().getWindow();
+            window_over.setScene(new Scene(root));
+            window_over.setFullScreen(true);
+            Main.makeFullscreen(root,871.9,545);
     }
     
     @FXML
     public void endTurn() {
+
+        diceRoll.setDisable(false);
+        finish.setDisable(true);
+        
         this.game.nextTurn();
+        
         
         // Player
         this.player = GameRevised.getCurrentPlayer();
-        player_img.setImage(new Image(this.player.IMG_PATH));
+        //player_img.setImage(new Image(this.player.IMG_PATH));     //It work for multiplayer, not for AI, however it makes sense that you can only see the image characte of what the user chose for single player
         
         // Reset GUI
         BOARD.unlightAllTiles();
         revealCard.setVisible(false);
         whoCard.setVisible(false);
         
+        //Change Card and checklist pane if player
+        if (!this.player.getClass().equals(AIPlayer.class)) {
+            setGame(this.game);
+            
+        }
+        
         // Unlight Tiles
         BOARD.unlightTiles(searchSpace);
         searchSpace.clear();
         
         // If NPC cannot look at cards or checklist tabs
-        if (this.player.getClass().equals(AIPlayer.class)) {
+        if (this.player.getClass().equals(AIPlayer.class)) {    //Players should be able to access and see the cards they have at all times
             cardsTab.setDisable(true);
             checklistTab.setDisable(true);
+            while(!this.player.getClass().equals(AIPlayer.class)){
+                rollDie();
+                endTurn();
+            }
         }
         // If Player can
         else {
             cardsTab.setDisable(false);
             checklistTab.setDisable(false);
         }
+
     }
     
      /**
@@ -247,9 +290,7 @@ public final class GameControllerRevised implements Initializable {
     */
     private Pane createCardPane() throws FileNotFoundException{
         TilePane cardPane = new TilePane();
-
         player.initialiseChecklist(game.getAllCards());
-        System.out.print(player.getCards().get(0));
         for(Card c:player.getCards()){
             
             Image temp = new Image(getClass().getResourceAsStream(c.getImgPath()));

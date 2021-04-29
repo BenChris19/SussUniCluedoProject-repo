@@ -302,7 +302,6 @@ public final class GameControllerRevised implements Initializable {
     */
     private Pane createCardPane() throws FileNotFoundException{
         TilePane cardPane = new TilePane();
-        player.initialiseChecklist(game.getAllCards());
         for(Card c:player.getCards()){
             
             Image temp = new Image(getClass().getResourceAsStream(c.getImgPath()));

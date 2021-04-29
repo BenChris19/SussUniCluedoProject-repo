@@ -343,6 +343,9 @@ public final class Board {
                         reach.add(a);
                     }
                 }
+                else if (a instanceof Passage) {
+                    //Dont Add
+                }
                 else{
                     Set<Tile> r = reachableRecursive(a, moves_remaining - 1);
                     reach.addAll(r);
@@ -383,6 +386,7 @@ public final class Board {
         for (Passage pass : passages) {
             if (pass.getLocation().equals(room)) {
                 reach.add(pass);
+                break;
             }
         }
         return new ArrayList<>(reach);
@@ -467,6 +471,7 @@ public final class Board {
             for (Passage pass : passages) {
                 if (pass.getLocation().equals(room)) {
                     reach.add(pass);
+                    break;
                 }
             }
         }

@@ -133,16 +133,7 @@ public class PlayerRevised {
         return this.searchSpace;
     }
     
-    /**
-     * Decrease counter for suggestion
-     */
-    public boolean suggest() {
-        if (suggest_remaining > 0 && isInRoom()) {
-            suggest_remaining--;
-            return true;
-        }
-        return false;
-    }
+
     
     /**
      * If accused, player is out and cannot play any further

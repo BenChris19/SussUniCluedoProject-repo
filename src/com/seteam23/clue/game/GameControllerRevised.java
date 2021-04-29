@@ -6,6 +6,7 @@
 package com.seteam23.clue.game;
 
 import static com.seteam23.clue.game.GameRevised.BOARD;
+import com.seteam23.clue.game.board.Door;
 import com.seteam23.clue.game.board.Room;
 import com.seteam23.clue.game.board.Tile;
 import com.seteam23.clue.game.entities.AIPlayer;
@@ -103,6 +104,7 @@ public final class GameControllerRevised implements Initializable {
         this.searchSpace = new ArrayList<>();
         
         createButtons();
+        
     }
     
     /**
@@ -189,21 +191,24 @@ public final class GameControllerRevised implements Initializable {
         
         diceRoll.setDisable(true);
         finish.setDisable(false);
+        
+        for(Tile t:this.player.getSearchSpace()){
+            if(t.getClass().equals(Door.class)){
+                suggest.setDisable(false);
+            }
+        }
     }
     
     @FXML
     public void makeSuggestion() {
-        if(this.player.isInRoom()){
-            suggest.setDisable(false);
-        }
         Card found = null;
         PlayerRevised nextPlayer = null;
-        int i = 1;
+        int i = 0;
         
         // If  player can suggest and value in person and weapon boxes
-        if (this.player.suggest() && person.getValue() != null && weapon.getValue() != null) {
+        if (person.getValue() != null && weapon.getValue() != null) {
             // Check for found or ran out of plauers
-            while (found != null && i < game.NUM_PLAYERS) {
+            while (i < game.NUM_PLAYERS) {
                 nextPlayer = game.PLAYERS.get((game.getTurn()+i) % game.NUM_PLAYERS);
                 
                 Room current_room = (Room)player.getLocation();
@@ -211,11 +216,17 @@ public final class GameControllerRevised implements Initializable {
                 
                 // Look through cards of next player and see if have any of suggested
                 for (Card c : nextPlayer.getCards()) {
-                    if (c.getName().equals(person+".jpg") || c.getName().equals(weapon+".JPG") || c.getName().equals(current_room.getName()+".png")) {
+                    if (c.getName().equals(person.getValue()+".jpg") || c.getName().equals(weapon.getValue()+".JPG") || c.getName().equals(current_room.getName()+".png")) {
                         found = c;
+                        this.whoCard.setText(nextPlayer.NAME+" has this card");
+                        Image cardImage = new Image(getClass().getResourceAsStream(c.getImgPath()));
+                        this.revealCard.setImage(cardImage);
+                        this.revealCard.setVisible(true);
+                        this.whoCard.setVisible(true);
                         break;
                     }
                 }
+                i+=1;
             }
             // Found Something
             if (found != null) {
@@ -231,6 +242,25 @@ public final class GameControllerRevised implements Initializable {
     
     @FXML
     public void makeAccusation() throws IOException {
+            player.accuse();
+            for(Card k: game.getKILL_CARDS()){
+                System.out.println(k.getName());
+                if(k.getName().equals(person.getValue()+".jpg")){
+                    
+                }
+                else if(k.getName().equals(weapon.getValue()+".JPG")){
+                    
+                }
+                else if(k.getName().equals(room.getValue()+".png")){
+                    
+                }
+                else{
+                    game.gameLost = true;
+                    break;
+                }
+            }
+            endTurn();
+
             Parent root = FXMLLoader.load(GameControllerRevised.class.getResource("gameover.fxml"));
             Stage window_over = (Stage)accuse.getScene().getWindow();
             window_over.setScene(new Scene(root));
@@ -240,6 +270,7 @@ public final class GameControllerRevised implements Initializable {
     
     @FXML
     public void endTurn() {
+        suggest.setDisable(true);
 
         diceRoll.setDisable(false);
         finish.setDisable(true);

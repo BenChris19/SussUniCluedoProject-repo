@@ -102,18 +102,6 @@ public class PlayerRevised {
     }
     
     
-    
-    /**
-     * Decrease counter for roll
-     */
-    public boolean roll() {
-        if (rolls_remaining > 0) {
-            rolls_remaining--;
-            return true;
-        }
-        return false;
-    }
-    
     /**
      * Get Tiles which can be moved to depending if in room or tile
      * @param dieRoll
@@ -130,13 +118,42 @@ public class PlayerRevised {
         return this.searchSpace;
     }
     
+    
     public void clearSearchSpace() {
         BOARD.unlightTiles(searchSpace);
         this.searchSpace.clear();
     }
     
+    
     public ArrayList<Tile> getSearchSpace() {
         return this.searchSpace;
+    }
+    
+    /**
+     * Decrease counter for roll
+     */
+    public boolean roll() {
+        if (rolls_remaining > 0) {
+            rolls_remaining--;
+            return true;
+        }
+        return false;
+    }
+    
+    public boolean suggest() {
+        if (suggest_remaining > 0) {
+            suggest_remaining--;
+            return true;
+        }
+        return false;
+    }
+    
+    public boolean canRoll() {
+        return rolls_remaining > 0;
+    }
+    
+    public boolean canSuggest() {
+        return suggest_remaining > 0;
     }
     
     

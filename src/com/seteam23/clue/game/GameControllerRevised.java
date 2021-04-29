@@ -6,6 +6,7 @@
 package com.seteam23.clue.game;
 
 import static com.seteam23.clue.game.GameRevised.BOARD;
+import static com.seteam23.clue.game.GameRevised.getCurrentPlayer;
 import com.seteam23.clue.game.board.*;
 import com.seteam23.clue.game.entities.*;
 import com.seteam23.clue.main.Main;
@@ -188,7 +189,7 @@ public final class GameControllerRevised implements Initializable {
         );
         timeline.play();
         
-        diceRoll.setDisable(true);
+        if (!this.player.canRoll()) diceRoll.setDisable(true);
         finish.setDisable(false);
         
         for(Tile t:this.player.getSearchSpace()){
@@ -203,84 +204,95 @@ public final class GameControllerRevised implements Initializable {
     
     @FXML
     public void makeSuggestion() {
-        if(player.isInRoom()){
-        this.room.getSelectionModel().select(((Room)this.player.getLocation()).getName());
-        Card found = null;
-        PlayerRevised nextPlayer = null;
-        int i = 0;
-        
-        // If  player can suggest and value in person and weapon boxes
-        if (person.getValue() != null && weapon.getValue() != null) {
-            // Check for found or ran out of plauers
-            while (i < game.getNumberPlayers()) {
-                nextPlayer = game.PLAYERS.get((game.getTurn()+i) % game.getNumberPlayers());
+        if(this.player.isInRoom() && this.player.suggest()){
+            
+            this.room.getSelectionModel().select(((Room)this.player.getLocation()).getName());
+            Card found = null;
+            PlayerRevised nextPlayer = null;
+            int i = 0;
+
+            // If  player can suggest and value in person and weapon boxes
+            if (person.getValue() != null && weapon.getValue() != null) {
+                // Check for found or ran out of players
                 
                 Room current_room = (Room)player.getLocation();
-                //nextPlayer.enterRoom(current_room);
                 
-                // Look through cards of next player and see if have any of suggested
-                for (Card c : nextPlayer.getCards()) {
-                    if (c.getName().equals(person.getValue()+".jpg") || c.getName().equals(weapon.getValue()+".JPG") || c.getName().equals(current_room.getName()+".png")) {
-                        found = c;
-                        this.whoCard.setText(nextPlayer.NAME+" has this card");
-                        Image cardImage = new Image(getClass().getResourceAsStream(c.getImgPath()));
-                        this.revealCard.setImage(cardImage);
-                        this.revealCard.setVisible(true);
-                        this.whoCard.setVisible(true);
+                for (PlayerRevised p : game.PLAYERS) {
+                    if (p.NAME.equals(person.getValue())) {
+                        p.getLocation().removeOccupier(p);
+                        p.enterRoom(current_room);
+                        current_room.addOccupier(p);
                         break;
                     }
                 }
-                i+=1;
+                
+                while (i < game.getNumberPlayers()) {
+                    nextPlayer = game.PLAYERS.get((game.getTurn()+i) % game.getNumberPlayers());
+
+                    
+                    //nextPlayer.enterRoom(current_room);
+
+                    // Look through cards of next player and see if have any of suggested
+                    for (Card c : nextPlayer.getCards()) {
+                        if (c.getName().equals(person.getValue()+".jpg") || c.getName().equals(weapon.getValue()+".JPG") || c.getName().equals(current_room.getName()+".png")) {
+                            found = c;
+                            
+                            this.whoCard.setText(nextPlayer.NAME+" has this card");
+                            Image cardImage = new Image(getClass().getResourceAsStream(c.getImgPath()));
+                            this.revealCard.setImage(cardImage);
+                            this.revealCard.setVisible(true);
+                            this.whoCard.setVisible(true);
+                            break;
+                        }
+                    }
+                    i+=1;
+                }
+                // Found Something
+                if (found != null) {
+                    this.revealCard.setImage(found.getImg());
+                    this.whoCard.setText(nextPlayer.NAME+" has this card");
+                }
+                // Didn't
+                else {
+                    this.whoCard.setText("No-one else had these cards");
+                }
             }
-            // Found Something
-            if (found != null) {
-                this.revealCard.setImage(found.getImg());
-                this.whoCard.setText(nextPlayer.NAME+" has this card");
-            }
-            // Didn't
-            else {
-                this.whoCard.setText("No-one else had these cards");
-            }
-        }
-        accuse.setDisable(false);
-        suggest.setDisable(true);
+            accuse.setDisable(false);
+            
+            if (!this.player.canSuggest()) suggest.setDisable(true);
         }
     }
     
     @FXML
     public void makeAccusation() throws IOException {
-            player.accuse();
-            for(Card k: game.getKillCards()){
-                if(k.getName().equals(person.getValue()+".jpg")){
-                    
-                }
-                else if(k.getName().equals(weapon.getValue()+".JPG")){
-                    
-                }
-                else if(k.getName().equals(room.getValue()+".png")){
-                    
-                }
-                else{
-                    game.gameLost = true;
-                        outOfGame.add(this.player);
-                        if(outOfGame.size()>=game.getNumberPlayers()){
-                            Parent root = FXMLLoader.load(GameControllerRevised.class.getResource("gameover.fxml"));
-                            Stage window_over = (Stage)accuse.getScene().getWindow();
-                            window_over.setScene(new Scene(root));
-                            window_over.setFullScreen(true);
-                            Main.makeFullscreen(root,871.9,545);
-                        }
-                        else{
-                            endTurn();
-                        }
-                    
-                    break;
-                }
+        player.accuse();
+        for(Card k: game.getKillCards()){
+            if(k.getName().equals(person.getValue()+".jpg")){
+
             }
-            
+            else if(k.getName().equals(weapon.getValue()+".JPG")){
 
+            }
+            else if(k.getName().equals(room.getValue()+".png")){
 
+            }
+            else{
+                game.gameLost = true;
+                    outOfGame.add(this.player);
+                    if(outOfGame.size()>=game.getNumberPlayers()){
+                        Parent root = FXMLLoader.load(GameControllerRevised.class.getResource("gameover.fxml"));
+                        Stage window_over = (Stage)accuse.getScene().getWindow();
+                        window_over.setScene(new Scene(root));
+                        window_over.setFullScreen(true);
+                        Main.makeFullscreen(root,871.9,545);
+                    }
+                    else{
+                        endTurn();
+                    }
 
+                break;
+            }
+        }
     }
     
     @FXML
@@ -302,7 +314,8 @@ public final class GameControllerRevised implements Initializable {
         }
         player_img.setImage(new Image(this.player.IMG_PATH));     //It work for multiplayer, not for AI, however it makes sense that you can only see the image characte of what the user chose for single player
         setPanes();
-        if (!this.player.isInRoom()) suggest.setDisable(true);
+        
+        suggest.setDisable(false);
         
         
         // If NPC cannot look at cards or checklist tabs
@@ -314,7 +327,7 @@ public final class GameControllerRevised implements Initializable {
 //                endTurn();
 //            }
         }
-        // If Player thencan
+        // If Player then can
         else {
             cardsTab.setDisable(false);
             checklistTab.setDisable(false);

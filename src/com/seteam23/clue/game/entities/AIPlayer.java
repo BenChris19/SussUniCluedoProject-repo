@@ -74,13 +74,14 @@ public class AIPlayer extends PlayerRevised {
     public ArrayList<Tile> setSearchSpace(int dieRoll) {
         switch (this.difficulty) {
             case "EASY":
-                return easySearchSpace(dieRoll);
-            case "MEDIUM":
-                return mediumSearchSpace(dieRoll);
+                this.searchSpace = easySearchSpace(dieRoll);
+                return this.searchSpace;
             case "HARD":
-                return hardSearchSpace(dieRoll);
+                this.searchSpace = hardSearchSpace(dieRoll);
+                return this.searchSpace;
             default:
-                return mediumSearchSpace(dieRoll);
+                this.searchSpace = hardSearchSpace(dieRoll);
+                return this.searchSpace;
         }
     }
     

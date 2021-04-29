@@ -11,7 +11,7 @@ import com.seteam23.clue.game.entities.*;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URL;
-import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Random;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
@@ -76,6 +76,9 @@ public final class GameControllerRevised implements Initializable {
     private GameRevised game;
     private PlayerRevised player;
     
+    private final String[] playerImg = new String[]{"/resources/game/Miss-Scarlett-game-piece.png","/resources/game/Col-Mustard-game-piece.png","/resources/game/Mrs-White-game-piece.png","/resources/game/Rev-Green-game-piece.png","/resources/game/Mrs-Peacock-game-piece.png","/resources/game/Prof-Plum-game-piece.png"};
+    public static final HashMap<String, ImageView[]> PLAYER_MARKERS = new HashMap<>();
+    
     /**
      * Initializes the controller class.
      * @param url
@@ -91,6 +94,21 @@ public final class GameControllerRevised implements Initializable {
         this.room.setItems(listRoo);
         
         createButtons();
+       
+        BOARD.getRooms().forEach((room) -> {
+            ImageView[] playerRoomIcon = new ImageView[9];
+            int[][] pos = room.getPlayerIndicatorPos();
+            for (int i = 0; i < 6; i++) {
+                int[] coord = pos[i];
+                ImageView img = new ImageView(new Image(playerImg[i], 35, 35, false, false));
+                img.setFitHeight(35);
+                img.setFitWidth(35); 
+                img.setVisible(false);
+                playerRoomIcon[i] = img;
+                grid.add(playerRoomIcon[i], coord[0], coord[1]);
+            }
+            PLAYER_MARKERS.put(room.getName(), playerRoomIcon);
+        });
         
     }
     
@@ -247,19 +265,17 @@ public final class GameControllerRevised implements Initializable {
         this.player.clearSearchSpace();
         revealCard.setVisible(false);
         whoCard.setVisible(false);
-        suggest.setDisable(true);
         diceRoll.setDisable(false);
         finish.setDisable(true);
         
-        
         // Get Next Turn
         this.game.nextTurn();
-        
         
         // Player
         this.player = GameRevised.getCurrentPlayer();
         player_img.setImage(new Image(this.player.IMG_PATH));     //It work for multiplayer, not for AI, however it makes sense that you can only see the image characte of what the user chose for single player
         setPanes();
+        if (!this.player.isInRoom()) suggest.setDisable(true);
         
         
         // If NPC cannot look at cards or checklist tabs

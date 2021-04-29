@@ -13,6 +13,8 @@ import java.util.Random;
 
 import java.util.Set;
 import javafx.scene.control.Button;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 
 public final class Board {
 
@@ -162,6 +164,7 @@ public final class Board {
         int[][] loungePlayers = new int[][]{{19,1}, {20,1}, {21,1}, {19,3}, {20,3}, {21,3}};
         int[][] diningPlayers = new int[][]{{18,11}, {19,11}, {20,11}, {21,11}, {21,12}, {21,3}};
         int[][] kitchenPlayers = new int[][]{{19,20}, {20,20}, {21,20}, {20,21}, {21,21}, {22,21}};
+		
         
         Room study = createRoom("Study", studyPlayers, 0, 0, 7, 4);
         Room library = createRoom("Library", libraryPlayers, 1, 6, 5, 5);
@@ -515,7 +518,9 @@ public final class Board {
         }
     }
 
-    
+    /**
+     * 
+     */
     public void highlightAllTiles() {
         for (Tile[] tr : tiles) {
             for (Tile t : tr) {
@@ -524,19 +529,6 @@ public final class Board {
                 }
             }
         }
-    }
-
-    
-    /**
-     * 
-     * @param start
-     * @param dice_roll
-     * @return List of tiles lit
-     */
-    public ArrayList<Tile> showAvailableMoves(Tile start, int dice_roll) {
-        ArrayList<Tile> r = reachableFrom(start, dice_roll);
-        highlightTiles(r);
-        return r;
     }
 
     /**
@@ -600,8 +592,8 @@ public final class Board {
             default:
                 return getTile(16,0);
         }
-        
     }
+    
     public Tile setStartPos(int y,int x){
         return getTile(y,x);
     }

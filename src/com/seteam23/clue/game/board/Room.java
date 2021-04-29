@@ -6,23 +6,25 @@
  */
 package com.seteam23.clue.game.board;
 
+import static com.seteam23.clue.game.GameControllerRevised.PLAYER_MARKERS;
 import com.seteam23.clue.game.entities.Card;
-import com.seteam23.clue.game.entities.Player;
 import com.seteam23.clue.game.entities.PlayerRevised;
 import java.util.ArrayList;
 
 public class Room extends Place{
-    private int x, y;
-    private int width, height;
+    private final int x, y;
+    private final int width, height;
     private Card weapon;
-    private ArrayList<Door> doors;
-    private ArrayList<PlayerRevised> players;
+    private final ArrayList<Door> doors;
+    private final ArrayList<PlayerRevised> players;
     private final int[][] playerIndicatorPos;
-    private String roomName;
+    private final String name;
     private Card[] weapons;
     
     /**
      * Constructor
+     * @param roomName
+     * @param playerIndicatorPos
      * @param x
      * @param y
      * @param width
@@ -32,7 +34,7 @@ public class Room extends Place{
         // Can hold 6 people (SET TO MAX PLAYERS FOR GAME)
         super(6);
         
-        this.roomName = roomName;
+        this.name = roomName;
         this.playerIndicatorPos = playerIndicatorPos;
         this.x = x;
         this.y = y;
@@ -49,7 +51,7 @@ public class Room extends Place{
      */
     @Override
     public boolean addOccupier(PlayerRevised player) {
-        //GameController.showPlayerRoom(roomName, player.NAME);
+        PLAYER_MARKERS.get(name)[getOrder(player.NAME)].setVisible(true);
         return players.add(player);
     }
     
@@ -59,7 +61,7 @@ public class Room extends Place{
      */
     @Override
     public boolean removeOccupier(PlayerRevised player) {
-        //GameController.hidePlayerRoom(roomName, player.NAME);
+        PLAYER_MARKERS.get(name)[getOrder(player.NAME)].setVisible(false);
         return players.remove(player);
     }
     
@@ -72,7 +74,7 @@ public class Room extends Place{
     }
 
     public String getName() {
-        return roomName;
+        return name;
     }
     
     /**
@@ -107,6 +109,28 @@ public class Room extends Place{
     
     public int[][] getPlayerIndicatorPos() {
         return playerIndicatorPos;
+    }
+    
+    /**
+     * Get index between 0 to 5 (inclusive) based on which character name is given
+     * @param name
+     * @return 
+     */
+    private int getOrder(String name) {
+        switch (name) {
+            case "Miss Scarlett":
+                return 0;
+            case "Col Mustard":
+                return 1;
+            case "Mrs White":
+                return 2;
+            case "Rev Green":
+                return 3;
+            case "Mrs Peacock":
+                return 4;
+            default: //Prof Plum
+                return 5;
+        }
     }
     
 }

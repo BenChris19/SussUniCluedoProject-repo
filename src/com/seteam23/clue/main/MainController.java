@@ -1,7 +1,7 @@
 package com.seteam23.clue.main;
 
-import com.seteam23.clue.singleplayer.MultiplayerMenuController;
-import com.seteam23.clue.singleplayer.SingleplayerMenuController;
+import com.seteam23.clue.menus.MultiplayerMenuController;
+import com.seteam23.clue.menus.SingleplayerMenuController;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;

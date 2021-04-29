@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane id="AnchorPane" stylesheets="@../../../../resources/main/style.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.seteam23.clue.menus.SingleplayerMenuController">
+   <children>
+      <ImageView fitHeight="545.0" fitWidth="970.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../../../../resources/main/Boddy_Mansion_Character_menu.png" />
+         </image>
+      </ImageView>
+      <Button fx:id="board_game" layoutX="698.0" layoutY="487.0" mnemonicParsing="false" onAction="#continueBoard" prefHeight="30.0" prefWidth="124.0" style="-fx-background-color: #8c9900;" stylesheets="@../../../../resources/fonts/Button%20word%20style.css" text="Start Game" />
+      <Button fx:id="main_menu" layoutX="37.0" layoutY="487.0" mnemonicParsing="false" onAction="#mainMenu" prefHeight="30.0" prefWidth="124.0" style="-fx-background-color: #00cae6;" stylesheets="@../../../../resources/fonts/Button%20word%20style.css" text="Back to Main Menu" />
+      <Label alignment="CENTER_RIGHT" contentDisplay="CENTER" layoutX="306.0" layoutY="29.0" text="Number of Players" textAlignment="CENTER" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="14.0" />
+         </font>
+      </Label>
+      <ComboBox id="numOpponents" fx:id="numPlayers" layoutX="448.0" layoutY="26.0" prefHeight="25.0" prefWidth="124.0" promptText="No. players" style="-fx-background-color: #a900e6;" stylesheets="@../../../../resources/fonts/Button%20word%20style.css" visibleRowCount="5" />
+      <Label alignment="CENTER_RIGHT" contentDisplay="CENTER" layoutX="305.0" layoutY="65.0" prefHeight="20.0" prefWidth="124.0" text="AI Difficulty" textAlignment="CENTER" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="14.0" />
+         </font>
+      </Label>
+      <ComboBox id="difLevel" fx:id="difLevel" layoutX="447.0" layoutY="63.0" prefWidth="120.0" promptText="AI Difficulty" style="-fx-background-color: #e60004;" stylesheets="@../../../../resources/fonts/Button%20word%20style.css" visibleRowCount="3" />
+      <Button fx:id="buttonScarlett" layoutX="188.0" layoutY="100.0" mnemonicParsing="false" onAction="#onMouseClicked" prefHeight="171.0" prefWidth="131.0" style="-fx-border-color: transparent; -fx-background-color: yellow;" text="Miss Scarlett" textFill="TRANSPARENT">
+         <graphic>
+            <ImageView fitHeight="200.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../../../resources/cards/players/Miss%20Scarlett.jpg" />
+               </image>
+            </ImageView>
+         </graphic>
+         <font>
+            <Font size="1.0" />
+         </font>
+      </Button>
+      <Button layoutX="366.0" layoutY="100.0" mnemonicParsing="false" onAction="#onMouseClicked" prefHeight="177.0" prefWidth="131.0" style="-fx-border-color: transparent; -fx-background-color: transparent;" text="Col Mustard" textFill="TRANSPARENT">
+         <graphic>
+            <ImageView fitHeight="200.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../../../resources/cards/players/Col%20Mustard.jpg" />
+               </image>
+            </ImageView>
+         </graphic>
+         <font>
+            <Font size="1.0" />
+         </font>
+      </Button>
+      <Button layoutX="542.0" layoutY="100.0" mnemonicParsing="false" onAction="#onMouseClicked" style="-fx-border-color: transparent; -fx-background-color: transparent;" text="Prof Plum" textFill="TRANSPARENT">
+         <graphic>
+            <ImageView fitHeight="200.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../../../resources/cards/players/Prof%20Plum.jpg" />
+               </image>
+            </ImageView>
+         </graphic>
+         <font>
+            <Font size="1.0" />
+         </font>
+      </Button>
+      <Button layoutX="187.0" layoutY="313.0" mnemonicParsing="false" onAction="#onMouseClicked" style="-fx-border-color: transparent; -fx-background-color: transparent;" text="Rev Green" textFill="TRANSPARENT">
+         <font>
+            <Font size="1.0" />
+         </font>
+         <graphic>
+            <ImageView fitHeight="200.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../../../resources/cards/players/Rev%20Green.jpg" />
+               </image>
+            </ImageView>
+         </graphic>
+      </Button>
+      <Button layoutX="364.0" layoutY="313.0" mnemonicParsing="false" onAction="#onMouseClicked" style="-fx-border-color: transparent; -fx-background-color: transparent;" text="Mrs Peacock" textFill="TRANSPARENT">
+         <font>
+            <Font size="1.0" />
+         </font>
+         <graphic>
+            <ImageView fitHeight="200.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../../../resources/cards/players/Mrs%20Peacock.jpg" />
+               </image>
+            </ImageView>
+         </graphic>
+      </Button>
+      <Button layoutX="543.0" layoutY="313.0" mnemonicParsing="false" onAction="#onMouseClicked" style="-fx-border-color: transparent; -fx-background-color: transparent;" text="Mrs White" textFill="TRANSPARENT">
+         <font>
+            <Font size="1.0" />
+         </font>
+         <graphic>
+            <ImageView fitHeight="200.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../../../resources/cards/players/Mrs%20White.jpg" />
+               </image>
+            </ImageView>
+         </graphic>
+      </Button>
+   </children>
+</AnchorPane>

@@ -89,7 +89,7 @@ public class PlayerRevised {
      * @param card 
      */
     public void addCard(Card card) {
-        this.cards.add(card);
+        cards.add(card);
     }
     
     /**
@@ -121,12 +121,11 @@ public class PlayerRevised {
     public ArrayList<Tile> setSearchSpace(int dieRoll) {
         searchSpace.clear();
         if (isInRoom()) {
-            this.searchSpace = GameRevised.BOARD.reachableFrom((Room)location, dieRoll);
+            return this.searchSpace = GameRevised.BOARD.reachableFrom((Room)location, dieRoll);
         }
         else {
-            this.searchSpace = GameRevised.BOARD.reachableFrom((Tile)location, dieRoll);
+            return this.searchSpace = GameRevised.BOARD.reachableFrom((Tile)location, dieRoll);
         }
-        return this.searchSpace;
     }
     
     public ArrayList<Tile> getSearchSpace() {

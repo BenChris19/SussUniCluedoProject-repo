@@ -55,6 +55,7 @@ public class Main extends Application {
         // Set and show the scene
         primaryStage.setScene(scene);
         primaryStage.setFullScreen(true);
+        primaryStage.setFullScreenExitHint("");
         makeFullscreen(root,970,545);
         primaryStage.show();
         

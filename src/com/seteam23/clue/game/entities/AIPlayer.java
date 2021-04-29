@@ -49,7 +49,7 @@ public class AIPlayer extends PlayerRevised {
         suggest_remaining = 1;
         
         Timeline timeline = new Timeline(
-            new KeyFrame(Duration.seconds(2), e -> {
+            new KeyFrame(Duration.seconds(1), e -> {
                 this.game.CONTROLLER.rollDie();
             }),
             new KeyFrame(Duration.seconds(4), e -> {

@@ -91,6 +91,7 @@ public class PlayerRevised {
      */
     public void addCard(Card card) {
         this.cards.add(card);
+        this.checklist.mark(card);
     }
     
     /**

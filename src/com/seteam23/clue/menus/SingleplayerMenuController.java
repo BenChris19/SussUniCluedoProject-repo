@@ -37,8 +37,8 @@ public class SingleplayerMenuController implements Initializable {
     @FXML private Button main_menu;
     @FXML private Button board_game;
 
-    @FXML private ComboBox difLevel;
-    @FXML private ComboBox numPlayers;
+    @FXML private ComboBox<String> difLevel;
+    @FXML private ComboBox<Integer> numPlayers;
 
     private Button prevCharacter;
     private String charName = "Miss Scarlett";
@@ -59,7 +59,7 @@ public class SingleplayerMenuController implements Initializable {
         ObservableList<String> listDif = FXCollections.observableArrayList("EASY","MEDIUM","HARD");
         difLevel.setItems(listDif);
         difLevel.getSelectionModel().select("MEDIUM");
-        ObservableList<Integer> listOpo = FXCollections.observableArrayList(2,3,4,5,6);
+        ObservableList<Integer> listOpo = FXCollections.observableArrayList(1,2,3,4,5);
         numPlayers.setItems(listOpo);
         numPlayers.getSelectionModel().select(2);    // Index position in observableArray    
     }
@@ -96,7 +96,7 @@ public class SingleplayerMenuController implements Initializable {
         Parent gameScene = loader.load();
         GameControllerRevised ctrl = loader.getController();
         
-        GameRevised game = new GameRevised(ctrl, playerList, (Integer)numPlayers.getValue() -1, difLevel.getValue().toString(),
+        GameRevised game = new GameRevised(ctrl, playerList, numPlayers.getSelectionModel().getSelectedItem(), difLevel.getSelectionModel().getSelectedItem(),
                                            MENU.WEAPON_CARDS, MENU.SUSPECT_CARDS, MENU.ROOM_CARDS, MENU.ALL_CARDS);
         
         Stage window_menu = (Stage)board_game.getScene().getWindow();

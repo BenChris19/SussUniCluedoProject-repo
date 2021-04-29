@@ -204,7 +204,7 @@ public final class GameControllerRevised implements Initializable {
     
     @FXML
     public void makeSuggestion() {
-        if(this.player.isInRoom() && this.player.suggest()){
+        if(this.player.isInRoom()){
             
             this.room.getSelectionModel().select(((Room)this.player.getLocation()).getName());
             Card found = null;
@@ -213,53 +213,56 @@ public final class GameControllerRevised implements Initializable {
 
             // If  player can suggest and value in person and weapon boxes
             if (person.getValue() != null && weapon.getValue() != null) {
-                // Check for found or ran out of players
-                
-                Room current_room = (Room)player.getLocation();
-                
-                for (PlayerRevised p : game.PLAYERS) {
-                    if (p.NAME.equals(person.getValue())) {
-                        p.getLocation().removeOccupier(p);
-                        p.enterRoom(current_room);
-                        current_room.addOccupier(p);
-                        break;
-                    }
-                }
-                
-                while (i < game.getNumberPlayers()) {
-                    nextPlayer = game.PLAYERS.get((game.getTurn()+i) % game.getNumberPlayers());
+                // If can suggest
+                if (this.player.suggest()) {
+                    // Current Room
+                    Room current_room = (Room)player.getLocation();
 
-                    
-                    //nextPlayer.enterRoom(current_room);
-
-                    // Look through cards of next player and see if have any of suggested
-                    for (Card c : nextPlayer.getCards()) {
-                        if (c.getName().equals(person.getValue()+".jpg") || c.getName().equals(weapon.getValue()+".JPG") || c.getName().equals(current_room.getName()+".png")) {
-                            found = c;
-                            
-                            this.whoCard.setText(nextPlayer.NAME+" has this card");
-                            Image cardImage = new Image(getClass().getResourceAsStream(c.getImgPath()));
-                            this.revealCard.setImage(cardImage);
-                            this.revealCard.setVisible(true);
-                            this.whoCard.setVisible(true);
+                    //Move suggested Player
+                    for (PlayerRevised p : game.PLAYERS) {
+                        if (p.NAME.equals(person.getValue())) {
+                            p.getLocation().removeOccupier(p);
+                            p.enterRoom(current_room);
+                            current_room.addOccupier(p);
                             break;
                         }
                     }
-                    i+=1;
+                    // Check for found or ran out of players
+                    while (i < game.getNumberPlayers()) {
+                        nextPlayer = game.PLAYERS.get((game.getTurn()+i) % game.getNumberPlayers());
+
+
+                        //nextPlayer.enterRoom(current_room);
+
+                        // Look through cards of next player and see if have any of suggested
+                        for (Card c : nextPlayer.getCards()) {
+                            if (c.getName().equals(person.getValue()+".jpg") || c.getName().equals(weapon.getValue()+".JPG") || c.getName().equals(current_room.getName()+".png")) {
+                                found = c;
+
+                                this.whoCard.setText(nextPlayer.NAME+" has this card");
+                                Image cardImage = new Image(getClass().getResourceAsStream(c.getImgPath()));
+                                this.revealCard.setImage(cardImage);
+                                this.revealCard.setVisible(true);
+                                this.whoCard.setVisible(true);
+                                break;
+                            }
+                        }
+                        i+=1;
+                    }
+                    // Found Something
+                    if (found != null) {
+                        this.revealCard.setImage(found.getImg());
+                        this.whoCard.setText(nextPlayer.NAME+" has this card");
+                    }
+                    // Didn't
+                    else {
+                        this.whoCard.setText("No-one else had these cards");
+                    }
                 }
-                // Found Something
-                if (found != null) {
-                    this.revealCard.setImage(found.getImg());
-                    this.whoCard.setText(nextPlayer.NAME+" has this card");
-                }
-                // Didn't
-                else {
-                    this.whoCard.setText("No-one else had these cards");
-                }
+                accuse.setDisable(false);
+
+                if (!this.player.canSuggest()) suggest.setDisable(true);
             }
-            accuse.setDisable(false);
-            
-            if (!this.player.canSuggest()) suggest.setDisable(true);
         }
     }
     

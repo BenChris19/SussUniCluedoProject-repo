@@ -13,8 +13,6 @@ import java.util.Random;
 
 import java.util.Set;
 import javafx.scene.control.Button;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 
 public final class Board {
 
@@ -244,8 +242,10 @@ public final class Board {
                             door.setAdjacent("E", tiles[y][x + 1]);
                         }
                     }
+                    
                     else if (tile.getClass() == Passage.class) {
                     }
+                    
                     else {
                         if (y - 1 >= 0) {
                             tile.setAdjacent("N", tiles[y - 1][x]);
@@ -446,15 +446,15 @@ public final class Board {
      */
     public ArrayList<Tile> furthestReachableFrom(Room room, int die_roll) {
         ArrayList<Tile> reach = new ArrayList<>();
-        Set<Tile> all_reach = new HashSet<>();
+        Set<Tile> door_reach;
         
         for (Door door : room.getDoors()) {
-            all_reach = reachableRecursive(door, die_roll);
+            door_reach = reachableRecursive(door, die_roll);
 
             int[] s = door.getCoords();
             
             // All Tiles Reachable from Room
-            for (Tile tile : all_reach) {
+            for (Tile tile : door_reach) {
                 // Add all doors
                 if (tile instanceof Door) {
                     reach.add(tile);
@@ -468,6 +468,7 @@ public final class Board {
                         reach.add(tile);
                     }
                 }
+                System.out.println(reach.toArray().toString());
             }
             
             // Passage in room

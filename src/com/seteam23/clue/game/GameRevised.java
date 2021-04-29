@@ -63,14 +63,14 @@ public final class GameRevised {
         ArrayList<String> characters = new ArrayList<>(Arrays.asList("Miss Scarlett","Col Mustard","Mrs White","Rev Green","Mrs Peacock","Prof Plum"));
         
         for (PlayerRevised p : humanPlayers) {
-            int charIndex = getOrder(p.NAME);
-            characters.get(charIndex);
-            PLAYER_ARRAY[charIndex] = p;
+            int charIndex = characters.indexOf(p.NAME);
+            characters.remove(charIndex);
+            PLAYER_ARRAY[getOrder(p.NAME)] = p;
         }
         
         for (int i = 0; i < numAI; i++) {
             int charIndex = r.nextInt(characters.size());
-            String name = characters.get(charIndex);
+            String name = characters.remove(charIndex);
             int order = getOrder(name);
             PLAYER_ARRAY[order] = newAI(name, difficulty);
         }

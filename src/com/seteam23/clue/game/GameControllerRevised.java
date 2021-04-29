@@ -189,15 +189,19 @@ public final class GameControllerRevised implements Initializable {
         );
         timeline.play();
         
-        if (!this.player.canRoll()) diceRoll.setDisable(true);
-        finish.setDisable(false);
+        if (!this.player.canRoll()) {
+            diceRoll.setDisable(true);
+            finish.setDisable(false);
+        }
         
-        for(Tile t:this.player.getSearchSpace()){
-            if(t.getClass().equals(Door.class)){
-                suggest.setDisable(false);
-                room.setDisable(false);
-                weapon.setDisable(false);
-                person.setDisable(false);
+        if (!(this.player instanceof AIPlayer)) {
+            for(Tile t:this.player.getSearchSpace()){
+                if(t.getClass().equals(Door.class)){
+                    suggest.setDisable(false);
+                    room.setDisable(false);
+                    weapon.setDisable(false);
+                    person.setDisable(false);
+                }
             }
         }
     }
@@ -259,9 +263,14 @@ public final class GameControllerRevised implements Initializable {
                         this.whoCard.setText("No-one else had these cards");
                     }
                 }
-                accuse.setDisable(false);
 
-                if (!this.player.canSuggest()) suggest.setDisable(true);
+                // If Player no moves OR is AI Player disable accuse button
+                if (!this.player.canSuggest() || this.player.getClass().equals(AIPlayer.class)) {
+                    suggest.setDisable(true);
+                }
+                else {
+                    accuse.setDisable(false);
+                }
             }
         }
     }
@@ -304,8 +313,6 @@ public final class GameControllerRevised implements Initializable {
         this.player.clearSearchSpace();
         revealCard.setVisible(false);
         whoCard.setVisible(false);
-        diceRoll.setDisable(false);
-        finish.setDisable(true);
         
         // Get Next Turn
         this.game.nextTurn();
@@ -318,24 +325,21 @@ public final class GameControllerRevised implements Initializable {
         player_img.setImage(new Image(this.player.IMG_PATH));     //It work for multiplayer, not for AI, however it makes sense that you can only see the image characte of what the user chose for single player
         setPanes();
         
-        suggest.setDisable(false);
         
-        
-        // If NPC cannot look at cards or checklist tabs
+        // If NPCm cannot look at cards or checklist tabs
         if (this.player.getClass().equals(AIPlayer.class)) {    //Players should be able to access and see the cards they have at all times
             cardsTab.setDisable(true);
             checklistTab.setDisable(true);
-//            while(!this.player.getClass().equals(AIPlayer.class)){
-//                rollDie();
-//                endTurn();
-//            }
+            diceRoll.setDisable(true);
         }
-        // If Player then can
+        // If Player, Look at Card Panes, Click Buttons
         else {
             cardsTab.setDisable(false);
             checklistTab.setDisable(false);
+            diceRoll.setDisable(false);
         }
         
+        finish.setDisable(true);
         suggest.setDisable(true);
         room.setDisable(true);
         weapon.setDisable(true);

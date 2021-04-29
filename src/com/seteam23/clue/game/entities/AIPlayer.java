@@ -53,9 +53,11 @@ public class AIPlayer extends PlayerRevised {
                 this.game.CONTROLLER.rollDie();
             }),
             new KeyFrame(Duration.seconds(4), e -> {
-                //searchSpace = this.getSearchSpace();
+                switch (this.difficulty) {
+                    default:
+                        searchSpace.get(r.nextInt(searchSpace.size())).activate();
+                }
                 
-                searchSpace.get(r.nextInt(searchSpace.size())).activate();
             }),
             new KeyFrame(Duration.seconds(8), e -> {
                 this.game.CONTROLLER.endTurn();
@@ -80,7 +82,7 @@ public class AIPlayer extends PlayerRevised {
                 this.searchSpace = hardSearchSpace(dieRoll);
                 return this.searchSpace;
             default:
-                this.searchSpace = hardSearchSpace(dieRoll);
+                this.searchSpace = mediumSearchSpace(dieRoll);
                 return this.searchSpace;
         }
     }
@@ -96,10 +98,10 @@ public class AIPlayer extends PlayerRevised {
     
     public ArrayList<Tile> mediumSearchSpace(int dieRoll) {
         if (isInRoom()) {
-            return this.game.BOARD.reachableFrom((Room)location, dieRoll);
+            return this.game.BOARD.furthestReachableFrom((Room)location, dieRoll);
         }
         else {
-            return this.game.BOARD.reachableFrom((Tile)location, dieRoll);
+            return this.game.BOARD.furthestReachableFrom((Tile)location, dieRoll);
         }
     }
     

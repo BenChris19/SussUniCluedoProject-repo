@@ -8,6 +8,7 @@ package com.seteam23.clue.game.board;
 
 import com.seteam23.clue.game.entities.Player;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Random;
 
@@ -229,16 +230,16 @@ public final class Board {
                     if (tile.getClass() == Door.class) {
                         Door door = (Door) tile;
                         
-                        if (y - 1 >= 0 && door.entryFrom().equals("N")) {
+                        if (y - 1 >= 0 && door.entryFrom().equals("S")) {
                             door.setAdjacent("N", tiles[y - 1][x]);
                         }
-                        if (y + 1 < 25 && door.entryFrom().equals("S")) {
+                        if (y + 1 < 25 && door.entryFrom().equals("N")) {
                             door.setAdjacent("S", tiles[y + 1][x]);
                         }
-                        if (x - 1 >= 0 && door.entryFrom().equals("W")) {
+                        if (x - 1 >= 0 && door.entryFrom().equals("E")) {
                             door.setAdjacent("W", tiles[y][x - 1]);
                         }
-                        if (x + 1 < 24 && door.entryFrom().equals("E")) {
+                        if (x + 1 < 24 && door.entryFrom().equals("W")) {
                             door.setAdjacent("E", tiles[y][x + 1]);
                         }
                     }
@@ -397,26 +398,13 @@ public final class Board {
     
     /**
      * 
-     * @param convertTile
-     * @return 
-     */
-    public ArrayList<Button> getReachableButtons(ArrayList<Tile> convertTile){
-        ArrayList<Button> buttons = new ArrayList<>();
-        for(Tile t:convertTile){
-            buttons.add(t.getButton());
-        }
-        return buttons;
-    }
-    
-    /**
-     * 
      * @param start
      * @param die_roll
      * @return 
      */
     public ArrayList<Tile> furthestReachableFrom(Tile start, int die_roll) {
         Set<Tile> all_reach = reachableRecursive(start, die_roll);
-        ArrayList<Tile> reach = new ArrayList<>();
+        Set<Tile> reach = new HashSet<>();
         
         int[] s = start.getCoords();
         
@@ -435,7 +423,7 @@ public final class Board {
         }
         
         reach.remove(start);
-        return reach;
+        return new ArrayList<>(reach);
     }
     
     /**
@@ -445,13 +433,15 @@ public final class Board {
      * @return 
      */
     public ArrayList<Tile> furthestReachableFrom(Room room, int die_roll) {
-        ArrayList<Tile> reach = new ArrayList<>();
+        Set<Tile> reach = new HashSet<>();
         Set<Tile> door_reach;
         
         for (Door door : room.getDoors()) {
-            door_reach = reachableRecursive(door, die_roll);
-
             int[] s = door.getCoords();
+            
+            System.out.println(door.getAdjacent().size());
+            door_reach = reachableRecursive(door, die_roll);
+            System.out.println(door_reach.size());
             
             // All Tiles Reachable from Room
             for (Tile tile : door_reach) {
@@ -468,22 +458,23 @@ public final class Board {
                         reach.add(tile);
                     }
                 }
-                System.out.println(reach.toArray().toString());
+                System.out.println(Arrays.toString(reach.toArray()));
             }
-            
-            // Passage in room
-            for (Passage pass : passages) {
-                if (pass.getLocation().equals(room)) {
-                    reach.add(pass);
-                    break;
-                }
+        }
+        // Passage in room
+        for (Passage pass : passages) {
+            if (pass.getLocation().equals(room)) {
+                reach.add(pass);
+                break;
             }
         }
         
         // Remove all doors in the room
-        for (Door door : room.getDoors()) reach.remove(door);
+        room.getDoors().forEach(door -> {
+            reach.remove(door);
+        });
         
-        return reach;
+        return new ArrayList<>(reach);
     }
 
     /**

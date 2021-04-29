@@ -182,6 +182,7 @@ public final class GameControllerRevised implements Initializable {
         rollDieAnimation();
         
         this.player.setSearchSpace(roll);
+        
         Timeline timeline = new Timeline(
             new KeyFrame(Duration.seconds(2), e -> {
                 BOARD.highlightTiles(this.player.getSearchSpace());
@@ -191,7 +192,6 @@ public final class GameControllerRevised implements Initializable {
         
         if (!this.player.canRoll()) {
             diceRoll.setDisable(true);
-            finish.setDisable(false);
         }
         
         if (!(this.player instanceof AIPlayer)) {
@@ -201,8 +201,10 @@ public final class GameControllerRevised implements Initializable {
                     room.setDisable(false);
                     weapon.setDisable(false);
                     person.setDisable(false);
+                    
                 }
             }
+            finish.setDisable(false);
         }
     }
     
@@ -233,7 +235,7 @@ public final class GameControllerRevised implements Initializable {
                     }
                     // Check for found or ran out of players
                     while (i < game.getNumberPlayers()) {
-                        nextPlayer = game.PLAYERS.get((game.getTurn()+i) % game.getNumberPlayers());
+                        nextPlayer = game.PLAYERS.get((GameRevised.getTurn()+i) % game.getNumberPlayers());
 
 
                         //nextPlayer.enterRoom(current_room);
@@ -289,7 +291,7 @@ public final class GameControllerRevised implements Initializable {
 
             }
             else{
-                game.gameLost = true;
+                GameRevised.gameLost = true;
                     outOfGame.add(this.player);
                     if(outOfGame.size()>=game.getNumberPlayers()){
                         Parent root = FXMLLoader.load(GameControllerRevised.class.getResource("gameover.fxml"));
@@ -319,7 +321,7 @@ public final class GameControllerRevised implements Initializable {
         
         // Player
         this.player = GameRevised.getCurrentPlayer();
-        if(outOfGame.contains(this.player)){
+        if(!this.player.isPlaying()){
             endTurn();
         }
         player_img.setImage(new Image(this.player.IMG_PATH));     //It work for multiplayer, not for AI, however it makes sense that you can only see the image characte of what the user chose for single player
@@ -339,6 +341,7 @@ public final class GameControllerRevised implements Initializable {
             diceRoll.setDisable(false);
         }
         
+        moves_label.setVisible(false);
         finish.setDisable(true);
         suggest.setDisable(true);
         room.setDisable(true);

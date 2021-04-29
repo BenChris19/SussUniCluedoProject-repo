@@ -242,13 +242,15 @@ public final class GameRevised {
      */
     public void nextTurn() {
         // Sets current player to next player
-        GameRevised.turn++;
-        GameRevised.round = (int) Math.ceil(GameRevised.turn / num_players);
-        GameRevised.player = PLAYERS.get(turn % num_players);
-
+        turn++;
+        round = (int) Math.ceil(GameRevised.turn / num_players);
+        player = PLAYERS.get(turn % num_players);
+        player.newTurn();
+        
+        /*
         // Reset rolls and suggestions if player is playing 
-        if (GameRevised.player.isPlaying()) {
-            GameRevised.player.newTurn();
+        if (player.isPlaying()) {
+            player.newTurn();
         }
         // Check if any Human Players left
         else {
@@ -266,7 +268,7 @@ public final class GameRevised {
             if (!peoplePlaying) {
                 gameLost = true;
             }
-        }
+        }*/
     }
     public ArrayList<Card> getAllCards(){
         return this.ALL_CARDS;

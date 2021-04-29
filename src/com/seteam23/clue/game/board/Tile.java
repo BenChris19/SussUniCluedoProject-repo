@@ -169,7 +169,7 @@ public class Tile extends Place {
         Button button = new Button();
         
         button.setOnAction((ActionEvent e) -> {
-            if (getCurrentPlayer().getSearchSpace().contains(this)) {
+            if (getCurrentPlayer().getSearchSpace().contains(this) && getCurrentPlayer().getClass().equals(PlayerRevised.class)) {
                 this.activate();
             }
         });

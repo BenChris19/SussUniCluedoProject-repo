@@ -49,20 +49,16 @@ public class AIPlayer extends PlayerRevised {
         suggest_remaining = 1;
         
         Timeline timeline = new Timeline(
-            new KeyFrame(Duration.seconds(0.5), e -> {
-                game.CONTROLLER.rollDie();
+            new KeyFrame(Duration.ZERO, e -> {
+                this.game.CONTROLLER.rollDie();
             }),
-            new KeyFrame(Duration.seconds(3), e -> {
+            new KeyFrame(Duration.seconds(4), e -> {
                 searchSpace = this.game.CONTROLLER.getSearchSpace();
-                System.out.println(searchSpace);
+                
                 searchSpace.get(r.nextInt(searchSpace.size())).activate();
             }),
-            new KeyFrame(Duration.seconds(2), e -> {
-                // if in room suggest or accuse
-                
-            }),
-            new KeyFrame(Duration.ZERO, e -> {
-                game.CONTROLLER.endTurn();
+            new KeyFrame(Duration.seconds(1), e -> {
+              //  this.game.CONTROLLER.endTurn();
             })
         );
         timeline.play();

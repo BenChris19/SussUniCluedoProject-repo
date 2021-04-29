@@ -5,14 +5,9 @@
  */
 package com.seteam23.clue.game.board;
 
-import static com.seteam23.clue.game.GameRevised.getCurrentPlayer;
-import com.seteam23.clue.game.entities.Player;
 import com.seteam23.clue.game.entities.PlayerRevised;
 
 import java.util.ArrayList;
-import javafx.event.ActionEvent;
-import javafx.scene.control.Button;
-import javafx.scene.layout.GridPane;
 
 /**
  *

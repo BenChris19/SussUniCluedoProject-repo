@@ -8,7 +8,6 @@ package com.seteam23.clue.game;
 
 import static com.seteam23.clue.game.GameRevised.gameWon;
 import com.seteam23.clue.main.Main;
-import com.seteam23.clue.menus.SingleplayerMenuController;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;

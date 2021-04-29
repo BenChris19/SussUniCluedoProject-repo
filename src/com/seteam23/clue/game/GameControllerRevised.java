@@ -6,14 +6,8 @@
 package com.seteam23.clue.game;
 
 import static com.seteam23.clue.game.GameRevised.BOARD;
-import com.seteam23.clue.game.board.Door;
-import com.seteam23.clue.game.board.Room;
-import com.seteam23.clue.game.board.Tile;
-import com.seteam23.clue.game.entities.AIPlayer;
-import com.seteam23.clue.game.entities.Card;
-import com.seteam23.clue.game.entities.ChecklistEntry;
-import com.seteam23.clue.game.entities.PlayerRevised;
-import com.seteam23.clue.main.Main;
+import com.seteam23.clue.game.board.*;
+import com.seteam23.clue.game.entities.*;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URL;
@@ -27,11 +21,8 @@ import javafx.animation.Timeline;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
@@ -46,7 +37,6 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.RowConstraints;
 import javafx.scene.layout.TilePane;
-import javafx.stage.Stage;
 import javafx.util.Duration;
 
 /**
@@ -85,7 +75,6 @@ public final class GameControllerRevised implements Initializable {
      */
     private GameRevised game;
     private PlayerRevised player;
-    private ArrayList<Tile> searchSpace;
     
     /**
      * Initializes the controller class.
@@ -101,8 +90,6 @@ public final class GameControllerRevised implements Initializable {
         ObservableList<String> listRoo = FXCollections.observableArrayList("Ballroom","Billard room","Conservatory","Dining room","Hall","Kitchen","Library","Lounge","Study");
         this.room.setItems(listRoo);
         
-        this.searchSpace = new ArrayList<>();
-        
         createButtons();
         
     }
@@ -115,13 +102,15 @@ public final class GameControllerRevised implements Initializable {
         this.game = game;
         this.player = game.getCurrentPlayer();
         player_img.setImage(new Image(this.player.IMG_PATH));
+        setPanes();
+    }
+    
+    public void setPanes() {
         try {
             cardsTab.setContent(createCardPane());
         } catch (FileNotFoundException ex) {
             Logger.getLogger(GameControllerRevised.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
-        
         checklistTab.setContent(createChecklistPane());
     }
     
@@ -153,14 +142,6 @@ public final class GameControllerRevised implements Initializable {
         timeline.play();
     }
     
-    /**
-     * 
-     * @return 
-     */
-    public ArrayList<Tile> getSearchSpace() {
-        return searchSpace;
-    }
-    
     
     /*
      *  FXML Methods
@@ -169,22 +150,15 @@ public final class GameControllerRevised implements Initializable {
     @FXML
     public void rollDie() {
         Random r = new Random();
-        int roll = 0;
-        
-        if (this.player.roll()) {
-            int die1 = r.nextInt(6)+1;
-            int die2 = r.nextInt(6)+1;
-            roll = die1 + die2;
-            //return rolls;
-        }
+        int roll = game.rollDice();
         
         moves_label.setText(""+roll);
         rollDieAnimation();
         
-        searchSpace = this.player.setSearchSpace(roll);
+        this.player.setSearchSpace(roll);
         Timeline timeline = new Timeline(
             new KeyFrame(Duration.seconds(2), e -> {
-                BOARD.highlightTiles(searchSpace);
+                BOARD.highlightTiles(this.player.getSearchSpace());
             })
         );
         timeline.play();
@@ -208,8 +182,8 @@ public final class GameControllerRevised implements Initializable {
         // If  player can suggest and value in person and weapon boxes
         if (person.getValue() != null && weapon.getValue() != null) {
             // Check for found or ran out of plauers
-            while (i < game.NUM_PLAYERS) {
-                nextPlayer = game.PLAYERS.get((game.getTurn()+i) % game.NUM_PLAYERS);
+            while (i < game.getNumberPlayers()) {
+                nextPlayer = game.PLAYERS.get((game.getTurn()+i) % game.getNumberPlayers());
                 
                 Room current_room = (Room)player.getLocation();
                 nextPlayer.enterRoom(current_room);
@@ -243,8 +217,7 @@ public final class GameControllerRevised implements Initializable {
     @FXML
     public void makeAccusation() throws IOException {
             player.accuse();
-            for(Card k: game.getKILL_CARDS()){
-                System.out.println(k.getName());
+            for(Card k: game.getKillCards()){
                 if(k.getName().equals(person.getValue()+".jpg")){
                     
                 }
@@ -270,32 +243,24 @@ public final class GameControllerRevised implements Initializable {
     
     @FXML
     public void endTurn() {
+        // Reset GUI
+        this.player.clearSearchSpace();
+        revealCard.setVisible(false);
+        whoCard.setVisible(false);
         suggest.setDisable(true);
-
         diceRoll.setDisable(false);
         finish.setDisable(true);
         
+        
+        // Get Next Turn
         this.game.nextTurn();
         
         
         // Player
         this.player = GameRevised.getCurrentPlayer();
-        //player_img.setImage(new Image(this.player.IMG_PATH));     //It work for multiplayer, not for AI, however it makes sense that you can only see the image characte of what the user chose for single player
+        player_img.setImage(new Image(this.player.IMG_PATH));     //It work for multiplayer, not for AI, however it makes sense that you can only see the image characte of what the user chose for single player
+        setPanes();
         
-        // Reset GUI
-        BOARD.unlightAllTiles();
-        revealCard.setVisible(false);
-        whoCard.setVisible(false);
-        
-        //Change Card and checklist pane if player
-        if (!this.player.getClass().equals(AIPlayer.class)) {
-            setGame(this.game);
-            
-        }
-        
-        // Unlight Tiles
-        BOARD.unlightTiles(searchSpace);
-        searchSpace.clear();
         
         // If NPC cannot look at cards or checklist tabs
         if (this.player.getClass().equals(AIPlayer.class)) {    //Players should be able to access and see the cards they have at all times

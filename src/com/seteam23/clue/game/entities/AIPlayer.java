@@ -32,21 +32,11 @@ public class AIPlayer extends PlayerRevised {
      * @param difficulty
      * @param imgPath
      */
-    public AIPlayer(GameRevised game, String name, String difficulty, String imgPath) {
+    public AIPlayer(GameRevised game, String name, String imgPath, String difficulty) {
         super(name, imgPath);
         
         this.difficulty = difficulty;
         this.game = game;
-        
-//        Timeline timeline = new Timeline(
-//            new KeyFrame(Duration.seconds(2), e -> {
-//                GameRevised.CONTROLLER.rollDie();
-//            }),
-//            new KeyFrame(Duration.seconds(2), e -> {
-//                GameRevised.CONTROLLER.getSearchSpace();
-//            })
-//        );
-//        timeline.play();
     }
     
     
@@ -63,7 +53,7 @@ public class AIPlayer extends PlayerRevised {
                 this.game.CONTROLLER.rollDie();
             }),
             new KeyFrame(Duration.seconds(4), e -> {
-                searchSpace = this.game.CONTROLLER.getSearchSpace();
+                searchSpace = this.getSearchSpace();
                 
                 searchSpace.get(r.nextInt(searchSpace.size())).activate();
             }),

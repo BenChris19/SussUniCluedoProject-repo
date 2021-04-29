@@ -25,7 +25,7 @@ public final class GameRevised {
     
     private final PlayerRevised[] PLAYER_ARRAY;
     public final ArrayList<PlayerRevised> PLAYERS;
-    public final int NUM_PLAYERS;
+    private int num_players;
     
     public static boolean gameLost = false;
     
@@ -78,7 +78,7 @@ public final class GameRevised {
         ArrayList<PlayerRevised> temp = new ArrayList<>(Arrays.asList(PLAYER_ARRAY));
         temp.removeAll(Collections.singleton(null));
         this.PLAYERS = temp;
-        this.NUM_PLAYERS = PLAYERS.size();
+        this.num_players = PLAYERS.size();
         
         this.WEAPON_CARDS = weapons;
         this.SUSPECT_CARDS = suspects;
@@ -134,7 +134,7 @@ public final class GameRevised {
         // Shuffle and Handout Cards
         Collections.shuffle(cards, r);
         for (int i = 0; i < cards.size(); i++) {
-            PLAYERS.get(i % NUM_PLAYERS).addCard(cards.get(i));
+            PLAYERS.get(i % num_players).addCard(cards.get(i));
         }
         this.CONTROLLER = controller;
         this.CONTROLLER.setGame(this); // Hand to Controller
@@ -195,15 +195,15 @@ public final class GameRevised {
      * @param weapon
      * @param room
      */
-//    public int rollDice(){
-//        if (this.player.roll()) {
-//            int die1 = r.nextInt(6)+1;
-//            int die2 = r.nextInt(6)+1;
-//            int rolls = die1 + die2;
-//            return rolls;
-//        }
-//        return 0;
-//    }
+    public int rollDice(){
+        if (this.player.roll()) {
+            int die1 = r.nextInt(6)+1;
+            int die2 = r.nextInt(6)+1;
+            int rolls = die1 + die2;
+            return rolls;
+        }
+        return 0;
+    }
     
     
     public void suggestion(String person, String weapon, Room room) {
@@ -212,8 +212,8 @@ public final class GameRevised {
         int i = 1;
         
 
-            while (found != null && i < NUM_PLAYERS) {
-                nextPlayer = PLAYERS.get((turn+i) % NUM_PLAYERS);
+            while (found != null && i < num_players) {
+                nextPlayer = PLAYERS.get((turn+i) % num_players);
                 nextPlayer.enterRoom(room);
                 
                 for (Card c : nextPlayer.getCards()) {
@@ -240,8 +240,8 @@ public final class GameRevised {
     public void nextTurn() {
         // Sets current player to next player
         GameRevised.turn++;
-        GameRevised.round = (int) Math.ceil(GameRevised.turn / NUM_PLAYERS);
-        GameRevised.player = PLAYERS.get(turn % NUM_PLAYERS);
+        GameRevised.round = (int) Math.ceil(GameRevised.turn / num_players);
+        GameRevised.player = PLAYERS.get(turn % num_players);
 
         // Reset rolls and suggestions if player is playing 
         if (GameRevised.player.isPlaying()) {
@@ -269,8 +269,12 @@ public final class GameRevised {
         return this.ALL_CARDS;
     }
 
-    public Card[] getKILL_CARDS() {
+    public Card[] getKillCards() {
         return KILL_CARDS;
+    }
+    
+    public int getNumberPlayers() {
+        return this.num_players;
     }
     
 }

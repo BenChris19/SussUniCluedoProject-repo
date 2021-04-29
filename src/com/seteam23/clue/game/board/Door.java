@@ -38,6 +38,7 @@ public class Door extends Tile {
     public void activate() {
         getCurrentPlayer().getLocation().removeOccupier(getCurrentPlayer());
         getCurrentPlayer().enterRoom(room);
+        getCurrentPlayer().clearSearchSpace();
         room.addOccupier(getCurrentPlayer());
     }
     

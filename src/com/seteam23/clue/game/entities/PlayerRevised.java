@@ -6,6 +6,7 @@
 package com.seteam23.clue.game.entities;
 
 import com.seteam23.clue.game.GameRevised;
+import static com.seteam23.clue.game.GameRevised.BOARD;
 import com.seteam23.clue.game.board.*;
 import java.util.ArrayList;
 import javafx.collections.ObservableList;
@@ -127,6 +128,11 @@ public class PlayerRevised {
             this.searchSpace = GameRevised.BOARD.reachableFrom((Tile)location, dieRoll);
         }
         return this.searchSpace;
+    }
+    
+    public void clearSearchSpace() {
+        BOARD.unlightTiles(searchSpace);
+        this.searchSpace.clear();
     }
     
     public ArrayList<Tile> getSearchSpace() {

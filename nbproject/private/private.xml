@@ -4,8 +4,10 @@
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
             <file>file:/C:/Users/benat/OneDrive/Dokumentuak/NetBeansProjects/SussUniCluedoProject-repo/src/com/seteam23/clue/game/GameRevised.java</file>
-            <file>file:/C:/Users/benat/OneDrive/Dokumentuak/NetBeansProjects/SussUniCluedoProject-repo/src/com/seteam23/clue/singleplayer/MultiplayerMenuController.java</file>
-            <file>file:/C:/Users/benat/OneDrive/Dokumentuak/NetBeansProjects/SussUniCluedoProject-repo/src/com/seteam23/clue/singleplayer/SingleplayerMenu.java</file>
+            <file>file:/C:/Users/benat/OneDrive/Dokumentuak/NetBeansProjects/SussUniCluedoProject-repo/src/com/seteam23/clue/game/entities/AIPlayer.java</file>
+            <file>file:/C:/Users/benat/OneDrive/Dokumentuak/NetBeansProjects/SussUniCluedoProject-repo/src/com/seteam23/clue/singleplayer/SingleplayerMenuController.java</file>
+            <file>file:/C:/Users/benat/OneDrive/Dokumentuak/NetBeansProjects/SussUniCluedoProject-repo/src/com/seteam23/clue/game/GameControllerRevised.java</file>
+            <file>file:/C:/Users/benat/OneDrive/Dokumentuak/NetBeansProjects/SussUniCluedoProject-repo/src/com/seteam23/clue/game/entities/PlayerRevised.java</file>
         </group>
     </open-files>
 </project-private>

@@ -6,6 +6,7 @@
 package com.seteam23.clue.game.board;
 
 import static com.seteam23.clue.game.GameRevised.getCurrentPlayer;
+import static com.seteam23.clue.game.GameRevised.getRound;
 
 /**
  *
@@ -37,7 +38,7 @@ public class Door extends Tile {
     public void activate() {
         getCurrentPlayer().getLocation().removeOccupier(getCurrentPlayer());
         getCurrentPlayer().enterRoom(room);
-        room.addOccupier(getCurrentPlayer());
+        this.addOccupier(getCurrentPlayer());
     }
     
     /**

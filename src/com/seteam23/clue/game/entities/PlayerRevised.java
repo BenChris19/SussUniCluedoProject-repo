@@ -49,7 +49,7 @@ public class PlayerRevised {
      */
     public void newTurn() {
         rolls_remaining += 1;
-        suggest_remaining += 1;
+        if (!canSuggest()) suggest_remaining = 1;
     }
 
     
@@ -145,11 +145,11 @@ public class PlayerRevised {
     
     /**
      * Decrease counter for roll
+     * @return 
      */
     public boolean roll() {
         if (rolls_remaining > 0) {
             rolls_remaining--;
-            System.out.println("ROLLED " + rolls_remaining);
             return true;
         }
         return false;
@@ -202,7 +202,6 @@ public class PlayerRevised {
         if (round_extra_roll+1 < round) {
             round_extra_roll = round;
             rolls_remaining++;
-            System.out.println("EXTRA" + rolls_remaining);
             return true;
         }
         return false;
@@ -218,7 +217,7 @@ public class PlayerRevised {
         // If not same or subsequent round
         if (round_extra_suggest+1 < round) {
             round_extra_suggest = round;
-            suggest_remaining++;
+            suggest_remaining = 2;
             return true;
         }
         return false;

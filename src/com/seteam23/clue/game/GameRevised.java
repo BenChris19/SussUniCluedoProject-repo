@@ -227,29 +227,6 @@ public final class GameRevised {
         round = (int) Math.ceil(GameRevised.turn / num_players);
         player = PLAYERS.get(turn % num_players);
         player.newTurn();
-        
-        /*
-        // Reset rolls and suggestions if player is playing 
-        if (player.isPlaying()) {
-            player.newTurn();
-        }
-        // Check if any Human Players left
-        else {
-            boolean peoplePlaying = false;
-            
-            for (PlayerRevised p : PLAYERS) {
-                // If Human, skip current Player because they're out
-                if (p.getClass().equals(Player.class) && p.isPlaying()) {
-                    nextTurn();
-                    peoplePlaying = true;
-                    break;
-                }
-            }
-            
-            if (!peoplePlaying) {
-                gameLost = true;
-            }
-        }*/
     }
     public ArrayList<Card> getAllCards(){
         return this.ALL_CARDS;

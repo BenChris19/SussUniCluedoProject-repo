@@ -12,7 +12,7 @@ import javafx.collections.ObservableList;
 
 /**
  *
- * @author Joseph
+ * @author Team 23
  */
 public class Checklist {
     private HashMap<Card, Boolean> marked;

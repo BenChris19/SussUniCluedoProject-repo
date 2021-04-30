@@ -11,7 +11,7 @@ import javafx.scene.control.Button;
 
 /**
  *
- * @author Joseph
+ * @author Team 23
  */
 public final class ChecklistEntry {
     private String name;

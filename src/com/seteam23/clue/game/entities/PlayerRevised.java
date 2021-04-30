@@ -48,8 +48,8 @@ public class PlayerRevised {
      * Reset remaining values
      */
     public void newTurn() {
-        rolls_remaining +=1;
-        suggest_remaining +=1;
+        rolls_remaining += 1;
+        if (!canSuggest()) suggest_remaining = 1;
     }
 
     
@@ -127,42 +127,58 @@ public class PlayerRevised {
         return this.searchSpace;
     }
     
-    
+    /**
+     * 
+     */
     public void clearSearchSpace() {
         BOARD.unlightTiles(searchSpace);
         this.searchSpace.clear();
     }
     
-    
+    /**
+     * 
+     * @return 
+     */
     public ArrayList<Tile> getSearchSpace() {
         return this.searchSpace;
     }
     
     /**
      * Decrease counter for roll
+     * @return 
      */
     public boolean roll() {
         if (rolls_remaining > 0) {
-            System.out.println(rolls_remaining);
             rolls_remaining--;
             return true;
         }
         return false;
     }
     
+    /**
+     * 
+     * @return 
+     */
     public boolean suggest() {
         if (suggest_remaining > 0) {
             suggest_remaining--;
-            System.out.print(suggest_remaining);
             return true;
         }
         return false;
     }
     
+    /**
+     * 
+     * @return 
+     */
     public boolean canRoll() {
         return rolls_remaining > 0;
     }
     
+    /**
+     * 
+     * @return 
+     */
     public boolean canSuggest() {
         return suggest_remaining > 0;
     }
@@ -201,7 +217,7 @@ public class PlayerRevised {
         // If not same or subsequent round
         if (round_extra_suggest+1 < round) {
             round_extra_suggest = round;
-            suggest_remaining++;
+            suggest_remaining = 2;
             return true;
         }
         return false;

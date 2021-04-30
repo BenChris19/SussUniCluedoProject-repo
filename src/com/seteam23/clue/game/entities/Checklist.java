@@ -32,6 +32,7 @@ public class Checklist {
         else{
             marked.put(c, false);
         }
+        System.out.println(keys());
     }
     public Boolean getValue(Card c){
         return marked.get(c);

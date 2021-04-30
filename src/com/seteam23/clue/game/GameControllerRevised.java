@@ -118,13 +118,6 @@ public final class GameControllerRevised implements Initializable {
         });
         
     }
-    public void getPerson(int i) {
-        person.getSelectionModel().select(i);
-    }
-
-    public void getWeapon(int i) {
-        weapon.getSelectionModel().select(i);
-    }
     
     /**
      * Done After Creating Controller
@@ -421,6 +414,24 @@ public final class GameControllerRevised implements Initializable {
         tablePane.getChildren().add(table);
         tablePane.getRowConstraints().add(new RowConstraints(checklistElements.size()*32.5));
         return tablePane;
+    }
+    
+    public ComboBox getPerson() {
+        return person;
+    }
+
+    public ComboBox getWeapon() {
+        return weapon;
+    }
+    
+    
+    
+    public void setPerson(int i) {
+        person.getSelectionModel().select(i);
+    }
+
+    public void setWeapon(int i) {
+        weapon.getSelectionModel().select(i);
     }
 }
     

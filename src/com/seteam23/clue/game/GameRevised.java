@@ -154,7 +154,7 @@ public final class GameRevised {
      * @param name
      * @return 
      */
-    private int getOrder(String name) {
+    public int getOrder(String name) {
         switch (name) {
             case "Miss Scarlett":
                 return 0;

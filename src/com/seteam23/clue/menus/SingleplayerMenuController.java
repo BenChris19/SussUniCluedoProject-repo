@@ -30,7 +30,7 @@ import javafx.stage.Stage;
 public class SingleplayerMenuController implements Initializable {
     
 
-    public static final Menu MENU = new Menu();
+    public final Menu MENU = new Menu();
 
     
     @FXML private Button buttonScarlett;

@@ -9,7 +9,6 @@ package com.seteam23.clue.menus;
 import com.seteam23.clue.game.GameControllerRevised;
 import com.seteam23.clue.game.GameRevised;
 import com.seteam23.clue.game.entities.PlayerRevised;
-import static com.seteam23.clue.menus.SingleplayerMenuController.MENU;
 import java.util.ArrayList;
 import static com.seteam23.clue.main.Main.makeFullscreen;
 import com.seteam23.clue.main.MainController;
@@ -52,7 +51,7 @@ public class MultiplayerMenuController implements Initializable {
     private int choosingRange;
     private ArrayList<String> playing_players = new ArrayList<>();
     
-    private final Menu spMenu;
+    private final Menu MENU;
     private String unchooseable;
     
     private Button prevCharacter;
@@ -62,7 +61,7 @@ public class MultiplayerMenuController implements Initializable {
     
     public MultiplayerMenuController() throws IOException{
         this.TABNAMES = new String[]{"Board", "Cards", "Checklist"};
-        spMenu = new Menu();
+        MENU = new Menu();
         TABPANE = new TabPane();
     }
 

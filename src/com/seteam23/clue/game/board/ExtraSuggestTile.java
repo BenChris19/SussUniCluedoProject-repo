@@ -6,7 +6,6 @@
 package com.seteam23.clue.game.board;
 
 import static com.seteam23.clue.game.GameRevised.getCurrentPlayer;
-import static com.seteam23.clue.game.GameRevised.getRound;
 
 /**
  *
@@ -25,7 +24,7 @@ public class ExtraSuggestTile extends Tile {
         getCurrentPlayer().getLocation().removeOccupier(getCurrentPlayer());
         getCurrentPlayer().moveTo(this);
         this.addOccupier(getCurrentPlayer());
-        getCurrentPlayer().extraSuggest(getRound());
+        //getCurrentPlayer().extraSuggest(getRound());
     }
 }
 

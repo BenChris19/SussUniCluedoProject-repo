@@ -25,11 +25,11 @@ public class PlayerRevised {
     protected Checklist checklist = new Checklist();
     protected ArrayList<Tile> searchSpace = new ArrayList<>();
     
-    private int round_extra_roll = 0;
-    private int round_extra_suggest = 0;
+    private int round_extra_roll = -1;
+    private int round_extra_suggest = -1;
     
-    protected int rolls_remaining = 1;
-    protected int suggest_remaining = 1;
+    protected int rolls_remaining = 0;
+    protected int suggest_remaining = 0;
     private boolean out = false;
     
     /**
@@ -48,8 +48,8 @@ public class PlayerRevised {
      * Reset remaining values
      */
     public void newTurn() {
-        rolls_remaining = 1;
-        suggest_remaining = 1;
+        rolls_remaining +=1;
+        suggest_remaining +=1;
     }
 
     
@@ -143,6 +143,7 @@ public class PlayerRevised {
      */
     public boolean roll() {
         if (rolls_remaining > 0) {
+            System.out.println(rolls_remaining);
             rolls_remaining--;
             return true;
         }
@@ -152,6 +153,7 @@ public class PlayerRevised {
     public boolean suggest() {
         if (suggest_remaining > 0) {
             suggest_remaining--;
+            System.out.print(suggest_remaining);
             return true;
         }
         return false;

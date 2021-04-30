@@ -93,8 +93,8 @@ public final class GameRevised {
         // Set up Kill Cards
         this.KILL_CARDS = new Card[3];
         KILL_CARDS[0] = selectRandomCard(SUSPECT_CARDS);
-        KILL_CARDS[1] = selectRandomCard(ROOM_CARDS);
-        KILL_CARDS[2] = selectRandomCard(WEAPON_CARDS);
+        KILL_CARDS[1] = selectRandomCard(WEAPON_CARDS);
+        KILL_CARDS[2] = selectRandomCard(ROOM_CARDS);
         
         // Place Players on Board
         for (PlayerRevised p : PLAYERS) {

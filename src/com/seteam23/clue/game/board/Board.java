@@ -13,7 +13,6 @@ import java.util.HashSet;
 import java.util.Random;
 
 import java.util.Set;
-import javafx.scene.control.Button;
 
 public final class Board {
 

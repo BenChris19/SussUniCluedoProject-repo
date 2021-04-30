@@ -11,8 +11,6 @@ import com.seteam23.clue.game.entities.PlayerRevised;
 import java.util.HashMap;
 import javafx.animation.Animation;
 import javafx.animation.FadeTransition;
-import javafx.animation.KeyFrame;
-import javafx.animation.Timeline;
 import javafx.css.PseudoClass;
 import javafx.event.ActionEvent;
 import javafx.scene.control.Button;
@@ -33,6 +31,8 @@ public class Tile extends Place {
 
     /**
      * Constructor
+     * @param x
+     * @param y
      */
     public Tile(int x, int y) {
         // Can hold one Player at a time

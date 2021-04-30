@@ -9,7 +9,6 @@ import static com.seteam23.clue.game.GameRevised.getCurrentPlayer;
 import static com.seteam23.clue.game.GameRevised.getRound;
 
 /**
- *
  * @author Team 23
  */
 public class ExtraRollTile extends Tile {
@@ -25,6 +24,6 @@ public class ExtraRollTile extends Tile {
         getCurrentPlayer().getLocation().removeOccupier(getCurrentPlayer());
         getCurrentPlayer().moveTo(this);
         this.addOccupier(getCurrentPlayer());
-        getCurrentPlayer().extraSuggest(getRound());
+        getCurrentPlayer().extraRoll(getRound());
     }
 }

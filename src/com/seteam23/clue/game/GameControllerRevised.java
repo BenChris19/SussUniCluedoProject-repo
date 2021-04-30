@@ -136,7 +136,7 @@ public final class GameControllerRevised implements Initializable {
         player_img.setImage(new Image(this.player.IMG_PATH));
         setPanes();
         
-        if (this.player instanceof AIPlayer) this.player.newTurn();
+        this.player.newTurn();
     }
     
     public void setPanes() {
@@ -188,7 +188,7 @@ public final class GameControllerRevised implements Initializable {
         
         moves_label.setText(""+roll);
         rollDieAnimation();
-        
+        this.player.clearSearchSpace();
         this.player.setSearchSpace(roll);
         
         Timeline timeline = new Timeline(
@@ -197,7 +197,7 @@ public final class GameControllerRevised implements Initializable {
             })
         );
         timeline.play();
-        
+
         if (!this.player.canRoll()) {
             diceRoll.setDisable(true);
         }
@@ -274,31 +274,37 @@ public final class GameControllerRevised implements Initializable {
                 }
 
                 // If Player no suggestions left disable accuse button
-                if (!this.player.canSuggest() && !this.player.getClass().equals(AIPlayer.class)) {
-                    suggest.setDisable(true);
-                    accuse.setDisable(false);
+                if (!this.player.canSuggest()) {
+                    suggest.setDisable(true); 
                 }
+                accuse.setDisable(false);
             }
         }
+    }
+    private boolean checkHuman(){
+        boolean isHumanLeft = false;
+        for(PlayerRevised p: game.PLAYERS){
+            if(!p.getClass().equals(AIPlayer.class) && p.isPlaying()){
+                isHumanLeft = true;
+            }
+        }
+        return isHumanLeft;
     }
     
     @FXML
     public void makeAccusation() throws IOException {
         player.accuse();
-        for(Card k: game.getKillCards()){
-            if(k.getName().equals(person.getValue()+".jpg")){
-
-            }
-            else if(k.getName().equals(weapon.getValue()+".JPG")){
-
-            }
-            else if(k.getName().equals(room.getValue()+".png")){
-
+            if(game.getKillCards()[0].getName().equals(person.getValue()+".jpg") && game.getKillCards()[1].getName().equals(weapon.getValue()+".JPG") && game.getKillCards()[2].getName().equals(room.getValue()+".png")){
+                        Parent root = FXMLLoader.load(GameControllerRevised.class.getResource("gameover.fxml"));
+                        Stage window_over = (Stage)accuse.getScene().getWindow();
+                        window_over.setScene(new Scene(root));
+                        window_over.setFullScreen(true);
+                        Main.makeFullscreen(root,871.9,545);
             }
             else{
                 GameRevised.gameLost = true;
                     OUTOFGAME.add(this.player);
-                    if(OUTOFGAME.size()>=game.getNumberPlayers() ){
+                    if(OUTOFGAME.size()>=game.getNumberPlayers() || !checkHuman()){
                         Parent root = FXMLLoader.load(GameControllerRevised.class.getResource("gameover.fxml"));
                         Stage window_over = (Stage)accuse.getScene().getWindow();
                         window_over.setScene(new Scene(root));
@@ -308,10 +314,8 @@ public final class GameControllerRevised implements Initializable {
                     else{
                         endTurn();
                     }
-
-                break;
             }
-        }
+        
     }
     
     @FXML

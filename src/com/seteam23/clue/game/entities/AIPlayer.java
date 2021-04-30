@@ -45,8 +45,8 @@ public class AIPlayer extends PlayerRevised {
      */
     @Override
     public void newTurn() {
-        rolls_remaining = 1;
-        suggest_remaining = 1;
+        rolls_remaining +=1;
+        suggest_remaining +=1;
         
         Timeline timeline = new Timeline(
             new KeyFrame(Duration.seconds(1), e -> {

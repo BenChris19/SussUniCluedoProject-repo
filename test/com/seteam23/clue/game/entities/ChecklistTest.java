@@ -5,15 +5,13 @@
  */
 package com.seteam23.clue.game.entities;
 
-import java.util.Collection;
-import javafx.collections.ObservableList;
 import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
 /**
  *
- * @author Joseph
+ * @author Team 23
  */
 public class ChecklistTest {
     private Checklist checklist1;

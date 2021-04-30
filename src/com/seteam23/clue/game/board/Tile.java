@@ -9,11 +9,13 @@ package com.seteam23.clue.game.board;
 import java.util.HashMap;
 import javafx.animation.Animation;
 import javafx.animation.FadeTransition;
-import javafx.animation.KeyFrame;
-import javafx.animation.Timeline;
 import javafx.css.PseudoClass;
 import javafx.util.Duration;
 
+/**
+ * 
+ * @author Team 23
+ */
 public class Tile extends Place {
 
     private HashMap<String, Tile> adjacent;

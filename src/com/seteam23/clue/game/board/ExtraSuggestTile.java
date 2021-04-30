@@ -11,7 +11,7 @@ import javafx.scene.layout.GridPane;
 
 /**
  *
- * @author InfernoKay
+ * @author Team 23
  */
 public class ExtraSuggestTile extends Tile {
     

@@ -24,8 +24,8 @@ public class AIPlayer extends PlayerRevised {
     private final Random R = new Random();
     
     
-    /**Creates the AI player class, which behaves similarly to a player
-     * 
+    /**
+     * Creates the AI player class, which behaves similarly to a player
      * @param game
      * @param name
      * @param imgPath
@@ -36,6 +36,71 @@ public class AIPlayer extends PlayerRevised {
         
         this.DIFFICULTY = difficulty;
         this.game = game;
+    }
+    
+    /**
+     * Makes Suggestion based on difficulty of AI
+     */
+    private void difficultySuggestion() {
+        // SUGGEST
+        ArrayList<Card> choice;
+        switch (this.DIFFICULTY) {
+            // Random Player and Weapon
+            case "EASY":
+                this.game.CONTROLLER.setPerson(R.nextInt(6));
+                this.game.CONTROLLER.setWeapon(R.nextInt(6));
+                break;
+
+            // Random Player and Weapon that haven't checked yet
+            case "HARD":
+                choice = this.game.SUSPECT_CARDS;
+                for (Card c : this.checklist.keys()) {
+                    if (this.checklist.getValue(c)) choice.remove(c);
+                }
+                if(choice.size()>0)
+                    this.game.CONTROLLER.setPerson(game.getOrder(choice.get(R.nextInt(choice.size())).getName()));
+                else
+                    this.game.CONTROLLER.setPerson(0);
+
+                choice = this.game.WEAPON_CARDS;
+                for (Card c : this.checklist.keys()) {
+                    if (this.checklist.getValue(c)) choice.remove(c);
+                }
+                if(choice.size()>0)
+                    this.game.CONTROLLER.setPerson(game.getOrder(choice.get(R.nextInt(choice.size())).getName()));
+                else
+                    this.game.CONTROLLER.setPerson(0);
+
+            // MEDIUM : Random Player and Weapon from cards dont have in hand
+            default:
+                choice = this.game.SUSPECT_CARDS;
+                for (Card c : this.cards) {
+                    choice.remove(c);
+                }
+                this.game.CONTROLLER.setPerson(game.getOrder(choice.get(R.nextInt(choice.size())).getName()));
+
+                choice = this.game.WEAPON_CARDS;
+                for (Card c : this.cards) {
+                    choice.remove(c);
+                }
+                this.game.CONTROLLER.setWeapon(this.game.CONTROLLER.getWeapon().getItems().indexOf(choice.get(R.nextInt(choice.size()))));
+        }
+
+        this.game.CONTROLLER.makeSuggestion();
+    }
+    
+    /**
+     * Movement logic based on difficulty of AI
+     */
+    private void difficultyMove() {
+        switch (this.DIFFICULTY) {
+            case "HARD":
+                searchSpace.get(R.nextInt(searchSpace.size())).activate();
+                break;
+            // EASY OR MEDIUM
+            default:
+                searchSpace.get(R.nextInt(searchSpace.size())).activate();
+        }
     }
     
     
@@ -51,69 +116,25 @@ public class AIPlayer extends PlayerRevised {
             // After 1s Roll Die, 2s for die roll animation
             new KeyFrame(Duration.seconds(1), e -> {
                 this.game.CONTROLLER.rollDie();
+                if (canRoll()) this.game.CONTROLLER.rollDie();
             }),
                 
             // After 4s Total, move
             new KeyFrame(Duration.seconds(4), e -> {
-                switch (this.DIFFICULTY) {
-                    case "HARD":
-                        searchSpace.get(R.nextInt(searchSpace.size())).activate();
-                        break;
-                    // EASY OR MEDIUM
-                    default:
-                        searchSpace.get(R.nextInt(searchSpace.size())).activate();
+                difficultyMove();
+                if (canRoll()) {
+                    this.game.CONTROLLER.rollDie();
+                    difficultyMove();
                 }
                 
             }),
             // After 6s Total, if in room, suggest
-            new KeyFrame(Duration.seconds(6), (ActionEvent e) -> {
-                ArrayList<Card> choice;
+            new KeyFrame(Duration.seconds(6), e -> {
+                
                 if (isInRoom()) {
-                    // SUGGEST
-                    switch (AIPlayer.this.DIFFICULTY) {
-                        // Random Player and Weapon
-                        case "EASY":
-                            AIPlayer.this.game.CONTROLLER.setPerson(R.nextInt(6));
-                            AIPlayer.this.game.CONTROLLER.setWeapon(R.nextInt(6));
-                            break;
-                            // Random Player and Weapon that haven't checked yet
-                        case "HARD":
-                            choice = AIPlayer.this.game.SUSPECT_CARDS;
-                            for (Card c : AIPlayer.this.checklist.keys()) {
-                                if (AIPlayer.this.checklist.getValue(c)) {
-                                    choice.remove(c);
-                                }
-                            }
-                            if (choice.size()>0) {
-                                AIPlayer.this.game.CONTROLLER.setPerson(game.getOrder(choice.get(R.nextInt(choice.size())).getName()));
-                            } else {
-                                AIPlayer.this.game.CONTROLLER.setPerson(0);
-                            }
-                            choice = AIPlayer.this.game.WEAPON_CARDS;
-                            for (Card c : AIPlayer.this.checklist.keys()) {
-                                if (AIPlayer.this.checklist.getValue(c)) {
-                                    choice.remove(c);
-                                }
-                            }
-                            if (choice.size()>0) {
-                                AIPlayer.this.game.CONTROLLER.setPerson(game.getOrder(choice.get(R.nextInt(choice.size())).getName()));
-                            } else {
-                                AIPlayer.this.game.CONTROLLER.setPerson(0);
-                            }
-                            // MEDIUM : Random Player and Weapon from cards dont have in hand
-                        default:
-                            choice = AIPlayer.this.game.SUSPECT_CARDS;
-                            for (Card c : AIPlayer.this.cards) {
-                                choice.remove(c);
-                            }
-                            AIPlayer.this.game.CONTROLLER.setPerson(game.getOrder(choice.get(R.nextInt(choice.size())).getName()));
-                            choice = AIPlayer.this.game.WEAPON_CARDS;
-                            for (Card c : AIPlayer.this.cards) {
-                                choice.remove(c);
-                            }
-                            AIPlayer.this.game.CONTROLLER.setWeapon(AIPlayer.this.game.CONTROLLER.getWeapon().getItems().indexOf(choice.get(R.nextInt(choice.size()))));
-                    }
-                    AIPlayer.this.game.CONTROLLER.makeSuggestion();
+                    difficultySuggestion();
+                    if (canSuggest()) difficultySuggestion();
+                    
                     // ACCUSE
                     int suspectUnchecked = 0;
                     suspectUnchecked = AIPlayer.this.game.SUSPECT_CARDS.stream().filter((c) -> (!AIPlayer.this.checklist.getValue(c))).map((_item) -> 1).reduce(suspectUnchecked, Integer::sum);

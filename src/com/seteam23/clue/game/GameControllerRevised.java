@@ -79,6 +79,7 @@ public final class GameControllerRevised implements Initializable {
     private GameRevised game;
     private PlayerRevised player;
     private final ArrayList<PlayerRevised> OUTOFGAME = new ArrayList<>();
+    private static int dieRoll = 0;
     
     private final String[] playerImg = new String[]{"/resources/game/Miss-Scarlett-game-piece.png","/resources/game/Col-Mustard-game-piece.png","/resources/game/Mrs-White-game-piece.png","/resources/game/Rev-Green-game-piece.png","/resources/game/Mrs-Peacock-game-piece.png","/resources/game/Prof-Plum-game-piece.png"};
     public static final HashMap<String, ImageView[]> PLAYER_MARKERS = new HashMap<>();
@@ -184,12 +185,12 @@ public final class GameControllerRevised implements Initializable {
     @FXML
     public void rollDie() {
         Random r = new Random();
-        int roll = game.rollDice();
+        dieRoll = game.rollDice();
         
-        moves_label.setText(""+roll);
+        moves_label.setText("   "+dieRoll);
         rollDieAnimation();
         this.player.clearSearchSpace();
-        this.player.setSearchSpace(roll);
+        this.player.setSearchSpace(dieRoll);
         
         Timeline timeline = new Timeline(
             new KeyFrame(Duration.seconds(2), e -> {
@@ -214,7 +215,20 @@ public final class GameControllerRevised implements Initializable {
     }
     
     /**
-     *Allows the user to make a suggestion, provided that they are in a room and they can choose which player to do a suggestion on.
+     * Gets the total die roll
+     * @return int dieRoll
+     */
+    public static int getDieRoll() {
+        return dieRoll;
+    }
+    
+    public static int setDieRoll(int roll) {
+        dieRoll = roll;
+        return dieRoll;
+    }
+    
+    /**
+     * Allows the user to make a suggestion, provided that they are in a room and they can choose which player to do a suggestion on.
      */
     @FXML
     public void makeSuggestion() {

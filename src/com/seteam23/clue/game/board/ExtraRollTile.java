@@ -25,6 +25,6 @@ public class ExtraRollTile extends Tile {
         getCurrentPlayer().getLocation().removeOccupier(getCurrentPlayer());
         getCurrentPlayer().moveTo(this);
         this.addOccupier(getCurrentPlayer());
-        getCurrentPlayer().extraSuggest(getRound());
+        getCurrentPlayer().extraRoll(getRound());
     }
 }

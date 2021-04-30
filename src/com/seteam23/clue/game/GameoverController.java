@@ -8,6 +8,7 @@ package com.seteam23.clue.game;
 
 import com.seteam23.clue.main.Main;
 import com.seteam23.clue.menus.SingleplayerMenuController;
+import java.io.File;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
@@ -20,6 +21,8 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import javafx.stage.Stage;
 
 /**
@@ -42,12 +45,23 @@ public class GameoverController implements Initializable {
             winloseMess.setVisible(true);
             winloseMess.setVisible(true);
             winLoseImg.setImage(new Image("/resources/game/Game-over.jpg", 1036, 603, false, false));
+            
+            String winsound = "GameOver.mp3";
+            Media sound = new Media(new File(winsound).toURI().toString());
+            MediaPlayer mediaPlayer = new MediaPlayer(sound);
+            mediaPlayer.play();
         }
         else{
             winloseMess.setText("YOU WIN!");
             winloseMess.setVisible(true);
             winloseMess.setVisible(true);
             winLoseImg.setImage(new Image("/resources/game/Win-game.jpg", 1036, 603, false, false));
+            
+            String winsound = "party_horn-Mike_Koenig-76599891.mp3";
+            Media sound = new Media(new File(winsound).toURI().toString());
+            MediaPlayer mediaPlayer = new MediaPlayer(sound);
+            mediaPlayer.play();
+            
         }
     }    
         @FXML

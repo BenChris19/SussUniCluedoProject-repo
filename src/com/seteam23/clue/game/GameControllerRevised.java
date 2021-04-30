@@ -248,6 +248,7 @@ public final class GameControllerRevised implements Initializable {
                             if (c.getName().equals(person.getValue()+".jpg") || c.getName().equals(weapon.getValue()+".JPG") || c.getName().equals(current_room.getName()+".png")) {
                                 found = c;
                                 this.player.markCard(found);
+                                checklistTab.setContent(createChecklistPane());
                                 
                                 Image cardImage = new Image(getClass().getResourceAsStream(c.getImgPath()));
                                 this.revealCard.setImage(cardImage);

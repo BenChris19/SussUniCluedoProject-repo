@@ -25,14 +25,12 @@ public class Checklist {
     }
     public void mark(Card c){
         if (marked.get(c) == false){
-            //System.out.println(getValue(c));
             marked.put(c, true);
             getEntries();
         }
         else{
             marked.put(c, false);
         }
-        System.out.println(keys());
     }
     public Boolean getValue(Card c){
         return marked.get(c);

@@ -214,7 +214,7 @@ public class Player {
      * @return 
      */
     public String makeSuggestion(String person, String weapon){  //No Room as it has to be in the same room as the player is in
-        String s = "Person: "+person+" Weapon: "+weapon+ " Room: "+place;
+        String s = "Person: "+person+" Weapon: "+weapon+ " Room: ";
         return s;
 
     }

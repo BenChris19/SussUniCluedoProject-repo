@@ -61,6 +61,17 @@ public class PlayerTest {
     }
     
     /**
+     * Tests the make suggestion method in the Player class.
+     */
+    @Test
+    public void makeSuggestionTest() {
+        Player player = new Player("Miss Scarlett", 0, "Miss_Scarlett.jpg", 0, 0, false, true);
+        player.set
+        player.makeSuggestion("Miss Scarlett", "wrench");
+        String expSuggestion = "Person: "+ "Miss Scarlett" +" Weapon: "+ "wrench" + " Room: "+ place;
+    }
+    
+    /**
      * Tests the make accusation method in the Player class.
      */
     @Test
@@ -77,6 +88,7 @@ public class PlayerTest {
     /**
      * Tests the roll dice method in the Player class.
      */
+    @Test
     public void rollDiceTest() {
         Player player = new Player("Miss Scarlett", 0, "Miss_Scarlett.jpg", 0, 0, false, true);
         int[] dice = player.rollDice();

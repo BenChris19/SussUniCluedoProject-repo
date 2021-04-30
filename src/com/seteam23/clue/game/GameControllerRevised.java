@@ -329,8 +329,8 @@ public final class GameControllerRevised implements Initializable {
      */
     @FXML
     public void makeAccusation() throws IOException {
-        player.accuse();
-            if(game.getKillCards()[0].getName().equals(person.getValue()+".jpg") && game.getKillCards()[1].getName().equals(weapon.getValue()+".JPG") && game.getKillCards()[2].getName().equals(room.getValue()+".png")){
+        player.accuse();        
+            if(game.getKillCards()[0].getName().equals(person.getValue()) && game.getKillCards()[1].getName().equals(weapon.getValue()) && game.getKillCards()[2].getName().equals(room.getValue())){
                         Parent root = FXMLLoader.load(GameControllerRevised.class.getResource("gameover.fxml"));
                         Stage window_over = (Stage)accuse.getScene().getWindow();
                         window_over.setScene(new Scene(root));

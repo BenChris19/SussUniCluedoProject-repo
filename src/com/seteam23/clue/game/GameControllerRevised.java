@@ -262,7 +262,7 @@ public final class GameControllerRevised implements Initializable {
 
                         // Look through cards of next player and see if have any of suggested
                         for (Card c : nextPlayer.getCards()) {
-                            if (c.getName().equals(person.getValue()+".jpg") || c.getName().equals(weapon.getValue()+".JPG") || c.getName().equals(current_room.getName()+".png")) {
+                            if (c.getName().equals(person.getValue()) || c.getName().equals(weapon.getValue()) || c.getName().equals(current_room.getName())) {
                                 found = c;
                                 this.player.markCard(found);
                                 checklistTab.setContent(createChecklistPane());
@@ -270,6 +270,7 @@ public final class GameControllerRevised implements Initializable {
                                 Image cardImage = new Image(getClass().getResourceAsStream(c.getImgPath()));
                                 this.revealCard.setImage(cardImage);
                                 this.whoCard.setText(nextPlayer.NAME+" has this card");
+                                
                                 if (!this.player.getClass().equals(AIPlayer.class)){  
                                     this.revealCard.setVisible(true);
                                     this.whoCard.setVisible(true);

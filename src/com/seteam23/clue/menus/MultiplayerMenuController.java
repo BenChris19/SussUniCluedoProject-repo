@@ -1,15 +1,9 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.seteam23.clue.menus;
 
 
 import com.seteam23.clue.game.GameControllerRevised;
 import com.seteam23.clue.game.GameRevised;
 import com.seteam23.clue.game.entities.PlayerRevised;
-import static com.seteam23.clue.menus.SingleplayerMenuController.MENU;
 import java.util.ArrayList;
 import static com.seteam23.clue.main.Main.makeFullscreen;
 import com.seteam23.clue.main.MainController;
@@ -30,9 +24,12 @@ import javafx.scene.control.TabPane;
 import javafx.stage.Stage;
 
 /**
- * FXML Controller class
- *
- * @author benat
+ * FXML MultiPlayerMenuController class
+ * 
+ * The controller class, allows the FXML file to be initialised, and
+ * allows the user to interact with the multi player character selection menu GUI
+ * 
+ * @author Team23
  */
 public class MultiplayerMenuController implements Initializable {
     @FXML
@@ -50,10 +47,11 @@ public class MultiplayerMenuController implements Initializable {
     private Button confirm;
 
     private int choosingRange;
-    private ArrayList<String> playing_players = new ArrayList<>();
+    private final ArrayList<String> PLAYING_PLAYERS = new ArrayList<>();
     
-    private final Menu spMenu;
-    private String unchooseable;
+
+    private final Menu MENU;
+
     
     private Button prevCharacter;
 
@@ -62,12 +60,12 @@ public class MultiplayerMenuController implements Initializable {
     
     public MultiplayerMenuController() throws IOException{
         this.TABNAMES = new String[]{"Board", "Cards", "Checklist"};
-        spMenu = new Menu();
+        MENU = new Menu();
         TABPANE = new TabPane();
     }
 
     /**
-     * Initializes the controller class.
+     * Initialises the controller class.
      * @param url
      * @param rb
      */
@@ -94,6 +92,12 @@ public class MultiplayerMenuController implements Initializable {
         makeFullscreen(root,970,545);
     }
     
+    /**
+     * Allows the user to choose a character.
+     * @param event executes and event, in this case, the border of the button
+     * the player icon is on, changes to yellow to indicate that the user has chosen
+     * that character.
+     */
     @FXML
     private void onMouseClicked(ActionEvent event) throws Exception{
         Button b = (Button)event.getSource();
@@ -142,9 +146,9 @@ public class MultiplayerMenuController implements Initializable {
     private void continueBoard() throws Exception{       
         ArrayList<PlayerRevised> playerListMult = new ArrayList<PlayerRevised>(){
             {
-                for(String player_name:playing_players){
+                PLAYING_PLAYERS.forEach((player_name) -> {
                     add(MENU.newPlayer(player_name));
-                }
+                });
                 
             }
         };
@@ -153,7 +157,7 @@ public class MultiplayerMenuController implements Initializable {
         GameControllerRevised ctrl = loader.getController();
         
         GameRevised game = new GameRevised(ctrl, playerListMult, 0, null,
-        MENU.WEAPON_CARDS, MENU.SUSPECT_CARDS, MENU.ROOM_CARDS, MENU.ALL_CARDS);
+        MENU.WEAPON_CARDS, MENU.SUSPECT_CARDS, MENU.ROOM_CARDS, MENU.ALL_CARDS);    //Initialises the game
         
         
         Stage window_menu = (Stage)board_game.getScene().getWindow();
@@ -161,35 +165,29 @@ public class MultiplayerMenuController implements Initializable {
         window_menu.setFullScreen(true);
         makeFullscreen(gamesScene,1600,920);
     }
+     /**
+     * Confirms the user if they are sure of choosing the selected player.
+     */
     @FXML
     private void confirm() throws Exception{
         if(choosingRange < (Integer) numPlayers.getValue()){
             if(prevCharacter == null){
                 buttonScarlett.setDisable(true);
-                playing_players.add("Miss Scarlett");
+                PLAYING_PLAYERS.add("Miss Scarlett");
+                
 
             }
             else{
                 prevCharacter.setDisable(true);
-                playing_players.add(prevCharacter.getText());
+                PLAYING_PLAYERS.add(prevCharacter.getText());
             }
             choosingRange+=1;
-            
+            confirm.setDisable(true);
             
             if(choosingRange == (Integer) numPlayers.getValue()){
                 board_game.setDisable(false);
                 confirm.setDisable(true);
             }
-//        }
-////
-//            }
-//            prevCharacter.setDisable(true);
-//            choosingRange+=1;
-//        }
-//        if(choosingRange == (Integer) numPlayers.getValue()){
-//            board_game.setDisable(false);
-//            confirm.setDisable(true);
-//        }
         }
     }
     

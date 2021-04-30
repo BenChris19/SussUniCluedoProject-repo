@@ -1,17 +1,12 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.seteam23.clue.game.board;
 
 import com.seteam23.clue.game.entities.PlayerRevised;
 
 import java.util.ArrayList;
 
-/**
+/**Creates a place on the board can be room, tile or door
  *
- * @author InfernoKay
+ * @author Team23
  */
 public abstract class Place {
     protected int max_players;
@@ -19,7 +14,7 @@ public abstract class Place {
     protected boolean occupied;
 
     
-    /**
+    /**Constructs the place
      * 
      * @param max_players 
      */
@@ -30,6 +25,10 @@ public abstract class Place {
         
     }
 
+    /**Returns if a place is occupied
+     *
+     * @return true if placed is occupied, false otherwise
+     */
     public boolean isOccupied() {
         return occupied;
     }
@@ -50,7 +49,7 @@ public abstract class Place {
     public abstract boolean removeOccupier(PlayerRevised p);
     
     
-    /**
+    /**List of player occupying a place
      * 
      * @return List of Players Occupying the place
      */
@@ -58,7 +57,7 @@ public abstract class Place {
         return this.occupiers;
     }
     
-    /**
+    /**Returns if a place is full of players
      * 
      * @return true if fully occupied
      */

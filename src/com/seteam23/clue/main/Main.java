@@ -43,6 +43,7 @@ public class Main extends Application {
      * Overrides the JFX Start function
      * 
      * Start is run after being initialised
+     * @throws java.lang.Exception
      **/
     @Override
     public void start(Stage primaryStage) throws Exception {
@@ -54,6 +55,7 @@ public class Main extends Application {
         // Set and show the scene
         primaryStage.setScene(scene);
         primaryStage.setFullScreen(true);
+        primaryStage.setFullScreenExitHint("");
         makeFullscreen(root,970,545);
         primaryStage.show();
         

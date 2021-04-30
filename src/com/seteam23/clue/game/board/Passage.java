@@ -1,35 +1,30 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.seteam23.clue.game.board;
 
 import static com.seteam23.clue.game.GameRevised.getCurrentPlayer;
 import javafx.event.ActionEvent;
 import javafx.scene.control.Button;
 
-/**
+/**Subclass of tile. Allows user to go to a different room from a room
  *
  * @author Team 23
  */
 public class Passage extends Tile {
     
-    private final Room location;
-    private final Room destination;
+    private final Room LOCATION;
+    private final Room DESTINATION;
     
     /**
      * Secret Passage ONE WAY
      * @param source Starting Room
      * @param destination Where it goes to
-     * @param x
+     * @param x 
      * @param y 
      */
     public Passage(Room source, Room destination, int x, int y) {
         super(x,y);
         
-        this.location = source;
-        this.destination = destination;
+        this.LOCATION = source;
+        this.DESTINATION = destination;
     }
     
     /**
@@ -38,7 +33,9 @@ public class Passage extends Tile {
     @Override
     public void activate() {
         getCurrentPlayer().clearSearchSpace();
-        getCurrentPlayer().enterRoom(destination);
+        LOCATION.removeOccupier(getCurrentPlayer());
+        getCurrentPlayer().enterRoom(DESTINATION);
+        DESTINATION.addOccupier(getCurrentPlayer());
     }
     
     /**
@@ -59,11 +56,19 @@ public class Passage extends Tile {
         return button;
     }
 
+    /**Get the location of the room with the secret passage
+     *
+     * @return the room with the secret passage
+     */
     public Room getLocation() {
-        return location;
+        return LOCATION;
     }
 
+    /**Getter method for the room destination
+     *
+     * @return the room the player travel to using the secret passage
+     */
     public Room getDestination() {
-        return destination;
+        return DESTINATION;
     }
 }

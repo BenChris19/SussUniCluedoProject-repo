@@ -1,19 +1,15 @@
-/*
- *      The Board / Map
- *
- *      Constructs Rooms and Tiles
- *      Players exist within the Board
- */
 package com.seteam23.clue.game.board;
 
-import com.seteam23.clue.game.entities.Player;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Random;
 
 import java.util.Set;
-import javafx.scene.control.Button;
 
+/**Creates the board class. The user should be able to place the game piece on it and enter rooms
+ *
+ * @author Team23
+ */
 public final class Board {
 
     private Place[][] places; //All
@@ -22,20 +18,18 @@ public final class Board {
     private Tile[][] tiles; //Tiles
     private ArrayList<Passage> passages;
     
-    private ArrayList<Player> players = new ArrayList<>();
-
-
+    /**Creates the grid for the board, initialises tiles, doors and rooms
+     *
+     */
     public Board(){
         createGrid();  
     }
 
-    public Door getDoors(int y,int x) {
-        return doors[y][x];
-    }
+
 
 
     /**
-     * 
+     * Creates the board, which includes doors, tiles, place, rooms and passages
      */
     public void createGrid() {
         places = new Place[25][24];
@@ -162,6 +156,7 @@ public final class Board {
         int[][] loungePlayers = new int[][]{{19,1}, {20,1}, {21,1}, {19,3}, {20,3}, {21,3}};
         int[][] diningPlayers = new int[][]{{18,11}, {19,11}, {20,11}, {21,11}, {21,12}, {21,3}};
         int[][] kitchenPlayers = new int[][]{{19,20}, {20,20}, {21,20}, {20,21}, {21,21}, {22,21}};
+		
         
         Room study = createRoom("Study", studyPlayers, 0, 0, 7, 4);
         Room library = createRoom("Library", libraryPlayers, 1, 6, 5, 5);
@@ -228,21 +223,23 @@ public final class Board {
                     if (tile.getClass() == Door.class) {
                         Door door = (Door) tile;
                         
-                        if (y - 1 >= 0 && door.entryFrom().equals("N")) {
+                        if (y - 1 >= 0 && door.entryFrom().equals("S")) {
                             door.setAdjacent("N", tiles[y - 1][x]);
                         }
-                        if (y + 1 < 25 && door.entryFrom().equals("S")) {
+                        if (y + 1 < 25 && door.entryFrom().equals("N")) {
                             door.setAdjacent("S", tiles[y + 1][x]);
                         }
-                        if (x - 1 >= 0 && door.entryFrom().equals("W")) {
+                        if (x - 1 >= 0 && door.entryFrom().equals("E")) {
                             door.setAdjacent("W", tiles[y][x - 1]);
                         }
-                        if (x + 1 < 24 && door.entryFrom().equals("E")) {
+                        if (x + 1 < 24 && door.entryFrom().equals("W")) {
                             door.setAdjacent("E", tiles[y][x + 1]);
                         }
                     }
+                    
                     else if (tile.getClass() == Passage.class) {
                     }
+                    
                     else {
                         if (y - 1 >= 0) {
                             tile.setAdjacent("N", tiles[y - 1][x]);
@@ -378,10 +375,12 @@ public final class Board {
     public ArrayList<Tile> reachableFrom(Room room, int die_roll) {
         Set<Tile> reach = new HashSet<>();
         // Reach from each door
-        for (Door door : room.getDoors()) {
+        room.getDoors().stream().map((door) -> {
             reach.addAll(reachableRecursive(door, die_roll));
+            return door;
+        }).forEachOrdered((door) -> {
             reach.remove(door);
-        }
+        });
         // Add passage in room if any
         for (Passage pass : passages) {
             if (pass.getLocation().equals(room)) {
@@ -394,31 +393,18 @@ public final class Board {
     
     /**
      * 
-     * @param convertTile
-     * @return 
-     */
-    public ArrayList<Button> getReachableButtons(ArrayList<Tile> convertTile){
-        ArrayList<Button> buttons = new ArrayList<>();
-        for(Tile t:convertTile){
-            buttons.add(t.getButton());
-        }
-        return buttons;
-    }
-    
-    /**
-     * 
      * @param start
      * @param die_roll
      * @return 
      */
     public ArrayList<Tile> furthestReachableFrom(Tile start, int die_roll) {
         Set<Tile> all_reach = reachableRecursive(start, die_roll);
-        ArrayList<Tile> reach = new ArrayList<>();
+        Set<Tile> reach = new HashSet<>();
         
         int[] s = start.getCoords();
         
-        for (Tile tile : all_reach) {
-            if (tile instanceof Door) {
+        all_reach.forEach((tile) -> {
+            if (tile instanceof Door || tile instanceof ExtraRollTile || tile instanceof ExtraSuggestTile) {
                 reach.add(tile);
             }
             else {
@@ -429,10 +415,10 @@ public final class Board {
                     reach.add(tile);
                 }
             }
-        }
+        });
         
         reach.remove(start);
-        return reach;
+        return new ArrayList<>(reach);
     }
     
     /**
@@ -442,18 +428,18 @@ public final class Board {
      * @return 
      */
     public ArrayList<Tile> furthestReachableFrom(Room room, int die_roll) {
-        ArrayList<Tile> reach = new ArrayList<>();
-        Set<Tile> all_reach = new HashSet<>();
+        Set<Tile> reach = new HashSet<>();
+        Set<Tile> door_reach;
         
         for (Door door : room.getDoors()) {
-            all_reach = reachableRecursive(door, die_roll);
-
             int[] s = door.getCoords();
             
+            door_reach = reachableRecursive(door, die_roll);
+            
             // All Tiles Reachable from Room
-            for (Tile tile : all_reach) {
+            for (Tile tile : door_reach) {
                 // Add all doors
-                if (tile instanceof Door) {
+                if (tile instanceof Door || tile instanceof ExtraRollTile || tile instanceof ExtraSuggestTile) {
                     reach.add(tile);
                 }
                 // Add furthest tile
@@ -466,20 +452,21 @@ public final class Board {
                     }
                 }
             }
-            
-            // Passage in room
-            for (Passage pass : passages) {
-                if (pass.getLocation().equals(room)) {
-                    reach.add(pass);
-                    break;
-                }
+        }
+        // Passage in room
+        for (Passage pass : passages) {
+            if (pass.getLocation().equals(room)) {
+                reach.add(pass);
+                break;
             }
         }
         
         // Remove all doors in the room
-        for (Door door : room.getDoors()) reach.remove(door);
+        room.getDoors().forEach(door -> {
+            reach.remove(door);
+        });
         
-        return reach;
+        return new ArrayList<>(reach);
     }
 
     /**
@@ -487,9 +474,9 @@ public final class Board {
      * @param ts 
      */
     public void highlightTiles(ArrayList<Tile> ts) {
-        for (Tile t : ts) {
+        ts.forEach((t) -> {
             t.startFlashing();
-        }
+        });
     }
 
     /**
@@ -497,9 +484,9 @@ public final class Board {
      * @param ts 
      */
     public void unlightTiles(ArrayList<Tile> ts) {
-        for (Tile t : ts) {
+        ts.forEach((t) -> {
             t.stopFlashing();
-        }
+        });
     }
 
     /**
@@ -515,7 +502,9 @@ public final class Board {
         }
     }
 
-    
+    /**
+     * 
+     */
     public void highlightAllTiles() {
         for (Tile[] tr : tiles) {
             for (Tile t : tr) {
@@ -524,19 +513,6 @@ public final class Board {
                 }
             }
         }
-    }
-
-    
-    /**
-     * 
-     * @param start
-     * @param dice_roll
-     * @return List of tiles lit
-     */
-    public ArrayList<Tile> showAvailableMoves(Tile start, int dice_roll) {
-        ArrayList<Tile> r = reachableFrom(start, dice_roll);
-        highlightTiles(r);
-        return r;
     }
 
     /**
@@ -551,77 +527,11 @@ public final class Board {
     }
     
 
-    /**
-     * 
-     * @param tile 
-     */
-    public void startTile(Tile tile){
-        if(tile.isFlashing() == true){
-            tile.stopFlashing();
-        }
-        else{
-            tile.startFlashing();
-        }
-    }
+
     
-    /**
-     * 
-     * @return 
-     */
-    public ArrayList<Player> getPlayers() {
-        return players;
-    }
-
-    /**
-     *
-     * @param players
-     */
-    public void setPlayers(ArrayList<Player> players) {
-        this.players = players;
-    }
-    
-    /**
-     * 
-     * @param player
-     * @return 
-     */
-    public Tile getStartPos(Player player){
-        switch (player.getName()) {
-            case "Prof Plum":
-                return getTile(0,5);
-            case "Col Mustard":
-                return getTile(23,7);
-            case "Rev Green":
-                return getTile(9,24);
-            case "Mrs Peacock":
-                return getTile(0,18);
-            case "Mrs White":
-                return getTile(14,24);
-            default:
-                return getTile(16,0);
-        }
-        
-    }
-    public Tile setStartPos(int y,int x){
-        return getTile(y,x);
-    }
-
-    public Place[][] getPlaces() {
-        return places;
-    }
-
-    public Door[][] getDoors() {
-        return doors;
-    }
-
     public Tile[][] getTiles() {
         return tiles;
     }
 
-    public ArrayList<Passage> getPassages() {
-        return passages;
-    }
-    
-    
         
 }

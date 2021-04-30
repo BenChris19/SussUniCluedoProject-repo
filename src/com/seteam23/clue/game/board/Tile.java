@@ -1,29 +1,21 @@
-/*
- *      The Tile
- *
- *      A place where the player can move to
- *      Can be a start or tunnel?
- */
 package com.seteam23.clue.game.board;
 
 import static com.seteam23.clue.game.GameRevised.getCurrentPlayer;
 import com.seteam23.clue.game.entities.PlayerRevised;
 import java.util.HashMap;
-import javafx.animation.Animation;
-import javafx.animation.FadeTransition;
-import javafx.animation.KeyFrame;
-import javafx.animation.Timeline;
 import javafx.css.PseudoClass;
 import javafx.event.ActionEvent;
 import javafx.scene.control.Button;
-import javafx.util.Duration;
 
+/**Creates the subclass tile from place, which is located around the entire board, except for doors and rooms
+ *
+ * @author Team 23
+ */
 public class Tile extends Place {
 
-    private HashMap<String, Tile> adjacent;
-    private Button button;
+    private final HashMap<String, Tile> ADJACENT;
+    private final Button BUTTON;
 
-    private FadeTransition flasher;
     private static PseudoClass FLASH_HIGHLIGHT;
     private boolean flashing;
     
@@ -32,7 +24,9 @@ public class Tile extends Place {
    
 
     /**
-     * Constructor
+     * Constructs a tile inside the game board
+     * @param x
+     * @param y
      */
     public Tile(int x, int y) {
         // Can hold one Player at a time
@@ -41,70 +35,62 @@ public class Tile extends Place {
         this.x = x;
         this.y = y;
         
-        this.button = createButton();
-        
-        // 
+        this.BUTTON = createButton();
 
-        adjacent = new HashMap<>();
-        adjacent.put("N", null);
-        adjacent.put("S", null);
-        adjacent.put("E", null);
-        adjacent.put("W", null);
+        ADJACENT = new HashMap<>();
+        ADJACENT.put("N", null);
+        ADJACENT.put("S", null);
+        ADJACENT.put("E", null);
+        ADJACENT.put("W", null);
 
         FLASH_HIGHLIGHT = PseudoClass.getPseudoClass("flash-highlight");
-        flasher = new FadeTransition(Duration.millis(1200), this.getButton());
-        flasher.setFromValue(0.0);
-        flasher.setToValue(0.3);
-        flasher.setCycleCount(Animation.INDEFINITE);
-        flasher.setAutoReverse(true);
+
         
     }
     
-    /**
+    /**Getter method to get location of tile
      * 
-     * @return 
+     * @return the coordinates of the tile
      */
     public int[] getCoords() {
         return new int[]{this.x, this.y};
     }
     
     /**
-     * 
+     * Lights up tile
      */
     public void startFlashing() {
         if(!flashing){
             flashing = true;
             this.getButton().pseudoClassStateChanged(FLASH_HIGHLIGHT, true);
-            //flasher.play();
         }
     }
     
-    /**
+    /**Returns true of false depending on tile is flashing
      * 
-     * @return 
+     * @return true if Tile is flashing, false otherwise
      */
     public boolean isFlashing(){
         return this.flashing;
     }
     
     /**
-     * 
+     * Un lights the tile
      */
     public void stopFlashing() {
         if (flashing) {
             flashing = false;
             this.getButton().pseudoClassStateChanged(FLASH_HIGHLIGHT, false);
-            //flasher.stop();
         }
     }
 
     /**
      * Map of which items are in each compass direction
      *
-     * @return Map of which Places are directly adjacent
+     * @return Map of which Places are directly ADJACENT
      */
     public HashMap<String, Tile> getAdjacent() {
-        return adjacent;
+        return ADJACENT;
     }
 
     /**
@@ -114,7 +100,7 @@ public class Tile extends Place {
      * @param tile
      */
     public void setAdjacent(String direction, Tile tile) {
-        adjacent.put(direction, tile);
+        ADJACENT.put(direction, tile);
     }
     
     /**
@@ -163,13 +149,13 @@ public class Tile extends Place {
     
     /**
      * Creates the Tile's JavaFX Button
-     * @return button
+     * @return BUTTON
      */
     protected Button createButton() {
         Button button = new Button();
         
         button.setOnAction((ActionEvent e) -> {
-            if (getCurrentPlayer().getSearchSpace().contains(this)) {
+            if (getCurrentPlayer().getSearchSpace().contains(this) && getCurrentPlayer().getClass().equals(PlayerRevised.class)) {
                 this.activate();
             }
         });
@@ -180,9 +166,10 @@ public class Tile extends Place {
     
     /**
      * Gets the associated button
+     * @return 
      */
     public Button getButton() {
-        return this.button;
+        return this.BUTTON;
     }
     
     /**
@@ -191,10 +178,6 @@ public class Tile extends Place {
     public void activate() {
         getCurrentPlayer().getLocation().removeOccupier(getCurrentPlayer());
         getCurrentPlayer().moveTo(this);
-        if(this.getClass().equals(Door.class)){ //Not Working
-            System.out.print(true);
-            getCurrentPlayer().enterRoom(((Door)this).getRoom());
-        }
         this.addOccupier(getCurrentPlayer());
     }
 }

@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.seteam23.clue.game;
 
 import com.seteam23.clue.game.board.*;
@@ -13,7 +8,8 @@ import java.util.Collections;
 import java.util.Random;
 
 /**
- *
+ *The underlying clue game
+ * 
  * @author Team 23
  */
 public final class GameRevised {
@@ -29,12 +25,13 @@ public final class GameRevised {
     
     public static boolean gameLost = false;
     
-    private final ArrayList<Card> ALL_CARDS;
-    private final ArrayList<Card> WEAPON_CARDS;
-    private final ArrayList<Card> SUSPECT_CARDS;
-    private final ArrayList<Card> ROOM_CARDS;
+    public final ArrayList<Card> ALL_CARDS;
+    public final ArrayList<Card> WEAPON_CARDS;
+    public final ArrayList<Card> SUSPECT_CARDS;
+    public final ArrayList<Card> ROOM_CARDS;
+    
+    public final Card[] KILL_CARDS;
     private final ArrayList<Card> cards;
-    private final Card[] KILL_CARDS;
     
     private static PlayerRevised player;   // Current Player
     private static int turn = 0;   // Turn inc whenever new player
@@ -44,33 +41,33 @@ public final class GameRevised {
     
     /**
      * 
-     * @param controller
-     * @param humanPlayers
-     * @param numAI
-     * @param difficulty
-     * @param weapons
-     * @param suspects
-     * @param rooms
-     * @param all
+     * @param controller    Initialise GUI
+     * @param humanPlayers  The number of human players (Only multi player)
+     * @param numAI     The number of AI players  (Only single player)
+     * @param difficulty    The AI difficulty
+     * @param weapons   The weapon cards
+     * @param suspects  The suspect cards
+     * @param rooms     The room cards
+     * @param all   All cards
      */
     public GameRevised(GameControllerRevised controller, ArrayList<PlayerRevised> humanPlayers, int numAI, String difficulty, 
                        ArrayList<Card> weapons, ArrayList<Card> suspects, ArrayList<Card> rooms, ArrayList<Card> all) {
         // Set Vars and Finals
-        this.player = humanPlayers.get(0);
+        player = humanPlayers.get(0);
         
         this.PLAYER_ARRAY = new PlayerRevised[6];
         
         ArrayList<String> characters = new ArrayList<>(Arrays.asList("Miss Scarlett","Col Mustard","Mrs White","Rev Green","Mrs Peacock","Prof Plum"));
         
-        for (PlayerRevised p : humanPlayers) {
-            int charIndex = getOrder(p.NAME);
-            characters.get(charIndex);
-            PLAYER_ARRAY[charIndex] = p;
-        }
+        humanPlayers.forEach((p) -> {
+            int charIndex = characters.indexOf(p.NAME);
+            characters.remove(charIndex);
+            PLAYER_ARRAY[getOrder(p.NAME)] = p;
+        });
         
         for (int i = 0; i < numAI; i++) {
             int charIndex = r.nextInt(characters.size());
-            String name = characters.get(charIndex);
+            String name = characters.remove(charIndex);
             int order = getOrder(name);
             PLAYER_ARRAY[order] = newAI(name, difficulty);
         }
@@ -85,15 +82,16 @@ public final class GameRevised {
         this.ROOM_CARDS = rooms;
         this.ALL_CARDS = all;
         this.cards = all;
-        for (PlayerRevised p : PLAYERS){
+        
+        PLAYERS.forEach((p) -> {
             p.initialiseChecklist(getAllCards());
-        }
+        });
         
         // Set up Kill Cards
         this.KILL_CARDS = new Card[3];
         KILL_CARDS[0] = selectRandomCard(SUSPECT_CARDS);
-        KILL_CARDS[1] = selectRandomCard(ROOM_CARDS);
-        KILL_CARDS[2] = selectRandomCard(WEAPON_CARDS);
+        KILL_CARDS[1] = selectRandomCard(WEAPON_CARDS);
+        KILL_CARDS[2] = selectRandomCard(ROOM_CARDS);
         
         // Place Players on Board
         for (PlayerRevised p : PLAYERS) {
@@ -143,6 +141,12 @@ public final class GameRevised {
         this.CONTROLLER.setGame(this); // Hand to Controller
     }
     
+     /**
+     * Creates an AI agent
+     * @param name
+     * @param difficulty
+     * @return 
+     */
     private AIPlayer newAI(String name, String difficulty) {
         return new AIPlayer(this, name, "/resources/cards/players/"+name+".jpg", difficulty);
     }
@@ -152,7 +156,7 @@ public final class GameRevised {
      * @param name
      * @return 
      */
-    private int getOrder(String name) {
+    public int getOrder(String name) {
         switch (name) {
             case "Miss Scarlett":
                 return 0;
@@ -174,7 +178,7 @@ public final class GameRevised {
     /**
      * Selects random card from cardList, removes from cards to hand out 
      * @param cardList ArrayList
-     * @return 
+     * @return Picks one random card from an ArrayList of cards
      */
     private Card selectRandomCard(ArrayList<Card> cardList) {
         Card selected = cardList.get(r.nextInt(cardList.size()));
@@ -186,6 +190,7 @@ public final class GameRevised {
     
     /**
      * Get the Current Player
+     * 
      * @return Player or NPC
      */
     public static PlayerRevised getCurrentPlayer() {
@@ -193,13 +198,11 @@ public final class GameRevised {
     }
     
     /**
-     * Rolls 2d6 and returns combined result
-     * @param person
-     * @param weapon
-     * @param room
+     * Creates 2 random numbers (dices) and sums them
+     * @return the sum of the dices if the player can roll the dices, else return 0
      */
     public int rollDice(){
-        if (this.player.roll()) {
+        if (player.roll()) {
             int die1 = r.nextInt(6)+1;
             int die2 = r.nextInt(6)+1;
             int rolls = die1 + die2;
@@ -208,31 +211,18 @@ public final class GameRevised {
         return 0;
     }
     
-    
-    public void suggestion(String person, String weapon, Room room) {
-        PlayerRevised nextPlayer;
-        Card found = null;
-        int i = 1;
-        
-
-            while (found != null && i < num_players) {
-                nextPlayer = PLAYERS.get((turn+i) % num_players);
-                nextPlayer.enterRoom(room);
-                
-                for (Card c : nextPlayer.getCards()) {
-                    if (c.getName().equals(person+".jpg") || c.getName().equals(weapon+".JPG") || c.getName().equals(room.getName()+".png")) {
-                        found = c;
-                        break;
-                    }
-                }
-            }
-        
-    }
-    
+    /**Getter method to get the turn
+     *
+     * @return turn; the turn of the character
+     */
     public static int getTurn() {
         return turn;
     }
     
+    /**Getter method to get the current round of the game (every time the game returns back to the initial player)
+     *
+     * @return round; which round the game is on
+     */
     public static int getRound() {
         return round;
     }
@@ -242,40 +232,32 @@ public final class GameRevised {
      */
     public void nextTurn() {
         // Sets current player to next player
-        GameRevised.turn++;
-        GameRevised.round = (int) Math.ceil(GameRevised.turn / num_players);
-        GameRevised.player = PLAYERS.get(turn % num_players);
-
-        // Reset rolls and suggestions if player is playing 
-        if (GameRevised.player.isPlaying()) {
-            GameRevised.player.newTurn();
-        }
-        // Check if any Human Players left
-        else {
-            boolean peoplePlaying = false;
-            
-            for (PlayerRevised p : PLAYERS) {
-                // If Human, skip current Player because they're out
-                if (p.getClass().equals(Player.class) && p.isPlaying()) {
-                    nextTurn();
-                    peoplePlaying = true;
-                    break;
-                }
-            }
-            
-            if (!peoplePlaying) {
-                gameLost = true;
-            }
-        }
+        turn++;
+        round = (int) Math.ceil(GameRevised.turn / num_players);
+        player = PLAYERS.get(turn % num_players);
+        player.newTurn();
     }
+    
+    /**Gets all the cards from the game 
+     *
+     * @return all the cards from the game 
+     */
     public ArrayList<Card> getAllCards(){
         return this.ALL_CARDS;
     }
 
+    /**Getter method to get the murder cards
+     *
+     * @return the 3 murder cards
+     */
     public Card[] getKillCards() {
         return KILL_CARDS;
     }
     
+    /**Getter method to get the number of players in the game
+     *
+     * @return the number of players playing
+     */
     public int getNumberPlayers() {
         return this.num_players;
     }

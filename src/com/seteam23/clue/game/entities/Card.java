@@ -1,107 +1,61 @@
-/*
- *      The Cards
- *
- *      A Card can be a player, room, or weapon
- *
- */
 package com.seteam23.clue.game.entities;
 
-import java.util.Objects;
 import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 
 public class Card{
-    private String name;
-    private String imgPath;
-    private Image img;
-    private String cardType;
-    /**
+    private final String NAME;
+    private final String IMGPATH;
+    private final Image IMG;
+    private final String CARDTYPE;
+    
+    /**Creates the Card class, which contains every weapon, character and room
      *
      * @param name
      * @param imgPath
      * @param cardType
      */
     public Card(String name, String imgPath, String cardType){
-        this.name = name;
-        this.imgPath = imgPath;
-        this.cardType = cardType;
-        this.img = new Image(imgPath);
+        this.NAME = name;
+        this.IMGPATH = imgPath;
+        this.CARDTYPE = cardType;
+        this.IMG = new Image(imgPath);
     }
 
-    /**
+    /**Getter method to get the name of the card
      * 
-     * @return 
+     * @return the name of the card
      */
     public String getName() {
-        return name;
+        return NAME;
     }
 
-    /**
-     * 
-     * @param name 
-     */
-    public void setName(String name) {
-        this.name = name;
-    }
 
-    /**
+    /**Getter method to get the Image path of the card
      * 
-     * @return 
+     * @return the card image path
      */
     public String getImgPath() {
-        return imgPath;
+        return IMGPATH;
     }
 
-    /**
-     * 
-     * @param imgPath 
+    /**Getter method to get the card image
+     *
+     * @return the card image
      */
-    public void setImgPath(String imgPath) {
-        this.imgPath = imgPath;
-    }
-    
     public Image getImg() {
-        return this.img;
+        return this.IMG;
     }
 
-    /**
+    /**Getter method to get the type of card
      * 
-     * @return 
+     * @return the type of card
      */
     public String getCardType() {
-        return cardType;
+        return CARDTYPE;
     }
 
-    /**
-     * 
-     * @param cardType 
-     */
-    public void setCardType(String cardType) {
-        this.cardType = cardType;
-    }
 
-    @Override
-    public int hashCode() {
-        int hash = 5;
-        hash = 37 * hash + Objects.hashCode(this.name);
-        return hash;
-    }
 
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj) {
-            return true;
-        }
-        if (obj == null) {
-            return false;
-        }
-        if (getClass() != obj.getClass()) {
-            return false;
-        }
-        final Card other = (Card) obj;
-        if (!Objects.equals(this.name, other.name)) {
-            return false;
-        }
-        return true;
-    }
+
+
 }

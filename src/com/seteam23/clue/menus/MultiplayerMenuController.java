@@ -174,6 +174,7 @@ public class MultiplayerMenuController implements Initializable {
             if(prevCharacter == null){
                 buttonScarlett.setDisable(true);
                 PLAYING_PLAYERS.add("Miss Scarlett");
+                
 
             }
             else{
@@ -181,7 +182,7 @@ public class MultiplayerMenuController implements Initializable {
                 PLAYING_PLAYERS.add(prevCharacter.getText());
             }
             choosingRange+=1;
-            
+            confirm.setDisable(true);
             
             if(choosingRange == (Integer) numPlayers.getValue()){
                 board_game.setDisable(false);

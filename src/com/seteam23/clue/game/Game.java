@@ -14,7 +14,7 @@ import java.util.Random;
 
 /**
  * 
- * @author Team 23
+ * @author InfernoKay
  */
 public final class Game {
     

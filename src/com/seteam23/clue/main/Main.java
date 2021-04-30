@@ -12,7 +12,7 @@ import javafx.scene.transform.Scale;
 /**
  *Main class, executes the program and shows the main menu.
  * 
- * @author Team 23
+ * @author team23
  */
 public class Main extends Application {
 

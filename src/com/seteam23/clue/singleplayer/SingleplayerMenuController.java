@@ -27,7 +27,7 @@ import javafx.stage.Stage;
  * The controller class, allows the FXML file to be initialised, and
  * allows the user to interact with the GUI.
  *
- * @author Team 23
+ * @author team23
  */
 public class SingleplayerMenuController implements Initializable {
     @FXML

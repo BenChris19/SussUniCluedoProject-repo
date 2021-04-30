@@ -6,10 +6,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Random;
 
-/**
- * 
- * @author Team 23
- */
 public class SingleplayerMenu{
     private static Player player1;
     private static ArrayList<NPC> opponentPlayers;

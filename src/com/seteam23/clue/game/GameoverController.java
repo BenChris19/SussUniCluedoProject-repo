@@ -30,7 +30,7 @@ import javafx.stage.Stage;
 /**
  * FXML Controller class
  *
- * @author Team 23
+ * @author benat
  */
 public class GameoverController implements Initializable {
 

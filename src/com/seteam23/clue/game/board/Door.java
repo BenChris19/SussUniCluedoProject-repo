@@ -10,7 +10,7 @@ import static com.seteam23.clue.singleplayer.SingleplayerMenu.getPlayer1;
 import javafx.scene.layout.GridPane;
 /**
  *
- * @author Team 23
+ * @author Team23
  */
 public class Door extends Tile {
     

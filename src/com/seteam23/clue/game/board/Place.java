@@ -18,7 +18,7 @@ import javafx.scene.layout.GridPane;
 
 /**
  *
- * @author Team 23
+ * @author InfernoKay
  */
 public abstract class Place {
     private int max_players;

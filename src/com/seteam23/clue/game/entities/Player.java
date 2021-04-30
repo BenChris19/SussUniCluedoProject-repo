@@ -14,10 +14,6 @@ import java.util.List;
 import java.util.Random;
 import javafx.collections.ObservableList;
 
-/**
- * 
- * @author Team 23
- */
 public class Player {
 
     private int order;

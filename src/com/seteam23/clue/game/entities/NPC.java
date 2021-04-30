@@ -10,7 +10,7 @@ import java.util.Random;
 
 /**
  *
- * @author Team 23
+ * @author team23
  */
 public class NPC extends Player{
     private final String difficulty;

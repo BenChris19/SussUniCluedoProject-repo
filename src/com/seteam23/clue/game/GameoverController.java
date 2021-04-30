@@ -1,17 +1,10 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.seteam23.clue.game;
 
 
 import com.seteam23.clue.main.Main;
-import com.seteam23.clue.menus.SingleplayerMenuController;
 import java.io.File;
 import java.net.URL;
 import java.util.ResourceBundle;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -26,21 +19,26 @@ import javafx.scene.media.MediaPlayer;
 import javafx.stage.Stage;
 
 /**
- * FXML Controller class
+ * FXML GameOverController class
+ * Initialises and FXML file with a message to show if the player has either won or lost the game
  *
- * @author benat
+ * @author Team23
  */
 public class GameoverController implements Initializable {
 
     @FXML private Button playAgainButton;
     @FXML private Label winloseMess;
     @FXML private ImageView winLoseImg;
+    
     /**
-     * Initializes the controller class.
+     * Initialises the controller class.
+     * Changes the FXML file to be shown if the player has won or lost the game
+     * @param url
+     * @param rb
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        if(GameRevised.gameLost){
+        if(GameRevised.gameLost){   //Player has lost
             winloseMess.setText("YOU LOSE!");
             winloseMess.setVisible(true);
             winloseMess.setVisible(true);
@@ -51,7 +49,7 @@ public class GameoverController implements Initializable {
             MediaPlayer mediaPlayer = new MediaPlayer(sound);
             mediaPlayer.play();
         }
-        else{
+        else{   //Player has won
             winloseMess.setText("YOU WIN!");
             winloseMess.setVisible(true);
             winloseMess.setVisible(true);
@@ -64,8 +62,12 @@ public class GameoverController implements Initializable {
             
         }
     }    
-        @FXML
-    private void playAgain(ActionEvent event) throws Exception {
+    
+    /**
+     * Gives the player the ability to play again
+     */
+    @FXML
+    private void playAgain() throws Exception {
 
         Parent again = FXMLLoader.load(Main.class.getResource("main.fxml"));
         
@@ -75,8 +77,11 @@ public class GameoverController implements Initializable {
         window.setFullScreen(true);
         Main.makeFullscreen(again,871.9,545);
     }
+    /**
+     * Allows the user to quit the game and exit the system
+     */
     @FXML
-    private void quitGame(ActionEvent event) throws Exception {
+    private void quitGame() throws Exception {
         System.exit(0);
         
     }

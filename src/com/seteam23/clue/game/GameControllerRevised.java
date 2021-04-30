@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.seteam23.clue.game;
 
 import static com.seteam23.clue.game.GameRevised.BOARD;
@@ -48,7 +43,7 @@ import javafx.scene.media.MediaPlayer;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
-/**
+/**GameController class initialises the GUI for the user
  *
  * @author Team 23
  */
@@ -57,7 +52,6 @@ public final class GameControllerRevised implements Initializable {
     /*
      *  FXML Setup
      */
-    @FXML private Tab boardTab;
     @FXML private Tab cardsTab;
     @FXML private Tab checklistTab;
     
@@ -90,7 +84,7 @@ public final class GameControllerRevised implements Initializable {
     public static final HashMap<String, ImageView[]> PLAYER_MARKERS = new HashMap<>();
     
     /**
-     * Initializes the controller class.
+     * Initialises the controller class.
      * @param url
      * @param rb
      */
@@ -105,19 +99,19 @@ public final class GameControllerRevised implements Initializable {
         
         createButtons();
        
-        BOARD.getRooms().forEach((room) -> {
+        BOARD.getRooms().forEach((Room roomGame) -> {
             ImageView[] playerRoomIcon = new ImageView[9];
-            int[][] pos = room.getPlayerIndicatorPos();
+            int[][] pos = roomGame.getPlayerIndicatorPos();
             for (int i = 0; i < 6; i++) {
                 int[] coord = pos[i];
                 ImageView img = new ImageView(new Image(playerImg[i], 35, 35, false, false));
                 img.setFitHeight(35);
-                img.setFitWidth(35); 
+                img.setFitWidth(35);
                 img.setVisible(false);
                 playerRoomIcon[i] = img;
                 grid.add(playerRoomIcon[i], coord[0], coord[1]);
             }
-            PLAYER_MARKERS.put(room.getName(), playerRoomIcon);
+            PLAYER_MARKERS.put(roomGame.getName(), playerRoomIcon);
         });
         
     }
@@ -128,13 +122,16 @@ public final class GameControllerRevised implements Initializable {
      */
     public void setGame(GameRevised game) {
         this.game = game;
-        this.player = game.getCurrentPlayer();
+        this.player = GameRevised.getCurrentPlayer();
         player_img.setImage(new Image(this.player.IMG_PATH));
         setPanes();
         
         this.player.newTurn();
     }
     
+    /**Setter method for the 2 panes in the game, card pane and checklist pane, on each tab.
+     *
+     */
     public void setPanes() {
         try {
             cardsTab.setContent(createCardPane());
@@ -145,10 +142,10 @@ public final class GameControllerRevised implements Initializable {
     }
     
     /**
-     * 
+     * Creates a click able board
      */
     private void createButtons() {
-        for (Tile[] tileArr : game.BOARD.getTiles()) {
+        for (Tile[] tileArr : BOARD.getTiles()) {
             for (Tile tile : tileArr) {
                 if (tile != null) grid.add(tile.getButton(), tile.x ,tile.y);
             }
@@ -156,15 +153,17 @@ public final class GameControllerRevised implements Initializable {
     }
     
     /**
-     * 
+     * Illustrates the user of an animation of a hand rolling dices
      */
     private void rollDieAnimation() {
         Timeline timeline = new Timeline(
             new KeyFrame(Duration.ZERO, e -> {
+                
                 String winsound = "Dice-Roll-Sound.m4a";
                 Media sound = new Media(new File(winsound).toURI().toString());
                 MediaPlayer mediaPlayer = new MediaPlayer(sound);
                 mediaPlayer.play();
+                
                 moves_label.setVisible(false);
                 diceThrow.setVisible(true);
             }),
@@ -178,8 +177,9 @@ public final class GameControllerRevised implements Initializable {
     
     
     /*
-     *  FXML Methods
-     */
+     *  When pressed on the roll die button, the player should be able to roll 2 dices
+     *
+    */
     
     @FXML
     public void rollDie() {
@@ -213,6 +213,9 @@ public final class GameControllerRevised implements Initializable {
         }
     }
     
+    /**
+     *Allows the user to make a suggestion, provided that they are in a room and they can choose which player to do a suggestion on.
+     */
     @FXML
     public void makeSuggestion() {
         if(this.player.isInRoom()){
@@ -292,6 +295,9 @@ public final class GameControllerRevised implements Initializable {
             }
         }
     }
+    /*
+    *Check if there are any human players within all the playing players (method for singleplayer)
+    */
     private boolean checkHuman(){
         boolean isHumanLeft = false;
         for(PlayerRevised p: game.PLAYERS){
@@ -302,6 +308,10 @@ public final class GameControllerRevised implements Initializable {
         return isHumanLeft;
     }
     
+    /**Allows the user to make accusations, after making a suggestion
+     *
+     * @throws IOException
+     */
     @FXML
     public void makeAccusation() throws IOException {
         player.accuse();
@@ -329,6 +339,9 @@ public final class GameControllerRevised implements Initializable {
         
     }
     
+    /**Allows the player to finish their turn, and proceed to the next player.
+     *
+     */
     @FXML
     public void endTurn() {
         // Reset GUI
@@ -377,36 +390,42 @@ public final class GameControllerRevised implements Initializable {
     */
     private Pane createCardPane() throws FileNotFoundException{
         TilePane cardPane = new TilePane();
-        for(Card c:player.getCards()){
-            
-            Image temp = new Image(getClass().getResourceAsStream(c.getImgPath()));
+        player.getCards().stream().map((c) -> new Image(getClass().getResourceAsStream(c.getImgPath()))).map((temp) -> {
             ImageView showCard = new ImageView();
             showCard.setImage(temp);
+            return showCard;
+        }).map((showCard) -> {
             showCard.setFitHeight(200);
+            return showCard;
+        }).map((showCard) -> {
             showCard.setFitWidth(125);
-
+            return showCard;
+        }).forEachOrdered((showCard) -> {
             cardPane.getChildren().add(showCard);
-            
-        }
+        });
         return cardPane;
     }
     
     
-    /**
+    /**Creates the checklist pane for the Checklist tab
      * 
-     * @return 
+     * @return Node, Node to add to the Checklist tab
      */
     private Node createChecklistPane() {
         GridPane tablePane = new GridPane();
         TableView table = new TableView();
+        
         TableColumn<ChecklistEntry, String> nameCol = new TableColumn<>("Name");
         TableColumn<ChecklistEntry, String> cardTypeCol = new TableColumn<>("Card Type");
         TableColumn<ChecklistEntry, Button> markedCol = new TableColumn<>("Marked");
+        
         ObservableList<ChecklistEntry> checklistElements = player.getChecklistEntries();
         table.setItems(checklistElements);
-        nameCol.setCellValueFactory(new PropertyValueFactory<ChecklistEntry, String>("name"));
-        cardTypeCol.setCellValueFactory(new PropertyValueFactory<ChecklistEntry, String>("cardType"));
-        markedCol.setCellValueFactory(new PropertyValueFactory<ChecklistEntry, Button>("markButton"));
+        
+        nameCol.setCellValueFactory(new PropertyValueFactory<>("name"));
+        cardTypeCol.setCellValueFactory(new PropertyValueFactory<>("cardType"));
+        markedCol.setCellValueFactory(new PropertyValueFactory<>("markButton"));
+        
         table.getColumns().setAll(nameCol, cardTypeCol, markedCol);
         table.setRowFactory(tv -> new TableRow<ChecklistEntry>() {
         @Override
@@ -443,11 +462,18 @@ public final class GameControllerRevised implements Initializable {
     }
     
     
-    
+     /**Setter method to get a person form the ComboBox
+     *
+     * @param i
+     */
     public void setPerson(int i) {
         person.getSelectionModel().select(i);
     }
 
+     /**Setter method to get a weapon from the ComboBox
+     *
+     * @param i
+     */
     public void setWeapon(int i) {
         weapon.getSelectionModel().select(i);
     }

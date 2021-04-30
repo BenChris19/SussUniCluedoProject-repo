@@ -1,11 +1,3 @@
-/*
- *      Game
- *
- *      Main loops and game logic
- *      Most of code will be here (probably)
- *      User input detected here
- *      Constructs Players and Board
- */
 package com.seteam23.clue.menus;
 
 import com.seteam23.clue.game.entities.Card;
@@ -13,7 +5,10 @@ import com.seteam23.clue.game.entities.PlayerRevised;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-/**
+/**MenuController
+ * 
+ * Initialises the playable game, by handing out cards to each player, choosing the murder cards and 
+ * setting up the order of the playing characters.
  * 
  * @author Team 23
  */
@@ -36,11 +31,11 @@ public class Menu {
     public final ArrayList<Card> ROOM_CARDS = new ArrayList<>();
     
     /**
-     * 
+     * Creates cards and organises them into weapons,characters and rooms
      */
     public Menu() {
         WEAPON_PATHS.forEach((path) -> {
-            WEAPON_CARDS.add(new Card(path.split("/")[4], path, path.split("/")[3]));
+            WEAPON_CARDS.add(new Card(path.split("/")[4], path, path.split("/")[3]));   //Creates a card object, using regex it takes the name of the card and card type from image path
         });
         CHARACTER_PATHS.forEach((path) -> {
             SUSPECT_CARDS.add(new Card(path.split("/")[4], path, path.split("/")[3]));
@@ -60,7 +55,7 @@ public class Menu {
     /**
      * Get index between 0 to 5 (inclusive) based on which character name is given
      * @param name
-     * @return 
+     * @return an integer from 0 to 5, showing the order of each character
      */
     public int getOrder(String name) {
         switch (name) {

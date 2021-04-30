@@ -15,35 +15,37 @@ import javafx.collections.ObservableList;
  * @author Team 23
  */
 public class Checklist {
-    private HashMap<Card, Boolean> marked;
+    private final HashMap<Card, Boolean> MARKED;
     public Checklist(){
-        marked = new HashMap<>();
+        MARKED = new HashMap<>();
     }
     
     public void add(Card c){
-        marked.put(c, false);
+        MARKED.put(c, false);
     }
     public void mark(Card c){
-        if (marked.get(c) == false){
-            marked.put(c, true);
+
+        if (MARKED.get(c) == false){
+            //System.out.println(getValue(c));
+            MARKED.put(c, true);
             getEntries();
         }
         else{
-            marked.put(c, false);
+            MARKED.put(c, false);
         }
     }
     public Boolean getValue(Card c){
-        return marked.get(c);
+        return MARKED.get(c);
     }
     public Collection<Boolean> values(){
-        return marked.values();
+        return MARKED.values();
     }
     public Collection<Card> keys(){
-        return marked.keySet();
+        return MARKED.keySet();
     }
     public ObservableList<ChecklistEntry> getEntries(){
         ObservableList<ChecklistEntry> data = FXCollections.observableArrayList();
-        marked.entrySet().forEach((entry) -> {
+        MARKED.entrySet().forEach((entry) -> {
             Card key = entry.getKey();
             Boolean value = entry.getValue();
             data.add(new ChecklistEntry(this, key));

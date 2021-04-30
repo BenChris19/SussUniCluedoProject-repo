@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.seteam23.clue.game.entities;
 
 import com.seteam23.clue.game.GameRevised;
@@ -11,7 +6,9 @@ import com.seteam23.clue.game.board.*;
 import java.util.ArrayList;
 import javafx.collections.ObservableList;
 
-/**
+/**Initialises the Player class
+ * The Player should be able to finish their turn, make accusations, make suggestions, make extra suggestions, have extra rolls and
+ * move their game piece around the board
  *
  * @author Team 23
  */
@@ -32,7 +29,7 @@ public class PlayerRevised {
     protected int suggest_remaining = 0;
     private boolean out = false;
     
-    /**
+    /**Player, initialises the player class with the name of the character, and its imagePath
      * 
      * @param name
      * @param imgPath
@@ -70,7 +67,7 @@ public class PlayerRevised {
     }
     
     /**
-     * Move this player to a given room     * 
+     * Move this player to a given room     
      * @param room
      */
     public void enterRoom(Room room) {
@@ -128,16 +125,16 @@ public class PlayerRevised {
     }
     
     /**
-     * 
+     * Unlights the tiles from the places the user can move
      */
     public void clearSearchSpace() {
         BOARD.unlightTiles(searchSpace);
         this.searchSpace.clear();
     }
     
-    /**
+    /**Getter method to get the search space
      * 
-     * @return 
+     * @return the search space of the player, a.k.a the area the player can move
      */
     public ArrayList<Tile> getSearchSpace() {
         return this.searchSpace;
@@ -145,7 +142,7 @@ public class PlayerRevised {
     
     /**
      * Decrease counter for roll
-     * @return 
+     * @return true, if the player can still roll, false otherwise
      */
     public boolean roll() {
         if (rolls_remaining > 0) {
@@ -156,8 +153,8 @@ public class PlayerRevised {
     }
     
     /**
-     * 
-     * @return 
+     * Decrease counter for suggest
+     * @return true, if the player can still suggest, false otherwise
      */
     public boolean suggest() {
         if (suggest_remaining > 0) {
@@ -167,17 +164,17 @@ public class PlayerRevised {
         return false;
     }
     
-    /**
+    /**Boolean method for the player to be able to roll or not.
      * 
-     * @return 
+     * @return true if the player can still roll, false otherwise
      */
     public boolean canRoll() {
         return rolls_remaining > 0;
     }
     
-    /**
+    /**Boolean method for the player to be able to roll or not.
      * 
-     * @return 
+     * @return true if the player can still roll, false otherwise
      */
     public boolean canSuggest() {
         return suggest_remaining > 0;
@@ -232,6 +229,10 @@ public class PlayerRevised {
         return !out;
     }
     
+    /**Initialises the checklist and sets as marked given an ArrayList of cards
+     *
+     * @param gameCards
+     */
     public void initialiseChecklist(ArrayList<Card> gameCards){
         checklist = new Checklist();
         gameCards.forEach((c) -> {
@@ -239,6 +240,10 @@ public class PlayerRevised {
         });
     }
     
+    /**Gets the elements from the checklist entries
+     *
+     * @return the entries of the checklist given to the player
+     */
     public ObservableList<ChecklistEntry> getChecklistEntries(){
         return checklist.getEntries();
     }

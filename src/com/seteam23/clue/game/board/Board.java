@@ -1,14 +1,6 @@
-/*
- *      The Board / Map
- *
- *      Constructs Rooms and Tiles
- *      Players exist within the Board
- */
 package com.seteam23.clue.game.board;
 
-import com.seteam23.clue.game.entities.Player;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Random;
 
@@ -22,7 +14,7 @@ public final class Board {
     private Tile[][] tiles; //Tiles
     private ArrayList<Passage> passages;
     
-    private ArrayList<Player> players = new ArrayList<>();
+
 
 
     public Board(){
@@ -544,43 +536,9 @@ public final class Board {
         }
     }
     
-    /**
-     * 
-     * @return 
-     */
-    public ArrayList<Player> getPlayers() {
-        return players;
-    }
+  
 
-    /**
-     *
-     * @param players
-     */
-    public void setPlayers(ArrayList<Player> players) {
-        this.players = players;
-    }
-    
-    /**
-     * 
-     * @param player
-     * @return 
-     */
-    public Tile getStartPos(Player player){
-        switch (player.getName()) {
-            case "Prof Plum":
-                return getTile(0,5);
-            case "Col Mustard":
-                return getTile(23,7);
-            case "Rev Green":
-                return getTile(9,24);
-            case "Mrs Peacock":
-                return getTile(0,18);
-            case "Mrs White":
-                return getTile(14,24);
-            default:
-                return getTile(16,0);
-        }
-    }
+
     
     public Tile setStartPos(int y,int x){
         return getTile(y,x);

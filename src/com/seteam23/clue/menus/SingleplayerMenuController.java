@@ -21,9 +21,9 @@ import javafx.scene.control.ComboBox;
 import javafx.stage.Stage;
 
 /**
- * FXML GameController class
+ * FXML SinglePlayerMenuController class
  * The controller class, allows the FXML file to be initialised, and
- * allows the user to interact with the GUI
+ * allows the user to interact with the single player character selection menu GUI
  *
  * @author Team 23
  */
@@ -41,7 +41,7 @@ public class SingleplayerMenuController implements Initializable {
     @FXML private ComboBox<Integer> numPlayers;
 
     private Button prevCharacter;
-    private String charName = "Miss Scarlett";
+    private String charName = "Miss Scarlett";  //Set Miss Scarlett as default
 
 
     /**
@@ -58,7 +58,7 @@ public class SingleplayerMenuController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         ObservableList<String> listDif = FXCollections.observableArrayList("EASY","MEDIUM","HARD");
         difLevel.setItems(listDif);
-        difLevel.getSelectionModel().select("MEDIUM");
+        difLevel.getSelectionModel().select("MEDIUM");  //Select "MEDIUM" as default
         ObservableList<Integer> listOpo = FXCollections.observableArrayList(1,2,3,4,5);
         numPlayers.setItems(listOpo);
         numPlayers.getSelectionModel().select(2);    // Index position in observableArray    
@@ -67,11 +67,9 @@ public class SingleplayerMenuController implements Initializable {
     
     /**
      * Changes to the Main Menu's Scene.
-     * @param event executes and event, in this case, it goes to the previous window i.e 
-     * the main menu
      */
     @FXML
-    private void mainMenu(ActionEvent event) throws Exception{
+    private void mainMenu() throws Exception{
         Parent root = FXMLLoader.load(MainController.class.getResource("main.fxml"));
         
         Stage window_menu = (Stage)main_menu.getScene().getWindow();
@@ -82,11 +80,9 @@ public class SingleplayerMenuController implements Initializable {
     
     /**
      * Changes to the Board's Scene.
-     * @param event executes and event, in this case, it goes to the next window i.e 
-     * the board game.
      */
     @FXML
-    private void continueBoard(ActionEvent event) throws Exception {
+    private void continueBoard() throws Exception {
         ArrayList<PlayerRevised> playerList = new ArrayList<PlayerRevised>(){
             {
                 add(MENU.newPlayer(charName));
@@ -97,7 +93,7 @@ public class SingleplayerMenuController implements Initializable {
         GameControllerRevised ctrl = loader.getController();
         
         GameRevised game = new GameRevised(ctrl, playerList, numPlayers.getSelectionModel().getSelectedItem(), difLevel.getSelectionModel().getSelectedItem(),
-                                           MENU.WEAPON_CARDS, MENU.SUSPECT_CARDS, MENU.ROOM_CARDS, MENU.ALL_CARDS);
+                                           MENU.WEAPON_CARDS, MENU.SUSPECT_CARDS, MENU.ROOM_CARDS, MENU.ALL_CARDS); //Initialise game
         
         Stage window_menu = (Stage)board_game.getScene().getWindow();
         window_menu.setScene(new Scene(gameScene));
@@ -119,7 +115,7 @@ public class SingleplayerMenuController implements Initializable {
         charName = b.getText();
         
         if(!b.getText().equals("Miss Scarlett")){
-            this.buttonScarlett.setStyle("-fx-background-color: transparent");
+            this.buttonScarlett.setStyle("-fx-background-color: transparent");  //As Miss Scarlett is default, the way of unselecting the character is different
             b.setStyle("-fx-background-color: yellow");
         }
         else{

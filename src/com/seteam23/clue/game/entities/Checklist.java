@@ -17,16 +17,34 @@ import javafx.collections.ObservableList;
 /**
  *
  * @author Joseph
+ * 
+ * Adds functionality for a player to mark off cards they have observed in game.
  */
 public class Checklist {
     private HashMap<Card, Boolean> marked;
+
+    /**
+     *
+     */
     public Checklist(){
         marked = new HashMap<>();
     }
     
+    /**
+     *
+     * @param c 
+     * Adds a card to the hashmap. Initially sets it's value to false
+     */
     public void add(Card c){
         marked.put(c, false);
     }
+
+    /**
+     *
+     * @param c
+     * Performs binary flip on the value of a card in the hashmap. Used to mark or 
+     * unmark a card.
+     */
     public void mark(Card c){
         if (marked.get(c) == false){
             //System.out.println(getValue(c));
@@ -37,15 +55,37 @@ public class Checklist {
             marked.put(c, false);
         }
     }
+
+    /**
+     *
+     * @param c
+     * @return
+     */
     public Boolean getValue(Card c){
         return marked.get(c);
     }
+
+    /**
+     * 
+     * @return
+     */
     public Collection<Boolean> values(){
         return marked.values();
     }
+
+    /**
+     *
+     * @return
+     */
     public Collection<Card> keys(){
         return marked.keySet();
     }
+
+    /**
+     * Returns an observable list of hashmap values placed in to ChecklistEntry 
+     * objects to be displayed in the checklist table in the GUI.
+     * @return
+     */
     public ObservableList<ChecklistEntry> getEntries(){
         ObservableList<ChecklistEntry> data = FXCollections.observableArrayList();
         marked.entrySet().forEach((entry) -> {

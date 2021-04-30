@@ -40,13 +40,19 @@ public class Menu {
      */
     public Menu() {
         WEAPON_PATHS.forEach((path) -> {
-            WEAPON_CARDS.add(new Card(path.split("/")[4], path, path.split("/")[3]));
+            String name = path.split("/")[4];
+            name = name.substring(0, name.length()-4);
+            WEAPON_CARDS.add(new Card(name, path, path.split("/")[3]));
         });
         CHARACTER_PATHS.forEach((path) -> {
-            SUSPECT_CARDS.add(new Card(path.split("/")[4], path, path.split("/")[3]));
+            String name = path.split("/")[4];
+            name = name.substring(0, name.length()-4);
+            SUSPECT_CARDS.add(new Card(name, path, path.split("/")[3]));
         });
         ROOM_PATHS.forEach((path) -> {
-            ROOM_CARDS.add(new Card(path.split("/")[4], path, path.split("/")[3]));
+            String name = path.split("/")[4];
+            name = name.substring(0, name.length()-4);
+            ROOM_CARDS.add(new Card(name, path, path.split("/")[3]));
         });
         ALL_CARDS.addAll(WEAPON_CARDS);
         ALL_CARDS.addAll(SUSPECT_CARDS);

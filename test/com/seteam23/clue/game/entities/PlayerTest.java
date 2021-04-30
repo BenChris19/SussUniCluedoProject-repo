@@ -43,8 +43,6 @@ public class PlayerTest {
         assertEquals(entries.get(0).getChecked(), false);
         instance1.markCard(entries.get(0));
         assertEquals(entries.get(0).getChecked(), true);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
     }
 
     /**
@@ -60,6 +58,31 @@ public class PlayerTest {
         instance1.addCard(new Card("Wrench", "w.jpg", "weapon"));
         ArrayList<Card> result = instance1.viewCards();
         assertArrayEquals(expResult.toArray(), result.toArray());
-        // TODO review the generated test code and remove the default call to fail.
-    }    
+    }
+    
+    /**
+     * Tests the make accusation method in the Player class.
+     */
+    @Test
+    public void makeAccusationTest() {
+        Player player = new Player("Miss Scarlett", 0, "Miss_Scarlett.jpg", 0, 0, false, true);
+        Card person = new Card("patrick", "patrick.jpg", "character");
+        Card weapon = new Card("wrench", "wrench.jpg", "weapon");
+        Card room = new Card("library", "library.jpg", "room");
+        String suggestion = player.makeAccusation(person, weapon, room);
+        String expSuggestion = "Person: "+person+" Weapon: "+weapon+" Room: "+room;
+        assertEquals(expSuggestion, suggestion);
+    }
+    
+    /**
+     * Tests the roll dice method in the Player class.
+     */
+    public void rollDiceTest() {
+        Player player = new Player("Miss Scarlett", 0, "Miss_Scarlett.jpg", 0, 0, false, true);
+        int[] dice = player.rollDice();
+        assertNotNull(dice.length);
+        assertNotEquals(0, dice.length);
+        assertNotEquals(1, dice.length);
+    }
+    
 }

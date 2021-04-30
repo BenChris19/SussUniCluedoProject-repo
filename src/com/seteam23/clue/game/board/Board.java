@@ -439,9 +439,7 @@ public final class Board {
         for (Door door : room.getDoors()) {
             int[] s = door.getCoords();
             
-            System.out.println(door.getAdjacent().size());
             door_reach = reachableRecursive(door, die_roll);
-            System.out.println(door_reach.size());
             
             // All Tiles Reachable from Room
             for (Tile tile : door_reach) {
@@ -458,7 +456,6 @@ public final class Board {
                         reach.add(tile);
                     }
                 }
-                System.out.println(Arrays.toString(reach.toArray()));
             }
         }
         // Passage in room

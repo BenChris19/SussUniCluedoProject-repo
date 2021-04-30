@@ -29,12 +29,13 @@ public final class GameRevised {
     
     public static boolean gameLost = false;
     
-    private final ArrayList<Card> ALL_CARDS;
-    private final ArrayList<Card> WEAPON_CARDS;
-    private final ArrayList<Card> SUSPECT_CARDS;
-    private final ArrayList<Card> ROOM_CARDS;
+    public final ArrayList<Card> ALL_CARDS;
+    public final ArrayList<Card> WEAPON_CARDS;
+    public final ArrayList<Card> SUSPECT_CARDS;
+    public final ArrayList<Card> ROOM_CARDS;
+    
+    public final Card[] KILL_CARDS;
     private final ArrayList<Card> cards;
-    private final Card[] KILL_CARDS;
     
     private static PlayerRevised player;   // Current Player
     private static int turn = 0;   // Turn inc whenever new player
@@ -207,27 +208,6 @@ public final class GameRevised {
             return rolls;
         }
         return 0;
-    }
-    
-    
-    public void suggestion(String person, String weapon, Room room) {
-        PlayerRevised nextPlayer;
-        Card found = null;
-        int i = 1;
-        
-
-            while (found != null && i < num_players) {
-                nextPlayer = PLAYERS.get((turn+i) % num_players);
-                nextPlayer.enterRoom(room);
-                
-                for (Card c : nextPlayer.getCards()) {
-                    if (c.getName().equals(person+".jpg") || c.getName().equals(weapon+".JPG") || c.getName().equals(room.getName()+".png")) {
-                        found = c;
-                        break;
-                    }
-                }
-            }
-        
     }
     
     public static int getTurn() {

@@ -45,8 +45,8 @@ public class AIPlayer extends PlayerRevised {
      */
     @Override
     public void newTurn() {
-        rolls_remaining = 1;
-        suggest_remaining = 1;
+        rolls_remaining += 1;
+        suggest_remaining += 1;
         
         Timeline timeline = new Timeline(
             new KeyFrame(Duration.seconds(1), e -> {
@@ -54,16 +54,32 @@ public class AIPlayer extends PlayerRevised {
             }),
             new KeyFrame(Duration.seconds(4), e -> {
                 switch (this.difficulty) {
+                    case "HARD":
+                        break;
+                    // EASY OR MEDIUM
                     default:
                         searchSpace.get(r.nextInt(searchSpace.size())).activate();
                 }
                 
             }),
             new KeyFrame(Duration.seconds(6), e -> {
-               if (isInRoom()) {
-                        this.game.CONTROLLER.getPerson(r.nextInt(6));
-                        this.game.CONTROLLER.getWeapon(r.nextInt(6));
-                        this.game.CONTROLLER.makeSuggestion();
+                ArrayList<Card> choice;
+                if (isInRoom()) {
+                    switch (this.difficulty) {
+                        case "EASY":
+                            this.game.CONTROLLER.getPerson(r.nextInt(6));
+                            this.game.CONTROLLER.getWeapon(r.nextInt(6));
+                            break;
+                        case "HARD":
+                            break;
+                        default:
+                            choice = this.game.SUSPECT_CARDS;
+                            this.game.CONTROLLER.getPerson(r.nextInt(6));
+                            this.game.CONTROLLER.getWeapon(r.nextInt(6));
+                        }
+                    this.game.CONTROLLER.getPerson(r.nextInt(6));
+                    this.game.CONTROLLER.getWeapon(r.nextInt(6));
+                    this.game.CONTROLLER.makeSuggestion();
                 }
                 
             }),

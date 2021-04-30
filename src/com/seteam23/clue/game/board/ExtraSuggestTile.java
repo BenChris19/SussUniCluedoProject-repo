@@ -10,7 +10,7 @@ import static com.seteam23.clue.game.GameRevised.getRound;
 
 /**
  *
- * @author InfernoKay
+ * @author Team 23
  */
 public class ExtraSuggestTile extends Tile {
     

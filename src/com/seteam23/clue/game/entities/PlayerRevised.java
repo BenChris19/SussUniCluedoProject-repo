@@ -25,11 +25,11 @@ public class PlayerRevised {
     protected Checklist checklist = new Checklist();
     protected ArrayList<Tile> searchSpace = new ArrayList<>();
     
-    private int round_extra_roll = 0;
-    private int round_extra_suggest = 0;
+    private int round_extra_roll = -1;
+    private int round_extra_suggest = -1;
     
-    protected int rolls_remaining = 1;
-    protected int suggest_remaining = 1;
+    protected int rolls_remaining = 0;
+    protected int suggest_remaining = 0;
     private boolean out = false;
     
     /**
@@ -48,8 +48,8 @@ public class PlayerRevised {
      * Reset remaining values
      */
     public void newTurn() {
-        rolls_remaining = 1;
-        suggest_remaining = 1;
+        rolls_remaining += 1;
+        suggest_remaining += 1;
     }
 
     
@@ -127,13 +127,18 @@ public class PlayerRevised {
         return this.searchSpace;
     }
     
-    
+    /**
+     * 
+     */
     public void clearSearchSpace() {
         BOARD.unlightTiles(searchSpace);
         this.searchSpace.clear();
     }
     
-    
+    /**
+     * 
+     * @return 
+     */
     public ArrayList<Tile> getSearchSpace() {
         return this.searchSpace;
     }
@@ -144,11 +149,16 @@ public class PlayerRevised {
     public boolean roll() {
         if (rolls_remaining > 0) {
             rolls_remaining--;
+            System.out.println("ROLLED " + rolls_remaining);
             return true;
         }
         return false;
     }
     
+    /**
+     * 
+     * @return 
+     */
     public boolean suggest() {
         if (suggest_remaining > 0) {
             suggest_remaining--;
@@ -157,10 +167,18 @@ public class PlayerRevised {
         return false;
     }
     
+    /**
+     * 
+     * @return 
+     */
     public boolean canRoll() {
         return rolls_remaining > 0;
     }
     
+    /**
+     * 
+     * @return 
+     */
     public boolean canSuggest() {
         return suggest_remaining > 0;
     }
@@ -184,6 +202,7 @@ public class PlayerRevised {
         if (round_extra_roll+1 < round) {
             round_extra_roll = round;
             rolls_remaining++;
+            System.out.println("EXTRA" + rolls_remaining);
             return true;
         }
         return false;

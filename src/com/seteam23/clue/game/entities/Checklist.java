@@ -5,18 +5,14 @@
  */
 package com.seteam23.clue.game.entities;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import static java.util.Objects.hash;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
 /**
  *
- * @author Joseph
+ * @author Team 23
  */
 public class Checklist {
     private HashMap<Card, Boolean> marked;

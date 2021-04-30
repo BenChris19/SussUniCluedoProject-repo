@@ -93,7 +93,7 @@ public final class GameControllerRevised implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        ObservableList<String> listPer = FXCollections.observableArrayList("Miss Scarlett","Rev Green","Col Mustard","Mrs Peacock","Mrs White","Prof Plum");
+        ObservableList<String> listPer = FXCollections.observableArrayList("Miss Scarlett","Col Mustard","Mrs White","Rev Green","Mrs Peacock","Prof Plum");
         this.person.setItems(listPer);
         ObservableList<String> listWea = FXCollections.observableArrayList("Candlestick","Knife","Lead Pipe","Revolver","Rope","Wrench");
         this.weapon.setItems(listWea);
@@ -136,7 +136,7 @@ public final class GameControllerRevised implements Initializable {
         player_img.setImage(new Image(this.player.IMG_PATH));
         setPanes();
         
-        if (this.player instanceof AIPlayer) this.player.newTurn();
+        this.player.newTurn();
     }
     
     public void setPanes() {
@@ -250,8 +250,10 @@ public final class GameControllerRevised implements Initializable {
                                 this.player.markCard(found);
                                 
                                 Image cardImage = new Image(getClass().getResourceAsStream(c.getImgPath()));
+                                
                                 this.revealCard.setImage(cardImage);
                                 this.whoCard.setText(nextPlayer.NAME+" has this card");
+                                
                                 if (!this.player.getClass().equals(AIPlayer.class)){  
                                     this.revealCard.setVisible(true);
                                     this.whoCard.setVisible(true);
@@ -262,6 +264,7 @@ public final class GameControllerRevised implements Initializable {
                         }
                         i+=1;
                     }
+                    
                     // Found Something
                     if (found != null) {
                         this.revealCard.setImage(found.getImg());
@@ -274,7 +277,7 @@ public final class GameControllerRevised implements Initializable {
                 }
 
                 // If Player no suggestions left disable accuse button
-                if (!this.player.canSuggest() && !this.player.getClass().equals(AIPlayer.class)) {
+                if (!this.player.canSuggest()) {
                     suggest.setDisable(true);
                     accuse.setDisable(false);
                 }

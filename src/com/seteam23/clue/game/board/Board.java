@@ -408,7 +408,7 @@ public final class Board {
         int[] s = start.getCoords();
         
         for (Tile tile : all_reach) {
-            if (tile instanceof Door) {
+            if (tile instanceof Door || tile instanceof ExtraRollTile || tile instanceof ExtraSuggestTile) {
                 reach.add(tile);
             }
             else {
@@ -443,7 +443,7 @@ public final class Board {
             // All Tiles Reachable from Room
             for (Tile tile : door_reach) {
                 // Add all doors
-                if (tile instanceof Door) {
+                if (tile instanceof Door || tile instanceof ExtraRollTile || tile instanceof ExtraSuggestTile) {
                     reach.add(tile);
                 }
                 // Add furthest tile

@@ -1,19 +1,14 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.seteam23.clue.game.board;
 
 import static com.seteam23.clue.game.GameRevised.getCurrentPlayer;
 
-/**
+/**A subclass of Tile, which is located in the entrance of every ROOM
  *
  * @author Team23
  */
 public class Door extends Tile {
     
-    private final Room room;
+    private final Room ROOM;
     private final String entry;
     
     /**
@@ -26,7 +21,7 @@ public class Door extends Tile {
     public Door(Room room, String entry_from, int x, int y) {
         super(x, y);
         
-        this.room = room;
+        this.ROOM = room;
         this.entry = entry_from;
     }
     
@@ -36,9 +31,9 @@ public class Door extends Tile {
     @Override    
     public void activate() {
         getCurrentPlayer().getLocation().removeOccupier(getCurrentPlayer());
-        getCurrentPlayer().enterRoom(room);
+        getCurrentPlayer().enterRoom(ROOM);
         getCurrentPlayer().clearSearchSpace();
-        room.addOccupier(getCurrentPlayer());
+        ROOM.addOccupier(getCurrentPlayer());
     }
     
     /**
@@ -46,7 +41,7 @@ public class Door extends Tile {
      * @return room connected to
      */
     public Room getRoom() {
-        return this.room;
+        return this.ROOM;
     }
     
     /**

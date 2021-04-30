@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.seteam23.clue.game.entities;
 
 import com.seteam23.clue.game.GameRevised;
@@ -15,30 +10,31 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
+import javafx.event.ActionEvent;
 import javafx.util.Duration;
 
-/**
+/**AI player class subclass of Player
  *
  * @author Team 23
  */
 public class AIPlayer extends PlayerRevised {
     
-    private String difficulty;
-    private GameRevised game;
-    //private ArrayList<Tile> searchSpace = new ArrayList<>();
-    private Random r = new Random();
+    private final String DIFFICULTY;
+    private final GameRevised game;
+    private final Random R = new Random();
     
     
-    /**
+    /**Creates the AI player class, which behaves similarly to a player
      * 
+     * @param game
      * @param name
-     * @param difficulty
      * @param imgPath
+     * @param difficulty
      */
     public AIPlayer(GameRevised game, String name, String imgPath, String difficulty) {
         super(name, imgPath);
         
-        this.difficulty = difficulty;
+        this.DIFFICULTY = difficulty;
         this.game = game;
     }
     
@@ -59,90 +55,81 @@ public class AIPlayer extends PlayerRevised {
                 
             // After 4s Total, move
             new KeyFrame(Duration.seconds(4), e -> {
-                switch (this.difficulty) {
+                switch (this.DIFFICULTY) {
                     case "HARD":
-                        searchSpace.get(r.nextInt(searchSpace.size())).activate();
+                        searchSpace.get(R.nextInt(searchSpace.size())).activate();
                         break;
                     // EASY OR MEDIUM
                     default:
-                        searchSpace.get(r.nextInt(searchSpace.size())).activate();
+                        searchSpace.get(R.nextInt(searchSpace.size())).activate();
                 }
                 
             }),
             // After 6s Total, if in room, suggest
-            new KeyFrame(Duration.seconds(6), e -> {
-                
+            new KeyFrame(Duration.seconds(6), (ActionEvent e) -> {
                 ArrayList<Card> choice;
                 if (isInRoom()) {
                     // SUGGEST
-                    switch (this.difficulty) {
+                    switch (AIPlayer.this.DIFFICULTY) {
                         // Random Player and Weapon
                         case "EASY":
-                            this.game.CONTROLLER.setPerson(r.nextInt(6));
-                            this.game.CONTROLLER.setWeapon(r.nextInt(6));
+                            AIPlayer.this.game.CONTROLLER.setPerson(R.nextInt(6));
+                            AIPlayer.this.game.CONTROLLER.setWeapon(R.nextInt(6));
                             break;
-                            
-                        // Random Player and Weapon that haven't checked yet
+                            // Random Player and Weapon that haven't checked yet
                         case "HARD":
-                            choice = this.game.SUSPECT_CARDS;
-                            for (Card c : this.checklist.keys()) {
-                                if (this.checklist.getValue(c)) choice.remove(c);
+                            choice = AIPlayer.this.game.SUSPECT_CARDS;
+                            for (Card c : AIPlayer.this.checklist.keys()) {
+                                if (AIPlayer.this.checklist.getValue(c)) {
+                                    choice.remove(c);
+                                }
                             }
-                            if(choice.size()>0)
-                                this.game.CONTROLLER.setPerson(game.getOrder(choice.get(r.nextInt(choice.size())).getName()));
-                            else
-                                this.game.CONTROLLER.setPerson(0);
-                            
-                            choice = this.game.WEAPON_CARDS;
-                            for (Card c : this.checklist.keys()) {
-                                if (this.checklist.getValue(c)) choice.remove(c);
+                            if (choice.size()>0) {
+                                AIPlayer.this.game.CONTROLLER.setPerson(game.getOrder(choice.get(R.nextInt(choice.size())).getName()));
+                            } else {
+                                AIPlayer.this.game.CONTROLLER.setPerson(0);
                             }
-                            if(choice.size()>0)
-                                this.game.CONTROLLER.setPerson(game.getOrder(choice.get(r.nextInt(choice.size())).getName()));
-                            else
-                                this.game.CONTROLLER.setPerson(0);
-                            
-                        // MEDIUM : Random Player and Weapon from cards dont have in hand
+                            choice = AIPlayer.this.game.WEAPON_CARDS;
+                            for (Card c : AIPlayer.this.checklist.keys()) {
+                                if (AIPlayer.this.checklist.getValue(c)) {
+                                    choice.remove(c);
+                                }
+                            }
+                            if (choice.size()>0) {
+                                AIPlayer.this.game.CONTROLLER.setPerson(game.getOrder(choice.get(R.nextInt(choice.size())).getName()));
+                            } else {
+                                AIPlayer.this.game.CONTROLLER.setPerson(0);
+                            }
+                            // MEDIUM : Random Player and Weapon from cards dont have in hand
                         default:
-                            choice = this.game.SUSPECT_CARDS;
-                            for (Card c : this.cards) {
+                            choice = AIPlayer.this.game.SUSPECT_CARDS;
+                            for (Card c : AIPlayer.this.cards) {
                                 choice.remove(c);
                             }
-                            this.game.CONTROLLER.setPerson(game.getOrder(choice.get(r.nextInt(choice.size())).getName()));
-                            
-                            choice = this.game.WEAPON_CARDS;
-                            for (Card c : this.cards) {
+                            AIPlayer.this.game.CONTROLLER.setPerson(game.getOrder(choice.get(R.nextInt(choice.size())).getName()));
+                            choice = AIPlayer.this.game.WEAPON_CARDS;
+                            for (Card c : AIPlayer.this.cards) {
                                 choice.remove(c);
                             }
-                            this.game.CONTROLLER.setWeapon(this.game.CONTROLLER.getWeapon().getItems().indexOf(choice.get(r.nextInt(choice.size()))));
-                        }
-                    
-                    this.game.CONTROLLER.makeSuggestion();
-                    
-                    
+                            AIPlayer.this.game.CONTROLLER.setWeapon(AIPlayer.this.game.CONTROLLER.getWeapon().getItems().indexOf(choice.get(R.nextInt(choice.size()))));
+                    }
+                    AIPlayer.this.game.CONTROLLER.makeSuggestion();
                     // ACCUSE
                     int suspectUnchecked = 0;
-                    for (Card c : this.game.SUSPECT_CARDS) {
-                        if (!this.checklist.getValue(c)) suspectUnchecked++;
-                    }
+                    suspectUnchecked = AIPlayer.this.game.SUSPECT_CARDS.stream().filter((c) -> (!AIPlayer.this.checklist.getValue(c))).map((_item) -> 1).reduce(suspectUnchecked, Integer::sum);
                     int weaponUnchecked = 0;
-                    for (Card c : this.game.WEAPON_CARDS) {
-                        if (!this.checklist.getValue(c)) weaponUnchecked++;
-                    }
+                    weaponUnchecked = AIPlayer.this.game.WEAPON_CARDS.stream().filter((c) -> (!AIPlayer.this.checklist.getValue(c))).map((_item) -> 1).reduce(weaponUnchecked, Integer::sum);
                     int roomUnchecked = 0;
-                    for (Card c : this.game.ROOM_CARDS) {
-                        if (!this.checklist.getValue(c)) roomUnchecked++;
-                    }
+                    roomUnchecked = AIPlayer.this.game.ROOM_CARDS.stream().filter((c) -> (!AIPlayer.this.checklist.getValue(c))).map((_item) -> 1).reduce(roomUnchecked, Integer::sum);
                     if (suspectUnchecked == 1 && weaponUnchecked == 1 && roomUnchecked == 1) {
                         try {
-                            this.game.CONTROLLER.makeAccusation();
-                        } catch (IOException ex) {
+                            AIPlayer.this.game.CONTROLLER.makeAccusation();
+                        }catch (IOException ex) {
                             Logger.getLogger(AIPlayer.class.getName()).log(Level.SEVERE, null, ex);
                         }
                     }
-                    
                 }
-            }),
+        }),
                 
             new KeyFrame(Duration.seconds(8), e -> {
                 this.game.CONTROLLER.endTurn();
@@ -159,7 +146,7 @@ public class AIPlayer extends PlayerRevised {
      */
     @Override
     public ArrayList<Tile> setSearchSpace(int dieRoll) {
-        switch (this.difficulty) {
+        switch (this.DIFFICULTY) {
             case "EASY":
                 this.searchSpace = easySearchSpace(dieRoll);
                 return this.searchSpace;
@@ -172,30 +159,45 @@ public class AIPlayer extends PlayerRevised {
         }
     }
     
+    /**AI moves more advanced when selected EASY difficulty
+     *
+     * @param dieRoll
+     * @return the places where the AI can move to
+     */
     public ArrayList<Tile> easySearchSpace(int dieRoll) {
         if (isInRoom()) {
-            return this.game.BOARD.reachableFrom((Room)location, dieRoll);
+            return GameRevised.BOARD.reachableFrom((Room)location, dieRoll);
         }
         else {
-            return this.game.BOARD.reachableFrom((Tile)location, dieRoll);
+            return GameRevised.BOARD.reachableFrom((Tile)location, dieRoll);
         }
     }
     
+    /**AI moves more advanced when selected MEDIUM difficulty
+     *
+     * @param dieRoll
+     * @return the places where the AI can move to
+     */
     public ArrayList<Tile> mediumSearchSpace(int dieRoll) {
         if (isInRoom()) {
-            return this.game.BOARD.furthestReachableFrom((Room)location, dieRoll);
+            return GameRevised.BOARD.furthestReachableFrom((Room)location, dieRoll);
         }
         else {
-            return this.game.BOARD.furthestReachableFrom((Tile)location, dieRoll);
+            return GameRevised.BOARD.furthestReachableFrom((Tile)location, dieRoll);
         }
     }
     
+    /**AI moves more advanced when selected HARD difficulty
+     *
+     * @param dieRoll
+     * @return the places where the AI can move to
+     */
     public ArrayList<Tile> hardSearchSpace(int dieRoll) {
         if (isInRoom()) {
-            return this.game.BOARD.furthestReachableFrom((Room)location, dieRoll);
+            return GameRevised.BOARD.furthestReachableFrom((Room)location, dieRoll);
         }
         else {
-            return this.game.BOARD.furthestReachableFrom((Tile)location, dieRoll);
+            return GameRevised.BOARD.furthestReachableFrom((Tile)location, dieRoll);
         }
     }
 }

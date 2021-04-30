@@ -6,6 +6,10 @@ import java.util.Random;
 
 import java.util.Set;
 
+/**Creates the board class. The user should be able to place the game piece on it and enter rooms
+ *
+ * @author Team23
+ */
 public final class Board {
 
     private Place[][] places; //All
@@ -14,20 +18,18 @@ public final class Board {
     private Tile[][] tiles; //Tiles
     private ArrayList<Passage> passages;
     
-
-
-
+    /**Creates the grid for the board, initialises tiles, doors and rooms
+     *
+     */
     public Board(){
         createGrid();  
     }
 
-    public Door getDoors(int y,int x) {
-        return doors[y][x];
-    }
+
 
 
     /**
-     * 
+     * Creates the board, which includes doors, tiles, place, rooms and passages
      */
     public void createGrid() {
         places = new Place[25][24];
@@ -373,10 +375,12 @@ public final class Board {
     public ArrayList<Tile> reachableFrom(Room room, int die_roll) {
         Set<Tile> reach = new HashSet<>();
         // Reach from each door
-        for (Door door : room.getDoors()) {
+        room.getDoors().stream().map((door) -> {
             reach.addAll(reachableRecursive(door, die_roll));
+            return door;
+        }).forEachOrdered((door) -> {
             reach.remove(door);
-        }
+        });
         // Add passage in room if any
         for (Passage pass : passages) {
             if (pass.getLocation().equals(room)) {
@@ -399,7 +403,7 @@ public final class Board {
         
         int[] s = start.getCoords();
         
-        for (Tile tile : all_reach) {
+        all_reach.forEach((tile) -> {
             if (tile instanceof Door || tile instanceof ExtraRollTile || tile instanceof ExtraSuggestTile) {
                 reach.add(tile);
             }
@@ -411,7 +415,7 @@ public final class Board {
                     reach.add(tile);
                 }
             }
-        }
+        });
         
         reach.remove(start);
         return new ArrayList<>(reach);
@@ -470,9 +474,9 @@ public final class Board {
      * @param ts 
      */
     public void highlightTiles(ArrayList<Tile> ts) {
-        for (Tile t : ts) {
+        ts.forEach((t) -> {
             t.startFlashing();
-        }
+        });
     }
 
     /**
@@ -480,9 +484,9 @@ public final class Board {
      * @param ts 
      */
     public void unlightTiles(ArrayList<Tile> ts) {
-        for (Tile t : ts) {
+        ts.forEach((t) -> {
             t.stopFlashing();
-        }
+        });
     }
 
     /**
@@ -523,43 +527,11 @@ public final class Board {
     }
     
 
-    /**
-     * 
-     * @param tile 
-     */
-    public void startTile(Tile tile){
-        if(tile.isFlashing() == true){
-            tile.stopFlashing();
-        }
-        else{
-            tile.startFlashing();
-        }
-    }
-    
-  
-
 
     
-    public Tile setStartPos(int y,int x){
-        return getTile(y,x);
-    }
-
-    public Place[][] getPlaces() {
-        return places;
-    }
-
-    public Door[][] getDoors() {
-        return doors;
-    }
-
     public Tile[][] getTiles() {
         return tiles;
     }
 
-    public ArrayList<Passage> getPassages() {
-        return passages;
-    }
-    
-    
         
 }

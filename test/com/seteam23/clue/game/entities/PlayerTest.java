@@ -66,9 +66,8 @@ public class PlayerTest {
     @Test
     public void makeSuggestionTest() {
         Player player = new Player("Miss Scarlett", 0, "Miss_Scarlett.jpg", 0, 0, false, true);
-        player.set
-        player.makeSuggestion("Miss Scarlett", "wrench");
-        String expSuggestion = "Person: "+ "Miss Scarlett" +" Weapon: "+ "wrench" + " Room: "+ place;
+        String expSuggestion = "Person: "+ "Miss Scarlett" +" Weapon: "+ "wrench" + " Room: ";
+        assertEquals(expSuggestion, player.makeSuggestion("Miss Scarlett", "wrench"));
     }
     
     /**

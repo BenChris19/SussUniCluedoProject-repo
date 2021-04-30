@@ -7,24 +7,23 @@ package com.seteam23.clue.game.entities;
 
 import java.util.ArrayList;
 import java.util.List;
-import javafx.collections.ObservableList;
 import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
 /**
  *
- * @author InfernoKay
+ * @author Team 23
  */
 public class PlayerTest {
-    Player instance1;
-    Player instance2;
+    PlayerRevised instance1;
+    PlayerRevised instance2;
     public PlayerTest() {
     }
     @Before
     public void setUp(){
-        instance1 = new Player("Miss Scarlett", 0, "Miss_Scarlett.jpg", 0, 0, false, false);
-        instance2 = new Player("Miss Scarlett", 0, "Miss_Scarlett.jpg", 0, 0, false, false);
+        instance1 = new PlayerRevised("Miss Scarlett","Miss_Scarlett.jpg");
+        instance2 = new PlayerRevised("Miss Scarlett","Miss_Scarlett.jpg");
     }   
 
     /**
@@ -42,7 +41,7 @@ public class PlayerTest {
         assertEquals(entries.get(0).getChecked(), false);
         assertEquals(entries.get(0).getName(), "Wrench");
         assertEquals(entries.get(0).getChecked(), false);
-        instance1.markCard(entries.get(0));
+        instance1.markCard(entries.get(0).getCard());
         assertEquals(entries.get(0).getChecked(), true);
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
@@ -59,7 +58,7 @@ public class PlayerTest {
         expResult.add(new Card("Wrench", "w.jpg", "weapon"));
         instance1.addCard(new Card("Hammer", "h.jpg", "weapon"));
         instance1.addCard(new Card("Wrench", "w.jpg", "weapon"));
-        ArrayList<Card> result = instance1.viewCards();
+        ArrayList<Card> result = instance1.getCards();
         assertArrayEquals(expResult.toArray(), result.toArray());
         // TODO review the generated test code and remove the default call to fail.
     }    

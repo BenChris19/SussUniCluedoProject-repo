@@ -53,7 +53,7 @@ public class Card{
     public String getCardType() {
         return CARDTYPE;
     }
-
+    
 
 
 

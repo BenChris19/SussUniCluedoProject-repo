@@ -1,7 +1,7 @@
 package com.seteam23.clue.menus;
 
 import com.seteam23.clue.game.entities.Card;
-import com.seteam23.clue.game.entities.PlayerRevised;
+import com.seteam23.clue.game.entities.Player;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -54,8 +54,8 @@ public class Menu {
         ALL_CARDS.addAll(ROOM_CARDS);
     }
     
-    public PlayerRevised newPlayer(String name) {
-        return new PlayerRevised(CHARACTERS.get(getOrder(name)), "/resources/cards/players/"+name+".jpg");
+    public Player newPlayer(String name) {
+        return new Player(CHARACTERS.get(getOrder(name)), "/resources/cards/players/"+name+".jpg");
     }      
     
     /**

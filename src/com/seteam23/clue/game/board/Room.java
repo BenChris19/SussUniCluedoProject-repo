@@ -1,7 +1,7 @@
 package com.seteam23.clue.game.board;
 
-import static com.seteam23.clue.game.GameControllerRevised.PLAYER_MARKERS;
-import com.seteam23.clue.game.entities.PlayerRevised;
+import static com.seteam23.clue.game.GameController.PLAYER_MARKERS;
+import com.seteam23.clue.game.entities.Player;
 import java.util.ArrayList;
 
 /**Subclass of place, occupies the rooms on the board image
@@ -12,7 +12,7 @@ public class Room extends Place{
     private final int x, y;
     private final int width, height;
     private final ArrayList<Door> doors;
-    private final ArrayList<PlayerRevised> players;
+    private final ArrayList<Player> players;
     private final int[][] playerIndicatorPos;
     private final String name;
 
@@ -47,7 +47,7 @@ public class Room extends Place{
      * @return  adds an occupier into the room
      */
     @Override
-    public boolean addOccupier(PlayerRevised player) {
+    public boolean addOccupier(Player player) {
         PLAYER_MARKERS.get(name)[getOrder(player.NAME)].setVisible(true);
         return players.add(player);
     }
@@ -58,7 +58,7 @@ public class Room extends Place{
      * @return  removes occupied from room
      */
     @Override
-    public boolean removeOccupier(PlayerRevised player) {
+    public boolean removeOccupier(Player player) {
         PLAYER_MARKERS.get(name)[getOrder(player.NAME)].setVisible(false);
         return players.remove(player);
     }

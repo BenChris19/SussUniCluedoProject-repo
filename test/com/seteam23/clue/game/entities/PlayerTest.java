@@ -16,14 +16,14 @@ import static org.junit.Assert.*;
  * @author Team 23
  */
 public class PlayerTest {
-    PlayerRevised instance1;
-    PlayerRevised instance2;
+    Player instance1;
+    Player instance2;
     public PlayerTest() {
     }
     @Before
     public void setUp(){
-        instance1 = new PlayerRevised("Miss Scarlett","Miss_Scarlett.jpg");
-        instance2 = new PlayerRevised("Miss Scarlett","Miss_Scarlett.jpg");
+        instance1 = new Player("Miss Scarlett","Miss_Scarlett.jpg");
+        instance2 = new Player("Miss Scarlett","Miss_Scarlett.jpg");
     }   
 
     /**

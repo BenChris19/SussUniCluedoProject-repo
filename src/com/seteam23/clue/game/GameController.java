@@ -1,6 +1,6 @@
 package com.seteam23.clue.game;
 
-import static com.seteam23.clue.game.GameRevised.BOARD;
+import static com.seteam23.clue.game.Game.BOARD;
 import com.seteam23.clue.game.board.*;
 import com.seteam23.clue.game.entities.*;
 import com.seteam23.clue.main.Main;
@@ -47,7 +47,7 @@ import javafx.util.Duration;
  *
  * @author Team 23
  */
-public final class GameControllerRevised implements Initializable {
+public final class GameController implements Initializable {
     
     /*
      *  FXML Setup
@@ -76,9 +76,9 @@ public final class GameControllerRevised implements Initializable {
     /*
      *  Declarations
      */
-    private GameRevised game;
-    private PlayerRevised player;
-    private final ArrayList<PlayerRevised> OUTOFGAME = new ArrayList<>();
+    private Game game;
+    private Player player;
+    private final ArrayList<Player> OUTOFGAME = new ArrayList<>();
     private static int dieRoll = 0;
     
     private final String[] playerImg = new String[]{"/resources/game/Miss-Scarlett-game-piece.png","/resources/game/Col-Mustard-game-piece.png","/resources/game/Mrs-White-game-piece.png","/resources/game/Rev-Green-game-piece.png","/resources/game/Mrs-Peacock-game-piece.png","/resources/game/Prof-Plum-game-piece.png"};
@@ -121,9 +121,9 @@ public final class GameControllerRevised implements Initializable {
      * Done After Creating Controller
      * @param game
      */
-    public void setGame(GameRevised game) {
+    public void setGame(Game game) {
         this.game = game;
-        this.player = GameRevised.getCurrentPlayer();
+        this.player = Game.getCurrentPlayer();
         player_img.setImage(new Image(this.player.IMG_PATH));
         setPanes();
         
@@ -137,7 +137,7 @@ public final class GameControllerRevised implements Initializable {
         try {
             cardsTab.setContent(createCardPane());
         } catch (FileNotFoundException ex) {
-            Logger.getLogger(GameControllerRevised.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(GameController.class.getName()).log(Level.SEVERE, null, ex);
         }
         checklistTab.setContent(createChecklistPane());
     }
@@ -237,7 +237,7 @@ public final class GameControllerRevised implements Initializable {
             
             this.room.getSelectionModel().select(((Room)this.player.getLocation()).getName());
             Card found = null;
-            PlayerRevised nextPlayer = null;
+            Player nextPlayer = null;
             int i = 1;
 
             // If  player can suggest and value in person and weapon boxes
@@ -248,7 +248,7 @@ public final class GameControllerRevised implements Initializable {
                     Room current_room = (Room)player.getLocation();
 
                     //Move suggested Player
-                    for (PlayerRevised p : game.PLAYERS) {
+                    for (Player p : game.PLAYERS) {
                         if (p.NAME.equals(person.getValue())) {
                             p.getLocation().removeOccupier(p);
                             p.enterRoom(current_room);
@@ -258,7 +258,7 @@ public final class GameControllerRevised implements Initializable {
                     }
                     // Check for found or ran out of players
                     while (i < game.getNumberPlayers() && found == null) {
-                        nextPlayer = game.PLAYERS.get((GameRevised.getTurn()+i) % game.getNumberPlayers());
+                        nextPlayer = game.PLAYERS.get((Game.getTurn()+i) % game.getNumberPlayers());
 
                         // Look through cards of next player and see if have any of suggested
                         for (Card c : nextPlayer.getCards()) {
@@ -315,7 +315,7 @@ public final class GameControllerRevised implements Initializable {
     */
     private boolean checkHuman(){
         boolean isHumanLeft = false;
-        for(PlayerRevised p: game.PLAYERS){
+        for(Player p: game.PLAYERS){
             if(!p.getClass().equals(AIPlayer.class) && p.isPlaying()){
                 isHumanLeft = true;
             }
@@ -331,17 +331,17 @@ public final class GameControllerRevised implements Initializable {
     public void makeAccusation() throws IOException {
         player.accuse();        
             if(game.getKillCards()[0].getName().equals(person.getValue()) && game.getKillCards()[1].getName().equals(weapon.getValue()) && game.getKillCards()[2].getName().equals(room.getValue())){
-                        Parent root = FXMLLoader.load(GameControllerRevised.class.getResource("gameover.fxml"));
+                        Parent root = FXMLLoader.load(GameController.class.getResource("gameover.fxml"));
                         Stage window_over = (Stage)accuse.getScene().getWindow();
                         window_over.setScene(new Scene(root));
                         window_over.setFullScreen(true);
                         Main.makeFullscreen(root,871.9,545);
             }
             else{
-                GameRevised.gameLost = true;
+                Game.gameLost = true;
                     OUTOFGAME.add(this.player);
                     if(OUTOFGAME.size()>=game.getNumberPlayers() || !checkHuman()){
-                        Parent root = FXMLLoader.load(GameControllerRevised.class.getResource("gameover.fxml"));
+                        Parent root = FXMLLoader.load(GameController.class.getResource("gameover.fxml"));
                         Stage window_over = (Stage)accuse.getScene().getWindow();
                         window_over.setScene(new Scene(root));
                         window_over.setFullScreen(true);
@@ -368,7 +368,7 @@ public final class GameControllerRevised implements Initializable {
         this.game.nextTurn();
         
         // Player
-        this.player = GameRevised.getCurrentPlayer();
+        this.player = Game.getCurrentPlayer();
         if(!this.player.isPlaying()){
             endTurn();
         }

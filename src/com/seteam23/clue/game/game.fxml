@@ -14,7 +14,7 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane id="AnchorPane" fx:id="anchorPane" prefHeight="920.0" prefWidth="1600.0" stylesheets="@game.css" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.seteam23.clue.game.GameControllerRevised">
+<AnchorPane id="AnchorPane" fx:id="anchorPane" prefHeight="920.0" prefWidth="1600.0" stylesheets="@game.css" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.seteam23.clue.game.GameController">
     <children>
       <TabPane fx:id="tabPane" prefHeight="920.0" prefWidth="1600.0" tabClosingPolicy="UNAVAILABLE">
         <tabs>

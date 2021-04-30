@@ -1,6 +1,6 @@
 package com.seteam23.clue.game.board;
 
-import static com.seteam23.clue.game.GameRevised.getCurrentPlayer;
+import static com.seteam23.clue.game.Game.getCurrentPlayer;
 import javafx.event.ActionEvent;
 import javafx.scene.control.Button;
 

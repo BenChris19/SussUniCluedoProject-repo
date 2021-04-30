@@ -1,6 +1,6 @@
 package com.seteam23.clue.game.board;
 
-import com.seteam23.clue.game.entities.PlayerRevised;
+import com.seteam23.clue.game.entities.Player;
 
 import java.util.ArrayList;
 
@@ -10,7 +10,7 @@ import java.util.ArrayList;
  */
 public abstract class Place {
     protected int max_players;
-    protected ArrayList<PlayerRevised> occupiers;
+    protected ArrayList<Player> occupiers;
     protected boolean occupied;
 
     
@@ -39,21 +39,21 @@ public abstract class Place {
      * @param p Player to add to Place
      * @return True if added to ArrayList
      */
-    public abstract boolean addOccupier(PlayerRevised p);
+    public abstract boolean addOccupier(Player p);
     
     /**
      * Removes Player from the Place
      * @param p Player to remove
      * @return True if removed from ArrayList
      */
-    public abstract boolean removeOccupier(PlayerRevised p);
+    public abstract boolean removeOccupier(Player p);
     
     
     /**List of player occupying a place
      * 
      * @return List of Players Occupying the place
      */
-    public ArrayList<PlayerRevised> occupiedBy() {
+    public ArrayList<Player> occupiedBy() {
         return this.occupiers;
     }
     

@@ -1,11 +1,10 @@
 package com.seteam23.clue.game.entities;
 
-import com.seteam23.clue.game.GameRevised;
+import com.seteam23.clue.game.Game;
 import com.seteam23.clue.game.board.Room;
 import com.seteam23.clue.game.board.Tile;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -17,10 +16,10 @@ import javafx.util.Duration;
  *
  * @author Team 23
  */
-public class AIPlayer extends PlayerRevised {
+public class AIPlayer extends Player {
     
     private final String DIFFICULTY;
-    private final GameRevised game;
+    private final Game game;
     private final Random R = new Random();
     
     
@@ -31,7 +30,7 @@ public class AIPlayer extends PlayerRevised {
      * @param imgPath
      * @param difficulty
      */
-    public AIPlayer(GameRevised game, String name, String imgPath, String difficulty) {
+    public AIPlayer(Game game, String name, String imgPath, String difficulty) {
         super(name, imgPath);
         
         this.DIFFICULTY = difficulty;
@@ -187,10 +186,10 @@ public class AIPlayer extends PlayerRevised {
      */
     public ArrayList<Tile> easySearchSpace(int dieRoll) {
         if (isInRoom()) {
-            return GameRevised.BOARD.reachableFrom((Room)location, dieRoll);
+            return Game.BOARD.reachableFrom((Room)location, dieRoll);
         }
         else {
-            return GameRevised.BOARD.reachableFrom((Tile)location, dieRoll);
+            return Game.BOARD.reachableFrom((Tile)location, dieRoll);
         }
     }
     
@@ -201,10 +200,10 @@ public class AIPlayer extends PlayerRevised {
      */
     public ArrayList<Tile> mediumSearchSpace(int dieRoll) {
         if (isInRoom()) {
-            return GameRevised.BOARD.furthestReachableFrom((Room)location, dieRoll);
+            return Game.BOARD.furthestReachableFrom((Room)location, dieRoll);
         }
         else {
-            return GameRevised.BOARD.furthestReachableFrom((Tile)location, dieRoll);
+            return Game.BOARD.furthestReachableFrom((Tile)location, dieRoll);
         }
     }
     
@@ -215,10 +214,10 @@ public class AIPlayer extends PlayerRevised {
      */
     public ArrayList<Tile> hardSearchSpace(int dieRoll) {
         if (isInRoom()) {
-            return GameRevised.BOARD.furthestReachableFrom((Room)location, dieRoll);
+            return Game.BOARD.furthestReachableFrom((Room)location, dieRoll);
         }
         else {
-            return GameRevised.BOARD.furthestReachableFrom((Tile)location, dieRoll);
+            return Game.BOARD.furthestReachableFrom((Tile)location, dieRoll);
         }
     }
 }

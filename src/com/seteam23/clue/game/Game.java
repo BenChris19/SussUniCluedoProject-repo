@@ -12,15 +12,15 @@ import java.util.Random;
  * 
  * @author Team 23
  */
-public final class GameRevised {
+public final class Game {
     
     private Random r = new Random();
 
-    public final GameControllerRevised CONTROLLER;
+    public final GameController CONTROLLER;
     public static final Board BOARD = new Board();
     
-    private final PlayerRevised[] PLAYER_ARRAY;
-    public final ArrayList<PlayerRevised> PLAYERS;
+    private final Player[] PLAYER_ARRAY;
+    public final ArrayList<Player> PLAYERS;
     private int num_players;
     
     public static boolean gameLost = false;
@@ -33,7 +33,7 @@ public final class GameRevised {
     public final Card[] KILL_CARDS;
     private final ArrayList<Card> cards;
     
-    private static PlayerRevised player;   // Current Player
+    private static Player player;   // Current Player
     private static int turn = 0;   // Turn inc whenever new player
     private static int round = 1;  // One Round : All Players played
 
@@ -50,12 +50,12 @@ public final class GameRevised {
      * @param rooms     The room cards
      * @param all   All cards
      */
-    public GameRevised(GameControllerRevised controller, ArrayList<PlayerRevised> humanPlayers, int numAI, String difficulty, 
+    public Game(GameController controller, ArrayList<Player> humanPlayers, int numAI, String difficulty, 
                        ArrayList<Card> weapons, ArrayList<Card> suspects, ArrayList<Card> rooms, ArrayList<Card> all) {
         // Set Vars and Finals
         player = humanPlayers.get(0);
         
-        this.PLAYER_ARRAY = new PlayerRevised[6];
+        this.PLAYER_ARRAY = new Player[6];
         
         ArrayList<String> characters = new ArrayList<>(Arrays.asList("Miss Scarlett","Col Mustard","Mrs White","Rev Green","Mrs Peacock","Prof Plum"));
         
@@ -72,7 +72,7 @@ public final class GameRevised {
             PLAYER_ARRAY[order] = newAI(name, difficulty);
         }
         
-        ArrayList<PlayerRevised> temp = new ArrayList<>(Arrays.asList(PLAYER_ARRAY));
+        ArrayList<Player> temp = new ArrayList<>(Arrays.asList(PLAYER_ARRAY));
         temp.removeAll(Collections.singleton(null));
         this.PLAYERS = temp;
         this.num_players = PLAYERS.size();
@@ -94,8 +94,8 @@ public final class GameRevised {
         KILL_CARDS[2] = selectRandomCard(ROOM_CARDS);
         
         // Place Players on Board
-        for (PlayerRevised p : PLAYERS) {
-            GameRevised.player = p;
+        for (Player p : PLAYERS) {
+            Game.player = p;
             Tile t;
             switch (p.NAME) {
                 case "Miss Scarlett":
@@ -130,7 +130,7 @@ public final class GameRevised {
                     break;
             }
         }
-        GameRevised.player = PLAYERS.get(0);
+        Game.player = PLAYERS.get(0);
         
         // Shuffle and Handout Cards
         Collections.shuffle(cards, r);
@@ -193,7 +193,7 @@ public final class GameRevised {
      * 
      * @return Player or NPC
      */
-    public static PlayerRevised getCurrentPlayer() {
+    public static Player getCurrentPlayer() {
         return player;
     }
     
@@ -233,7 +233,7 @@ public final class GameRevised {
     public void nextTurn() {
         // Sets current player to next player
         turn++;
-        round = (int) Math.ceil(GameRevised.turn / num_players);
+        round = (int) Math.ceil(Game.turn / num_players);
         player = PLAYERS.get(turn % num_players);
         player.newTurn();
     }

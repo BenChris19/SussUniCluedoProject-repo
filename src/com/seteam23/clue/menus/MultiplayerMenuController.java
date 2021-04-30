@@ -1,9 +1,9 @@
 package com.seteam23.clue.menus;
 
 
-import com.seteam23.clue.game.GameControllerRevised;
-import com.seteam23.clue.game.GameRevised;
-import com.seteam23.clue.game.entities.PlayerRevised;
+import com.seteam23.clue.game.GameController;
+import com.seteam23.clue.game.Game;
+import com.seteam23.clue.game.entities.Player;
 import java.util.ArrayList;
 import static com.seteam23.clue.main.Main.makeFullscreen;
 import com.seteam23.clue.main.MainController;
@@ -144,7 +144,7 @@ public class MultiplayerMenuController implements Initializable {
      */
     @FXML
     private void continueBoard() throws Exception{       
-        ArrayList<PlayerRevised> playerListMult = new ArrayList<PlayerRevised>(){
+        ArrayList<Player> playerListMult = new ArrayList<Player>(){
             {
                 PLAYING_PLAYERS.forEach((player_name) -> {
                     add(MENU.newPlayer(player_name));
@@ -152,11 +152,11 @@ public class MultiplayerMenuController implements Initializable {
                 
             }
         };
-        FXMLLoader loader = new FXMLLoader(GameControllerRevised.class.getResource("game.fxml"));
+        FXMLLoader loader = new FXMLLoader(GameController.class.getResource("game.fxml"));
         Parent gamesScene = loader.load();
-        GameControllerRevised ctrl = loader.getController();
+        GameController ctrl = loader.getController();
         
-        GameRevised game = new GameRevised(ctrl, playerListMult, 0, null,
+        Game game = new Game(ctrl, playerListMult, 0, null,
         MENU.WEAPON_CARDS, MENU.SUSPECT_CARDS, MENU.ROOM_CARDS, MENU.ALL_CARDS);    //Initialises the game
         
         

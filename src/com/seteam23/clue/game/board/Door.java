@@ -1,6 +1,6 @@
 package com.seteam23.clue.game.board;
 
-import static com.seteam23.clue.game.GameRevised.getCurrentPlayer;
+import static com.seteam23.clue.game.Game.getCurrentPlayer;
 
 /**A subclass of Tile, which is located in the entrance of every ROOM
  *

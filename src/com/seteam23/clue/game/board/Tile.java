@@ -1,7 +1,7 @@
 package com.seteam23.clue.game.board;
 
-import static com.seteam23.clue.game.GameRevised.getCurrentPlayer;
-import com.seteam23.clue.game.entities.PlayerRevised;
+import static com.seteam23.clue.game.Game.getCurrentPlayer;
+import com.seteam23.clue.game.entities.Player;
 import java.util.HashMap;
 import javafx.css.PseudoClass;
 import javafx.event.ActionEvent;
@@ -124,7 +124,7 @@ public class Tile extends Place {
      * @return True if added to ArrayList
      */
     @Override
-    public boolean addOccupier(PlayerRevised p) {
+    public boolean addOccupier(Player p) {
         if (this.occupiers.size() < this.max_players) {
             this.getButton().getStyleClass().add("toggle-"+p.NAME.split(" ",-1)[1]);
             this.occupied = true;
@@ -139,7 +139,7 @@ public class Tile extends Place {
      * @return True if removed from ArrayList
      */
     @Override
-    public boolean removeOccupier(PlayerRevised p) {
+    public boolean removeOccupier(Player p) {
         // remove player icon from tile
         this.getButton().getStyleClass().remove("toggle-"+p.NAME.split(" ",-1)[1]);
         this.occupied = false;
@@ -155,7 +155,7 @@ public class Tile extends Place {
         Button button = new Button();
         
         button.setOnAction((ActionEvent e) -> {
-            if (getCurrentPlayer().getSearchSpace().contains(this) && getCurrentPlayer().getClass().equals(PlayerRevised.class)) {
+            if (getCurrentPlayer().getSearchSpace().contains(this) && getCurrentPlayer().getClass().equals(Player.class)) {
                 this.activate();
             }
         });

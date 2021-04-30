@@ -1,9 +1,9 @@
 package com.seteam23.clue.game.board;
 
-import static com.seteam23.clue.game.GameControllerRevised.getDieRoll;
-import static com.seteam23.clue.game.GameRevised.BOARD;
-import static com.seteam23.clue.game.GameRevised.getCurrentPlayer;
-import static com.seteam23.clue.game.GameRevised.getRound;
+import static com.seteam23.clue.game.GameController.getDieRoll;
+import static com.seteam23.clue.game.Game.BOARD;
+import static com.seteam23.clue.game.Game.getCurrentPlayer;
+import static com.seteam23.clue.game.Game.getRound;
 import java.util.HashMap;
 
 /**Creates a tile which gives the player an extra suggestion if they land on it

@@ -38,7 +38,7 @@ public class GameoverController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        if(GameRevised.gameLost){   //Player has lost
+        if(Game.gameLost){   //Player has lost
             winloseMess.setText("YOU LOSE!");
             winloseMess.setVisible(true);
             winloseMess.setVisible(true);

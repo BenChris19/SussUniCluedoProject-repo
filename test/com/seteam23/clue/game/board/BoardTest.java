@@ -5,7 +5,7 @@
  */
 package com.seteam23.clue.game.board;
 
-import com.seteam23.clue.game.entities.PlayerRevised;
+import com.seteam23.clue.game.entities.Player;
 import java.util.ArrayList;
 import javafx.application.Application;
 import javafx.stage.Stage;

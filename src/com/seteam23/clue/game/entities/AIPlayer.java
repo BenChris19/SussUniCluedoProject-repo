@@ -5,12 +5,12 @@ import com.seteam23.clue.game.board.Room;
 import com.seteam23.clue.game.board.Tile;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
-import javafx.event.ActionEvent;
 import javafx.util.Duration;
 
 /**AI player class subclass of Player
@@ -83,7 +83,7 @@ public class AIPlayer extends PlayerRevised {
                 for (Card c : this.cards) {
                     choice.remove(c);
                 }
-                this.game.CONTROLLER.setWeapon(this.game.CONTROLLER.getWeapon().getItems().indexOf(choice.get(R.nextInt(choice.size()))));
+                this.game.CONTROLLER.setWeapon(this.game.CONTROLLER.getWeapon().getItems().indexOf(choice.get(R.nextInt(choice.size())).getName()));
         }
 
         this.game.CONTROLLER.makeSuggestion();

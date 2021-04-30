@@ -9,6 +9,7 @@ import static com.seteam23.clue.game.GameRevised.BOARD;
 import com.seteam23.clue.game.board.*;
 import com.seteam23.clue.game.entities.*;
 import com.seteam23.clue.main.Main;
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URL;
@@ -42,6 +43,8 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.RowConstraints;
 import javafx.scene.layout.TilePane;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
@@ -165,6 +168,10 @@ public final class GameControllerRevised implements Initializable {
     private void rollDieAnimation() {
         Timeline timeline = new Timeline(
             new KeyFrame(Duration.ZERO, e -> {
+                String winsound = "Dice-Roll-Sound.m4a";
+                Media sound = new Media(new File(winsound).toURI().toString());
+                MediaPlayer mediaPlayer = new MediaPlayer(sound);
+                mediaPlayer.play();
                 moves_label.setVisible(false);
                 diceThrow.setVisible(true);
             }),
@@ -255,6 +262,11 @@ public final class GameControllerRevised implements Initializable {
                                 if (!this.player.getClass().equals(AIPlayer.class)){  
                                     this.revealCard.setVisible(true);
                                     this.whoCard.setVisible(true);
+                                    
+                                    String winsound = "SuggSound.mp3";
+                                    Media sound = new Media(new File(winsound).toURI().toString());
+                                    MediaPlayer mediaPlayer = new MediaPlayer(sound);
+                                    mediaPlayer.play();
                                 }
                                 
                                 break;
@@ -277,7 +289,12 @@ public final class GameControllerRevised implements Initializable {
                 if (!this.player.canSuggest()) {
                     suggest.setDisable(true); 
                 }
-                accuse.setDisable(false);
+                if (this.player.getClass().equals(AIPlayer.class)) {
+                    accuse.setDisable(true);
+                }
+                else{
+                    accuse.setDisable(false);
+                }
             }
         }
     }

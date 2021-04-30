@@ -8,6 +8,10 @@ package com.seteam23.clue.game.entities;
 
 import java.util.Objects;
 
+/**
+ * 
+ * @author Team 23
+ */
 public class Card{
     private String name;
     private String imgPath;

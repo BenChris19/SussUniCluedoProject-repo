@@ -9,7 +9,7 @@ import javafx.scene.control.Button;
 
 /**
  *
- * @author Joseph
+ * @author Team 23
  */
 public class ChecklistEntry {
     private String name;

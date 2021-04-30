@@ -7,14 +7,13 @@ package com.seteam23.clue.game.entities;
 
 import java.util.ArrayList;
 import java.util.List;
-import javafx.collections.ObservableList;
 import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
 /**
  *
- * @author InfernoKay
+ * @author Team 23
  */
 public class PlayerTest {
     Player instance1;

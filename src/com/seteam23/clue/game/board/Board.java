@@ -17,6 +17,11 @@ import java.util.Random;
 import java.util.Set;
 import javafx.scene.control.Button;
 
+
+/**
+ * 
+ * @author Team 23
+ */
 public final class Board {
 
     private Place[][] places; //All

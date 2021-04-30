@@ -10,8 +10,11 @@ import com.seteam23.clue.game.GameController;
 import com.seteam23.clue.game.entities.Card;
 import com.seteam23.clue.game.entities.Player;
 import java.util.ArrayList;
-import javafx.scene.image.ImageView;
 
+/**
+ * 
+ * @author Team 23
+ */
 public class Room extends Place{
     private int x, y;
     private int width, height;

@@ -27,7 +27,7 @@ import javafx.stage.Stage;
 /**
  * FXML Controller class
  *
- * @author benat
+ * @author Team 23
  */
 public class MultiplayerMenuController implements Initializable {
     @FXML

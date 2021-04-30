@@ -12,7 +12,6 @@ import com.seteam23.clue.game.entities.ChecklistEntry;
 import com.seteam23.clue.game.entities.NPC;
 import com.seteam23.clue.game.entities.Player;
 import com.seteam23.clue.main.Main;
-import com.seteam23.clue.singleplayer.SingleplayerMenu;
 import static com.seteam23.clue.singleplayer.SingleplayerMenu.getOpponentPlayers;
 import static com.seteam23.clue.singleplayer.SingleplayerMenu.getPlayer1;
 import java.io.File;
@@ -63,7 +62,7 @@ import javafx.stage.Stage;
 /**
  * FXML Controller class
  *
- * @author InfernoKay
+ * @author Team 23
  */
 public class GameController implements Initializable {
     

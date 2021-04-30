@@ -8,7 +8,6 @@ package com.seteam23.clue.game.board;
 import com.seteam23.clue.game.entities.Player;
 import java.util.ArrayList;
 import javafx.application.Application;
-import javafx.scene.control.Button;
 import javafx.stage.Stage;
 import org.junit.Before;
 import org.junit.Test;
@@ -16,7 +15,7 @@ import static org.junit.Assert.*;
 
 /**
  *
- * @author Joseph
+ * @author Team 23
  */
 public class BoardTest extends Application{
     Board board1;
